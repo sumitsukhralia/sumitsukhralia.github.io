@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My Portfolio</title>
+    <meta charset="UTF-8">
+    <title>Sumit Sukhralia | Portfolio</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
-        /* === ALL CSS STYLES EMBEDDED HERE === */
         body {
             background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -18,40 +21,42 @@
             justify-content: center;
             align-items: center;
         }
-        
+
         .container {
             max-width: 500px;
             width: 90%;
             padding: 30px 20px;
         }
-        
+
         .profile-img {
             width: 150px;
             height: 150px;
             border-radius: 50%;
             border: 5px solid rgba(255,255,255,0.3);
             object-fit: cover;
-            margin: 0 auto 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
-        
+
         h1 {
             margin: 10px 0;
             font-size: 2.3rem;
+            font-weight: bold;
         }
-        
+
         .bio {
             font-size: 1.1rem;
             opacity: 0.9;
             margin-bottom: 30px;
             line-height: 1.6;
         }
-        
+
         .links {
             display: flex;
             flex-direction: column;
             gap: 15px;
         }
-        
+
         .links a {
             background: rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(10px);
@@ -67,21 +72,22 @@
             gap: 10px;
             transition: all 0.3s ease;
         }
-        
+
         .links a:hover {
             background: rgba(255, 255, 255, 0.3);
             transform: translateY(-3px);
         }
-        
-        /* Mobile responsiveness */
+
         @media (max-width: 500px) {
             .container {
                 padding: 20px 15px;
             }
+
             .links a {
                 padding: 14px;
                 font-size: 1rem;
             }
+
             h1 {
                 font-size: 2rem;
             }
@@ -89,28 +95,26 @@
     </style>
 </head>
 <body>
+
     <div class="container">
-        <!-- ===== EDIT ONLY THIS SECTION BELOW ===== -->
-        <img src="your-photo.jpg" alt="Your Name" class="profile-img">
+        <!-- Image must be in the same folder and named exactly 'your-photo.jpg' -->
+        <img src="your-photo.jpg" alt="Sumit Sukhralia" class="profile-img">
+
         <h1>SUMIT SUKHRALIA</h1>
-        <p class="bio">Digital Creator | Designer | Photographer</p>
-        
+        <p class="bio">Decrypter of Code | Full-Stack Learner | Digital Explorer</p>
+
         <div class="links">
-            <a href="https://instagram.com/you" target="_blank">
+            <a href="https://instagram.com/your_instagram" target="_blank">
                 <i class="fab fa-instagram"></i> Instagram
             </a>
-            <a href="https://github.com/you" target="_blank">
+            <a href="https://github.com/sumitsukhralia" target="_blank">
                 <i class="fab fa-github"></i> GitHub
             </a>
-            <a href="mailto:you@email.com">
+            <a href="mailto:youremail@example.com">
                 <i class="fas fa-envelope"></i> Email Me
             </a>
-            <a href="https://youtube.com/yourchannel" target="_blank">
-                <i class="fab fa-youtube"></i> YouTube
-            </a>
-            <!-- Add more links below as needed -->
         </div>
-        <!-- ===== STOP EDITING HERE ===== -->
     </div>
+
 </body>
 </html>
