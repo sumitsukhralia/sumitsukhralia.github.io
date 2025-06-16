@@ -1,171 +1,255 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>My Portfolio</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sumit Sukhralia — NeuroByte</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
+    :root {
+      --bg-light: rgba(255, 255, 255, 0.25);
+      --bg-dark: #0b0b0b;
+      --accent: #9966cc;
+    }
+
     body {
-      background: url('your-photo.jpg') no-repeat center center/cover;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      text-align: center;
-      color: white;
-      min-height: 100vh;
       margin: 0;
-      padding: 20px;
+      font-family: "Segoe UI", sans-serif;
+      background: url('your-photo.jpg') center/cover no-repeat fixed;
+      backdrop-filter: blur(6px) brightness(0.95);
+      color: white;
       display: flex;
       justify-content: center;
       align-items: center;
-      position: relative;
+      min-height: 100vh;
+      transition: background 0.4s ease, color 0.4s ease;
     }
 
-    body::before {
-      content: '';
-      background: inherit;
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      filter: blur(10px);
-      z-index: -2;
+    body.dark {
+      background: var(--bg-dark);
+      color: white;
     }
 
     .container {
-      max-width: 500px;
-      width: 90%;
+      background: var(--bg-light);
+      border-radius: 20px;
       padding: 30px 20px;
-      position: relative;
-      z-index: 2;
+      max-width: 600px;
+      width: 95%;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+    }
+
+    .dark .container {
+      background: rgba(40, 40, 40, 0.5);
     }
 
     .profile-img {
-      width: 150px;
-      height: 150px;
+      width: 140px;
+      height: 140px;
       border-radius: 50%;
-      border: 5px solid rgba(255,255,255,0.3);
       object-fit: cover;
-      margin: 0 auto 20px;
+      border: 3px solid white;
     }
 
     h1 {
-      margin: 10px 0;
-      font-size: 2.3rem;
-    }
-
-    .bio {
-      font-size: 1.1rem;
-      opacity: 0.9;
-      margin-bottom: 30px;
-      line-height: 1.6;
+      margin: 20px 0 10px;
+      font-size: 2rem;
     }
 
     .terminal {
-      background: rgba(0, 0, 0, 0.4);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 10px;
-      padding: 20px;
-      margin-top: 25px;
-      font-family: 'Courier New', Courier, monospace;
+      background: white;
+      color: black;
+      font-family: monospace;
       text-align: left;
-      font-size: 0.95rem;
-      color: #00ffcc;
-      box-shadow: 0 0 12px rgba(0, 255, 200, 0.3);
-      overflow: hidden;
-    }
-
-    .terminal-line {
-      white-space: nowrap;
-      overflow: hidden;
-      border-right: 2px solid #00ffcc;
-      animation: typing 3s steps(40, end), blink 0.75s step-end infinite;
-    }
-
-    .terminal-line:nth-child(2) {
-      animation-delay: 1s;
-    }
-    .terminal-line:nth-child(3) {
-      animation-delay: 2.5s;
-    }
-    .terminal-line:nth-child(4) {
-      animation-delay: 4s;
-    }
-
-    @keyframes typing {
-      from { width: 0 }
-      to { width: 100% }
-    }
-
-    @keyframes blink {
-      50% { border-color: transparent; }
+      padding: 15px;
+      border-radius: 8px;
+      margin: 15px 0;
+      position: relative;
+      white-space: pre-line;
     }
 
     .links {
       display: flex;
-      flex-direction: column;
-      gap: 15px;
-      margin-top: 30px;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
     }
 
     .links a {
-      background: rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(10px);
-      border: 2px solid rgba(255,255,255,0.1);
-      padding: 15px;
-      border-radius: 50px;
-      color: white;
       text-decoration: none;
-      font-size: 1.1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
+      padding: 10px 18px;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(5px);
+      border-radius: 30px;
+      color: white;
+      border: 1px solid rgba(255,255,255,0.2);
       transition: all 0.3s ease;
     }
 
     .links a:hover {
-      background: rgba(255, 255, 255, 0.3);
-      transform: translateY(-3px);
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
     }
 
-    @media (max-width: 500px) {
-      .container {
-        padding: 20px 15px;
-      }
+    .dark .links a {
+      border-color: var(--accent);
+    }
 
-      .links a {
-        padding: 14px;
-        font-size: 1rem;
-      }
+    .quote {
+      margin-top: 20px;
+      font-style: italic;
+      opacity: 0.9;
+      animation: fade 1s ease-in-out;
+    }
 
-      h1 {
-        font-size: 2rem;
-      }
+    @keyframes fade {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 0.9; transform: translateY(0); }
+    }
+
+    .tech-icons {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .tech-icons i {
+      font-size: 24px;
+      color: white;
+      transition: transform 0.3s;
+    }
+
+    .tech-icons i:hover {
+      color: var(--accent);
+      transform: scale(1.2);
+    }
+
+    .toggle-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(255,255,255,0.2);
+      border: none;
+      border-radius: 20px;
+      color: white;
+      padding: 8px 15px;
+      cursor: pointer;
+    }
+
+    form {
+      display: none;
+      margin-top: 20px;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    input, textarea {
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      font-family: inherit;
+      width: 100%;
+    }
+
+    button.submit {
+      background-color: var(--accent);
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
+  <button class="toggle-btn" onclick="toggleDark()">Toggle Mode</button>
   <div class="container">
-    <img src="your-photo.jpg" alt="Sumit Sukhralia" class="profile-img">
-    <h1>SUMIT SUKHRALIA</h1>
-    <p class="bio">Digital Creator | Self-Taught Learner | 404: Limit Not Found</p>
+    <img src="your-photo.jpg" alt="Sumit" class="profile-img" />
+    <h1>Sumit Sukhralia</h1>
 
-    <div class="terminal">
-      <div class="terminal-line">user@sumit:~$ whoami</div>
-      <div class="terminal-line">&gt; Sumit Sukhralia — 404: Limit Not Found</div>
-      <div class="terminal-line">&gt; Self-Taught • 19 • Beyond Curriculum</div>
-      <div class="terminal-line">&gt; From Biochem to Backend</div>
-    </div>
+    <div class="terminal" id="terminal"></div>
 
     <div class="links">
-      <a href="https://instagram.com/you" target="_blank">
-        <i class="fab fa-instagram"></i> Instagram
-      </a>
-      <a href="https://github.com/you" target="_blank">
-        <i class="fab fa-github"></i> GitHub
-      </a>
-      <a href="mailto:you@email.com">
-        <i class="fas fa-envelope"></i> Email Me
-      </a>
+      <a href="https://instagram.com/yourhandle" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+      <a href="https://github.com/yourhandle" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+      <a href="#" onclick="toggleForm()"><i class="fas fa-envelope"></i> Email</a>
+      <a href="#"><i class="fas fa-code"></i> Start Web (Coming Soon)</a>
+    </div>
+
+    <form id="contact-form">
+      <input type="text" placeholder="Your Name" required />
+      <input type="email" placeholder="Your Email" required />
+      <textarea rows="4" placeholder="Your Message" required></textarea>
+      <button class="submit">Send</button>
+    </form>
+
+    <div class="quote" id="quote">Loading quote...</div>
+
+    <div class="tech-icons">
+      <i class="fab fa-html5"></i>
+      <i class="fab fa-css3-alt"></i>
+      <i class="fab fa-js"></i>
+      <i class="fab fa-react"></i>
+      <i class="fab fa-node"></i>
     </div>
   </div>
+
+  <script>
+    const lines = [
+      "user@sumit:~$ whoami",
+      "> Sumit Sukhralia — 404: Limit Not Found",
+      "> 19 • Beyond Curriculum",
+      "> From Biochem to Backend"
+    ];
+    let i = 0;
+    const terminal = document.getElementById("terminal");
+
+    function typeLine() {
+      if (i < lines.length) {
+        terminal.innerHTML += lines[i] + "\n";
+        i++;
+        setTimeout(typeLine, 1000);
+      }
+    }
+
+    const quotes = [
+      "CTRL + ALT + REINVENT",
+      "Fueling my neurons with ambition",
+      "Not just code. It's chaos structured.",
+      "Darkness decoded, logic unfolded.",
+      "System.out.println(\"Hustle\");",
+      "NeuroByte: Rewiring my digital DNA",
+      "From fragments to frameworks",
+      "Your brain, but with better syntax."
+    ];
+
+    function rotateQuotes() {
+      const q = document.getElementById("quote");
+      let index = 0;
+      setInterval(() => {
+        q.innerHTML = quotes[index];
+        index = (index + 1) % quotes.length;
+      }, 5000);
+    }
+
+    function toggleDark() {
+      document.body.classList.toggle("dark");
+    }
+
+    function toggleForm() {
+      const form = document.getElementById("contact-form");
+      form.style.display = form.style.display === "flex" ? "none" : "flex";
+    }
+
+    // Start animations
+    window.onload = () => {
+      typeLine();
+      rotateQuotes();
+    };
+  </script>
 </body>
 </html>
