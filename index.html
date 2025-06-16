@@ -6,16 +6,17 @@
     <title>Sumit Sukhralia | NeuroByte</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: url('your-photo.jpg') no-repeat center center fixed;
-            background-size: cover;
-            backdrop-filter: blur(8px);
-            color: white;
-            overflow-x: hidden;
-            transition: background 0.5s ease;
-        }
+       body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6); /* black tint */
+    z-index: -1;
+    backdrop-filter: blur(4px); /* optional: stackable blur */
+}
 
         .dark-mode {
             background: #000;
