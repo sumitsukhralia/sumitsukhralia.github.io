@@ -1,177 +1,193 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sumit Sukhralia | NeuroByte</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-       body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6); /* black tint */
-    z-index: -1;
-    backdrop-filter: blur(4px); /* optional: stackable blur */
-}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sumit Sukhralia | NeuroByte</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: url('your-photo.jpg') no-repeat center center fixed;
+      background-size: cover;
+      overflow-x: hidden;
+      position: relative;
+      color: white;
+    }
 
-        .dark-mode {
-            background: #000;
-        }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6); /* Proper black tint */
+      backdrop-filter: blur(4px);
+      z-index: -1;
+    }
 
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            text-align: center;
-            padding: 40px 20px;
-        }
+    .dark-mode::before {
+      background: rgba(0, 0, 0, 0.9); /* Even darker for dark mode */
+    }
 
-        .profile-img {
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid white;
-        }
+    .dark-mode {
+      background: #000;
+    }
 
-        h1 {
-            margin: 15px 0 5px;
-            font-size: 2.5rem;
-        }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: center;
+      padding: 40px 20px;
+      position: relative;
+      z-index: 1;
+    }
 
-        .buttons {
-            margin-top: 25px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            align-items: center;
-        }
+    .profile-img {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid white;
+    }
 
-        .buttons a, .toggle-dark {
-            background: rgba(255, 255, 255, 0.15);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 30px;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            border: 1px solid rgba(255,255,255,0.2);
-            transition: all 0.3s ease;
-        }
+    h1 {
+      margin: 15px 0 5px;
+      font-size: 2.5rem;
+    }
 
-        .buttons a:hover, .toggle-dark:hover {
-            background: rgba(255, 255, 255, 0.25);
-        }
+    .buttons {
+      margin-top: 25px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      align-items: center;
+    }
 
-        .terminal {
-            background: rgba(0, 0, 0, 0.4);
-            padding: 25px;
-            border-radius: 10px;
-            margin-top: 30px;
-            font-family: monospace;
-            max-width: 100%;
-            white-space: pre-line;
-        }
+    .buttons a, .toggle-dark {
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 30px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid rgba(255,255,255,0.2);
+      transition: all 0.3s ease;
+    }
 
-        .quote {
-            margin-top: 40px;
-            font-style: italic;
-            font-size: 1rem;
-            transition: opacity 0.5s ease-in-out;
-        }
+    .buttons a:hover, .toggle-dark:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
 
-        #contactForm {
-            display: none;
-            margin-top: 30px;
-        }
+    .terminal {
+      background: rgba(0, 0, 0, 0.4);
+      padding: 25px;
+      border-radius: 10px;
+      margin-top: 30px;
+      font-family: monospace;
+      max-width: 100%;
+      white-space: pre-line;
+    }
 
-        input, textarea {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 6px;
-            border: none;
-        }
-    </style>
+    .quote {
+      margin-top: 40px;
+      font-style: italic;
+      font-size: 1rem;
+      transition: opacity 0.5s ease-in-out;
+    }
+
+    #contactForm {
+      display: none;
+      margin-top: 30px;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 6px;
+      border: none;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <img src="your-photo.jpg" alt="Sumit Sukhralia" class="profile-img">
-        <h1>Sumit Sukhralia</h1>
+  <div class="container">
+    <img src="your-photo.jpg" alt="Sumit Sukhralia" class="profile-img">
+    <h1>Sumit Sukhralia</h1>
 
-        <div class="terminal" id="terminal">
+    <div class="terminal" id="terminal">
 user@sumit:~$ whoami  
->404: Limit Not Found  
->19 • Beyond Curriculum  
->From Biochem to Backend
-        </div>
-
-        <div class="buttons">
-            <a href="https://instagram.com/yourhandle" target="_blank">
-                <i class="f></i> Instagram
-            </a>
-            <a href="https://github.com/yourhandle" target="_blank">
-                <i class="fab fa-github"></i> GitHub
-            </a>
-            <a href="#" onclick="toggleContactForm()">
-                <i class="fas fa-envelope"></i> Email Me
-            </a>
-            <a href="#" class="neurobyte-btn">
-                <i class="fas fa-code"></i> NeuroByte — Coming Soon
-            </a>
-            <button class="toggle-dark" onclick="toggleDarkMode()">
-                <i class="fas fa-moon"></i> Toggle Dark Mode
-            </button>
-        </div>
-
-        <form id="contactForm">
-            <input type="text" placeholder="Your Name" required>
-            <input type="email" placeholder="Your Email" required>
-            <textarea rows="4" placeholder="Your Message"></textarea>
-            <button type="submit">Send</button>
-        </form>
-
-        <div class="quote" id="quoteBox">
-            "Ctrl your mind. Alt your path. Del the limits."
-        </div>
+404: Limit Not Found  
+19 • Beyond Curriculum  
+From Biochem to Backend
     </div>
 
-    <script>
-        const quotes = [
-            "Ctrl your mind. Alt your path. Del the limits.",
-            "Binary vision in an analog world.",
-            'Life is a loop — until you break the pattern.”,
-            "Debugging reality since 2005.",
-             "Even the darkest themes hold light in their syntax.",
-    "Glitches aren’t flaws. They’re paths to truth.",
-            "Beyond grades, beyond norms.",
-            "From labs to loops.",
-            "Code isn't just logic, it's legacy."
-        ];
+    <div class="buttons">
+      <a href="https://instagram.com/yourhandle" target="_blank">
+        <i class="fab fa-instagram"></i> Instagram
+      </a>
+      <a href="https://github.com/yourhandle" target="_blank">
+        <i class="fab fa-github"></i> GitHub
+      </a>
+      <a href="#" onclick="toggleContactForm()">
+        <i class="fas fa-envelope"></i> Email Me
+      </a>
+      <a href="#" class="neurobyte-btn">
+        <i class="fas fa-code"></i> NeuroByte — Coming Soon
+      </a>
+      <button class="toggle-dark" onclick="toggleDarkMode()">
+        <i class="fas fa-moon"></i> Toggle Dark Mode
+      </button>
+    </div>
 
-        let quoteIndex = 0;
-        setInterval(() => {
-            quoteIndex = (quoteIndex + 1) % quotes.length;
-            const quoteBox = document.getElementById('quoteBox');
-            quoteBox.style.opacity = 0;
-            setTimeout(() => {
-                quoteBox.innerText = quotes[quoteIndex];
-                quoteBox.style.opacity = 1;
-            }, 500);
-        }, 60000); // 0.5 min
+    <form id="contactForm">
+      <input type="text" placeholder="Your Name" required>
+      <input type="email" placeholder="Your Email" required>
+      <textarea rows="4" placeholder="Your Message"></textarea>
+      <button type="submit">Send</button>
+    </form>
 
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark-mode');
-        }
+    <div class="quote" id="quoteBox">
+      "Ctrl your mind. Alt your path. Del the limits."
+    </div>
+  </div>
 
-        function toggleContactForm() {
-            const form = document.getElementById("contactForm");
-            form.style.display = form.style.display === "none" || form.style.display === "" ? "block" : "none";
-        }
-    </script>
+  <script>
+    const quotes = [
+      "Ctrl your mind. Alt your path. Del the limits.",
+      "Binary vision in an analog world.",
+      "Life is a loop — until you break the pattern.",
+      "Debugging reality since 2005.",
+      "Even the darkest themes hold light in their syntax.",
+      "Glitches aren’t flaws. They’re paths to truth.",
+      "Beyond grades, beyond norms.",
+      "From labs to loops.",
+      "Code isn't just logic, it's legacy."
+    ];
+
+    let quoteIndex = 0;
+    setInterval(() => {
+      quoteIndex = (quoteIndex + 1) % quotes.length;
+      const quoteBox = document.getElementById('quoteBox');
+      quoteBox.style.opacity = 0;
+      setTimeout(() => {
+        quoteBox.innerText = quotes[quoteIndex];
+        quoteBox.style.opacity = 1;
+      }, 500);
+    }, 60000); // 1 minute
+
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+    }
+
+    function toggleContactForm() {
+      const form = document.getElementById("contactForm");
+      form.style.display = form.style.display === "none" || form.style.display === "" ? "block" : "none";
+    }
+  </script>
 </body>
 </html>
