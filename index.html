@@ -36,20 +36,27 @@
       padding: 40px 20px;
       text-align: center;
     }
+    .profile-img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border: 5px solid rgba(255,255,255,0.3);
+      object-fit: cover;
+      margin-bottom: 20px;
+    }
     .terminal {
-      background: black;
+      background: rgba(0, 0, 0, 0.7);
       color: white;
       padding: 20px;
       margin-top: 20px;
       border-radius: 10px;
       font-family: 'Courier New', Courier, monospace;
-      position: relative;
-      width: 100%;
-      max-width: 600px;
-      height: 220px;
-      overflow-y: auto;
+      width: fit-content;
+      max-width: 100%;
       margin-left: auto;
       margin-right: auto;
+      display: inline-block;
+      text-align: left;
     }
     .typed-text::after {
       content: '|';
@@ -70,7 +77,7 @@
       padding: 12px 20px;
       border: none;
       border-radius: 30px;
-      background: rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.15);
       color: white;
       backdrop-filter: blur(10px);
       font-size: 1rem;
@@ -79,7 +86,7 @@
       cursor: pointer;
     }
     .buttons a:hover, .buttons button:hover {
-      background: rgba(255,255,255,0.35);
+      background: rgba(255,255,255,0.3);
     }
     .quote {
       margin-top: 30px;
@@ -105,7 +112,6 @@
       cursor: pointer;
       z-index: 999;
     }
-    /* Contact Form */
     .contact-form {
       display: none;
       flex-direction: column;
@@ -127,6 +133,7 @@
 <body>
   <button class="dark-toggle" onclick="toggleDarkMode()">Toggle Mode</button>
   <div class="container">
+    <img src="your-photo.jpg" alt="Profile" class="profile-img">
     <h1>Sumit Sukhralia</h1>
 
     <div class="terminal">
@@ -153,10 +160,10 @@
   <script>
     const lines = [
       'user@sumit:~$ whoami',
-      '> Sumit Sukhralia',
-      '> 19 • Building from Scratch',
-      '> from biochem to backend',
-      '> beyond curriculum'
+      'Sumit Sukhralia',
+      '19 • Building from Scratch',
+      'from biochem to backend',
+      'beyond curriculum'
     ];
     const quoteList = [
       "Consistency compounds.",
@@ -188,20 +195,17 @@
     }
     typeLine();
 
-    // Quote Rotator
     let quoteIndex = 1;
     setInterval(() => {
       document.getElementById("quote").innerText = quoteList[quoteIndex];
       quoteIndex = (quoteIndex + 1) % quoteList.length;
     }, 4000);
 
-    // Contact form toggle
     function toggleContact() {
       const form = document.getElementById("contactForm");
       form.style.display = form.style.display === "flex" ? "none" : "flex";
     }
 
-    // Dark mode
     function toggleDarkMode() {
       document.body.classList.toggle("dark-mode");
     }
