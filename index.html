@@ -1,135 +1,171 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Sumit Sukhralia | Portfolio</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      background: url('your-photo.jpg') no-repeat center center/cover;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      text-align: center;
+      color: white;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
 
-    <!-- Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    body::before {
+      content: '';
+      background: inherit;
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      filter: blur(10px);
+      z-index: -2;
+    }
 
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: white;
-            min-height: 100vh;
-            overflow: hidden;
-            position: relative;
-        }
+    .container {
+      max-width: 500px;
+      width: 90%;
+      padding: 30px 20px;
+      position: relative;
+      z-index: 2;
+    }
 
-        /* === Blurred background using profile photo === */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('your-photo.jpg'); /* Your profile photo */
-            background-size: cover;
-            background-position: center;
-            filter: blur(10px) brightness(0.4);
-            z-index: -1;
-        }
+    .profile-img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border: 5px solid rgba(255,255,255,0.3);
+      object-fit: cover;
+      margin: 0 auto 20px;
+    }
 
-        .container {
-            max-width: 500px;
-            width: 90%;
-            padding: 30px 20px;
-            margin: auto;
-            text-align: center;
-            position: relative;
-            z-index: 1;
-        }
+    h1 {
+      margin: 10px 0;
+      font-size: 2.3rem;
+    }
 
-        .profile-img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            border: 5px solid rgba(255,255,255,0.3);
-            object-fit: cover;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-        }
+    .bio {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
 
-        h1 {
-            margin: 10px 0;
-            font-size: 2.3rem;
-            font-weight: bold;
-        }
+    .terminal {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      padding: 20px;
+      margin-top: 25px;
+      font-family: 'Courier New', Courier, monospace;
+      text-align: left;
+      font-size: 0.95rem;
+      color: #00ffcc;
+      box-shadow: 0 0 12px rgba(0, 255, 200, 0.3);
+      overflow: hidden;
+    }
 
-        .bio {
-            font-size: 1.1rem;
-            opacity: 0.9;
-            margin-bottom: 30px;
-            line-height: 1.6;
-        }
+    .terminal-line {
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 2px solid #00ffcc;
+      animation: typing 3s steps(40, end), blink 0.75s step-end infinite;
+    }
 
-        .links {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
+    .terminal-line:nth-child(2) {
+      animation-delay: 1s;
+    }
+    .terminal-line:nth-child(3) {
+      animation-delay: 2.5s;
+    }
+    .terminal-line:nth-child(4) {
+      animation-delay: 4s;
+    }
 
-        .links a {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255,255,255,0.1);
-            padding: 15px;
-            border-radius: 50px;
-            color: white;
-            text-decoration: none;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: all 0.3s ease;
-        }
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
 
-        .links a:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-3px);
-        }
+    @keyframes blink {
+      50% { border-color: transparent; }
+    }
 
-        @media (max-width: 500px) {
-            .container {
-                padding: 20px 15px;
-            }
+    .links {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 30px;
+    }
 
-            .links a {
-                padding: 14px;
-                font-size: 1rem;
-            }
+    .links a {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255,255,255,0.1);
+      padding: 15px;
+      border-radius: 50px;
+      color: white;
+      text-decoration: none;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.3s ease;
+    }
 
-            h1 {
-                font-size: 2rem;
-            }
-        }
-    </style>
+    .links a:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-3px);
+    }
+
+    @media (max-width: 500px) {
+      .container {
+        padding: 20px 15px;
+      }
+
+      .links a {
+        padding: 14px;
+        font-size: 1rem;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
 </head>
 <body>
+  <div class="container">
+    <img src="your-photo.jpg" alt="Sumit Sukhralia" class="profile-img">
+    <h1>SUMIT SUKHRALIA</h1>
+    <p class="bio">Digital Creator | Self-Taught Learner | 404: Limit Not Found</p>
 
-    <div class="container">
-        <img src="your-photo.jpg" alt="Sumit Sukhralia" class="profile-img">
-
-        <h1>SUMIT SUKHRALIA</h1>
-        <p class="bio">Decrypter of Code | Full-Stack Learner | Digital Explorer</p>
-
-        <div class="links">
-            <a href="https://instagram.com/your_instagram" target="_blank">
-                <i class="fab fa-instagram"></i> Instagram
-            </a>
-            <a href="https://github.com/sumitsukhralia" target="_blank">
-                <i class="fab fa-github"></i> GitHub
-            </a>
-            <a href="mailto:youremail@example.com">
-                <i class="fas fa-envelope"></i> Email Me
-            </a>
-        </div>
+    <div class="terminal">
+      <div class="terminal-line">user@sumit:~$ whoami</div>
+      <div class="terminal-line">&gt; Sumit Sukhralia — 404: Limit Not Found</div>
+      <div class="terminal-line">&gt; Self-Taught • 19 • Beyond Curriculum</div>
+      <div class="terminal-line">&gt; From Biochem to Backend</div>
     </div>
 
+    <div class="links">
+      <a href="https://instagram.com/you" target="_blank">
+        <i class="fab fa-instagram"></i> Instagram
+      </a>
+      <a href="https://github.com/you" target="_blank">
+        <i class="fab fa-github"></i> GitHub
+      </a>
+      <a href="mailto:you@email.com">
+        <i class="fas fa-envelope"></i> Email Me
+      </a>
+    </div>
+  </div>
 </body>
 </html>
