@@ -1,213 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NeuroByte - Sumit Sukhralia</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NeuroByte Portfolio</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
-    * {
+    body {
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-    }
-    body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: url('your-photo.jpg') center/cover no-repeat;
+      background-attachment: fixed;
+      backdrop-filter: blur(12px) brightness(0.5);
       color: white;
-      background: url('your-photo.jpg') no-repeat center center/cover;
-      position: relative;
-      min-height: 100vh;
-      overflow-x: hidden;
     }
-    body::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(8px);
-      z-index: -1;
-    }
+
     .container {
-      max-width: 700px;
+      max-width: 600px;
       margin: auto;
       padding: 40px 20px;
       text-align: center;
+      position: relative;
+      z-index: 2;
     }
+
     .profile-img {
       width: 150px;
       height: 150px;
       border-radius: 50%;
-      border: 5px solid rgba(255,255,255,0.3);
+      border: 4px solid rgba(255, 255, 255, 0.5);
       object-fit: cover;
       margin-bottom: 20px;
     }
+
     .terminal {
-      background: rgba(0, 0, 0, 0.7);
-      color: white;
-      padding: 20px;
-      margin-top: 20px;
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 20px 25px;
       border-radius: 10px;
-      font-family: 'Courier New', Courier, monospace;
-      width: fit-content;
-      max-width: 100%;
-      margin-left: auto;
-      margin-right: auto;
-      display: inline-block;
+      margin: 30px auto 20px;
+      max-width: 460px;
+      font-family: monospace;
       text-align: left;
     }
-    .typed-text::after {
-      content: '|';
-      animation: blink 1s infinite;
+
+    .terminal-line {
+      margin: 8px 0;
+      white-space: nowrap;
     }
-    @keyframes blink {
-      0%, 50% { opacity: 1; }
-      51%, 100% { opacity: 0; }
-    }
+
     .buttons {
-      margin-top: 30px;
       display: flex;
-      flex-wrap: wrap;
       justify-content: center;
+      flex-wrap: wrap;
       gap: 15px;
-    }
-    .buttons a, .buttons button {
-      padding: 12px 20px;
-      border: none;
-      border-radius: 30px;
-      background: rgba(255,255,255,0.15);
-      color: white;
-      backdrop-filter: blur(10px);
-      font-size: 1rem;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      cursor: pointer;
-    }
-    .buttons a:hover, .buttons button:hover {
-      background: rgba(255,255,255,0.3);
-    }
-    .quote {
       margin-top: 30px;
-      font-style: italic;
-      opacity: 0.9;
     }
-    .dark-mode body::before {
-      background: rgba(0, 0, 0, 0.85);
-    }
-    .dark-mode .buttons a, .dark-mode .buttons button {
-      background: rgba(153, 102, 204, 0.2);
-      color: #fff;
-    }
-    .dark-toggle {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: #fff;
-      color: #000;
-      border: none;
-      border-radius: 20px;
-      padding: 10px 15px;
+
+    .buttons a,
+    .toggle-theme {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 12px 22px;
+      border-radius: 30px;
+      color: white;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.2);
       cursor: pointer;
-      z-index: 999;
+      font-size: 1rem;
     }
-    .contact-form {
-      display: none;
-      flex-direction: column;
-      background: rgba(0,0,0,0.8);
-      padding: 20px;
-      border-radius: 10px;
-      margin-top: 20px;
+
+    .buttons a:hover,
+    .toggle-theme:hover {
+      background-color: rgba(255, 255, 255, 0.2);
     }
-    .contact-form input,
-    .contact-form textarea {
-      margin: 10px 0;
-      padding: 10px;
-      border-radius: 5px;
-      border: none;
-      width: 100%;
+
+    .start-btn {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 1.1rem;
+      background-color: #9966cc;
+      color: white;
+      padding: 14px 30px;
+      border-radius: 30px;
+      text-decoration: none;
+      margin-top: 15px;
+      display: inline-block;
+    }
+
+    .start-btn:hover {
+      opacity: 0.85;
+    }
+
+    .quote {
+      font-style: italic;
+      margin-top: 40px;
+      font-size: 1rem;
+      opacity: 0.85;
+      transition: opacity 0.5s ease;
     }
   </style>
 </head>
 <body>
-  <button class="dark-toggle" onclick="toggleDarkMode()">Toggle Mode</button>
   <div class="container">
-    <img src="your-photo.jpg" alt="Profile" class="profile-img">
-    <h1>Sumit Sukhralia</h1>
+    <img src="your-photo.jpg" alt="Profile Photo" class="profile-img">
 
     <div class="terminal">
-      <div class="typed-text" id="typed"></div>
+      <div class="terminal-line">Beyond Curriculum | From Biochem to Backend</div>
+      <div class="terminal-line">Ctrl + Alt + Reinvent</div>
+      <div class="terminal-line">NeuroByte — Building What's Next</div>
     </div>
 
     <div class="buttons">
       <a href="https://instagram.com/you" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
       <a href="https://github.com/you" target="_blank"><i class="fab fa-github"></i> GitHub</a>
-      <button onclick="toggleContact()"><i class="fas fa-envelope"></i> Email Me</button>
-      <button disabled><strong>NeuroByte</strong></button>
+      <a href="#" onclick="document.getElementById('email-form').scrollIntoView();"><i class="fas fa-envelope"></i> Email</a>
+      <a class="start-btn" href="#">NeuroByte — Coming Soon</a>
+      <button class="toggle-theme" onclick="toggleTheme()">Toggle Dark Mode</button>
     </div>
 
-    <div class="contact-form" id="contactForm">
-      <input type="text" placeholder="Your Name">
-      <input type="email" placeholder="Your Email">
-      <textarea placeholder="Your Message"></textarea>
-      <button>Send</button>
-    </div>
+    <div class="quote" id="quote"></div>
 
-    <div class="quote" id="quote">“Consistency compounds.”</div>
+    <form id="email-form" style="margin-top: 40px; text-align: left; max-width: 500px; margin-inline: auto;">
+      <h3 style="text-align:center">Contact Me</h3>
+      <label for="email">Your Email:</label><br>
+      <input type="email" id="email" name="email" required style="width:100%; padding:10px; margin-bottom:15px;"><br>
+      <label for="message">Message:</label><br>
+      <textarea id="message" name="message" rows="4" required style="width:100%; padding:10px;"></textarea><br>
+      <button type="submit" style="margin-top:15px; padding:10px 20px; background:#9966cc; color:white; border:none; border-radius:20px; cursor:pointer;">Send</button>
+    </form>
   </div>
 
   <script>
-    const lines = [
-      'user@sumit:~$ whoami',
-      'Sumit Sukhralia',
-      '19 • Building from Scratch',
-      'from biochem to backend',
-      'beyond curriculum'
+    const quotes = [
+      "Stay curious, stay creating.",
+      "Code. Break. Repeat.",
+      "Silence isn't empty — it's full of answers.",
+      "Hack the system, not your soul.",
+      "Dreams demand hustle.",
+      "Chaos fuels creativity.",
+      "Debugging reality with code."
     ];
-    const quoteList = [
-      "Consistency compounds.",
-      "CTRL + ALT + REINVENT.",
-      "Built different by design.",
-      "In love with learning loops.",
-      "Debugging my destiny.",
-      "Curiosity is my fuel.",
-      "From chemistry to code.",
-      "Bytes over biceps."
-    ];
+    let index = 0;
+    const quoteBox = document.getElementById("quote");
 
-    let typedText = document.getElementById('typed');
-    let index = 0, char = 0;
-
-    function typeLine() {
-      if (index < lines.length) {
-        if (char < lines[index].length) {
-          typedText.innerHTML += lines[index].charAt(char);
-          char++;
-          setTimeout(typeLine, 40);
-        } else {
-          typedText.innerHTML += '<br>';
-          index++;
-          char = 0;
-          setTimeout(typeLine, 300);
-        }
-      }
+    function changeQuote() {
+      quoteBox.style.opacity = 0;
+      setTimeout(() => {
+        quoteBox.innerText = quotes[index];
+        quoteBox.style.opacity = 1;
+        index = (index + 1) % quotes.length;
+      }, 500);
     }
-    typeLine();
+    changeQuote();
+    setInterval(changeQuote, 60000); // Change every 60 seconds
 
-    let quoteIndex = 1;
-    setInterval(() => {
-      document.getElementById("quote").innerText = quoteList[quoteIndex];
-      quoteIndex = (quoteIndex + 1) % quoteList.length;
-    }, 4000);
-
-    function toggleContact() {
-      const form = document.getElementById("contactForm");
-      form.style.display = form.style.display === "flex" ? "none" : "flex";
-    }
-
-    function toggleDarkMode() {
+    function toggleTheme() {
       document.body.classList.toggle("dark-mode");
+      if (document.body.classList.contains("dark-mode")) {
+        document.body.style.backdropFilter = "blur(12px) brightness(0.3)";
+        document.body.style.backgroundColor = "#000";
+      } else {
+        document.body.style.backdropFilter = "blur(12px) brightness(0.5)";
+        document.body.style.backgroundColor = "";
+      }
     }
   </script>
 </body>
