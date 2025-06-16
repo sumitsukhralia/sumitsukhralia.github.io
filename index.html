@@ -1,255 +1,210 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Sumit Sukhralia — NeuroByte</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NeuroByte - Sumit Sukhralia</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    :root {
-      --bg-light: rgba(255, 255, 255, 0.25);
-      --bg-dark: #0b0b0b;
-      --accent: #9966cc;
-    }
-
-    body {
+    * {
       margin: 0;
-      font-family: "Segoe UI", sans-serif;
-      background: url('your-photo.jpg') center/cover no-repeat fixed;
-      backdrop-filter: blur(6px) brightness(0.95);
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      transition: background 0.4s ease, color 0.4s ease;
-    }
-
-    body.dark {
-      background: var(--bg-dark);
-      color: white;
-    }
-
-    .container {
-      background: var(--bg-light);
-      border-radius: 20px;
-      padding: 30px 20px;
-      max-width: 600px;
-      width: 95%;
-      text-align: center;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.25);
-    }
-
-    .dark .container {
-      background: rgba(40, 40, 40, 0.5);
-    }
-
-    .profile-img {
-      width: 140px;
-      height: 140px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid white;
-    }
-
-    h1 {
-      margin: 20px 0 10px;
-      font-size: 2rem;
-    }
-
-    .terminal {
-      background: white;
-      color: black;
-      font-family: monospace;
-      text-align: left;
-      padding: 15px;
-      border-radius: 8px;
-      margin: 15px 0;
+      background: url('your-photo.jpg') no-repeat center center/cover;
       position: relative;
-      white-space: pre-line;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
-
-    .links {
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+      z-index: -1;
+    }
+    .container {
+      max-width: 700px;
+      margin: auto;
+      padding: 40px 20px;
+      text-align: center;
+    }
+    .terminal {
+      background: black;
+      color: white;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 10px;
+      font-family: 'Courier New', Courier, monospace;
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+      height: 220px;
+      overflow-y: auto;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .typed-text::after {
+      content: '|';
+      animation: blink 1s infinite;
+    }
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+    .buttons {
+      margin-top: 30px;
       display: flex;
       flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 20px;
-    }
-
-    .links a {
-      text-decoration: none;
-      padding: 10px 18px;
-      background: rgba(255,255,255,0.15);
-      backdrop-filter: blur(5px);
-      border-radius: 30px;
-      color: white;
-      border: 1px solid rgba(255,255,255,0.2);
-      transition: all 0.3s ease;
-    }
-
-    .links a:hover {
-      background: rgba(255,255,255,0.3);
-      transform: translateY(-2px);
-    }
-
-    .dark .links a {
-      border-color: var(--accent);
-    }
-
-    .quote {
-      margin-top: 20px;
-      font-style: italic;
-      opacity: 0.9;
-      animation: fade 1s ease-in-out;
-    }
-
-    @keyframes fade {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 0.9; transform: translateY(0); }
-    }
-
-    .tech-icons {
-      margin-top: 20px;
-      display: flex;
       justify-content: center;
       gap: 15px;
-      flex-wrap: wrap;
     }
-
-    .tech-icons i {
-      font-size: 24px;
+    .buttons a, .buttons button {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 30px;
+      background: rgba(255,255,255,0.2);
       color: white;
-      transition: transform 0.3s;
+      backdrop-filter: blur(10px);
+      font-size: 1rem;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      cursor: pointer;
     }
-
-    .tech-icons i:hover {
-      color: var(--accent);
-      transform: scale(1.2);
+    .buttons a:hover, .buttons button:hover {
+      background: rgba(255,255,255,0.35);
     }
-
-    .toggle-btn {
-      position: absolute;
+    .quote {
+      margin-top: 30px;
+      font-style: italic;
+      opacity: 0.9;
+    }
+    .dark-mode body::before {
+      background: rgba(0, 0, 0, 0.85);
+    }
+    .dark-mode .buttons a, .dark-mode .buttons button {
+      background: rgba(153, 102, 204, 0.2);
+      color: #fff;
+    }
+    .dark-toggle {
+      position: fixed;
       top: 20px;
       right: 20px;
-      background: rgba(255,255,255,0.2);
+      background: #fff;
+      color: #000;
       border: none;
       border-radius: 20px;
-      color: white;
-      padding: 8px 15px;
+      padding: 10px 15px;
       cursor: pointer;
+      z-index: 999;
     }
-
-    form {
+    /* Contact Form */
+    .contact-form {
       display: none;
-      margin-top: 20px;
       flex-direction: column;
-      gap: 10px;
+      background: rgba(0,0,0,0.8);
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 20px;
     }
-
-    input, textarea {
+    .contact-form input,
+    .contact-form textarea {
+      margin: 10px 0;
       padding: 10px;
+      border-radius: 5px;
       border: none;
-      border-radius: 8px;
-      font-family: inherit;
       width: 100%;
-    }
-
-    button.submit {
-      background-color: var(--accent);
-      color: white;
-      padding: 10px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <button class="toggle-btn" onclick="toggleDark()">Toggle Mode</button>
+  <button class="dark-toggle" onclick="toggleDarkMode()">Toggle Mode</button>
   <div class="container">
-    <img src="your-photo.jpg" alt="Sumit" class="profile-img" />
     <h1>Sumit Sukhralia</h1>
 
-    <div class="terminal" id="terminal"></div>
-
-    <div class="links">
-      <a href="https://instagram.com/yourhandle" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
-      <a href="https://github.com/yourhandle" target="_blank"><i class="fab fa-github"></i> GitHub</a>
-      <a href="#" onclick="toggleForm()"><i class="fas fa-envelope"></i> Email</a>
-      <a href="#"><i class="fas fa-code"></i> Start Web (Coming Soon)</a>
+    <div class="terminal">
+      <div class="typed-text" id="typed"></div>
     </div>
 
-    <form id="contact-form">
-      <input type="text" placeholder="Your Name" required />
-      <input type="email" placeholder="Your Email" required />
-      <textarea rows="4" placeholder="Your Message" required></textarea>
-      <button class="submit">Send</button>
-    </form>
-
-    <div class="quote" id="quote">Loading quote...</div>
-
-    <div class="tech-icons">
-      <i class="fab fa-html5"></i>
-      <i class="fab fa-css3-alt"></i>
-      <i class="fab fa-js"></i>
-      <i class="fab fa-react"></i>
-      <i class="fab fa-node"></i>
+    <div class="buttons">
+      <a href="https://instagram.com/you" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+      <a href="https://github.com/you" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+      <button onclick="toggleContact()"><i class="fas fa-envelope"></i> Email Me</button>
+      <button disabled><strong>NeuroByte</strong></button>
     </div>
+
+    <div class="contact-form" id="contactForm">
+      <input type="text" placeholder="Your Name">
+      <input type="email" placeholder="Your Email">
+      <textarea placeholder="Your Message"></textarea>
+      <button>Send</button>
+    </div>
+
+    <div class="quote" id="quote">“Consistency compounds.”</div>
   </div>
 
   <script>
     const lines = [
-      "user@sumit:~$ whoami",
-      "> Sumit Sukhralia — 404: Limit Not Found",
-      "> 19 • Beyond Curriculum",
-      "> From Biochem to Backend"
+      'user@sumit:~$ whoami',
+      '> Sumit Sukhralia',
+      '> 19 • Building from Scratch',
+      '> from biochem to backend',
+      '> beyond curriculum'
     ];
-    let i = 0;
-    const terminal = document.getElementById("terminal");
+    const quoteList = [
+      "Consistency compounds.",
+      "CTRL + ALT + REINVENT.",
+      "Built different by design.",
+      "In love with learning loops.",
+      "Debugging my destiny.",
+      "Curiosity is my fuel.",
+      "From chemistry to code.",
+      "Bytes over biceps."
+    ];
+
+    let typedText = document.getElementById('typed');
+    let index = 0, char = 0;
 
     function typeLine() {
-      if (i < lines.length) {
-        terminal.innerHTML += lines[i] + "\n";
-        i++;
-        setTimeout(typeLine, 1000);
+      if (index < lines.length) {
+        if (char < lines[index].length) {
+          typedText.innerHTML += lines[index].charAt(char);
+          char++;
+          setTimeout(typeLine, 40);
+        } else {
+          typedText.innerHTML += '<br>';
+          index++;
+          char = 0;
+          setTimeout(typeLine, 300);
+        }
       }
     }
+    typeLine();
 
-    const quotes = [
-      "CTRL + ALT + REINVENT",
-      "Fueling my neurons with ambition",
-      "Not just code. It's chaos structured.",
-      "Darkness decoded, logic unfolded.",
-      "System.out.println(\"Hustle\");",
-      "NeuroByte: Rewiring my digital DNA",
-      "From fragments to frameworks",
-      "Your brain, but with better syntax."
-    ];
+    // Quote Rotator
+    let quoteIndex = 1;
+    setInterval(() => {
+      document.getElementById("quote").innerText = quoteList[quoteIndex];
+      quoteIndex = (quoteIndex + 1) % quoteList.length;
+    }, 4000);
 
-    function rotateQuotes() {
-      const q = document.getElementById("quote");
-      let index = 0;
-      setInterval(() => {
-        q.innerHTML = quotes[index];
-        index = (index + 1) % quotes.length;
-      }, 5000);
-    }
-
-    function toggleDark() {
-      document.body.classList.toggle("dark");
-    }
-
-    function toggleForm() {
-      const form = document.getElementById("contact-form");
+    // Contact form toggle
+    function toggleContact() {
+      const form = document.getElementById("contactForm");
       form.style.display = form.style.display === "flex" ? "none" : "flex";
     }
 
-    // Start animations
-    window.onload = () => {
-      typeLine();
-      rotateQuotes();
-    };
+    // Dark mode
+    function toggleDarkMode() {
+      document.body.classList.toggle("dark-mode");
+    }
   </script>
 </body>
 </html>
