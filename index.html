@@ -38,7 +38,6 @@
       overflow-x: hidden;
       position: relative;
       color: var(--text-color);
-      transition: background-color 0.5s ease;
     }
 
     body::before {
@@ -51,7 +50,6 @@
       background: var(--bg-overlay-light);
       backdrop-filter: var(--backdrop-filter-blur);
       z-index: -1;
-      transition: background 0.5s ease, backdrop-filter 0.5s ease;
     }
 
     .container {
@@ -77,9 +75,6 @@
       font-weight: 900;
       letter-spacing: 0.05em;
       text-transform: uppercase;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: all 0.8s ease;
     }
 
     .terminal {
@@ -92,9 +87,6 @@
       white-space: pre-line;
       position: relative;
       overflow: hidden;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: all 0.8s ease;
     }
 
     .tech-stack {
@@ -103,9 +95,6 @@
       flex-wrap: wrap;
       justify-content: center;
       gap: 12px;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: all 0.8s ease;
     }
 
     .tech-stack span {
@@ -144,9 +133,6 @@
       flex-direction: column;
       gap: 18px;
       align-items: center;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: all 0.8s ease;
     }
 
     .bottom-nav {
@@ -244,13 +230,6 @@
         document.getElementById("theme-icon").classList.add('fa-sun');
         document.getElementById("bottom-dark").innerHTML = '<i class="fas fa-sun"></i>';
       }
-
-      setTimeout(() => {
-        document.querySelectorAll(".terminal, .tech-stack, .buttons, h1").forEach(el => {
-          el.style.opacity = '1';
-          el.style.transform = 'translateY(0)';
-        });
-      }, 500);
     }
   </script>
 </body>
