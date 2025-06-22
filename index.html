@@ -134,6 +134,81 @@
       gap: 18px;
       align-items: center;
     }
+
+    .projects {
+      margin-top: 40px;
+      background: var(--element-bg-light);
+      padding: 20px;
+      border-radius: 10px;
+      border: 1px solid var(--element-border-light);
+      text-align: left;
+    }
+
+    .projects h3 {
+      text-align: center;
+      margin-bottom: 25px;
+      font-size: 1.8rem;
+      color: var(--accent-color);
+    }
+
+    .project-item {
+      background: rgba(0,0,0,0.3);
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .project-item h4 {
+      margin-top: 0;
+      font-size: 1.5rem;
+      color: white;
+      margin-bottom: 10px;
+    }
+
+    .project-item p {
+      font-size: 1rem;
+      line-height: 1.5;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 15px;
+    }
+
+    .project-tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 15px;
+    }
+
+    .project-tech-stack span {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--accent-color);
+      padding: 4px 10px;
+      border-radius: 15px;
+      font-size: 0.8rem;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .project-links a {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--accent-color);
+      padding: 8px 15px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      margin-right: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .project-links a:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+    }
   </style>
 </head>
 <body>
@@ -165,6 +240,38 @@
       <a href="#"><i class="fas fa-code"></i> NeuroByte — Coming Soon</a>
       <button class="toggle-dark" onclick="toggleDarkMode()" id="theme-icon"><i class="fas fa-moon"></i> Toggle Dark Mode</button>
     </div>
+
+    <div class="projects">
+      <h3>My Awesome Projects</h3>
+
+      <div class="project-item">
+        <h4>Project Alpha: AI-Powered Task Manager</h4>
+        <p>A smart task management web application that uses machine learning to prioritize tasks based on user habits and deadlines. Features real-time collaboration and intuitive UI.</p>
+        <div class="project-tech-stack">
+          <span>React.js</span>
+          <span>Node.js</span>
+          <span>Express.js</span>
+          <span>MongoDB</span>
+          <span>Python (TensorFlow)</span>
+          <span>AWS EC2</span>
+        </div>
+        <div class="project-links">
+          <a href="#" class="disabled-btn"><i class="fas fa-globe"></i> Live Demo</a>
+          <a href="#" class="disabled-btn"><i class="fab fa-github"></i> GitHub Repo</a>
+        </div>
+      </div>
+
+      <div class="project-item">
+        <h4>Project Beta: Under Construction</h4>
+        <p>This project is currently under development. Stay tuned for updates!</p>
+        <div class="project-tech-stack">
+          <span>Coming Soon</span>
+        </div>
+        <div class="project-links">
+          <a href="#" class="disabled-btn"><i class="fas fa-hammer"></i> Work in Progress</a>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script>
@@ -186,3 +293,4 @@
   </script>
 </body>
 </html>
+
