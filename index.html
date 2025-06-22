@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sumit Sukhralia</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <title>Sumit Sukhralia</title> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <style>
     :root {
@@ -15,9 +14,9 @@
       --element-bg-light: rgba(255, 255, 255, 0.1);
       --element-bg-hover-light: rgba(255, 255, 255, 0.25);
       --element-border-light: rgba(255,255,255,0.2);
-      --profile-border-color: white;
+      --profile-border-color: white; /* Changed from potentially glowing */
       --backdrop-filter-blur: blur(4px);
-      --accent-color: white;
+      --accent-color: white; /* Changed from cyan/neon green */
     }
 
     .dark-mode {
@@ -26,9 +25,9 @@
       --element-bg-light: rgba(255, 255, 255, 0.05);
       --element-bg-hover-light: rgba(255, 255, 255, 0.15);
       --element-border-light: rgba(255,255,255,0.1);
-      --profile-border-color: #aaa;
+      --profile-border-color: #aaa; /* Slightly darker border for profile in dark mode */
       --backdrop-filter-blur: blur(8px);
-      --accent-color: #eee;
+      --accent-color: #eee; /* Slightly off-white for dark mode accent */
       background: #000 !important;
     }
 
@@ -77,9 +76,9 @@
     h1 {
       margin: 15px 0 5px;
       font-size: 2.5rem;
-      font-weight: 900;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
+      font-weight: 900; /* Made font bold and masculine */
+      letter-spacing: 0.05em; /* Slightly increased letter spacing */
+      text-transform: uppercase; /* Optional: Make it all caps for more impact */
     }
     
     p.subtitle {
@@ -135,8 +134,8 @@
     .tech-stack span:hover {
       background: var(--element-bg-hover-light);
       transform: translateY(-3px) scale(1.05);
-      box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
-      border-color: rgba(255, 255, 255, 0.5);
+      box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3); /* Replaced neon glow with white */
+      border-color: rgba(255, 255, 255, 0.5); /* Replaced neon glow with white */
     }
 
     .buttons {
@@ -150,7 +149,7 @@
     .buttons a, .toggle-dark, .disabled-btn {
       background: var(--element-bg-light);
       color: var(--text-color);
-      padding: 16px 32px; /* Increased padding for premium look */
+      padding: 18px 36px; /* Increased padding for premium look */
       border-radius: 30px;
       text-decoration: none;
       display: inline-flex;
@@ -167,8 +166,8 @@
     .buttons a:hover, .toggle-dark:hover {
       background: var(--element-bg-hover-light);
       transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
-      border-color: rgba(255, 255, 255, 0.5);
+      box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3); /* Replaced neon glow with white */
+      border-color: rgba(255, 255, 255, 0.5); /* Replaced neon glow with white */
     }
 
     .disabled-btn {
@@ -318,7 +317,7 @@
       }
       .buttons a, .toggle-dark {
         width: 90%;
-        padding: 12px 20px; /* Adjusted for smaller screens */
+        padding: 14px 20px; /* Adjusted for smaller screens */
         font-size: 1rem;
       }
       .project-item {
@@ -345,7 +344,7 @@
       .buttons a, .toggle-dark {
         font-size: 0.9rem;
         gap: 8px;
-        padding: 10px 15px; /* Adjusted for smallest screens */
+        padding: 12px 15px; /* Adjusted for smallest screens */
       }
     }
 
@@ -364,7 +363,7 @@
       <p>404: Limit Not Found</p>
     </div>
 
-    <div class="tech-stack" data-aos="fade-up" data-aos-delay="1100" data-aos-once="true">
+    <div class="tech-stack" data-aos="fade-up" data-aos-delay="1100">
       <span data-aos="fade-right" data-aos-delay="1200">HTML5</span>
       <span data-aos="fade-right" data-aos-delay="1250">CSS3</span>
       <span data-aos="fade-right" data-aos-delay="1300">JavaScript</span>
@@ -372,7 +371,7 @@
       <span data-aos="fade-right" data-aos-delay="1400">Node.js</span>
       <span data-aos="fade-right" data-aos-delay="1450">MongoDB</span>
       <span data-aos="fade-right" data-aos-delay="1500">Git & GitHub</span>
-      </div>
+    </div>
 
     <div class="buttons" data-aos="fade-up" data-aos-delay="1700">
       <a href="https://instagram.com/sumitsukhralia" target="_blank" data-aos="zoom-in-up" data-aos-delay="1800">
@@ -456,7 +455,7 @@
     function toggleDarkMode() {
       document.body.classList.toggle('dark-mode');
       localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-      AOS.refresh();
+      AOS.refresh(); // Refresh AOS to ensure proper state after dark mode toggle
     }
 
     function toggleContactForm() {
