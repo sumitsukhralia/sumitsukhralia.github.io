@@ -134,45 +134,6 @@
       gap: 18px;
       align-items: center;
     }
-
-    .bottom-nav {
-      display: none;
-    }
-
-    @media (max-width: 768px) {
-      .bottom-nav {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: rgba(255, 255, 255, 0.06);
-        backdrop-filter: blur(10px);
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        padding: 12px 0;
-        border-top: 1px solid rgba(255,255,255,0.2);
-        z-index: 999;
-      }
-      .bottom-nav a,
-      .bottom-nav button {
-        color: white;
-        font-size: 1.2rem;
-        background: transparent;
-        border: none;
-        outline: none;
-        cursor: pointer;
-        transition: transform 0.2s ease;
-      }
-      .bottom-nav a:hover,
-      .bottom-nav button:hover {
-        transform: translateY(-2px);
-        color: #ddd;
-      }
-      .buttons {
-        display: none;
-      }
-    }
   </style>
 </head>
 <body>
@@ -206,13 +167,6 @@
     </div>
   </div>
 
-  <div class="bottom-nav">
-    <a href="https://instagram.com/sumitsukhralia" target="_blank"><i class="fab fa-instagram"></i></a>
-    <a href="https://github.com/sumitsukhralia" target="_blank"><i class="fab fa-github"></i></a>
-    <a href="mailto:SUMITxNEUROBYTE@proton.me"><i class="fas fa-envelope"></i></a>
-    <button onclick="toggleDarkMode()" id="bottom-dark"><i class="fas fa-moon"></i></button>
-  </div>
-
   <script>
     function toggleDarkMode() {
       const body = document.body;
@@ -220,7 +174,6 @@
       localStorage.setItem('darkMode', isDark);
       document.getElementById("theme-icon")?.classList.toggle('fa-sun', isDark);
       document.getElementById("theme-icon")?.classList.toggle('fa-moon', !isDark);
-      document.getElementById("bottom-dark")?.innerHTML = `<i class="fas fa-${isDark ? 'sun' : 'moon'}"></i>`;
     }
 
     window.onload = () => {
@@ -228,7 +181,6 @@
       if (dark) {
         document.body.classList.add('dark-mode');
         document.getElementById("theme-icon").classList.add('fa-sun');
-        document.getElementById("bottom-dark").innerHTML = '<i class="fas fa-sun"></i>';
       }
     }
   </script>
