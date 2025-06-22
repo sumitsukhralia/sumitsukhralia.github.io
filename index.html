@@ -5,7 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sumit Sukhralia | NeuroByte</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <style>
+    :root {
+      /* Define CSS Variables for easier theme management */
+      --text-color: white;
+      --bg-overlay-light: rgba(0, 0, 0, 0.6);
+      --bg-overlay-dark: rgba(0, 0, 0, 0.9);
+      --element-bg-light: rgba(255, 255, 255, 0.1);
+      --element-bg-hover-light: rgba(255, 255, 255, 0.25);
+      --element-border-light: rgba(255,255,255,0.2);
+      --profile-border-color: white;
+      --backdrop-filter-blur: blur(4px);
+    }
+
+    .dark-mode {
+      --text-color: white; /* Still white in dark mode for contrast on black */
+      --bg-overlay-light: var(--bg-overlay-dark); /* Use darker overlay */
+      --element-bg-light: rgba(255, 255, 255, 0.05); /* Slightly darker elements */
+      --element-bg-hover-light: rgba(255, 255, 255, 0.15);
+      --element-border-light: rgba(255,255,255,0.1);
+      --profile-border-color: #555; /* Darker border for profile */
+      --backdrop-filter-blur: blur(8px); /* More blur in dark mode */
+      background: #000 !important; /* Force black background for true dark mode */
+    }
+
     body {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -13,7 +37,8 @@
       background-size: cover;
       overflow-x: hidden;
       position: relative;
-      color: white;
+      color: var(--text-color);
+      transition: background-color 0.5s ease; /* Smooth transition for dark mode bg */
     }
 
     body::before {
@@ -23,17 +48,22 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(4px);
+      background: var(--bg-overlay-light);
+      backdrop-filter: var(--backdrop-filter-blur);
       z-index: -1;
+      transition: background 0.5s ease, backdrop-filter 0.5s ease; /* Smooth transition for overlay */
     }
 
-    .dark-mode::before {
-      background: rgba(0, 0, 0, 0.9);
+    /* Keyframe animation for text typing effect */
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
     }
 
-    .dark-mode {
-      background: #000;
+    /* Keyframe animation for blinking cursor */
+    @keyframes blink-caret {
+      from, to { border-color: transparent }
+      50% { border-color: white; }
     }
 
     .container {
@@ -50,58 +80,41 @@
       height: 140px;
       border-radius: 50%;
       object-fit: cover;
-      border: 4px solid white;
+      border: 4px solid var(--profile-border-color);
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.4); /* Neon glow effect */
+      transition: border-color 0.5s ease, box-shadow 0.5s ease;
     }
 
     h1 {
       margin: 15px 0 5px;
       font-size: 2.5rem;
+      position: relative;
+      overflow: hidden; /* For typing effect */
+      border-right: .15em solid orange; /* The typing cursor */
+      white-space: nowrap; /* Keeps content on a single line */
+      margin: 0 auto; /* Centers the content */
+      letter-spacing: .15em; /* Adjust as needed */
+      animation:
+        typing 3.5s steps(30, end),
+        blink-caret .75s step-end infinite;
+      animation-fill-mode: forwards; /* Ensures the final state remains */
+      width: 0; /* Starts hidden */
+      max-width: 100%;
+    }
+    
+    /* Animation for the tagline/secondary text under name */
+    p.subtitle {
+        font-size: 1.2rem;
+        margin-top: 5px;
+        color: rgba(255, 255, 255, 0.8);
+        animation: fadeIn 2s ease-out 3.6s forwards; /* Fades in after h1 animation */
+        opacity: 0; /* Start hidden */
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 
-    .tech-stack {
-      margin-top: 15px;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 12px;
-    }
-
-    .tech-stack span {
-      background: rgba(255, 255, 255, 0.1);
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-size: 0.9rem;
-    }
-
-    .buttons {
-      margin-top: 25px;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      align-items: center;
-    }
-
-    .buttons a, .toggle-dark, .disabled-btn {
-      background: rgba(255, 255, 255, 0.15);
-      color: white;
-      padding: 12px 24px;
-      border-radius: 30px;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      border: 1px solid rgba(255,255,255,0.2);
-      transition: all 0.3s ease;
-    }
-
-    .buttons a:hover, .toggle-dark:hover {
-      background: rgba(255, 255, 255, 0.25);
-    }
-
-    .disabled-btn {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
 
     .terminal {
       background: rgba(0, 0, 0, 0.4);
@@ -111,101 +124,412 @@
       font-family: monospace;
       max-width: 100%;
       white-space: pre-line;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.2); /* Subtle glow */
+      position: relative;
+      overflow: hidden;
+    }
+    
+    /* Terminal content animation - "typewriter" effect for multiple lines */
+    .terminal p {
+        margin: 0;
+        white-space: pre-line; /* Allows line breaks */
+        opacity: 0; /* Start hidden */
+        animation: terminalLineAppear 0.5s forwards; /* Animation for each line */
+    }
+
+    /* Delay each line's appearance for a more natural effect */
+    .terminal p:nth-child(1) { animation-delay: 4s; } /* After h1 and subtitle */
+    .terminal p:nth-child(2) { animation-delay: 4.5s; }
+    .terminal p:nth-child(3) { animation-delay: 5s; }
+    .terminal p:nth-child(4) { animation-delay: 5.5s; }
+
+    @keyframes terminalLineAppear {
+        from { opacity: 0; transform: translateX(-20px); }
+        to { opacity: 1; transform: translateX(0); }
+    }
+
+
+    .tech-stack {
+      margin-top: 25px; /* Increased margin */
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      /* Animation for tech stack items */
+      transform: translateY(20px);
+      opacity: 0;
+      animation: fadeInUp 1s ease-out 6s forwards; /* Appears after terminal lines */
+    }
+
+    .tech-stack span {
+      background: var(--element-bg-light);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      border: 1px solid var(--element-border-light);
+      cursor: default; /* Indicate not clickable */
+      /* Hover effect */
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tech-stack span:hover {
+      background: var(--element-bg-hover-light);
+      transform: translateY(-3px) scale(1.05); /* Lift and slight enlarge */
+      box-shadow: 0 5px 15px rgba(0, 255, 255, 0.3); /* Glowing shadow */
+      border-color: rgba(0, 255, 255, 0.5);
+    }
+    /* Simple fade in up for general elements */
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+
+    .buttons {
+      margin-top: 35px; /* Increased margin */
+      display: flex;
+      flex-direction: column;
+      gap: 18px; /* Increased gap */
+      align-items: center;
+    }
+
+    .buttons a, .toggle-dark, .disabled-btn {
+      background: var(--element-bg-light);
+      color: var(--text-color);
+      padding: 14px 28px; /* Slightly larger buttons */
+      border-radius: 30px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px; /* Increased icon gap */
+      border: 1px solid var(--element-border-light);
+      transition: all 0.3s ease;
+      font-size: 1.1rem; /* Slightly larger text */
+      width: 250px; /* Fixed width for uniformity */
+      justify-content: center; /* Center content within button */
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    .buttons a:hover, .toggle-dark:hover {
+      background: var(--element-bg-hover-light);
+      transform: translateY(-2px); /* Lift effect */
+      box-shadow: 0 8px 25px rgba(0, 255, 255, 0.3); /* More pronounced glow */
+      border-color: rgba(0, 255, 255, 0.5);
+    }
+
+    .disabled-btn {
+      opacity: 0.5;
+      cursor: not-allowed;
+      box-shadow: none;
     }
 
     .quote {
       margin-top: 40px;
       font-style: italic;
-      font-size: 1rem;
-      transition: opacity 0.5s ease-in-out;
+      font-size: 1.1rem;
+      transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out; /* Add transform for animation */
+      color: rgba(255, 255, 255, 0.7);
     }
 
     #contactForm {
       display: none;
       margin-top: 30px;
+      background: var(--element-bg-light);
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
     }
 
     input, textarea {
-      width: 100%;
+      width: calc(100% - 20px); /* Adjust for padding */
       padding: 10px;
       margin: 10px 0;
       border-radius: 6px;
-      border: none;
+      border: 1px solid var(--element-border-light);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-color);
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
     }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: rgba(0, 255, 255, 0.7);
+      box-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
+    }
+
+    #contactForm button[type="submit"] {
+      background: rgba(0, 200, 200, 0.6); /* Cyan submit button */
+      color: white;
+      padding: 12px 24px;
+      border-radius: 30px;
+      border: none;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+    }
+
+    #contactForm button[type="submit"]:hover {
+      background: rgba(0, 200, 200, 0.9);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 200, 200, 0.4);
+    }
+
 
     .projects {
       margin-top: 40px;
-      background: rgba(0,0,0,0.3);
+      background: var(--element-bg-light);
       padding: 20px;
       border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.2); /* Glow */
+      border: 1px solid var(--element-border-light);
+      text-align: left; /* Align project content left */
     }
+
+    .projects h3 {
+        text-align: center;
+        margin-bottom: 25px;
+        font-size: 1.8rem;
+        color: cyan; /* Highlight project title */
+    }
+
+    .project-item {
+        background: rgba(0,0,0,0.3);
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        border: 1px solid rgba(255,255,255,0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .project-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 255, 255, 0.3);
+    }
+
+    .project-item h4 {
+        margin-top: 0;
+        font-size: 1.5rem;
+        color: white;
+        margin-bottom: 10px;
+    }
+
+    .project-item p {
+        font-size: 1rem;
+        line-height: 1.5;
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 15px;
+    }
+
+    .project-tech-stack {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 15px;
+    }
+
+    .project-tech-stack span {
+        background: rgba(0, 200, 200, 0.2);
+        color: cyan;
+        padding: 4px 10px;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        border: 1px solid rgba(0, 200, 200, 0.5);
+    }
+
+    .project-links a {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        background: rgba(0, 255, 255, 0.1);
+        color: cyan;
+        padding: 8px 15px;
+        border-radius: 20px;
+        text-decoration: none;
+        font-size: 0.9rem;
+        margin-right: 10px;
+        border: 1px solid rgba(0, 255, 255, 0.3);
+        transition: all 0.3s ease;
+    }
+
+    .project-links a:hover {
+        background: rgba(0, 255, 255, 0.3);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 255, 255, 0.2);
+    }
+
+    /* Basic media queries for responsiveness */
+    @media (max-width: 768px) {
+      .container {
+        padding: 20px 15px;
+      }
+      h1 {
+        font-size: 2rem;
+      }
+      .profile-img {
+        width: 120px;
+        height: 120px;
+      }
+      .buttons a, .toggle-dark {
+        width: 90%; /* Make buttons take more width on small screens */
+        padding: 10px 20px;
+        font-size: 1rem;
+      }
+      .project-item {
+        padding: 15px;
+      }
+      .projects h3 {
+        font-size: 1.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.8rem;
+        letter-spacing: .1em;
+      }
+      .terminal {
+        padding: 15px;
+        font-size: 0.9rem;
+      }
+      .tech-stack span {
+        font-size: 0.8rem;
+        padding: 5px 10px;
+      }
+      .buttons a, .toggle-dark {
+        font-size: 0.9rem;
+        gap: 8px;
+        padding: 8px 15px;
+      }
+    }
+
   </style>
 </head>
 <body>
   <div class="container">
-    <img src="your-photo.jpg" alt="Sumit Sukhralia" class="profile-img">
-    <h1>Sumit Sukhralia</h1>
+    <img src="your-photo.jpg" alt="Sumit Sukhralia" class="profile-img" data-aos="zoom-in" data-aos-duration="1000">
+    <h1 data-aos="fade-down" data-aos-delay="100">Sumit Sukhralia</h1>
+    <p class="subtitle" data-aos="fade-in" data-aos-delay="1500">Beyond Curriculum, From Biochem to Backend</p>
 
-    <div class="terminal" id="terminal">
-user@sumit:~$ whoami  
-19 • Beyond Curriculum 
-From Biochem to Backend
-404: Limit Not Found    
+    <div class="terminal" id="terminal" data-aos="fade-up" data-aos-delay="2000">
+      <p>user@sumit:~$ whoami</p>
+      <p>19 • Beyond Curriculum</p>
+      <p>From Biochem to Backend</p>
+      <p>404: Limit Not Found</p>
     </div>
 
-    <div class="tech-stack">
-      <span>HTML5</span>
-      <span>CSS3</span>
-      <span>JavaScript</span>
-      <span>React.js</span>
-      <span>Node.js</span>
-      <span>MongoDB</span>
-      <span>Git & GitHub</span>
+    <div class="tech-stack" data-aos="fade-up" data-aos-delay="2500" data-aos-once="true">
+      <span data-aos="fade-right" data-aos-delay="2600">HTML5</span>
+      <span data-aos="fade-right" data-aos-delay="2700">CSS3</span>
+      <span data-aos="fade-right" data-aos-delay="2800">JavaScript</span>
+      <span data-aos="fade-right" data-aos-delay="2900">React.js</span>
+      <span data-aos="fade-right" data-aos-delay="3000">Node.js</span>
+      <span data-aos="fade-right" data-aos-delay="3100">MongoDB</span>
+      <span data-aos="fade-right" data-aos-delay="3200">Git & GitHub</span>
+      </div>
+
+    <div class="buttons" data-aos="fade-up" data-aos-delay="3500">
+      <a href="https://instagram.com/sumitsukhralia" target="_blank" data-aos="zoom-in-up" data-aos-delay="3600">
+        <i class="fab fa-instagram"></i> Instagram
+      </a>
+
+      <a href="https://github.com/sumitsukhralia" target="_blank" data-aos="zoom-in-up" data-aos-delay="3700">
+        <i class="fab fa-github"></i> GitHub
+      </a>
+
+      <a href="mailto:SUMITxNEUROBYTE@proton.me?subject=Collab with Sumit&body=Hey Sumit, I checked out your portfolio and would love to collaborate on..." data-aos="zoom-in-up" data-aos-delay="3800">
+        <i class="fas fa-handshake"></i> Let’s Collaborate
+      </a>
+
+      <a href="mailto:SUMITxNEUROBYTE@proton.me?subject=Let's Connect&body=Hi Sumit, I came across your website and wanted to reach out about..." data-aos="zoom-in-up" data-aos-delay="3900">
+        <i class="fas fa-envelope"></i> Email Me
+      </a>
+
+      <a href="#" class="neurobyte-btn disabled-btn" data-aos="zoom-in-up" data-aos-delay="4000">
+        <i class="fas fa-code"></i> NeuroByte — Coming Soon
+      </a>
+
+      <button class="toggle-dark" onclick="toggleDarkMode()" data-aos="zoom-in-up" data-aos-delay="4100">
+        <i class="fas fa-moon"></i> Toggle Dark Mode
+      </button>
+
+      <a href="#" class="toggle-contact-form" onclick="toggleContactForm()" data-aos="zoom-in-up" data-aos-delay="4200">
+        <i class="fas fa-paper-plane"></i> Send a Message
+      </a>
     </div>
-    <div class="buttons">
-  <a href="https://instagram.com/sumitsukhralia" target="_blank">
-    <i class="fab fa-instagram"></i> Instagram
-  </a>
 
-  <a href="https://github.com/sumitsukhralia" target="_blank">
-    <i class="fab fa-github"></i> GitHub
-  </a>
-
-  <a href="mailto:SUMITxNEUROBYTE@proton.me?subject=Collab with Sumit&body=Hey Sumit, I checked out your portfolio and would love to collaborate on...">
-    <i class="fas fa-handshake"></i> Let’s Collaborate
-  </a>
-
-  <a href="mailto:SUMITxNEUROBYTE@proton.me?subject=Let's Connect&body=Hi Sumit, I came across your website and wanted to reach out about...">
-    <i class="fas fa-envelope"></i> Email Me
-  </a>
-
-  <a href="#" class="neurobyte-btn">
-    <i class="fas fa-code"></i> NeuroByte — Coming Soon
-  </a>
-
-  <button class="toggle-dark" onclick="toggleDarkMode()">
-    <i class="fas fa-moon"></i> Toggle Dark Mode
-  </button>
-</div>
-
-    <form id="contactForm">
+    <form id="contactForm" data-aos="fade-in" data-aos-delay="100">
       <input type="text" placeholder="Your Name" required>
       <input type="email" placeholder="Your Email" required>
       <textarea rows="4" placeholder="Your Message"></textarea>
-      <button type="submit">Send</button>
+      <button type="submit">Send Message</button>
     </form>
 
-    <div class="quote" id="quoteBox">
+    <div class="quote" id="quoteBox" data-aos="fade-in" data-aos-delay="100">
       "Ctrl your mind. Alt your path. Del the limits."
     </div>
 
-    <div class="projects">
-      <h3>🚧 Projects Incoming</h3>
-      <p>Currently building — this space will soon be filled with awesome work!</p>
-    </div>
+    <div class="projects" data-aos="fade-up" data-aos-delay="100">
+      <h3>My Awesome Projects</h3>
+      <div class="project-item" data-aos="fade-up" data-aos-delay="200">
+        <h4>Project Alpha: AI-Powered Task Manager</h4>
+        <p>A smart task management web application that uses machine learning to prioritize tasks based on user habits and deadlines. Features real-time collaboration and intuitive UI.</p>
+        <div class="project-tech-stack">
+            <span>React.js</span>
+            <span>Node.js</span>
+            <span>Express.js</span>
+            <span>MongoDB</span>
+            <span>Python (TensorFlow)</span>
+            <span>AWS EC2</span>
+        </div>
+        <div class="project-links">
+            <a href="#" target="_blank"><i class="fas fa-globe"></i> Live Demo</a>
+            <a href="https://github.com/sumitsukhralia/project-alpha" target="_blank"><i class="fab fa-github"></i> GitHub Repo</a>
+        </div>
+      </div>
+      <div class="project-item" data-aos="fade-up" data-aos-delay="300">
+        <h4>Project Beta: Decentralized Voting System</h4>
+        <p>A secure and transparent online voting platform built on blockchain technology. Ensures voter anonymity and verifiable results through smart contracts on Ethereum.</p>
+        <div class="project-tech-stack">
+            <span>Solidity</span>
+            <span>Web3.js</span>
+            <span>React.js</span>
+            <span>Truffle</span>
+            <span>Ganache</span>
+        </div>
+        <div class="project-links">
+            <a href="#" target="_blank" class="disabled-btn"><i class="fas fa-globe"></i> Live Demo (TBD)</a>
+            <a href="https://github.com/sumitsukhralia/project-beta" target="_blank"><i class="fab fa-github"></i> GitHub Repo</a>
+        </div>
+      </div>
+      <div class="project-item" data-aos="fade-up" data-aos-delay="400">
+        <h4>Project Gamma: Cross-Platform Mobile Game</h4>
+        <p>An engaging 2D puzzle game developed for iOS and Android, featuring custom physics engine and level editor. Optimized for performance on mobile devices.</p>
+        <div class="project-tech-stack">
+            <span>Unity</span>
+            <span>C#</span>
+            <span>Firebase</span>
+            <span>AdMob</span>
+        </div>
+        <div class="project-links">
+            <a href="#" target="_blank" class="disabled-btn"><i class="fas fa-mobile-alt"></i> App Store (TBD)</a>
+            <a href="https://github.com/sumitsukhralia/project-gamma" target="_blank"><i class="fab fa-github"></i> GitHub Repo</a>
+        </div>
+      </div>
+      </div>
   </div>
 
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
+    // Initialize AOS
+    AOS.init({
+      duration: 800, // global duration for animations
+      once: false, // whether animation should happen only once - changed to false for re-animation on scroll
+      mirror: true // whether elements should animate out while scrolling past them
+    });
+
     const quotes = [
       "Ctrl your mind. Alt your path. Del the limits.",
       "Binary vision in an analog world.",
@@ -220,28 +544,37 @@ From Biochem to Backend
 
     let quoteIndex = 0;
     setInterval(() => {
-      quoteIndex = (quoteIndex + 1) % quotes.length;
       const quoteBox = document.getElementById('quoteBox');
-      quoteBox.style.opacity = 0;
+      quoteBox.style.opacity = 0; // Start fade out
+      quoteBox.style.transform = 'translateY(10px) scale(0.95)'; // Add slight movement
+
       setTimeout(() => {
+        quoteIndex = (quoteIndex + 1) % quotes.length;
         quoteBox.innerText = quotes[quoteIndex];
-        quoteBox.style.opacity = 1;
-      }, 500);
-    }, 60000);
+        quoteBox.style.opacity = 1; // Fade in
+        quoteBox.style.transform = 'translateY(0) scale(1)'; // Return to normal position
+      }, 500); // Wait for fade out to complete
+    }, 10000); // Changed to 10 seconds for a slower rotation
 
     function toggleDarkMode() {
       document.body.classList.toggle('dark-mode');
       localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+      // Update AOS on theme change if needed (though usually not necessary unless elements are changing layout)
+      AOS.refresh();
     }
 
     function toggleContactForm() {
       const form = document.getElementById("contactForm");
-      form.style.display = form.style.display === "none" || form.style.display === "" ? "block" : "none";
+      // Use ternary operator for concise toggle
+      form.style.display = (form.style.display === "none" || form.style.display === "") ? "block" : "none";
+      // Refresh AOS after changing display to ensure new elements animate
+      AOS.refreshHard();
     }
 
     window.onload = () => {
       const dark = localStorage.getItem('darkMode') === 'true';
       if (dark) document.body.classList.add('dark-mode');
+      AOS.refresh(); // Important to initialize AOS once the page is fully loaded
     }
   </script>
 </body>
