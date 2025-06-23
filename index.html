@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>Site Under Maintenance</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Google Font -->
+  <!-- Font -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
   <style>
     * {
@@ -17,29 +17,31 @@
       height: 100vh;
       width: 100vw;
       font-family: 'Poppins', sans-serif;
-      background: url('your-background.jpg') no-repeat center center/cover; /* Optional image if needed */
-      position: relative;
+      background: #888888; /* Grey background */
+      display: flex;
+      justify-content: center;
+      align-items: center;
       overflow: hidden;
+      position: relative;
     }
 
-    /* Black tinted blur overlay */
     .overlay {
       position: absolute;
       inset: 0;
-      background: rgba(0, 0, 0, 0.55);
-      backdrop-filter: blur(8px);
+      background: rgba(0, 0, 0, 0.55);  /* Black tint */
+      backdrop-filter: blur(6px);       /* Soft blur */
       display: flex;
       justify-content: center;
       align-items: center;
     }
 
     .content {
-      color: white;
-      text-align: center;
       background: rgba(0, 0, 0, 0.3);
+      color: white;
       padding: 30px 40px;
       border-radius: 20px;
-      box-shadow: 0 0 30px rgba(153, 102, 204, 0.4);
+      box-shadow: 0 0 25px rgba(153, 102, 204, 0.4);
+      text-align: center;
     }
 
     h1 {
@@ -48,7 +50,7 @@
     }
 
     #countdown {
-      font-size: 1.5rem;
+      font-size: 1.6rem;
       font-weight: bold;
       letter-spacing: 1px;
       margin-top: 10px;
@@ -79,7 +81,7 @@
   </div>
 
   <script>
-    // Set 15 days from now
+    // Set shutdownEndDate to 15 days from now
     const shutdownEndDate = new Date();
     shutdownEndDate.setDate(shutdownEndDate.getDate() + 15);
 
