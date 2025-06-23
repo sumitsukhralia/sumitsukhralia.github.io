@@ -15,30 +15,31 @@
 
     body {
       height: 100vh;
-      background: radial-gradient(circle, #111 0%, #000 100%);
-      color: white;
+      width: 100vw;
       font-family: 'Poppins', sans-serif;
+      background: url('your-background.jpg') no-repeat center center/cover; /* Optional image if needed */
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Black tinted blur overlay */
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(8px);
       display: flex;
       justify-content: center;
       align-items: center;
-      text-align: center;
     }
 
-    .container {
-      background: rgba(0, 0, 0, 0.6);
+    .content {
+      color: white;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.3);
       padding: 30px 40px;
       border-radius: 20px;
-      backdrop-filter: blur(10px);
       box-shadow: 0 0 30px rgba(153, 102, 204, 0.4);
-    }
-
-    .profile-pic {
-      width: 120px;
-      height: 120px;
-      object-fit: cover;
-      border-radius: 50%;
-      border: 3px solid #9966cc;
-      margin-bottom: 20px;
     }
 
     h1 {
@@ -54,13 +55,8 @@
     }
 
     @media (max-width: 480px) {
-      .container {
+      .content {
         padding: 20px;
-      }
-
-      .profile-pic {
-        width: 90px;
-        height: 90px;
       }
 
       h1 {
@@ -74,15 +70,16 @@
   </style>
 </head>
 <body>
-  <div class="container">
-    <img src="your-photo.jpg" alt="Profile Picture" class="profile-pic">
-    <h1>🚧 Site Under Maintenance</h1>
-    <p>We'll be back in:</p>
-    <div id="countdown"></div>
+  <div class="overlay">
+    <div class="content">
+      <h1>🚧 Site Under Maintenance</h1>
+      <p>We'll be back in:</p>
+      <div id="countdown"></div>
+    </div>
   </div>
 
   <script>
-    // Set shutdownEndDate to 15 days from now
+    // Set 15 days from now
     const shutdownEndDate = new Date();
     shutdownEndDate.setDate(shutdownEndDate.getDate() + 15);
 
@@ -105,7 +102,7 @@
     }
 
     setInterval(updateCountdown, 1000);
-    updateCountdown(); // initial call
+    updateCountdown();
   </script>
 </body>
 </html>
