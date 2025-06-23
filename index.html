@@ -3,23 +3,109 @@
 <head>
   <meta charset="UTF-8">
   <title>Site Under Maintenance</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      height: 100vh;
+      background: radial-gradient(circle, #111 0%, #000 100%);
+      color: white;
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .container {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 30px 40px;
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 30px rgba(153, 102, 204, 0.4);
+    }
+
+    .profile-pic {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid #9966cc;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    #countdown {
+      font-size: 1.5rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 20px;
+      }
+
+      .profile-pic {
+        width: 90px;
+        height: 90px;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      #countdown {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
 </head>
 <body>
-  <!-- Background Video -->
-  <video id="bg-video" autoplay muted loop playsinline poster="assets/hero.jpg">
-    <source src="assets/hero.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
-
-  <!-- Countdown Container -->
-  <div class="countdown-container">
+  <div class="container">
+    <img src="your-photo.jpg" alt="Profile Picture" class="profile-pic">
     <h1>🚧 Site Under Maintenance</h1>
     <p>We'll be back in:</p>
     <div id="countdown"></div>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    // Set shutdownEndDate to 15 days from now
+    const shutdownEndDate = new Date();
+    shutdownEndDate.setDate(shutdownEndDate.getDate() + 15);
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = shutdownEndDate - now;
+
+      if (distance < 0) {
+        document.getElementById("countdown").innerHTML = "We're back online!";
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((distance / (1000 * 60)) % 60);
+      const seconds = Math.floor((distance / 1000) % 60);
+
+      document.getElementById("countdown").innerHTML =
+        `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown(); // initial call
+  </script>
 </body>
 </html>
