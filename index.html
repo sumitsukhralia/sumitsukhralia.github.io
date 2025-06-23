@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Site Under Maintenance</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+  <title>Site Under Maintenance</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     * {
       margin: 0;
@@ -17,92 +17,305 @@
       height: 100vh;
       width: 100vw;
       font-family: 'Poppins', sans-serif;
-      background: #888888; /* Grey background */
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      overflow: hidden;
+      position: relative;
       display: flex;
       justify-content: center;
       align-items: center;
-      overflow: hidden;
-      position: relative;
+    }
+
+    /* Background with blur and tint */
+    .background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('https://images.unsplash.com/photo-1497366754035-f200968a6e72?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1800&q=80');
+      background-size: cover;
+      background-position: center;
+      filter: blur(8px) brightness(0.4);
+      z-index: -1;
     }
 
     .overlay {
       position: absolute;
       inset: 0;
-      background: rgba(0, 0, 0, 0.55);  /* Black tint */
-      backdrop-filter: blur(6px);       /* Soft blur */
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(6px);
       display: flex;
       justify-content: center;
       align-items: center;
+      padding: 20px;
     }
 
     .content {
-      background: rgba(0, 0, 0, 0.3);
-      color: white;
-      padding: 30px 40px;
+      background: rgba(25, 25, 45, 0.7);
+      color: #fff;
+      padding: 40px 50px;
       border-radius: 20px;
-      box-shadow: 0 0 25px rgba(153, 102, 204, 0.4);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
       text-align: center;
+      max-width: 600px;
+      width: 90%;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+      z-index: 2;
+    }
+
+    .content::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(153, 102, 204, 0.1) 0%, transparent 70%);
+      z-index: -1;
+      animation: rotate 15s linear infinite;
     }
 
     h1 {
-      font-size: 2rem;
-      margin-bottom: 10px;
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      color: #e0e0ff;
+      font-weight: 600;
+    }
+
+    h1 i {
+      margin-right: 12px;
+      color: #9c7bff;
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      color: #c0c0e0;
+      line-height: 1.6;
+      font-weight: 300;
     }
 
     #countdown {
-      font-size: 1.6rem;
-      font-weight: bold;
+      font-size: 1.8rem;
+      font-weight: 500;
       letter-spacing: 1px;
-      margin-top: 10px;
+      margin: 25px 0;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 12px;
+      display: inline-block;
+      min-width: 300px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .countdown-item {
+      display: inline-block;
+      min-width: 70px;
+      padding: 10px;
+      margin: 0 5px;
+      background: rgba(153, 102, 204, 0.2);
+      border-radius: 8px;
+      position: relative;
+    }
+
+    .countdown-label {
+      display: block;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-top: 5px;
+      color: #aaaaff;
+    }
+
+    .contact {
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .contact p {
+      margin-bottom: 15px;
+      color: #b0b0d0;
+    }
+
+    .contact-email {
+      color: #9c7bff;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .contact-email:hover {
+      color: #b89cff;
+      text-decoration: underline;
+    }
+
+    .social-links {
+      margin-top: 20px;
+    }
+
+    .social-links a {
+      display: inline-block;
+      width: 45px;
+      height: 45px;
+      line-height: 45px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.08);
+      color: #9c7bff;
+      border-radius: 50%;
+      margin: 0 8px;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+    }
+
+    .social-links a:hover {
+      background: #9c7bff;
+      color: #fff;
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(156, 123, 255, 0.4);
+    }
+
+    .progress-container {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      margin: 25px 0;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 65%;
+      background: linear-gradient(90deg, #7b5fff, #9c7bff);
+      border-radius: 4px;
+      transition: width 0.5s ease;
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 768px) {
+      .content {
+        padding: 30px;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+      
+      #countdown {
+        font-size: 1.4rem;
+        min-width: 260px;
+      }
+      
+      .countdown-item {
+        min-width: 55px;
+        padding: 8px;
+      }
     }
 
     @media (max-width: 480px) {
       .content {
-        padding: 20px;
+        padding: 25px 20px;
       }
-
+      
       h1 {
-        font-size: 1.5rem;
+        font-size: 1.7rem;
       }
-
+      
+      .subtitle {
+        font-size: 1rem;
+      }
+      
       #countdown {
         font-size: 1.2rem;
+        min-width: 230px;
+      }
+      
+      .countdown-item {
+        min-width: 45px;
+        padding: 6px;
+        margin: 0 2px;
+      }
+      
+      .countdown-label {
+        font-size: 0.6rem;
       }
     }
   </style>
 </head>
 <body>
+  <!-- Background with blur and tint -->
+  <div class="background"></div>
+  
   <div class="overlay">
     <div class="content">
-      <h1>🚧 Site Under Maintenance</h1>
+      <h1><i class="fas fa-tools"></i> Site Under Maintenance</h1>
+      <p class="subtitle">We're currently performing scheduled maintenance to improve your experience. Thank you for your patience.</p>
+      
+      <div class="progress-container">
+        <div class="progress-bar"></div>
+      </div>
+      
       <p>We'll be back in:</p>
-      <div id="countdown"></div>
+      <div id="countdown">
+        <span class="countdown-item"><span id="days">00</span><span class="countdown-label">Days</span></span>
+        <span class="countdown-item"><span id="hours">00</span><span class="countdown-label">Hours</span></span>
+        <span class="countdown-item"><span id="minutes">00</span><span class="countdown-label">Mins</span></span>
+        <span class="countdown-item"><span id="seconds">00</span><span class="countdown-label">Secs</span></span>
+      </div>
+      
+      <div class="contact">
+        <p>For urgent inquiries, please contact us:</p>
+        <a href="mailto:support@example.com" class="contact-email">support@example.com</a>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
     </div>
   </div>
 
   <script>
-    // Set shutdownEndDate to 15 days from now
-    const shutdownEndDate = new Date();
-    shutdownEndDate.setDate(shutdownEndDate.getDate() + 15);
-
+    // Set end time in localStorage if not already set
+    if (!localStorage.getItem('maintenanceEnd')) {
+      const endDate = new Date();
+      endDate.setDate(endDate.getDate() + 15); // 15 days from now
+      localStorage.setItem('maintenanceEnd', endDate.getTime());
+    }
+    
+    // Get the end time from localStorage
+    const endTime = parseInt(localStorage.getItem('maintenanceEnd'));
+    
     function updateCountdown() {
       const now = new Date().getTime();
-      const distance = shutdownEndDate - now;
-
+      const distance = endTime - now;
+      
       if (distance < 0) {
-        document.getElementById("countdown").innerHTML = "We're back online!";
+        document.getElementById("countdown").innerHTML = "<div class='back-soon'>We're back online!</div>";
         return;
       }
-
+      
       const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
-      const minutes = Math.floor((distance / (1000 * 60)) % 60);
-      const seconds = Math.floor((distance / 1000) % 60);
-
-      document.getElementById("countdown").innerHTML =
-        `${days}d ${hours}h ${minutes}m ${seconds}s`;
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      
+      document.getElementById("days").textContent = days.toString().padStart(2, '0');
+      document.getElementById("hours").textContent = hours.toString().padStart(2, '0');
+      document.getElementById("minutes").textContent = minutes.toString().padStart(2, '0');
+      document.getElementById("seconds").textContent = seconds.toString().padStart(2, '0');
     }
-
+    
+    // Update every second
     setInterval(updateCountdown, 1000);
     updateCountdown();
   </script>
