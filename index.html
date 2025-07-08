@@ -26,12 +26,8 @@
       backdrop-filter: blur(4px);
       z-index: -1;
     }
-    .dark-mode::before {
-      background: rgba(0, 0, 0, 0.9);
-    }
-    .dark-mode {
-      background: #000;
-    }
+    .dark-mode::before { background: rgba(0, 0, 0, 0.9); }
+    .dark-mode { background: #000; }
     .container {
       max-width: 600px;
       margin: 0 auto;
@@ -47,10 +43,7 @@
       object-fit: cover;
       border: 4px solid white;
     }
-    h1 {
-      margin: 15px 0 5px;
-      font-size: 2.5rem;
-    }
+    h1 { margin: 15px 0 5px; font-size: 2.5rem; }
     .tech-stack {
       margin-top: 15px;
       display: flex;
@@ -94,6 +87,18 @@
       font-family: monospace;
       max-width: 100%;
       white-space: pre-line;
+      cursor: pointer;
+    }
+    .glitch {
+      animation: glitch 1s infinite;
+    }
+    @keyframes glitch {
+      0% { text-shadow: 2px 0 red, -2px 0 blue; }
+      20% { text-shadow: -2px 0 red, 2px 0 blue; }
+      40% { text-shadow: 2px 0 red, -2px 0 blue; }
+      60% { text-shadow: -2px 0 red, 2px 0 blue; }
+      80% { text-shadow: 2px 0 red, -2px 0 blue; }
+      100% { text-shadow: 0 0 black; }
     }
     .quote {
       margin-top: 40px;
@@ -101,193 +106,89 @@
       font-size: 1rem;
       transition: opacity 0.5s ease-in-out;
     }
-    #contactForm {
-      display: none;
-      margin-top: 30px;
-    }
-    input, textarea {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border-radius: 6px;
-      border: none;
-    }
-    .projects {
-      margin-top: 40px;
-      background: rgba(0,0,0,0.3);
-      padding: 20px;
-      border-radius: 10px;
-    }
-    footer {
-      background: rgba(255, 255, 255, 0.05);
-      color: white;
-      text-align: center;
-      padding: 20px 0;
-      margin-top: 50px;
-      font-size: 0.95rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    .glitch-label {
+      font-size: 0.9rem;
+      margin-top: 8px;
+      color: #ff00ff;
     }
   </style>
 </head>
-
 <body>
-
-<!-- 🔥 Cursor Trail Canvas -->
-<canvas id="cursor-trail"></canvas>
-<div style="
-  position: fixed;
-  top: 15px;
-  left: 50%;
-  transform: translateX(-50%);
-  color: white;
-  font-family: monospace;
-  font-size: 0.9rem;
-  z-index: 999;
-  pointer-events: none;
-  background: rgba(0,0,0,0.3);
-  padding: 5px 12px;
-  border-radius: 8px;
-  backdrop-filter: blur(3px);
-">Move your cursor... AI is watching 👁️</div>
-
   <div class="container">
     <img src="your-photo.jpg" alt="Sumit Sukhralia" class="profile-img">
     <h1>Sumit Sukhralia</h1>
 
+    <div class="glitch-label">👁️ AI is watching. Tap the terminal to begin.</div>
     <div class="terminal" id="terminal">
 user@sumit:~$ whoami  
-19 • Beyond Curriculum 
-From Biochem to Backend
+19 • Beyond Curriculum  
+From Biochem to Backend  
 404: Limit Not Found    
     </div>
 
     <div class="tech-stack">
-      <span>HTML5</span><span>CSS3</span><span>JavaScript</span><span>React.js</span><span>Node.js</span><span>MongoDB</span><span>Git & GitHub</span>
+      <span>HTML5</span>
+      <span>CSS3</span>
+      <span>JavaScript</span>
+      <span>React.js</span>
+      <span>Node.js</span>
+      <span>MongoDB</span>
+      <span>Git & GitHub</span>
     </div>
 
     <div class="buttons">
       <a href="https://instagram.com/sumitsukhralia" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
       <a href="https://github.com/sumitsukhralia" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+      <a href="mailto:SUMITxNEUROBYTE@proton.me"><i class="fas fa-handshake"></i> Let’s Collaborate</a>
       <a href="mailto:SUMITxNEUROBYTE@proton.me"><i class="fas fa-envelope"></i> Email Me</a>
+      <a href="#"><i class="fas fa-code"></i> NeuroByte — Coming Soon</a>
       <button class="toggle-dark" onclick="toggleDarkMode()"><i class="fas fa-moon"></i> Toggle Dark Mode</button>
     </div>
 
-    <form id="contactForm">
-      <input type="text" placeholder="Your Name" required>
-      <input type="email" placeholder="Your Email" required>
-      <textarea rows="4" placeholder="Your Message"></textarea>
-      <button type="submit">Send</button>
-    </form>
-
     <div class="quote" id="quoteBox">"Ctrl your mind. Alt your path. Del the limits."</div>
-
-    <div class="projects">
-      <h3>🚧 Projects Incoming</h3>
-      <p>Currently building — this space will soon be filled with awesome work!</p>
-    </div>
   </div>
 
-  <footer>
-    <p>&copy; 2025 <strong>Sumit Sukhralia</strong>. All rights reserved.</p>
-    <div class="socials">
-      <a href="https://github.com/sumitsukhralia" target="_blank">GitHub</a> |
-      <a href="https://instagram.com/sumitsukhralia" target="_blank">Instagram</a> |
-      <a href="https://twitter.com/sumitsukhralia" target="_blank">Twitter</a>
-    </div>
-  </footer>
+  <script>
+    const terminal = document.getElementById("terminal");
+    terminal.addEventListener("click", () => {
+      terminal.classList.add("glitch");
+      setTimeout(() => {
+        terminal.classList.remove("glitch");
+      }, 2000);
+    });
 
-<script>
-  const quotes = [
-    "Ctrl your mind. Alt your path. Del the limits.",
-    "Binary vision in an analog world.",
-    "Life is a loop — until you break the pattern.",
-    "Debugging reality since 2005.",
-    "Even the darkest themes hold light in their syntax.",
-    "Glitches aren’t flaws. They’re paths to truth.",
-    "Beyond grades, beyond norms.",
-    "From labs to loops.",
-    "Code isn't just logic, it's legacy."
-  ];
-  let quoteIndex = 0;
-  setInterval(() => {
-    quoteIndex = (quoteIndex + 1) % quotes.length;
-    const quoteBox = document.getElementById('quoteBox');
-    quoteBox.style.opacity = 0;
-    setTimeout(() => {
-      quoteBox.innerText = quotes[quoteIndex];
-      quoteBox.style.opacity = 1;
-    }, 500);
-  }, 5000);
+    const quotes = [
+      "Ctrl your mind. Alt your path. Del the limits.",
+      "Binary vision in an analog world.",
+      "Life is a loop — until you break the pattern.",
+      "Debugging reality since 2005.",
+      "Even the darkest themes hold light in their syntax.",
+      "Glitches aren’t flaws. They’re paths to truth.",
+      "Beyond grades, beyond norms.",
+      "From labs to loops.",
+      "Code isn't just logic, it's legacy."
+    ];
+    let quoteIndex = 0;
+    setInterval(() => {
+      quoteIndex = (quoteIndex + 1) % quotes.length;
+      const quoteBox = document.getElementById('quoteBox');
+      quoteBox.style.opacity = 0;
+      setTimeout(() => {
+        quoteBox.innerText = quotes[quoteIndex];
+        quoteBox.style.opacity = 1;
+      }, 500);
+    }, 60000);
 
-  function toggleDarkMode() {
-    document.body.classList.toggle('dark-mode');
-    localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-  }
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+      localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+    }
 
-  window.onload = () => {
-    const dark = localStorage.getItem('darkMode') === 'true';
-    if (dark) document.body.classList.add('dark-mode');
-  }
-
-  // 🔥 Cursor Trail Animation Script
-  const canvas = document.getElementById('cursor-trail');
-  const ctx = canvas.getContext('2d');
-  let width, height;
-  let particles = [];
-  function resize() {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
-  }
-  resize();
-  window.addEventListener('resize', resize);
-
-  function Particle(x, y) {
-    this.x = x;
-    this.y = y;
-    this.radius = Math.random() * 3 + 1;
-    this.alpha = 1;
-    this.speedX = (Math.random() - 0.5) * 2;
-    this.speedY = (Math.random() - 0.5) * 2;
-  }
-
-  Particle.prototype.update = function() {
-    this.x += this.speedX;
-    this.y += this.speedY;
-    this.alpha -= 0.01;
-  };
-
-  Particle.prototype.draw = function() {
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-    ctx.fillStyle = "rgba(255, 255, 255," + this.alpha + ")";
-    ctx.fill();
-  };
-
-  function animate() {
-    ctx.clearRect(0, 0, width, height);
-    for (let i = particles.length - 1; i >= 0; i--) {
-      particles[i].update();
-      particles[i].draw();
-      if (particles[i].alpha <= 0) {
-        particles.splice(i, 1);
+    window.onload = () => {
+      if (localStorage.getItem('darkMode') === 'true') {
+        document.body.classList.add('dark-mode');
       }
     }
-    requestAnimationFrame(animate);
-  }
-  animate();
-
-  document.addEventListener('mousemove', function(e) {
-    for (let i = 0; i < 5; i++) {
-      particles.push(new Particle(e.clientX, e.clientY));
-    }
-  });
-
-  canvas.style.position = 'fixed';
-  canvas.style.top = '0';
-  canvas.style.left = '0';
-  canvas.style.zIndex = '0';
-  canvas.style.pointerEvents = 'none';
-</script>
-
+  </script>
 </body>
 </html>
