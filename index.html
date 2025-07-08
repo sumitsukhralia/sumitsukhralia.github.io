@@ -402,9 +402,97 @@ From Biochem to Backend
 
     <div class="projects">
 
-      <div><h3>Quote Generator</h3>
-<p>Random Life-changing quotes every click-soon🚧</p>
 
+<div class="project-card ai-coming-soon" style="
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  padding: 25px;
+  border-radius: 12px;
+  margin-top: 30px;
+  text-align: center;
+  animation: pulse-shadow 2s infinite alternate;
+">
+
+  <h3 style="color: #9966cc; margin-bottom: 12px;">🤖 neu*****te AI — Coming Soon</h3>
+
+  <p style="color: #ccc; font-style: italic; font-size: 0.95rem;">
+    A project that challenges what's possible with human-AI interaction.<br>
+    <em>The boundaries will blur. Stay curious. Stay tuned.</em>
+  </p>
+
+  <div class="tease-box" style="
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+  ">
+    <span class="dot" style="
+      width: 8px;
+      height: 8px;
+      background: #9966cc;
+      border-radius: 50%;
+      animation: blink 1.2s infinite ease-in-out alternate;
+    "></span>
+
+    <span class="dot" style="
+      width: 8px;
+      height: 8px;
+      background: #9966cc;
+      border-radius: 50%;
+      animation: blink 1.2s infinite ease-in-out alternate;
+      animation-delay: 0.2s;
+    "></span>
+
+    <span class="dot" style="
+      width: 8px;
+      height: 8px;
+      background: #9966cc;
+      border-radius: 50%;
+      animation: blink 1.2s infinite ease-in-out alternate;
+      animation-delay: 0.4s;
+    "></span>
+
+    <span class="text" id="aiTease" style="
+      margin-left: 10px;
+      color: #aaa;
+      font-family: monospace;
+      font-size: 0.9rem;
+    ">Initializing...</span>
+  </div>
+
+  <!-- Embedded CSS Animation -->
+  <style>
+    @keyframes blink {
+      from { opacity: 0.2; }
+      to { opacity: 1; }
+    }
+
+    @keyframes pulse-shadow {
+      from { box-shadow: 0 0 10px #9966cc33; }
+      to { box-shadow: 0 0 20px #9966cc88; }
+    }
+  </style>
+
+  <!-- Embedded JS for Typing Effect -->
+  <script>
+    const messages = [
+      "Initializing...",
+      "Waking neural core...",
+      "Connecting consciousness...",
+      "Decoding thoughts...",
+      "Compiling intuition...",
+      "Deploying self-awareness...",
+      "Spawning sentience...",
+    ];
+    let index = 0;
+    setInterval(() => {
+      document.getElementById("aiTease").textContent = messages[index];
+      index = (index + 1) % messages.length;
+    }, 3000);
+  </script>
+
+</div>
 
         
       <h3>🚧 Projects Incoming</h3>
