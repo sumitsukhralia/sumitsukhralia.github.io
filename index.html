@@ -1,877 +1,240 @@
-
-<DOCTYPE html>
-
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-
   <meta charset="UTF-8" />
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>Sumit Sukhralia | NeuroByte</title>
-
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
   <style>
-
     body {
-
       margin: 0;
-
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-
       background: url('your-photo.jpg') no-repeat center center fixed;
-
       background-size: cover;
-
       overflow-x: hidden;
-
       position: relative;
-
       color: white;
-
     }
-
-
-
     body::before {
-
       content: "";
-
       position: fixed;
-
       top: 0;
-
       left: 0;
-
       width: 100%;
-
       height: 100%;
-
       background: rgba(0, 0, 0, 0.6);
-
       backdrop-filter: blur(4px);
-
       z-index: -1;
-
     }
-
-
-
-    .dark-mode::before {
-
-      background: rgba(0, 0, 0, 0.9);
-
-    }
-
-
-
-    .dark-mode {
-
-      background: #000;
-
-    }
-
-
-
+    .dark-mode::before { background: rgba(0, 0, 0, 0.9); }
+    .dark-mode { background: #000; }
     .container {
-
       max-width: 600px;
-
       margin: 0 auto;
-
       text-align: center;
-
       padding: 40px 20px;
-
       position: relative;
-
       z-index: 1;
-
     }
-
-
-
     .profile-img {
-
       width: 140px;
-
       height: 140px;
-
       border-radius: 50%;
-
       object-fit: cover;
-
       border: 4px solid white;
-
     }
-
-
-
-    h1 {
-
-      margin: 15px 0 5px;
-
-      font-size: 2.5rem;
-
-    }
-
-
-
+    h1 { margin: 15px 0 5px; font-size: 2.5rem; }
     .tech-stack {
-
       margin-top: 15px;
-
       display: flex;
-
       flex-wrap: wrap;
-
       justify-content: center;
-
       gap: 12px;
-
     }
-
-
-
     .tech-stack span {
-
       background: rgba(255, 255, 255, 0.1);
-
       padding: 6px 12px;
-
       border-radius: 20px;
-
       font-size: 0.9rem;
-
     }
-
-
-
     .buttons {
-
       margin-top: 25px;
-
       display: flex;
-
       flex-direction: column;
-
       gap: 15px;
-
       align-items: center;
-
     }
-
-
-
-    .buttons a, .toggle-dark, .disabled-btn {
-
+    .buttons a, .toggle-dark {
       background: rgba(255, 255, 255, 0.15);
-
       color: white;
-
       padding: 12px 24px;
-
       border-radius: 30px;
-
       text-decoration: none;
-
       display: inline-flex;
-
       align-items: center;
-
       gap: 10px;
-
       border: 1px solid rgba(255,255,255,0.2);
-
       transition: all 0.3s ease;
-
     }
-
-
-
     .buttons a:hover, .toggle-dark:hover {
-
       background: rgba(255, 255, 255, 0.25);
-
     }
-
-
-
-    .disabled-btn {
-
-      opacity: 0.5;
-
-      cursor: not-allowed;
-
-    }
-
-
-
     .terminal {
-
       background: rgba(0, 0, 0, 0.4);
-
       padding: 25px;
-
       border-radius: 10px;
-
       margin-top: 30px;
-
       font-family: monospace;
-
       max-width: 100%;
-
       white-space: pre-line;
-
     }
-
-
-
     .quote {
-
       margin-top: 40px;
-
       font-style: italic;
-
       font-size: 1rem;
-
       transition: opacity 0.5s ease-in-out;
-
     }
-
-
-
-    #contactForm {
-
-      display: none;
-
-      margin-top: 30px;
-
-    }
-
-
-
     input, textarea {
-
       width: 100%;
-
       padding: 10px;
-
       margin: 10px 0;
-
       border-radius: 6px;
-
       border: none;
-
     }
-
-
-
     .projects {
-
       margin-top: 40px;
-
       background: rgba(0,0,0,0.3);
-
       padding: 20px;
-
       border-radius: 10px;
-
     }
-
-  </style>
-
-</head>
-
-<body>
-
-  <div class="container">
-
-    <img src="your-photo.jpg" alt="Sumit Sukhralia" class="profile-img">
-
-    <h1>Sumit Sukhralia</h1>
-
-
-
-    <div class="terminal" id="terminal">
-
-user@sumit:~$ whoami  
-
-19 • Beyond Curriculum 
-
-From Biochem to Backend
-
-404: Limit Not Found    
-
-    </div>
-
-
-
-    <div class="tech-stack">
-
-      <span>HTML5</span>
-
-      <span>CSS3</span>
-
-      <span>JavaScript</span>
-
-      <span>React.js</span>
-
-      <span>Node.js</span>
-
-      <span>MongoDB</span>
-
-      <span>Git & GitHub</span>
-
-    </div>
-
-    <div class="buttons">
-
-  <a href="https://instagram.com/sumitsukhralia" target="_blank">
-
-    <i class="fab fa-instagram"></i> Instagram
-
-  </a>
-
-
-
-  <a href="https://github.com/sumitsukhralia" target="_blank">
-
-    <i class="fab fa-github"></i> GitHub
-
-  </a>
-
-
-
-  <a href="mailto:SUMITxNEUROBYTE@proton.me?subject=Collab with Sumit&body=Hey Sumit, I checked out your portfolio and would love to collaborate on...">
-
-    <i class="fas fa-handshake"></i> Let’s Collaborate
-
-  </a>
-
-
-
-  <a href="mailto:SUMITxNEUROBYTE@proton.me?subject=Let's Connect&body=Hi Sumit, I came across your website and wanted to reach out about...">
-
-    <i class="fas fa-envelope"></i> Email Me
-
-  </a>
-
-
-
-  <a href="#" class="neurobyte-btn">
-
-    <i class="fas fa-code"></i> NeuroByte — Coming Soon
-
-  </a>
-
-
-
-  <button class="toggle-dark" onclick="toggleDarkMode()">
-
-    <i class="fas fa-moon"></i> Toggle Dark Mode
-
-  </button>
-
-</div>
-
-
-
-    <form id="contactForm">
-
-      <input type="text" placeholder="Your Name" required>
-
-      <input type="email" placeholder="Your Email" required>
-
-      <textarea rows="4" placeholder="Your Message"></textarea>
-
-      <button type="submit">Send</button>
-
-    </form>
-
-
-
-    <div class="quote" id="quoteBox">
-
-      "Ctrl your mind. Alt your path. Del the limits."
-
-    </div>
-
-
-    <div class="projects">
-
-
-<div class="project-card ai-coming-soon" style="
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px dashed rgba(255, 255, 255, 0.2);
-  padding: 25px;
-  border-radius: 12px;
-  margin-top: 30px;
-  text-align: center;
-  animation: pulse-shadow 2s infinite alternate;
-">
-
-  <h3 style="color: #9966cc; margin-bottom: 12px;">🤖 neu*****te AI — Coming Soon</h3>
-
-  <p style="color: #ccc; font-style: italic; font-size: 0.95rem;">
-    A project that challenges what's possible with human-AI interaction.<br>
-    <em>The boundaries will blur. Stay curious. Stay tuned.</em>
-  </p>
-
-  <div class="tease-box" style="
-    margin-top: 15px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-  ">
-    <span class="dot" style="
-      width: 8px;
-      height: 8px;
-      background: #9966cc;
-      border-radius: 50%;
-      animation: blink 1.2s infinite ease-in-out alternate;
-    "></span>
-
-    <span class="dot" style="
-      width: 8px;
-      height: 8px;
-      background: #9966cc;
-      border-radius: 50%;
-      animation: blink 1.2s infinite ease-in-out alternate;
-      animation-delay: 0.2s;
-    "></span>
-
-    <span class="dot" style="
-      width: 8px;
-      height: 8px;
-      background: #9966cc;
-      border-radius: 50%;
-      animation: blink 1.2s infinite ease-in-out alternate;
-      animation-delay: 0.4s;
-    "></span>
-
-    <span class="text" id="aiTease" style="
-      margin-left: 10px;
-      color: #aaa;
-      font-family: monospace;
-      font-size: 0.9rem;
-    ">Initializing...</span>
-  </div>
-
-  <!-- Embedded CSS Animation -->
-  <style>
     @keyframes blink {
       from { opacity: 0.2; }
       to { opacity: 1; }
     }
-
-    @keyframes pulse-shadow {
-      from { box-shadow: 0 0 10px #9966cc33; }
-      to { box-shadow: 0 0 20px #9966cc88; }
-    }
-  </style>
-
-  <!-- Embedded JS for Typing Effect -->
-  <script>
-    const messages = [
-      "Initializing...",
-      "Waking neural core...",
-      "Connecting consciousness...",
-      "Decoding thoughts...",
-      "Compiling intuition...",
-      "Deploying self-awareness...",
-      "Spawning sentience...",
-    ];
-    let index = 0;
-    setInterval(() => {
-      document.getElementById("aiTease").textContent = messages[index];
-      index = (index + 1) % messages.length;
-    }, 3000);
-  </script>
-
-</div>
-
-        
-      <h3>🚧 Projects Incoming</h3>
-
-      <p>Currently building — this space will soon be filled with awesome work!</p>
-
-    </div>
-
-  </div>
-
-
-
-  <script>
-
-    const quotes = [
-
-      "Ctrl your mind. Alt your path. Del the limits.",
-
-      "Binary vision in an analog world.",
-
-      "Life is a loop — until you break the pattern.",
-
-      "Debugging reality since 2005.",
-
-      "Even the darkest themes hold light in their syntax.",
-
-      "Glitches aren’t flaws. They’re paths to truth.",
-
-      "Beyond grades, beyond norms.",
-
-      "From labs to loops.",
-
-      "Code isn't just logic, it's legacy."
-
-    ];
-
-
-
-    let quoteIndex = 0;
-
-    setInterval(() => {
-
-      quoteIndex = (quoteIndex + 1) % quotes.length;
-
-      const quoteBox = document.getElementById('quoteBox');
-
-      quoteBox.style.opacity = 0;
-
-      setTimeout(() => {
-
-        quoteBox.innerText = quotes[quoteIndex];
-
-        quoteBox.style.opacity = 1;
-
-      }, 500);
-
-    }, 60000);
-
-
-
-    function toggleDarkMode() {
-
-      document.body.classList.toggle('dark-mode');
-
-      localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-
-    }
-
-
-
-    function toggleContactForm() {
-
-      const form = document.getElementById("contactForm");
-
-      form.style.display = form.style.display === "none" || form.style.display === "" ? "block" : "none";
-
-    }
-
-
-
-    window.onload = () => {
-
-      const dark = localStorage.getItem('darkMode') === 'true';
-
-      if (dark) document.body.classList.add('dark-mode');
-
-    }
-
-  </script>
-<!-- ⚡ Footer -->
-  <footer>
-    <p>&copy; 2025 <strong>Sumit Sukhralia</strong>. All rights reserved.</p>
-    <div class="socials">
-      <a href="https://github.com/sumitsukhralia" target="_blank">
-        <i class="fab fa-github"></i> GitHub
-      </a>
-      <a href="https://instagram.com/sumitsukhralia" target="_blank">
-        <i class="fab fa-instagram"></i> Instagram
-      </a>
-      <a href="https://twitter.com/sumitsukhralia" target="_blank">
-        <i class="fab fa-twitter"></i> TwitterC<div class="project-card ai-coming-soon" style="
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px dashed rgba(255, 255, 255, 0.2);
-  padding: 25px;
-  border-radius: 12px;
-  margin-top: 30px;
-  text-align: center;
-  animation: pulse-shadow 2s infinite alternate;
-">
-
-  <h3 style="color: #9966cc; margin-bottom: 12px;">🤖 neu*****te AI — Coming Soon</h3>
-
-  <p style="color: #ccc; font-style: italic; font-size: 0.95rem;">
-    A project that challenges what's possible with human-AI interaction.<br>
-    <em>The boundaries will blur. Stay curious. Stay tuned.</em>
-  </p>
-
-  <div class="tease-box" style="
-    margin-top: 15px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-  ">
-    <span class="dot" style="
-      width: 8px;
-      height: 8px;
-      background: #9966cc;
-      border-radius: 50%;
-      animation: blink 1.2s infinite ease-in-out alternate;
-    "></span>
-
-    <span class="dot" style="
-      width: 8px;
-      height: 8px;
-      background: #9966cc;
-      border-radius: 50%;
-      animation: blink 1.2s infinite ease-in-out alternate;
-      animation-delay: 0.2s;
-    "></span>
-
-    <span class="dot" style="
-      width: 8px;
-      height: 8px;
-      background: #9966cc;
-      border-radius: 50%;
-      animation: blink 1.2s infinite ease-in-out alternate;
-      animation-delay: 0.4s;
-    "></span>
-
-    <span class="text" id="aiTease" style="
-      margin-left: 10px;
-      color: #aaa;
-      font-family: monospace;
-      font-size: 0.9rem;
-    ">Initializing...</span>
-  </div>
-
-  <!-- Embedded CSS Animation -->
-  <style>
-    @keyframes blink {
-      from { opacity: 0.2; }
-      to { opacity: 1; }
-    }
-
-    @keyframes pulse-shadow {
-      from { box-shadow: 0 0 10px #9966cc33; }
-      to { box-shadow: 0 0 20px #9966cc88; }
-    }
-  </style>
-
-  <!-- Embedded JS for Typing Effect -->
-  <script>
-    const messages = [
-      "Initializing...",
-      "Waking neural core...",
-      "Connecting consciousness...",
-      "Decoding thoughts...",
-      "Compiling intuition...",
-      "Deploying self-awareness...",
-      "Spawning sentience...",
-    ];
-    let index = 0;
-    setInterval(() => {
-      document.getElementById("aiTease").textContent = messages[index];
-      index = (index + 1) % messages.length;
-    }, 3000);
-  </script>
-
-</div>
-<div class="project-card ai-coming-soon" style="
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px dashed rgba(255, 255, 255, 0.2);
-  padding: 25px;
-  border-radius: 12px;
-  margin-top: 30px;
-  text-align: center;
-  animation: pulse-shadow 2s infinite alternate;
-">
-
-  <h3 style="color: #9966cc; margin-bottom: 12px;">🤖 neu*****te AI — Coming Soon</h3>
-
-  <p style="color: #ccc; font-style: italic; font-size: 0.95rem;">
-    A project that challenges what's possible with human-AI interaction.<br>
-    <em>The boundaries will blur. Stay curious. Stay tuned.</em>
-  </p>
-
-  <div class="tease-box" style="
-    margin-top: 15px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-  ">
-    <span class="dot" style="
-      width: 8px;
-      height: 8px;
-      background: #9966cc;
-      border-radius: 50%;
-      animation: blink 1.2s infinite ease-in-out alternate;
-    "></span>
-
-    <span class="dot" style="
-      width: 8px;
-      height: 8px;
-      background: #9966cc;
-      border-radius: 50%;
-      animation: blink 1.2s infinite ease-in-out alternate;
-      animation-delay: 0.2s;
-    "></span>
-
-    <span class="dot" style="
-      width: 8px;
-      height: 8px;
-      background: #9966cc;
-      border-radius: 50%;
-      animation: blink 1.2s infinite ease-in-out alternate;
-      animation-delay: 0.4s;
-    "></span>
-
-    <span class="text" id="aiTease" style="
-      margin-left: 10px;
-      color: #aaa;
-      font-family: monospace;
-      font-size: 0.9rem;
-    ">Initializing...</span>
-  </div>
-
-  <!-- Embedded CSS Animation -->
-  <style>
-    @keyframes blink {
-      from { opacity: 0.2; }
-      to { opacity: 1; }
-    }
-
-    @keyframes pulse-shadow {
-      from { box-shadow: 0 0 10px #9966cc33; }
-      to { box-shadow: 0 0 20px #9966cc88; }
-    }
-  </style>
-
-  <!-- Embedded JS for Typing Effect -->
-  <script>
-    const messages = [
-      "Initializing...",
-      "Waking neural core...",
-      "Connecting consciousness...",
-      "Decoding thoughts...",
-      "Compiling intuition...",
-      "Deploying self-awareness...",
-      "Spawning sentience...",
-    ];
-    let index = 0;
-    setInterval(() => {
-      document.getElementById("aiTease").textContent = messages[index];
-      index = (index + 1) % messages.length;
-    }, 3000);
-  </script>
-
-<div class="project-card ai-coming-soon" style="
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px dashed rgba(255, 255, 255, 0.2);
-  padding: 25px;
-  border-radius: 12px;
-  margin-top: 30px;
-  text-align: center;
-  animation: pulse-shadow 2s infinite alternate;
-">
-
-  <h3 style="color: white; margin-bottom: 12px;">🤖 neu*****te AI — Coming Soon</h3>
-
-  <p style="color: #ccc; font-style: italic; font-size: 0.95rem;">
-    A project that challenges what's possible with human-AI interaction.<br>
-    <em>The boundaries will blur. Stay curious. Stay tuned.</em>
-  </p>
-
-  <div class="tease-box" style="
-    margin-top: 15px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-  ">
-    <span class="dot" style="
-      width: 8px;
-      height: 8px;
-      background: white;
-      border-radius: 50%;
-      animation: blink 1.2s infinite ease-in-out alternate;
-    "></span>
-
-    <span class="dot" style="
-      width: 8px;
-      height: 8px;
-      background: white;
-      border-radius: 50%;
-      animation: blink 1.2s infinite ease-in-out alternate;
-      animation-delay: 0.2s;
-    "></span>
-
-    <span class="dot" style="
-      width: 8px;
-      height: 8px;
-      background: white;
-      border-radius: 50%;
-      animation: blink 1.2s infinite ease-in-out alternate;
-      animation-delay: 0.4s;
-    "></span>
-
-    <span class="text" id="aiTease" style="
-      margin-left: 10px;
-      color: white;
-      font-family: monospace;
-      font-size: 0.9rem;
-    ">Initializing...</span>
-  </div>
-
-  <!-- Embedded CSS Animation -->
-  <style>
-    @keyframes blink {
-      from { opacity: 0.2; }
-      to { opacity: 1; }
-    }
-
     @keyframes pulse-shadow {
       from { box-shadow: 0 0 10px rgba(255,255,255,0.2); }
       to { box-shadow: 0 0 20px rgba(255,255,255,0.4); }
     }
   </style>
+</head>
 
-  <!-- Embedded JS for Typing Effect -->
+<body>
+  <div class="container">
+    <img src="your-photo.jpg" alt="Sumit Sukhralia" class="profile-img">
+    <h1>Sumit Sukhralia</h1>
+
+    <div class="terminal" id="terminal">
+user@sumit:~$ whoami  
+19 • Beyond Curriculum  
+From Biochem to Backend  
+404: Limit Not Found    
+    </div>
+
+    <div class="tech-stack">
+      <span>HTML5</span>
+      <span>CSS3</span>
+      <span>JavaScript</span>
+      <span>React.js</span>
+      <span>Node.js</span>
+      <span>MongoDB</span>
+      <span>Git & GitHub</span>
+    </div>
+
+    <div class="buttons">
+      <a href="https://instagram.com/sumitsukhralia" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+      <a href="https://github.com/sumitsukhralia" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+      <a href="mailto:SUMITxNEUROBYTE@proton.me"><i class="fas fa-handshake"></i> Let’s Collaborate</a>
+      <a href="mailto:SUMITxNEUROBYTE@proton.me"><i class="fas fa-envelope"></i> Email Me</a>
+      <a href="#"><i class="fas fa-code"></i> NeuroByte — Coming Soon</a>
+      <button class="toggle-dark" onclick="toggleDarkMode()"><i class="fas fa-moon"></i> Toggle Dark Mode</button>
+    </div>
+
+    <div class="quote" id="quoteBox">"Ctrl your mind. Alt your path. Del the limits."</div>
+
+    <div class="projects">
+      <div class="project-card ai-coming-soon" style="background: rgba(255, 255, 255, 0.04); border: 1px dashed rgba(255, 255, 255, 0.2); padding: 25px; border-radius: 12px; margin-top: 30px; text-align: center; animation: pulse-shadow 2s infinite alternate;">
+        <h3 style="color: white; margin-bottom: 12px;">🤖 neu*****te AI — Coming Soon</h3>
+        <p style="color: #ccc; font-style: italic; font-size: 0.95rem;">
+          A project that challenges what's possible with human-AI interaction.<br>
+          <em>The boundaries will blur. Stay curious. Stay tuned.</em>
+        </p>
+        <div class="tease-box" style="margin-top: 15px; display: flex; justify-content: center; align-items: center; gap: 8px;">
+          <span class="dot" style="width: 8px; height: 8px; background: white; border-radius: 50%; animation: blink 1.2s infinite ease-in-out alternate;"></span>
+          <span class="dot" style="width: 8px; height: 8px; background: white; border-radius: 50%; animation: blink 1.2s infinite ease-in-out alternate; animation-delay: 0.2s;"></span>
+          <span class="dot" style="width: 8px; height: 8px; background: white; border-radius: 50%; animation: blink 1.2s infinite ease-in-out alternate; animation-delay: 0.4s;"></span>
+          <span class="text" id="aiTease" style="margin-left: 10px; color: white; font-family: monospace; font-size: 0.9rem;">Initializing...</span>
+        </div>
+      </div>
+
+      <h3>🚧 Projects Incoming</h3>
+      <p>Currently building — this space will soon be filled with awesome work!</p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer style="background: rgba(255, 255, 255, 0.05); color: white; text-align: center; padding: 20px 0; margin-top: 50px; font-size: 0.95rem; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+    <p style="margin: 0 0 12px;">&copy; 2025 <strong>Sumit Sukhralia</strong>. All rights reserved.</p>
+    <div style="display: flex; justify-content: center; gap: 25px; flex-wrap: wrap;">
+      <a href="https://github.com/sumitsukhralia" target="_blank" style="color: white; text-decoration: none; font-size: 1rem;">
+        <i class="fab fa-github"></i> GitHub
+      </a>
+      <a href="https://instagram.com/sumitsukhralia" target="_blank" style="color: white; text-decoration: none; font-size: 1rem;">
+        <i class="fab fa-instagram"></i> Instagram
+      </a>
+      <a href="https://twitter.com/sumitsukhralia" target="_blank" style="color: white; text-decoration: none; font-size: 1rem;">
+        <i class="fab fa-twitter"></i> Twitter
+      </a>
+    </div>
+  </footer>
+
   <script>
-    const messages = [
+    const quotes = [
+      "Ctrl your mind. Alt your path. Del the limits.",
+      "Binary vision in an analog world.",
+      "Life is a loop — until you break the pattern.",
+      "Debugging reality since 2005.",
+      "Even the darkest themes hold light in their syntax.",
+      "Glitches aren’t flaws. They’re paths to truth.",
+      "Beyond grades, beyond norms.",
+      "From labs to loops.",
+      "Code isn't just logic, it's legacy."
+    ];
+    let quoteIndex = 0;
+    setInterval(() => {
+      quoteIndex = (quoteIndex + 1) % quotes.length;
+      const quoteBox = document.getElementById('quoteBox');
+      quoteBox.style.opacity = 0;
+      setTimeout(() => {
+        quoteBox.innerText = quotes[quoteIndex];
+        quoteBox.style.opacity = 1;
+      }, 500);
+    }, 60000);
+
+    const aiMessages = [
       "Initializing...",
       "Waking neural core...",
       "Connecting consciousness...",
       "Decoding thoughts...",
       "Compiling intuition...",
       "Deploying self-awareness...",
-      "Spawning sentience...",
+      "Spawning sentience..."
     ];
     let index = 0;
     setInterval(() => {
-      document.getElementById("aiTease").textContent = messages[index];
-      index = (index + 1) % messages.length;
+      document.getElementById("aiTease").textContent = aiMessages[index];
+      index = (index + 1) % aiMessages.length;
     }, 3000);
+
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+      localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+    }
+
+    window.onload = () => {
+      if (localStorage.getItem('darkMode') === 'true') {
+        document.body.classList.add('dark-mode');
+      }
+    }
   </script>
-
-</div>
-
-<!-- ⚡ Footer -->
-<footer style="background: rgba(255, 255, 255, 0.05); color: white; text-align: center; padding: 20px 0; margin-top: 50px; font-size: 0.95rem; border-top: 1px solid rgba(255, 255, 255, 0.1);">
-
-  <p style="margin: 0 0 12px; color: white;">&copy; 2025 <strong>Sumit Sukhralia</strong>. All rights reserved.</p>
-
-
-
-</footer>
-
-      <body/>
-        
-</body><html></html>
+</body>
+</html>
