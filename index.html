@@ -87,9 +87,7 @@
       font-family: monospace;
       max-width: 100%;
       white-space: pre-line;
-      color: white;
-      min-height: 100px;
-      overflow: hidden;
+      color: white; /* Ensure white text */
     }
     .quote {
       margin-top: 40px;
@@ -120,15 +118,19 @@
     }
   </style>
 </head>
+
 <body>
   <div class="container">
     <img src="your-photo.jpg" alt="Sumit Sukhralia" class="profile-img">
     <h1>Sumit Sukhralia</h1>
 
-    <div class="terminal animate">user@sumit:~$ whoami  
+    <!-- Add class "animate" here to apply the glitch effect -->
+    <div class="terminal animate" id="terminal">
+user@sumit:~$ whoami  
 19 • Beyond Curriculum  
 From Biochem to Backend  
-404: Limit Not Found</div>
+404: Limit Not Found    
+    </div>
 
     <div class="tech-stack">
       <span>HTML5</span>
@@ -148,11 +150,6 @@ From Biochem to Backend
       <a href="#"><i class="fas fa-code"></i> NeuroByte — Coming Soon</a>
       <button class="toggle-dark" onclick="toggleDarkMode()"><i class="fas fa-moon"></i> Toggle Dark Mode</button>
     </div>
-
-    <div class="terminal animate">user@sumit:~$ sudo rise  
-Dreaming in Code...  
-0 Errors. 100% Passion.  
-System Overclocked</div>
 
     <div class="quote" id="quoteBox">"Ctrl your mind. Alt your path. Del the limits."</div>
 
@@ -176,6 +173,7 @@ System Overclocked</div>
     </div>
   </div>
 
+  <!-- Footer -->
   <footer style="background: rgba(255, 255, 255, 0.05); color: white; text-align: center; padding: 20px 0; margin-top: 50px; font-size: 0.95rem; border-top: 1px solid rgba(255, 255, 255, 0.1);">
     <p style="margin: 0 0 12px;">&copy; 2025 <strong>Sumit Sukhralia</strong>. All rights reserved.</p>
     <div style="display: flex; justify-content: center; gap: 25px; flex-wrap: wrap;">
@@ -192,47 +190,7 @@ System Overclocked</div>
   </footer>
 
   <script>
-    const ASCII_OF_A = "A".charCodeAt();
-    const NO_OF_ALPHABETS = 26;
-
-    function animateElement(element, originalText, options) {
-      let iteration = 0;
-
-      if (options.interval) return;
-
-      options.interval = setInterval(() => {
-        const newWord = originalText
-          .split("")
-          .map((_, idx) => {
-            if (idx < iteration) return originalText[idx];
-            return String.fromCharCode(Math.trunc(Math.random() * NO_OF_ALPHABETS) + ASCII_OF_A);
-          })
-          .join("");
-        element.innerText = newWord;
-        iteration++;
-
-        if (iteration > originalText.length) {
-          clearInterval(options.interval);
-          options.interval = null;
-        }
-      }, 30);
-    }
-
-    function animateElements() {
-      const elements = document.getElementsByClassName("animate");
-      for (const element of elements) {
-        const originalText = element.innerText;
-        const options = { interval: null };
-        animateElement(element, originalText, options);
-
-        element.addEventListener("mouseover", (event) => {
-          animateElement(event.target, originalText, options);
-        });
-      }
-    }
-
-    animateElements();
-
+    // Your existing quotes code here...
     const quotes = [
       "Ctrl your mind. Alt your path. Del the limits.",
       "Binary vision in an analog world.",
@@ -255,6 +213,7 @@ System Overclocked</div>
       }, 500);
     }, 60000);
 
+    // Existing aiMessages code here
     const aiMessages = [
       "Initializing...",
       "Waking neural core...",
@@ -278,6 +237,59 @@ System Overclocked</div>
     window.onload = () => {
       if (localStorage.getItem('darkMode') === 'true') {
         document.body.classList.add('dark-mode');
+      }
+
+      // Call glitch animation on load for all animate elements
+      animateElements();
+    };
+
+    // Glitch effect script (your code)
+    const ASCII_OF_A = "A".charCodeAt();
+    const NO_OF_ALPHABETS = 26;
+
+    function animateElement(element, originalText, options) {
+      let iteration = 0;
+
+      if (options.interval) {
+        return;
+      }
+
+      options.interval = setInterval(() => {
+        const newWord = originalText
+          .split("")
+          .map((_, idx) => {
+            if (idx < iteration) {
+              return originalText[idx];
+            }
+            return String.fromCharCode(
+              Math.trunc(Math.random() * NO_OF_ALPHABETS) + ASCII_OF_A
+            );
+          })
+          .join("");
+        element.innerText = newWord;
+
+        iteration += 1;
+
+        if (iteration > originalText.length) {
+          clearInterval(options.interval);
+          options.interval = null;
+        }
+      }, 30);
+    }
+
+    function animateElements() {
+      const elements = document.getElementsByClassName("animate");
+
+      for (const element of elements) {
+        const originalText = element.innerText;
+        const options = {
+          interval: null
+        };
+        animateElement(element, originalText, options);
+
+        element.addEventListener("mouseover", (event) => {
+          animateElement(event.target, originalText, options);
+        });
       }
     }
   </script>
