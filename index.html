@@ -88,21 +88,35 @@
       max-width: 100%;
       white-space: pre-line;
       color: white;
-      cursor: pointer;
     }
-    .glitch-text {
+    .terminal::before {
+      content: "\1F441 AI is watching. Tap the terminal to begin.";
+      display: block;
+      margin-bottom: 15px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.95rem;
       color: white;
-      font-family: monospace;
-      margin-top: 10px;
-      animation: glitch 1s infinite;
+      text-shadow: 0 0 2px rgba(255,255,255,0.5);
     }
-    @keyframes glitch {
-      0% { text-shadow: 2px 2px red; }
-      20% { text-shadow: -2px -2px blue; }
-      40% { text-shadow: 2px -2px green; }
-      60% { text-shadow: -2px 2px yellow; }
-      80% { text-shadow: 2px 2px cyan; }
-      100% { text-shadow: 0 0 white; }
+    .quote {
+      margin-top: 40px;
+      font-style: italic;
+      font-size: 1rem;
+      transition: opacity 0.5s ease-in-out;
+    }
+    .projects {
+      margin-top: 40px;
+      background: rgba(0,0,0,0.3);
+      padding: 20px;
+      border-radius: 10px;
+    }
+    @keyframes blink {
+      from { opacity: 0.2; }
+      to { opacity: 1; }
+    }
+    @keyframes pulse-shadow {
+      from { box-shadow: 0 0 10px rgba(255,255,255,0.2); }
+      to { box-shadow: 0 0 20px rgba(255,255,255,0.4); }
     }
   </style>
 </head>
@@ -110,13 +124,110 @@
   <div class="container">
     <img src="your-photo.jpg" alt="Sumit Sukhralia" class="profile-img">
     <h1>Sumit Sukhralia</h1>
-    <div class="glitch-text">👁️ AI is watching. Tap the terminal to begin.</div>
     <div class="terminal" id="terminal">
 user@sumit:~$ whoami  
 19 • Beyond Curriculum  
 From Biochem to Backend  
 404: Limit Not Found    
     </div>
+    <div class="tech-stack">
+      <span>HTML5</span>
+      <span>CSS3</span>
+      <span>JavaScript</span>
+      <span>React.js</span>
+      <span>Node.js</span>
+      <span>MongoDB</span>
+      <span>Git & GitHub</span>
+    </div>
+    <div class="buttons">
+      <a href="https://instagram.com/sumitsukhralia" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+      <a href="https://github.com/sumitsukhralia" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+      <a href="mailto:SUMITxNEUROBYTE@proton.me"><i class="fas fa-handshake"></i> Let’s Collaborate</a>
+      <a href="mailto:SUMITxNEUROBYTE@proton.me"><i class="fas fa-envelope"></i> Email Me</a>
+      <a href="#"><i class="fas fa-code"></i> NeuroByte — Coming Soon</a>
+      <button class="toggle-dark" onclick="toggleDarkMode()"><i class="fas fa-moon"></i> Toggle Dark Mode</button>
+    </div>
+    <div class="quote" id="quoteBox">"Ctrl your mind. Alt your path. Del the limits."</div>
+    <div class="projects">
+      <div class="project-card ai-coming-soon" style="background: rgba(255, 255, 255, 0.04); border: 1px dashed rgba(255, 255, 255, 0.2); padding: 25px; border-radius: 12px; margin-top: 30px; text-align: center; animation: pulse-shadow 2s infinite alternate;">
+        <h3 style="color: white; margin-bottom: 12px;">🤖 neu*****te AI — Coming Soon</h3>
+        <p style="color: #ccc; font-style: italic; font-size: 0.95rem;">
+          A project that challenges what's possible with human-AI interaction.<br>
+          <em>The boundaries will blur. Stay curious. Stay tuned.</em>
+        </p>
+        <div class="tease-box" style="margin-top: 15px; display: flex; justify-content: center; align-items: center; gap: 8px;">
+          <span class="dot" style="width: 8px; height: 8px; background: white; border-radius: 50%; animation: blink 1.2s infinite ease-in-out alternate;"></span>
+          <span class="dot" style="width: 8px; height: 8px; background: white; border-radius: 50%; animation: blink 1.2s infinite ease-in-out alternate; animation-delay: 0.2s;"></span>
+          <span class="dot" style="width: 8px; height: 8px; background: white; border-radius: 50%; animation: blink 1.2s infinite ease-in-out alternate; animation-delay: 0.4s;"></span>
+          <span class="text" id="aiTease" style="margin-left: 10px; color: white; font-family: monospace; font-size: 0.9rem;">Initializing...</span>
+        </div>
+      </div>
+      <h3>🚧 Projects Incoming</h3>
+      <p>Currently building — this space will soon be filled with awesome work!</p>
+    </div>
   </div>
+  <footer style="background: rgba(255, 255, 255, 0.05); color: white; text-align: center; padding: 20px 0; margin-top: 50px; font-size: 0.95rem; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+    <p style="margin: 0 0 12px;">&copy; 2025 <strong>Sumit Sukhralia</strong>. All rights reserved.</p>
+    <div style="display: flex; justify-content: center; gap: 25px; flex-wrap: wrap;">
+      <a href="https://github.com/sumitsukhralia" target="_blank" style="color: white; text-decoration: none; font-size: 1rem;">
+        <i class="fab fa-github"></i> GitHub
+      </a>
+      <a href="https://instagram.com/sumitsukhralia" target="_blank" style="color: white; text-decoration: none; font-size: 1rem;">
+        <i class="fab fa-instagram"></i> Instagram
+      </a>
+      <a href="https://twitter.com/sumitsukhralia" target="_blank" style="color: white; text-decoration: none; font-size: 1rem;">
+        <i class="fab fa-twitter"></i> Twitter
+      </a>
+    </div>
+  </footer>
+  <script>
+    const quotes = [
+      "Ctrl your mind. Alt your path. Del the limits.",
+      "Binary vision in an analog world.",
+      "Life is a loop — until you break the pattern.",
+      "Debugging reality since 2005.",
+      "Even the darkest themes hold light in their syntax.",
+      "Glitches aren’t flaws. They’re paths to truth.",
+      "Beyond grades, beyond norms.",
+      "From labs to loops.",
+      "Code isn't just logic, it's legacy."
+    ];
+    let quoteIndex = 0;
+    setInterval(() => {
+      quoteIndex = (quoteIndex + 1) % quotes.length;
+      const quoteBox = document.getElementById('quoteBox');
+      quoteBox.style.opacity = 0;
+      setTimeout(() => {
+        quoteBox.innerText = quotes[quoteIndex];
+        quoteBox.style.opacity = 1;
+      }, 500);
+    }, 60000);
+
+    const aiMessages = [
+      "Initializing...",
+      "Waking neural core...",
+      "Connecting consciousness...",
+      "Decoding thoughts...",
+      "Compiling intuition...",
+      "Deploying self-awareness...",
+      "Spawning sentience..."
+    ];
+    let index = 0;
+    setInterval(() => {
+      document.getElementById("aiTease").textContent = aiMessages[index];
+      index = (index + 1) % aiMessages.length;
+    }, 3000);
+
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+      localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+    }
+
+    window.onload = () => {
+      if (localStorage.getItem('darkMode') === 'true') {
+        document.body.classList.add('dark-mode');
+      }
+    }
+  </script>
 </body>
 </html>
