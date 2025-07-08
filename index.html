@@ -1,151 +1,571 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Terminal Glitch Demo</title>
-<style>
-  body {
-    background: #000;
-    color: white;
-    font-family: monospace;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    padding: 0 20px;
-  }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sumit Sukhralia | NeuroByte</title>
 
-  .terminal {
-    background: rgba(0, 0, 0, 0.8);
-    padding: 25px 30px;
-    border-radius: 10px;
-    max-width: 600px;
-    font-size: 1.2rem;
-    line-height: 1.4;
-    position: relative;
-    user-select: none;
-  }
+  <!-- FontAwesome for icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
 
-  /* The base text */
-  .terminal pre {
-    margin: 0;
-    white-space: pre-line;
-  }
+  <style>
+    /* Reset & base */
+    * {
+      box-sizing: border-box;
+    }
 
-  /* Glitch effect container */
-  .terminal.glitch::before,
-  .terminal.glitch::after {
-    content: attr(data-text);
-    position: absolute;
-    left: 0;
-    right: 0;
-    opacity: 0.8;
-    clip: rect(0, 100%, 0, 0);
-  }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: url('your-photo.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      overflow-x: hidden;
+      position: relative;
+      min-height: 100vh;
+      padding: 20px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
 
-  /* Left red shift */
-  .terminal.glitch::before {
-    animation: glitch-anim 2s infinite linear alternate-reverse;
-    color: #f00;
-    z-index: 1;
-    top: 2px;
-  }
+    /* Dark transparent overlay for readability */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(4px);
+      z-index: -1;
+    }
 
-  /* Right blue shift */
-  .terminal.glitch::after {
-    animation: glitch-anim2 3s infinite linear alternate-reverse;
-    color: #0ff;
-    z-index: 1;
-    top: -2px;
-  }
+    /* Dark mode styles */
+    body.dark-mode::before {
+      background: rgba(0, 0, 0, 0.9);
+    }
 
-  @keyframes glitch-anim {
-    0% {
-      clip: rect(0, 100%, 10%, 0);
-      transform: translate(-3px, -2px);
+    body.dark-mode {
+      background: #000;
+      color: #eee;
     }
-    20% {
-      clip: rect(10%, 100%, 20%, 0);
-      transform: translate(3px, 2px);
-    }
-    40% {
-      clip: rect(20%, 100%, 30%, 0);
-      transform: translate(-3px, 2px);
-    }
-    60% {
-      clip: rect(30%, 100%, 40%, 0);
-      transform: translate(3px, -2px);
-    }
-    80% {
-      clip: rect(40%, 100%, 50%, 0);
-      transform: translate(-3px, 2px);
-    }
-    100% {
-      clip: rect(50%, 100%, 60%, 0);
-      transform: translate(3px, -2px);
-    }
-  }
 
-  @keyframes glitch-anim2 {
-    0% {
-      clip: rect(50%, 100%, 60%, 0);
-      transform: translate(3px, 2px);
+    /* Container to center everything */
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: center;
+      padding: 40px 20px;
+      position: relative;
+      z-index: 1;
     }
-    20% {
-      clip: rect(40%, 100%, 50%, 0);
-      transform: translate(-3px, -2px);
+
+    /* Profile Image */
+    .profile-img {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid white;
+      margin-bottom: 15px;
+      user-select: none;
     }
-    40% {
-      clip: rect(30%, 100%, 40%, 0);
-      transform: translate(3px, -2px);
+
+    /* Heading */
+    h1 {
+      margin: 15px 0 5px;
+      font-size: 2.8rem;
+      font-weight: 700;
+      user-select: none;
     }
-    60% {
-      clip: rect(20%, 100%, 30%, 0);
-      transform: translate(-3px, 2px);
+
+    /* Tech stack badges */
+    .tech-stack {
+      margin-top: 15px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
     }
-    80% {
-      clip: rect(10%, 100%, 20%, 0);
-      transform: translate(3px, -2px);
+
+    .tech-stack span {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.95rem;
+      user-select: none;
+      transition: background-color 0.3s ease;
+      cursor: default;
     }
-    100% {
-      clip: rect(0, 100%, 10%, 0);
-      transform: translate(-3px, 2px);
+
+    .tech-stack span:hover {
+      background: rgba(255, 255, 255, 0.25);
     }
-  }
-</style>
+
+    /* Buttons container */
+    .buttons {
+      margin-top: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      align-items: center;
+    }
+
+    /* Button styles */
+    .buttons a,
+    .toggle-dark {
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      padding: 14px 28px;
+      border-radius: 30px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      font-weight: 600;
+      font-size: 1rem;
+      user-select: none;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      width: 250px;
+      justify-content: center;
+    }
+
+    .buttons a:hover,
+    .toggle-dark:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    /* Terminal styling */
+    .terminal {
+      background: rgba(0, 0, 0, 0.75);
+      padding: 30px 35px;
+      border-radius: 12px;
+      margin-top: 40px;
+      font-family: monospace, Consolas, Courier, monospace;
+      max-width: 100%;
+      white-space: pre-line;
+      font-size: 1.25rem;
+      line-height: 1.5;
+      position: relative;
+      user-select: none;
+      color: white;
+      overflow: hidden;
+    }
+
+    /* Base terminal text */
+    .terminal pre {
+      margin: 0;
+    }
+
+    /* Glitch effect layers */
+    .terminal.glitch::before,
+    .terminal.glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.8;
+      clip: rect(0, 100%, 0, 0);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* Red channel glitch shift */
+    .terminal.glitch::before {
+      animation: glitch-anim 2s infinite linear alternate-reverse;
+      color: #f00;
+      z-index: 1;
+      top: 2px;
+      left: 2px;
+    }
+
+    /* Cyan channel glitch shift */
+    .terminal.glitch::after {
+      animation: glitch-anim2 3s infinite linear alternate-reverse;
+      color: #0ff;
+      z-index: 1;
+      top: -2px;
+      left: -2px;
+    }
+
+    /* Glitch animation 1 */
+    @keyframes glitch-anim {
+      0% {
+        clip: rect(0, 100%, 10%, 0);
+        transform: translate(-3px, -2px);
+      }
+      20% {
+        clip: rect(10%, 100%, 20%, 0);
+        transform: translate(3px, 2px);
+      }
+      40% {
+        clip: rect(20%, 100%, 30%, 0);
+        transform: translate(-3px, 2px);
+      }
+      60% {
+        clip: rect(30%, 100%, 40%, 0);
+        transform: translate(3px, -2px);
+      }
+      80% {
+        clip: rect(40%, 100%, 50%, 0);
+        transform: translate(-3px, 2px);
+      }
+      100% {
+        clip: rect(50%, 100%, 60%, 0);
+        transform: translate(3px, -2px);
+      }
+    }
+
+    /* Glitch animation 2 */
+    @keyframes glitch-anim2 {
+      0% {
+        clip: rect(50%, 100%, 60%, 0);
+        transform: translate(3px, 2px);
+      }
+      20% {
+        clip: rect(40%, 100%, 50%, 0);
+        transform: translate(-3px, -2px);
+      }
+      40% {
+        clip: rect(30%, 100%, 40%, 0);
+        transform: translate(3px, -2px);
+      }
+      60% {
+        clip: rect(20%, 100%, 30%, 0);
+        transform: translate(-3px, 2px);
+      }
+      80% {
+        clip: rect(10%, 100%, 20%, 0);
+        transform: translate(3px, -2px);
+      }
+      100% {
+        clip: rect(0, 100%, 10%, 0);
+        transform: translate(-3px, 2px);
+      }
+    }
+
+    /* Quote styling */
+    .quote {
+      margin-top: 50px;
+      font-style: italic;
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      transition: opacity 0.5s ease-in-out;
+      user-select: none;
+    }
+
+    /* Projects section */
+    .projects {
+      margin-top: 60px;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 28px 30px;
+      border-radius: 12px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .project-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px dashed rgba(255, 255, 255, 0.2);
+      padding: 25px;
+      border-radius: 12px;
+      margin-bottom: 35px;
+      text-align: center;
+      animation: pulse-shadow 2.5s infinite alternate;
+      user-select: none;
+    }
+
+    .project-card h3 {
+      color: white;
+      margin-bottom: 12px;
+      font-weight: 700;
+      font-size: 1.3rem;
+    }
+
+    .project-card p {
+      color: #ccc;
+      font-style: italic;
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+
+    /* Dot animation in project tease box */
+    .tease-box {
+      margin-top: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      background: white;
+      border-radius: 50%;
+      animation: blink 1.2s infinite ease-in-out alternate;
+    }
+
+    .dot:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .dot:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    .tease-box .text {
+      margin-left: 10px;
+      color: white;
+      font-family: monospace;
+      font-size: 1rem;
+      user-select: none;
+    }
+
+    /* Blink animation */
+    @keyframes blink {
+      from {
+        opacity: 0.2;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* Pulse shadow animation */
+    @keyframes pulse-shadow {
+      from {
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+      }
+      to {
+        box-shadow: 0 0 22px rgba(255, 255, 255, 0.45);
+      }
+    }
+
+    /* Footer styles */
+    footer {
+      background: rgba(255, 255, 255, 0.05);
+      color: white;
+      text-align: center;
+      padding: 24px 0;
+      margin-top: 80px;
+      font-size: 0.95rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      user-select: none;
+    }
+
+    footer div {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    footer a {
+      color: white;
+      text-decoration: none;
+      font-size: 1.05rem;
+      transition: color 0.3s ease;
+    }
+
+    footer a:hover {
+      color: #9966cc;
+    }
+  </style>
 </head>
-<body>
 
-<div class="terminal" id="terminal" data-text="user@sumit:~$ whoami  
+<body>
+  <div class="container">
+    <!-- Profile photo and heading -->
+    <img src="your-photo.jpg" alt="Sumit Sukhralia" class="profile-img" />
+    <h1>Sumit Sukhralia</h1>
+
+    <!-- First Terminal block -->
+    <div
+      class="terminal"
+      id="terminal1"
+      data-text="user@sumit:~$ whoami  
 19 • Beyond Curriculum  
 From Biochem to Backend  
-404: Limit Not Found">
-  <pre>
+404: Limit Not Found"
+    >
+      <pre>
 user@sumit:~$ whoami  
 19 • Beyond Curriculum  
 From Biochem to Backend  
 404: Limit Not Found
-  </pre>
-</div>
+      </pre>
+    </div>
 
-<script>
-  // Trigger glitch on scroll down only once
-  let glitchTriggered = false;
+    <!-- Second Terminal block -->
+    <div
+      class="terminal"
+      id="terminal2"
+      data-text="user@sumit:~$ whoami  
+19 • Beyond Curriculum  
+From Biochem to Backend  
+404: Limit Not Found"
+    >
+      <pre>
+user@sumit:~$ whoami  
+19 • Beyond Curriculum  
+From Biochem to Backend  
+404: Limit Not Found
+      </pre>
+    </div>
 
-  window.addEventListener('scroll', () => {
-    if (!glitchTriggered && window.scrollY > 50) {
-      document.getElementById('terminal').classList.add('glitch');
-      glitchTriggered = true;
-      // Optional: remove glitch after 5 seconds
+    <!-- Tech stack badges -->
+    <div class="tech-stack">
+      <span>HTML5</span>
+      <span>CSS3</span>
+      <span>JavaScript</span>
+      <span>React.js</span>
+      <span>Node.js</span>
+      <span>MongoDB</span>
+      <span>Git & GitHub</span>
+    </div>
+
+    <!-- Buttons -->
+    <div class="buttons">
+      <a href="https://instagram.com/sumitsukhralia" target="_blank"
+        ><i class="fab fa-instagram"></i> Instagram</a
+      >
+      <a href="https://github.com/sumitsukhralia" target="_blank"
+        ><i class="fab fa-github"></i> GitHub</a
+      >
+      <a href="mailto:SUMITxNEUROBYTE@proton.me"
+        ><i class="fas fa-handshake"></i> Let’s Collaborate</a
+      >
+      <a href="mailto:SUMITxNEUROBYTE@proton.me"
+        ><i class="fas fa-envelope"></i> Email Me</a
+      >
+      <a href="#"><i class="fas fa-code"></i> NeuroByte — Coming Soon</a>
+      <button class="toggle-dark" onclick="toggleDarkMode()">
+        <i class="fas fa-moon"></i> Toggle Dark Mode
+      </button>
+    </div>
+
+    <!-- Quote section -->
+    <div class="quote" id="quoteBox">"Ctrl your mind. Alt your path. Del the limits."</div>
+
+    <!-- Projects section -->
+    <div class="projects">
+      <div class="project-card ai-coming-soon">
+        <h3>🤖 neu*****te AI — Coming Soon</h3>
+        <p>
+          A project that challenges what's possible with human-AI interaction.
+          <br /><em>The boundaries will blur. Stay curious. Stay tuned.</em>
+        </p>
+        <div class="tease-box">
+          <span class="dot"></span><span class="dot"></span
+          ><span class="dot"></span>
+          <span class="text" id="aiTease">Initializing...</span>
+        </div>
+      </div>
+
+      <h3>🚧 Projects Incoming</h3>
+      <p>Currently building — this space will soon be filled with awesome work!</p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 <strong>Sumit Sukhralia</strong>. All rights reserved.</p>
+    <div>
+      <a href="https://github.com/sumitsukhralia" target="_blank"
+        ><i class="fab fa-github"></i> GitHub</a
+      >
+      <a href="https://instagram.com/sumitsukhralia" target="_blank"
+        ><i class="fab fa-instagram"></i> Instagram</a
+      >
+      <a href="https://twitter.com/sumitsukhralia" target="_blank"
+        ><i class="fab fa-twitter"></i> Twitter</a
+      >
+    </div>
+  </footer>
+
+  <script>
+    // Quotes rotating every 60 seconds
+    const quotes = [
+      "Ctrl your mind. Alt your path. Del the limits.",
+      "Binary vision in an analog world.",
+      "Life is a loop — until you break the pattern.",
+      "Debugging reality since 2005.",
+      "Even the darkest themes hold light in their syntax.",
+      "Glitches aren’t flaws. They’re paths to truth.",
+      "Beyond grades, beyond norms.",
+      "From labs to loops.",
+      "Code isn't just logic, it's legacy.",
+    ];
+
+    let quoteIndex = 0;
+    setInterval(() => {
+      quoteIndex = (quoteIndex + 1) % quotes.length;
+      const quoteBox = document.getElementById("quoteBox");
+      quoteBox.style.opacity = 0;
       setTimeout(() => {
-        document.getElementById('terminal').classList.remove('glitch');
-      }, 5000);
-    }
-  });
-</script>
+        quoteBox.innerText = quotes[quoteIndex];
+        quoteBox.style.opacity = 1;
+      }, 500);
+    }, 60000);
 
+    // AI tease messages rotating every 3 seconds
+    const aiMessages = [
+      "Initializing...",
+      "Waking neural core...",
+      "Connecting consciousness...",
+      "Decoding thoughts...",
+      "Compiling intuition...",
+      "Deploying self-awareness...",
+      "Spawning sentience...",
+    ];
+    let aiIndex = 0;
+    setInterval(() => {
+      document.getElementById("aiTease").textContent = aiMessages[aiIndex];
+      aiIndex = (aiIndex + 1) % aiMessages.length;
+    }, 3000);
+
+    // Dark mode toggle
+    function toggleDarkMode() {
+      document.body.classList.toggle("dark-mode");
+      localStorage.setItem(
+        "darkMode",
+        document.body.classList.contains("dark-mode")
+      );
+    }
+
+    // Load dark mode preference on load
+    window.onload = () => {
+      if (localStorage.getItem("darkMode") === "true") {
+        document.body.classList.add("dark-mode");
+      }
+    };
+
+    // Glitch effect on scroll for terminals
+    let glitchTriggered = false;
+    window.addEventListener("scroll", () => {
+      if (!glitchTriggered && window.scrollY > 50) {
+        document.getElementById("terminal1").classList.add("glitch");
+        document.getElementById("terminal2").classList.add("glitch");
+        glitchTriggered = true;
+
+        // Remove glitch after 5 seconds
+        setTimeout(() => {
+          document.getElementById("terminal1").classList.remove("glitch");
+          document.getElementById("terminal2").classList.remove("glitch");
+        }, 5000);
+      }
+    });
+  </script>
 </body>
 </html>
-
