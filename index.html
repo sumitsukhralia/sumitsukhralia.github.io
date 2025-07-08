@@ -18,13 +18,15 @@
     body::before {
       content: "";
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.6);
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
       backdrop-filter: blur(4px);
       z-index: -1;
     }
-    .dark-mode::before { background: rgba(0,0,0,0.9); }
+    .dark-mode::before { background: rgba(0, 0, 0, 0.9); }
     .dark-mode { background: #000; }
     .container {
       max-width: 600px;
@@ -73,7 +75,6 @@
       gap: 10px;
       border: 1px solid rgba(255,255,255,0.2);
       transition: all 0.3s ease;
-      cursor: pointer;
     }
     .buttons a:hover, .toggle-dark:hover {
       background: rgba(255, 255, 255, 0.25);
@@ -85,44 +86,28 @@
       margin-top: 30px;
       font-family: monospace;
       max-width: 100%;
-      color: white;
-      white-space: pre-wrap;
-      min-height: 110px;
+      white-space: pre-line;
       user-select: none;
-      position: relative;
-      overflow: hidden;
+      font-size: 1.2rem;
+      line-height: 1.4;
     }
-    /* Typing + glitch effect container */
-    .terminal span.glitch {
-      position: relative;
-      color: white;
-      animation: glitchAnim 1.5s infinite;
+    .glitch-letter {
       display: inline-block;
+      animation: flicker 0.15s infinite alternate;
+      animation-delay: var(--delay);
     }
-    @keyframes glitchAnim {
+    @keyframes flicker {
       0% {
-        text-shadow: 2px 0 red;
-        transform: translate(0);
+        opacity: 1;
+        text-shadow: none;
       }
-      20% {
-        text-shadow: -2px 0 blue;
-        transform: translate(-1px, 1px);
-      }
-      40% {
-        text-shadow: 2px 0 cyan;
-        transform: translate(1px, -1px);
-      }
-      60% {
-        text-shadow: -2px 0 magenta;
-        transform: translate(-1px, 1px);
-      }
-      80% {
-        text-shadow: 2px 0 yellow;
-        transform: translate(1px, -1px);
+      50% {
+        opacity: 0.4;
+        text-shadow: 0 0 5px white;
       }
       100% {
-        text-shadow: 2px 0 red;
-        transform: translate(0);
+        opacity: 1;
+        text-shadow: none;
       }
     }
     .quote {
@@ -131,11 +116,26 @@
       font-size: 1rem;
       transition: opacity 0.5s ease-in-out;
     }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 6px;
+      border: none;
+    }
     .projects {
       margin-top: 40px;
       background: rgba(0,0,0,0.3);
       padding: 20px;
       border-radius: 10px;
+    }
+    @keyframes blink {
+      from { opacity: 0.2; }
+      to { opacity: 1; }
+    }
+    @keyframes pulse-shadow {
+      from { box-shadow: 0 0 10px rgba(255,255,255,0.2); }
+      to { box-shadow: 0 0 20px rgba(255,255,255,0.4); }
     }
   </style>
 </head>
@@ -145,7 +145,12 @@
     <img src="your-photo.jpg" alt="Sumit Sukhralia" class="profile-img" />
     <h1>Sumit Sukhralia</h1>
 
-    <div class="terminal" id="terminal1"></div>
+    <div class="terminal" id="terminal">
+      user@sumit:~$ whoami  
+      19 • Beyond Curriculum  
+      From Biochem to Backend  
+      404: Limit Not Found    
+    </div>
 
     <div class="tech-stack">
       <span>HTML5</span>
@@ -168,16 +173,28 @@
 
     <div class="quote" id="quoteBox">"Ctrl your mind. Alt your path. Del the limits."</div>
 
-    <div class="terminal" id="terminal2"></div>
-
     <div class="projects">
-      <div class="project-card ai-coming-soon" style="background: rgba(255, 255, 255, 0.04); border: 1px dashed rgba(255, 255, 255, 0.2); padding: 25px; border-radius: 12px; margin-top: 30px; text-align: center; animation: pulse-shadow 2s infinite alternate;">
+      <div
+        class="project-card ai-coming-soon"
+        style="
+          background: rgba(255, 255, 255, 0.04);
+          border: 1px dashed rgba(255, 255, 255, 0.2);
+          padding: 25px;
+          border-radius: 12px;
+          margin-top: 30px;
+          text-align: center;
+          animation: pulse-shadow 2s infinite alternate;
+        "
+      >
         <h3 style="color: white; margin-bottom: 12px;">🤖 neu*****te AI — Coming Soon</h3>
         <p style="color: #ccc; font-style: italic; font-size: 0.95rem;">
           A project that challenges what's possible with human-AI interaction.<br />
           <em>The boundaries will blur. Stay curious. Stay tuned.</em>
         </p>
-        <div class="tease-box" style="margin-top: 15px; display: flex; justify-content: center; align-items: center; gap: 8px;">
+        <div
+          class="tease-box"
+          style="margin-top: 15px; display: flex; justify-content: center; align-items: center; gap: 8px;"
+        >
           <span
             class="dot"
             style="
@@ -214,7 +231,8 @@
             class="text"
             id="aiTease"
             style="margin-left: 10px; color: white; font-family: monospace; font-size: 0.9rem;"
-          ></span>
+            >Initializing...</span
+          >
         </div>
       </div>
 
@@ -236,7 +254,14 @@
     "
   >
     <p style="margin: 0 0 12px;">&copy; 2025 <strong>Sumit Sukhralia</strong>. All rights reserved.</p>
-    <div style="display: flex; justify-content: center; gap: 25px; flex-wrap: wrap;">
+    <div
+      style="
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        flex-wrap: wrap;
+      "
+    >
       <a
         href="https://github.com/sumitsukhralia"
         target="_blank"
@@ -259,50 +284,70 @@
   </footer>
 
   <script>
-    // Text contents for both terminals
-    const terminalText1 = `user@sumit:~$ whoami  
-19 • Beyond Curriculum  
-From Biochem to Backend  
-404: Limit Not Found`;
+    // Quotation cycling logic
+    const quotes = [
+      "Ctrl your mind. Alt your path. Del the limits.",
+      "Binary vision in an analog world.",
+      "Life is a loop — until you break the pattern.",
+      "Debugging reality since 2005.",
+      "Even the darkest themes hold light in their syntax.",
+      "Glitches aren’t flaws. They’re paths to truth.",
+      "Beyond grades, beyond norms.",
+      "From labs to loops.",
+      "Code isn't just logic, it's legacy.",
+    ];
+    let quoteIndex = 0;
+    setInterval(() => {
+      quoteIndex = (quoteIndex + 1) % quotes.length;
+      const quoteBox = document.getElementById("quoteBox");
+      quoteBox.style.opacity = 0;
+      setTimeout(() => {
+        quoteBox.innerText = quotes[quoteIndex];
+        quoteBox.style.opacity = 1;
+      }, 500);
+    }, 60000);
 
-    const terminalText2 = `Projects:
-- neu*****te AI — Coming Soon
-- 🚧 More to come!`;
+    // AI tease text cycling
+    const aiMessages = [
+      "Initializing...",
+      "Waking neural core...",
+      "Connecting consciousness...",
+      "Decoding thoughts...",
+      "Compiling intuition...",
+      "Deploying self-awareness...",
+      "Spawning sentience...",
+    ];
+    let index = 0;
+    setInterval(() => {
+      document.getElementById("aiTease").textContent = aiMessages[index];
+      index = (index + 1) % aiMessages.length;
+    }, 3000);
 
-    // Function to create typing + glitch effect
-    function typeText(element, text, speed = 40) {
-      element.innerHTML = "";
-      let i = 0;
-
-      function type() {
-        if (i < text.length) {
-          // create span with glitch animation for each char typed
-          const span = document.createElement("span");
-          span.textContent = text[i];
-          span.classList.add("glitch");
-          element.appendChild(span);
-          i++;
-          setTimeout(type, speed);
-        }
-      }
-      type();
+    // Dark mode toggle and persistence
+    function toggleDarkMode() {
+      document.body.classList.toggle("dark-mode");
+      localStorage.setItem("darkMode", document.body.classList.contains("dark-mode"));
     }
-
-    // Start typing on both terminals after DOM ready
     window.onload = () => {
-      const term1 = document.getElementById("terminal1");
-      const term2 = document.getElementById("terminal2");
-      typeText(term1, terminalText1, 50);
-      typeText(term2, terminalText2, 50);
-
       if (localStorage.getItem("darkMode") === "true") {
         document.body.classList.add("dark-mode");
       }
     };
 
-    function toggleDarkMode() {
-      document.body.classList.toggle("dark-mode");
-      localStorage.setItem("darkMode", document.body.classList.contains("dark-mode"));
+    // Glitch flicker effect on terminal letters
+    const terminal = document.getElementById("terminal");
+    const text = terminal.textContent;
+    terminal.textContent = ""; // Clear original
+
+    for (let i = 0; i < text.length; i++) {
+      const span = document.createElement("span");
+      span.textContent = text[i];
+
+      if (text[i] !== "\n" && Math.random() < 0.4) {
+        span.classList.add("glitch-letter");
+        span.style.setProperty("--delay", `${Math.random() * 0.3}s`);
+      }
+      terminal.appendChild(span);
     }
   </script>
 </body>
