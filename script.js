@@ -97,3 +97,51 @@ function animateElements() {
     });
   }
 }
+
+
+
+
+const canvas = document.getElementById('cosmic-canvas');
+const ctx = canvas.getContext('2d');
+let width, height;
+let particles = [];
+
+function resizeCanvas() {
+  width = canvas.width = window.innerWidth;
+  height = canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+function createParticle() {
+  const side = Math.floor(Math.random() * 4);
+  let x, y;
+  switch (side) {
+    case 0: x = Math.random() * width; y = 0; break;
+    case 1: x = width; y = Math.random() * height; break;
+    case 2: x = Math.random() * width; y = height; break;
+    case 3: x = 0; y = Math.random() * height; break;
+  }
+
+  const angle = Math.random() * 2 * Math.PI;
+  return {
+    x, y,
+    vx: Math.cos(angle) * 0.6,
+    vy: Math.sin(angle) * 0.6,
+    size: Math.random() * 2 + 1,
+    life: 300
+  };
+}
+
+function updateParticles() {
+  for (let i = 0; i < 2; i++) particles.push(createParticle());
+  particles.forEach(p => {
+    p.x += p.vx;
+    p.y += p.vy;
+    p.life--;
+  });
+  particles = particles.filter(p => p.life > 0);
+}
+
+function drawParticles() {
+  ctx.fillStyle = '#
