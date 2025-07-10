@@ -97,13 +97,13 @@ function animateElements() {
     });
   }
 }
-// Show parallax section when scrolled into view
+// Parallax Scroll Reveal
 window.addEventListener('scroll', () => {
   const parallax = document.querySelector('.parallax-end-section');
   if (!parallax) return;
 
-  const sectionTop = parallax.offsetTop;
-  if (window.scrollY + window.innerHeight >= sectionTop + 100) {
+  const triggerY = parallax.offsetTop - window.innerHeight + 100;
+  if (window.scrollY >= triggerY) {
     parallax.classList.add('visible');
   }
 });
