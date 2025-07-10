@@ -1,255 +1,168 @@
-const quotes = [
-  "Ctrl your mind. Alt your path. Del the limits.",
-  "Binary vision in an analog world.",
-  "Life is a loop — until you break the pattern.",
-  "Debugging reality since 2005.",
-  "Even the darkest themes hold light in their syntax.",
-  "Glitches aren’t flaws. They’re paths to truth.",
-  "Beyond grades, beyond norms.",
-  "From labs to loops.",
-  "Code isn't just logic, it's legacy."
-];
-
-let quoteIndex = 0;
-setInterval(() => {
-  quoteIndex = (quoteIndex + 1) % quotes.length;
-  const quoteBox = document.getElementById('quoteBox');
-  quoteBox.style.opacity = 0;
-  setTimeout(() => {
-    quoteBox.innerText = quotes[quoteIndex];
-    quoteBox.style.opacity = 1;
-  }, 500);
-}, 60000);
-
-const aiMessages = [
-  "Initializing...",
-  "Waking neural core...",
-  "Connecting consciousness...",
-  "Decoding thoughts...",
-  "Compiling intuition...",
-  "Deploying self-awareness...",
-  "Spawning sentience..."
-];
-let index = 0;
-setInterval(() => {
-  document.getElementById("aiTease").textContent = aiMessages[index];
-  index = (index + 1) % aiMessages.length;
-}, 3000);
-
-function toggleDarkMode() {
-  document.body.classList.toggle('dark-mode');
-  localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-}
-
-window.onload = () => {
-  if (localStorage.getItem('darkMode') === 'true') {
-    document.body.classList.add('dark-mode');
-  }
-
-  animateElements();
-
-  // Scroll-triggered dark mode
-  window.addEventListener('scroll', () => {
-    const darkSection = document.getElementById('scroll-dark-section');
-    if (!darkSection) return;
-
-    const threshold = darkSection.offsetTop;
-    if (window.scrollY >= threshold - 100) {
-      document.body.classList.add('dark-mode');
-    } else {
-      document.body.classList.remove('dark-mode');
-    }
-  });
-};
-
-const ASCII_OF_A = "A".charCodeAt();
-const NO_OF_ALPHABETS = 26;
-
-function animateElement(element, originalText, options) {
-  let iteration = 0;
-  if (options.interval) return;
-  options.interval = setInterval(() => {
-    const newWord = originalText
-      .split("")
-      .map((_, idx) =>
-        idx < iteration
-          ? originalText[idx]
-          : String.fromCharCode(Math.trunc(Math.random() * NO_OF_ALPHABETS) + ASCII_OF_A)
-      )
-      .join("");
-    element.innerText = newWord;
-    iteration += 1;
-    if (iteration > originalText.length) {
-      clearInterval(options.interval);
-      options.interval = null;
-    }
-  }, 30);
-}
-
-function animateElements() {
-  const elements = document.getElementsByClassName("animate");
-  for (const element of elements) {
-    const originalText = element.innerText;
-    const options = { interval: null };
-    animateElement(element, originalText, options);
-    element.addEventListener("mouseover", (event) => {
-      animateElement(event.target, originalText, options);
-    });
-  }
-}
-
-
-
-
-const canvas = document.getElementById('cosmic-canvas');
-const ctx = canvas.getContext('2d');
-let width, height;
-let particles = [];
-
-function resizeCanvas() {
-  width = canvas.width = window.innerWidth;
-  height = canvas.height = window.innerHeight;
-}
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
-
-function createParticle() {
-  const side = Math.floor(Math.random() * 4);
-  let x, y;
-  switch (side) {
-    case 0: x = Math.random() * width; y = 0; break;
-    case 1: x = width; y = Math.random() * height; break;
-    case 2: x = Math.random() * width; y = height; break;
-    case 3: x = 0; y = Math.random() * height; break;
-  }
-
-  const angle = Math.random() * 2 * Math.PI;
-  return {
-    x, y,
-    vx: Math.cos(angle) * 0.6,
-    vy: Math.sin(angle) * 0.6,
-    size: Math.random() * 2 + 1,
-    life: 300
-  };
-}
-
-function updateParticles() {
-  for (let i = 0; i < 2; i++) particles.push(createParticle());
-  particles.forEach(p => {
-    p.x += p.vx;
-    p.y += p.vy;
-    p.life--;
-  });
-  particles = particles.filter(p => p.life > 0);
-}
-
-function drawParticles() {
-  ctx.fillStyle = '#
-
-  // === Cosmic Energy Canvas Background ===
-const canvas = document.getElementById('cosmicCanvas');
-const ctx = canvas.getContext('2d');
-let particles = [];
-
-function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-}
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
-
-class Particle {
-  constructor() {
-    this.reset();
-  }
-
-  reset() {
-    const edges = ['top', 'right', 'bottom', 'left'];
-    const edge = edges[Math.floor(Math.random() * edges.length)];
-    const offset = 50;
-    
-    switch (edge) {
-      case 'top':
-        this.x = Math.random() * canvas.width;
-        this.y = -offset;
-        this.vx = (Math.random() - 0.5) * 2;
-        this.vy = Math.random() * 1.5 + 0.5;
-        break;
-      case 'bottom':
-        this.x = Math.random() * canvas.width;
-        this.y = canvas.height + offset;
-        this.vx = (Math.random() - 0.5) * 2;
-        this.vy = -(Math.random() * 1.5 + 0.5);
-        break;
-      case 'left':
-        this.x = -offset;
-        this.y = Math.random() * canvas.height;
-        this.vx = Math.random() * 1.5 + 0.5;
-        this.vy = (Math.random() - 0.5) * 2;
-        break;
-      case 'right':
-        this.x = canvas.width + offset;
-        this.y = Math.random() * canvas.height;
-        this.vx = -(Math.random() * 1.5 + 0.5);
-        this.vy = (Math.random() - 0.5) * 2;
-        break;
-    }
-
-    this.size = Math.random() * 2 + 1;
-    this.life = 0;
-    this.maxLife = Math.random() * 100 + 100;
-  }
-
-  update() {
-    this.x += this.vx;
-    this.y += this.vy;
-    this.life++;
-    if (this.life >= this.maxLife) this.reset();
-  }
-
-  draw() {
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-    ctx.fillStyle = '#582dbd';
-    ctx.shadowColor = '#582dbd';
-    ctx.shadowBlur = 10;
-    ctx.fill();
-  }
-}
-
-for (let i = 0; i < 100; i++) {
-  particles.push(new Particle());
-}
-
-function animate() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  particles.forEach(p => {
-    p.update();
-    p.draw();
-  });
-  requestAnimationFrame(animate);
-}
-animate();
-
-
-// === Blockchain Block Demo (Fake Data for Now) ===
-function generateBlock(index) {
-  const hash = Math.random().toString(36).substring(2, 15);
-  const time = new Date().toLocaleTimeString();
-
-  return `
-    <div class="block">
-      <strong>Block #${index}</strong><br>
-      <span>Hash: ${hash}</span><br>
-      <span>Time: ${time}</span>
+<section id="block-visualizer" class="cosmic-visualizer-section">
+  <canvas id="cosmicCanvas"></canvas>
+  <div class="visualizer-content">
+    <h2>🔗 Blockchain Block Visualizer</h2>
+    <p>Explore block data in real-time — visualized in a cosmic way.</p>
+    <div id="block-data" class="block-data">
+      <!-- Live block data gets injected here -->
     </div>
-  `;
-}
+  </div>
+</section>
 
-const blockDataEl = document.getElementById('block-data');
-let blockIndex = 1;
+<style>
+  .cosmic-visualizer-section {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background-color: black;
+    color: white;
+  }
 
-setInterval(() => {
-  const newBlock = generateBlock(blockIndex++);
-  blockDataEl.innerHTML = newBlock + blockDataEl.innerHTML;
-}, 3000);
+  #cosmicCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+
+  .visualizer-content {
+    position: relative;
+    z-index: 1;
+    padding: 3rem;
+    text-align: center;
+  }
+
+  .block-data {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+
+  .block {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid #582dbd;
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 0 15px #582dbd44;
+    width: 90%;
+    max-width: 500px;
+    text-align: left;
+  }
+</style>
+
+<script>
+  // === Cosmic Energy Canvas Background ===
+  const canvas = document.getElementById('cosmicCanvas');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  class Particle {
+    constructor() {
+      this.reset();
+    }
+
+    reset() {
+      const edges = ['top', 'right', 'bottom', 'left'];
+      const edge = edges[Math.floor(Math.random() * edges.length)];
+      const offset = 50;
+
+      switch (edge) {
+        case 'top':
+          this.x = Math.random() * canvas.width;
+          this.y = -offset;
+          this.vx = (Math.random() - 0.5) * 2;
+          this.vy = Math.random() * 1.5 + 0.5;
+          break;
+        case 'bottom':
+          this.x = Math.random() * canvas.width;
+          this.y = canvas.height + offset;
+          this.vx = (Math.random() - 0.5) * 2;
+          this.vy = -(Math.random() * 1.5 + 0.5);
+          break;
+        case 'left':
+          this.x = -offset;
+          this.y = Math.random() * canvas.height;
+          this.vx = Math.random() * 1.5 + 0.5;
+          this.vy = (Math.random() - 0.5) * 2;
+          break;
+        case 'right':
+          this.x = canvas.width + offset;
+          this.y = Math.random() * canvas.height;
+          this.vx = -(Math.random() * 1.5 + 0.5);
+          this.vy = (Math.random() - 0.5) * 2;
+          break;
+      }
+
+      this.size = Math.random() * 2 + 1;
+      this.life = 0;
+      this.maxLife = Math.random() * 100 + 100;
+    }
+
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+      this.life++;
+      if (this.life >= this.maxLife) this.reset();
+    }
+
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fillStyle = '#582dbd';
+      ctx.shadowColor = '#582dbd';
+      ctx.shadowBlur = 10;
+      ctx.fill();
+    }
+  }
+
+  for (let i = 0; i < 100; i++) {
+    particles.push(new Particle());
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+      p.update();
+      p.draw();
+    });
+    requestAnimationFrame(animate);
+  }
+  animate();
+
+  // === Blockchain Block Demo (Fake Data for Now) ===
+  function generateBlock(index) {
+    const hash = Math.random().toString(36).substring(2, 15);
+    const time = new Date().toLocaleString();
+
+    return `
+      <div class="block">
+        <h3>Block #${index}</h3>
+        <p><strong>Hash:</strong> ${hash}</p>
+        <p><strong>Transactions:</strong> ${Math.floor(Math.random() * 100)}</p>
+        <p><strong>Timestamp:</strong> ${time}</p>
+      </div>
+    `;
+  }
+
+  const blockDataEl = document.getElementById('block-data');
+  let blockIndex = 123457;
+
+  setInterval(() => {
+    const newBlock = generateBlock(blockIndex++);
+    blockDataEl.innerHTML = newBlock + blockDataEl.innerHTML;
+  }, 3000);
+</script>
