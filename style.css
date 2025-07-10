@@ -195,28 +195,21 @@ footer a {
   to { box-shadow: 0 0 20px rgba(255, 255, 255, 0.4); }
 }
 
-/* Parallax Black + Purple Section */
+/* Parallax Scroll Reveal Section */
 .parallax-end-section {
   position: relative;
-  height: 450px;
-  background: linear-gradient(
-    to bottom right,
-    rgba(0, 0, 0, 0.95),
-    #000000 70%,
-    #582dbd 100%
-  );
-  background-attachment: fixed;
-  background-size: cover;
-  background-position: center;
+  height: 100vh;
+  background: linear-gradient(to bottom, #000 70%, #582dbd 100%);
   display: flex;
-  justify-content: center;
   align-items: center;
-  color: #ffffff;
-  text-align: center;
-  z-index: 0;
+  justify-content: center;
+  color: white;
   opacity: 0;
-  transform: translateY(40px);
+  transform: translateY(100px);
   transition: opacity 1s ease, transform 1s ease;
+  z-index: 1;
+  text-align: center;
+  padding: 2rem;
 }
 
 .parallax-end-section.visible {
@@ -224,7 +217,13 @@ footer a {
   transform: translateY(0);
 }
 
+.parallax-overlay {
+  max-width: 800px;
+  margin: 0 auto;
+  font-size: 1.5rem;
+}
 
+/* Cosmic Visualizer */
 .cosmic-energy-section {
   position: relative;
   width: 100%;
@@ -299,34 +298,7 @@ footer a {
   box-shadow: 0 0 10px #582dbd44;
 }
 
-
-.parallax-end-section {
-  position: relative;
-  height: 100vh;
-  background: linear-gradient(to bottom, #000 70%, #582dbd 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  opacity: 0;
-  transform: translateY(100px);
-  transition: opacity 1s ease, transform 1s ease;
-  z-index: 1;
-  text-align: center;
-  padding: 2rem;
-}
-
-.parallax-end-section.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.parallax-overlay {
-  max-width: 800px;
-  margin: 0 auto;
-  font-size: 1.5rem;
-}
-
+/* Responsive Fixes */
 @media (max-width: 768px) {
   .parallax-end-section {
     height: auto;
@@ -337,4 +309,3 @@ footer a {
     font-size: 1.2rem;
   }
 }
-
