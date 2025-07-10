@@ -6,6 +6,11 @@
   <title>Sumit Sukhralia</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+
+    html {
+  scroll-behavior: smooth;
+}
+
     body {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -269,6 +274,26 @@ From Biochem to Backend
         });
       }
     }
+        // Scroll-triggered glitch animation
+    const terminal = document.getElementById("terminal");
+    let glitchTriggered = false;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !glitchTriggered) {
+          animateElement(terminal, terminal.innerText, { interval: null });
+          glitchTriggered = true;
+        } else if (!entry.isIntersecting && window.scrollY < 100) {
+          // Reset when back to top
+          glitchTriggered = false;
+        }
+      });
+    }, {
+      threshold: 0.6 // 60% of terminal visible
+    });
+
+    observer.observe(terminal);
+
   </script>
 </body>
 </html>
