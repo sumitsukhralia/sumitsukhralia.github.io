@@ -14,6 +14,7 @@
       overflow-x: hidden;
       position: relative;
       color: white;
+      transition: background 0.6s ease, color 0.6s ease;
     }
     body::before {
       content: "";
@@ -25,6 +26,7 @@
       background: rgba(0, 0, 0, 0.6);
       backdrop-filter: blur(4px);
       z-index: -1;
+      transition: background 0.6s ease;
     }
     .dark-mode::before { background: rgba(0, 0, 0, 0.9); }
     .dark-mode { background: #000; }
@@ -87,20 +89,13 @@
       font-family: monospace;
       max-width: 100%;
       white-space: pre-line;
-      color: white; /* Ensure white text */
+      color: white;
     }
     .quote {
       margin-top: 40px;
       font-style: italic;
       font-size: 1rem;
       transition: opacity 0.5s ease-in-out;
-    }
-    input, textarea {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border-radius: 6px;
-      border: none;
     }
     .projects {
       margin-top: 40px;
@@ -118,13 +113,11 @@
     }
   </style>
 </head>
-
 <body>
   <div class="container">
     <img src="your-photo.jpg" alt="Sumit Sukhralia" class="profile-img">
     <h1>Sumit Sukhralia</h1>
 
-    <!-- Add class "animate" here to apply the glitch effect -->
     <div class="terminal animate" id="terminal">
 user@SUMIT: ~ whoami  
 19 • Beyond Curriculum  
@@ -133,13 +126,8 @@ From Biochem to Backend
     </div>
 
     <div class="tech-stack">
-      <span>HTML5</span>
-      <span>CSS3</span>
-      <span>JavaScript</span>
-      <span>React.js</span>
-      <span>Node.js</span>
-      <span>MongoDB</span>
-      <span>Git & GitHub</span>
+      <span>HTML5</span><span>CSS3</span><span>JavaScript</span>
+      <span>React.js</span><span>Node.js</span><span>MongoDB</span><span>Git & GitHub</span>
     </div>
 
     <div class="buttons">
@@ -152,6 +140,9 @@ From Biochem to Backend
     </div>
 
     <div class="quote" id="quoteBox">"Ctrl your mind. Alt your path. Del the limits."</div>
+
+    <!-- Scroll trigger point -->
+    <div id="scroll-dark-section"></div>
 
     <div class="projects">
       <div class="project-card ai-coming-soon" style="background: rgba(255, 255, 255, 0.04); border: 1px dashed rgba(255, 255, 255, 0.2); padding: 25px; border-radius: 12px; margin-top: 30px; text-align: center; animation: pulse-shadow 2s infinite alternate;">
@@ -173,24 +164,16 @@ From Biochem to Backend
     </div>
   </div>
 
-  <!-- Footer -->
   <footer style="background: rgba(255, 255, 255, 0.05); color: white; text-align: center; padding: 20px 0; margin-top: 50px; font-size: 0.95rem; border-top: 1px solid rgba(255, 255, 255, 0.1);">
     <p style="margin: 0 0 12px;">&copy; 2025 <strong>Sumit Sukhralia</strong>. All rights reserved.</p>
     <div style="display: flex; justify-content: center; gap: 25px; flex-wrap: wrap;">
-      <a href="https://github.com/sumitsukhralia" target="_blank" style="color: white; text-decoration: none; font-size: 1rem;">
-        <i class="fab fa-github"></i> GitHub
-      </a>
-      <a href="https://instagram.com/sumitsukhralia" target="_blank" style="color: white; text-decoration: none; font-size: 1rem;">
-        <i class="fab fa-instagram"></i> Instagram
-      </a>
-      <a href="https://twitter.com/sumitsukhralia" target="_blank" style="color: white; text-decoration: none; font-size: 1rem;">
-        <i class="fab fa-twitter"></i> Twitter
-      </a>
+      <a href="https://github.com/sumitsukhralia" target="_blank" style="color: white; text-decoration: none; font-size: 1rem;"><i class="fab fa-github"></i> GitHub</a>
+      <a href="https://instagram.com/sumitsukhralia" target="_blank" style="color: white; text-decoration: none; font-size: 1rem;"><i class="fab fa-instagram"></i> Instagram</a>
+      <a href="https://twitter.com/sumitsukhralia" target="_blank" style="color: white; text-decoration: none; font-size: 1rem;"><i class="fab fa-twitter"></i> Twitter</a>
     </div>
   </footer>
 
   <script>
-    // Your existing quotes code here...
     const quotes = [
       "Ctrl your mind. Alt your path. Del the limits.",
       "Binary vision in an analog world.",
@@ -213,7 +196,6 @@ From Biochem to Backend
       }, 500);
     }, 60000);
 
-    // Existing aiMessages code here
     const aiMessages = [
       "Initializing...",
       "Waking neural core...",
@@ -239,37 +221,36 @@ From Biochem to Backend
         document.body.classList.add('dark-mode');
       }
 
-      // Call glitch animation on load for all animate elements
       animateElements();
+
+      // Scroll-triggered dark mode effect
+      window.addEventListener('scroll', () => {
+        const darkSection = document.getElementById('scroll-dark-section');
+        if (!darkSection) return;
+
+        const threshold = darkSection.offsetTop;
+
+        if (window.scrollY >= threshold - 100) {
+          document.body.classList.add('dark-mode');
+        } else {
+          document.body.classList.remove('dark-mode');
+        }
+      });
     };
 
-    // Glitch effect script (your code)
     const ASCII_OF_A = "A".charCodeAt();
     const NO_OF_ALPHABETS = 26;
 
     function animateElement(element, originalText, options) {
       let iteration = 0;
-
-      if (options.interval) {
-        return;
-      }
-
+      if (options.interval) return;
       options.interval = setInterval(() => {
         const newWord = originalText
           .split("")
-          .map((_, idx) => {
-            if (idx < iteration) {
-              return originalText[idx];
-            }
-            return String.fromCharCode(
-              Math.trunc(Math.random() * NO_OF_ALPHABETS) + ASCII_OF_A
-            );
-          })
+          .map((_, idx) => idx < iteration ? originalText[idx] : String.fromCharCode(Math.trunc(Math.random() * NO_OF_ALPHABETS) + ASCII_OF_A))
           .join("");
         element.innerText = newWord;
-
         iteration += 1;
-
         if (iteration > originalText.length) {
           clearInterval(options.interval);
           options.interval = null;
@@ -279,14 +260,10 @@ From Biochem to Backend
 
     function animateElements() {
       const elements = document.getElementsByClassName("animate");
-
       for (const element of elements) {
         const originalText = element.innerText;
-        const options = {
-          interval: null
-        };
+        const options = { interval: null };
         animateElement(element, originalText, options);
-
         element.addEventListener("mouseover", (event) => {
           animateElement(event.target, originalText, options);
         });
