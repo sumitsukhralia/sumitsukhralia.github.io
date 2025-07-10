@@ -194,3 +194,33 @@ footer a {
   from { box-shadow: 0 0 10px rgba(255, 255, 255, 0.2); }
   to { box-shadow: 0 0 20px rgba(255, 255, 255, 0.4); }
 }
+/* Parallax End Section */
+.parallax-end-section {
+  position: relative;
+  background-image: url('your-parallax-image.jpg'); /* Replace with actual path */
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-align: center;
+  z-index: 0;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+.parallax-end-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.parallax-content {
+  background: rgba(0, 0, 0, 0.5);
+  padding: 30px 40px;
+  border-radius: 20px;
+  backdrop-filter: blur(6px);
+}
