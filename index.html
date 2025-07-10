@@ -95,5 +95,20 @@ From Biochem to Backend
   </footer>
 
   <script src="script.js"></script>
+
+    <script src="script.js"></script>
+
+  <script>
+    const parallaxSection = document.querySelector('.parallax-end-section');
+
+    window.addEventListener('scroll', () => {
+      const sectionTop = parallaxSection.getBoundingClientRect().top;
+      const triggerPoint = window.innerHeight * 0.85;
+
+      if (sectionTop < triggerPoint) {
+        parallaxSection.classList.add('visible');
+      }
+    });
+  </script>
 </body>
 </html>
