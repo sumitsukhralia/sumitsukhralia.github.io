@@ -1,4 +1,9 @@
 /* Basic Reset & Body Styling */
+/* Define a CSS variable for transition duration at the root level */
+:root {
+    --transition-duration: 0.6s; /* Default transition duration for smooth changes */
+}
+
 body {
     margin: 0; /* Remove default margin */
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Preferred font stack */
@@ -7,7 +12,8 @@ body {
     overflow-x: hidden; /* Prevent horizontal scroll */
     position: relative; /* Needed for pseudo-element positioning */
     color: white; /* Default text color */
-    transition: background 0.6s ease, color 0.6s ease; /* Smooth transition for dark mode */
+    /* Use the CSS variable for transition duration */
+    transition: background var(--transition-duration) ease, color var(--transition-duration) ease;
 }
 
 /* Overlay for background image */
@@ -21,7 +27,8 @@ body::before {
     background: rgba(0, 0, 0, 0.6); /* Semi-transparent black overlay */
     backdrop-filter: blur(4px); /* Blur the background image */
     z-index: -1; /* Place behind other content */
-    transition: background 0.6s ease; /* Smooth transition for dark mode overlay */
+    /* Use the CSS variable for transition duration */
+    transition: background var(--transition-duration) ease;
 }
 
 /* Dark Mode Styles */
@@ -31,6 +38,13 @@ body::before {
 .dark-mode {
     background: #000; /* Solid black background in dark mode */
 }
+
+/* Optional: Class for a faster transition, can be applied via JS for a "boom" effect */
+/* This overrides the --transition-duration variable for a quicker change */
+.fast-transition {
+    --transition-duration: 0.3s;
+}
+
 
 /* Main Container Styling */
 .container {
@@ -218,13 +232,11 @@ footer a:hover {
     to { box-shadow: 0 0 20px rgba(255,255,255,0.4); } /* Larger, brighter shadow */
 }
 
-/* ... (Your existing CSS code) ... */
 
-
-/* Parallax Section Styling */
+/* --- NEW: Parallax Section Styling --- */
 .parallax-section {
     /* Set the background image for this section */
-    background-image: url('parallax-bg.jpg'); /* CHANGE THIS TO YOUR IMAGE PATH */
+    background-image: url('parallax-bg.jpg'); /* REMEMBER TO CHANGE THIS TO YOUR IMAGE PATH */
     background-size: cover; /* Scale the background image to cover the entire container */
     background-position: center; /* Center the background image */
     background-repeat: no-repeat; /* Do not repeat the background image */
@@ -278,9 +290,9 @@ footer a:hover {
 @media (max-width: 768px) {
     .parallax-section {
         min-height: 350px; /* Smaller height on smaller screens */
-        background-attachment: scroll; /* Sometimes fixed background doesn't work well on mobile, so revert to scroll */
-        /* Alternative for mobile: You can try parallax effects using transform properties via JS for better mobile performance if needed,
-           but for simplicity, often fixed is simply turned off. */
+        /* On mobile, fixed background-attachment can be buggy or impact performance. */
+        /* Revert to scroll to ensure smooth scrolling, even if it removes the parallax effect. */
+        background-attachment: scroll;
     }
     .parallax-content h2 {
         font-size: 1.8rem;
