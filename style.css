@@ -1,103 +1,219 @@
-/* === Global Body Settings === */
+/* Basic Reset & Body Styling */
 body {
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
-  background-color: black;
-  color: white;
+    margin: 0; /* Remove default margin */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Preferred font stack */
+    background: url('your-photo.jpg') no-repeat center center fixed; /* Background image */
+    background-size: cover; /* Cover the entire viewport */
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    position: relative; /* Needed for pseudo-element positioning */
+    color: white; /* Default text color */
+    transition: background 0.6s ease, color 0.6s ease; /* Smooth transition for dark mode */
 }
 
-/* === Visualizer Section === */
-.cosmic-visualizer-section {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-  background-color: black;
-  color: white;
+/* Overlay for background image */
+body::before {
+    content: ""; /* Required for pseudo-elements */
+    position: fixed; /* Fix to viewport */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6); /* Semi-transparent black overlay */
+    backdrop-filter: blur(4px); /* Blur the background image */
+    z-index: -1; /* Place behind other content */
+    transition: background 0.6s ease; /* Smooth transition for dark mode overlay */
 }
 
-/* === Canvas Background === */
-#cosmicCanvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
+/* Dark Mode Styles */
+.dark-mode::before {
+    background: rgba(0, 0, 0, 0.9); /* Darker overlay in dark mode */
+}
+.dark-mode {
+    background: #000; /* Solid black background in dark mode */
 }
 
-/* === Foreground Content === */
-.visualizer-content {
-  position: relative;
-  z-index: 1;
-  padding: 3rem;
-  text-align: center;
+/* Main Container Styling */
+.container {
+    max-width: 600px; /* Maximum width of the content area */
+    margin: 0 auto; /* Center the container horizontally */
+    text-align: center; /* Center text within the container */
+    padding: 40px 20px; /* Padding inside the container */
+    position: relative; /* For z-index to work with body::before */
+    z-index: 1; /* Ensure container is above the overlay */
 }
 
-/* === Scrollable Block Container === */
-.block-data {
-  margin-top: 2rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  max-height: 70vh;
-  overflow-y: auto;
+/* Profile Image Styling */
+.profile-img {
+    width: 140px; /* Fixed width */
+    height: 140px; /* Fixed height */
+    border-radius: 50%; /* Make it circular */
+    object-fit: cover; /* Crop image to fit without stretching */
+    border: 4px solid white; /* White border around the image */
 }
 
-/* === Individual Block Card === */
-.block {
-  background-color: rgba(255, 255, 255, 0.05);
-  border: 1px solid #582dbd;
-  padding: 1rem 1.5rem;
-  border-radius: 10px;
-  box-shadow: 0 0 15px #582dbd44;
-  width: 90%;
-  max-width: 500px;
-  text-align: left;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+/* Heading (Name) Styling */
+h1 {
+    margin: 15px 0 5px; /* Margin around the heading */
+    font-size: 2.5rem; /* Large font size */
 }
 
-.block:hover {
-  transform: scale(1.02);
-  box-shadow: 0 0 20px #582dbd88;
+/* Tech Stack Section */
+.tech-stack {
+    margin-top: 15px; /* Space above */
+    display: flex; /* Use flexbox for layout */
+    flex-wrap: wrap; /* Allow items to wrap to the next line */
+    justify-content: center; /* Center items horizontally */
+    gap: 12px; /* Space between items */
 }
 
-/* === Block Heading === */
-.block h3 {
-  margin: 0 0 0.5rem 0;
-  font-size: 1.2rem;
-  color: #ffffff;
+/* Individual Tech Stack Tags */
+.tech-stack span {
+    background: rgba(255, 255, 255, 0.1); /* Semi-transparent white background */
+    padding: 6px 12px; /* Padding inside the span */
+    border-radius: 20px; /* Rounded corners for pill shape */
+    font-size: 0.9rem; /* Smaller font size */
 }
 
-/* === Block Paragraphs === */
-.block p {
-  margin: 0.2rem 0;
-  font-size: 0.95rem;
-  color: #dddddd;
+/* Buttons Section */
+.buttons {
+    margin-top: 25px; /* Space above */
+    display: flex; /* Use flexbox */
+    flex-direction: column; /* Stack buttons vertically */
+    gap: 15px; /* Space between buttons */
+    align-items: center; /* Center buttons horizontally */
 }
 
-.block p strong {
-  color: #ffffff;
+/* Styling for all buttons (links and toggle button) */
+.buttons a, .toggle-dark {
+    background: rgba(255, 255, 255, 0.15); /* Semi-transparent white background */
+    color: white; /* Text color */
+    padding: 12px 24px; /* Padding */
+    border-radius: 30px; /* More rounded corners */
+    text-decoration: none; /* Remove underline from links */
+    display: inline-flex; /* Allow icon and text to align */
+    align-items: center; /* Vertically align icon and text */
+    gap: 10px; /* Space between icon and text */
+    border: 1px solid rgba(255,255,255,0.2); /* Subtle border */
+    transition: all 0.3s ease; /* Smooth transitions for hover effects */
+    cursor: pointer; /* Indicate button is clickable */
+    font-size: 1rem; /* Default font size */
 }
 
-/* === Responsive Styling for Small Screens === */
-@media screen and (max-width: 600px) {
-  .visualizer-content {
-    padding: 1.5rem;
-  }
+/* Hover effect for buttons */
+.buttons a:hover, .toggle-dark:hover {
+    background: rgba(255, 255, 255, 0.25); /* Slightly more opaque on hover */
+}
 
-  .block {
-    padding: 1rem;
-    width: 95%;
-  }
+/* Terminal Section Styling */
+.terminal {
+    background: rgba(0, 0, 0, 0.4); /* Dark semi-transparent background */
+    padding: 25px; /* Padding */
+    border-radius: 10px; /* Rounded corners */
+    margin-top: 30px; /* Space above */
+    font-family: monospace; /* Monospace font for terminal look */
+    max-width: 100%; /* Ensure it fits within container */
+    white-space: pre-line; /* Preserve line breaks from HTML */
+    color: white; /* Text color */
+    text-align: left; /* Align terminal text to the left */
+}
 
-  .block h3 {
-    font-size: 1rem;
-  }
+/* Quote Box Styling */
+.quote {
+    margin-top: 40px; /* Space above */
+    font-style: italic; /* Italic text */
+    font-size: 1rem; /* Font size */
+    transition: opacity 0.5s ease-in-out; /* Smooth fade for quote changes */
+}
 
-  .block p {
+/* Projects Section Styling */
+.projects {
+    margin-top: 40px; /* Space above */
+    background: rgba(0,0,0,0.3); /* Semi-transparent dark background */
+    padding: 20px; /* Padding */
+    border-radius: 10px; /* Rounded corners */
+}
+
+/* AI Project Card Specific Styling */
+.project-card.ai-coming-soon {
+    background: rgba(255, 255, 255, 0.04); /* Very subtle background */
+    border: 1px dashed rgba(255, 255, 255, 0.2); /* Dashed border */
+    padding: 25px; /* Padding */
+    border-radius: 12px; /* Rounded corners */
+    margin-top: 30px; /* Space above */
+    text-align: center; /* Center text */
+    animation: pulse-shadow 2s infinite alternate; /* Pulsing shadow animation */
+    /* Nested element styles for readability, can be moved out if preferred */
+}
+.project-card.ai-coming-soon h3 {
+    color: white;
+    margin-bottom: 12px;
+}
+.project-card.ai-coming-soon p {
+    color: #ccc; /* Lighter grey text */
+    font-style: italic;
+    font-size: 0.95rem;
+}
+.project-card.ai-coming-soon .tease-box {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+.project-card.ai-coming-soon .dot {
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+    animation: blink 1.2s infinite ease-in-out alternate;
+}
+.project-card.ai-coming-soon .dot:nth-child(2) { /* Apply animation delay to second dot */
+    animation-delay: 0.2s;
+}
+.project-card.ai-coming-soon .dot:nth-child(3) { /* Apply animation delay to third dot */
+    animation-delay: 0.4s;
+}
+.project-card.ai-coming-soon .text#aiTease {
+    margin-left: 10px;
+    color: white;
+    font-family: monospace;
     font-size: 0.9rem;
-  }
+}
+
+/* Footer Styling */
+footer {
+    background: rgba(255, 255, 255, 0.05); /* Semi-transparent white background */
+    color: white; /* Text color */
+    text-align: center; /* Center text */
+    padding: 20px 0; /* Vertical padding */
+    margin-top: 50px; /* Space above */
+    font-size: 0.95rem; /* Smaller font size */
+    border-top: 1px solid rgba(255, 255, 255, 0.1); /* Top border */
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+footer a {
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+}
+footer a:hover {
+    text-decoration: underline; /* Underline on hover for footer links */
+}
+
+/* Keyframe Animations */
+@keyframes blink {
+    from { opacity: 0.2; } /* Start nearly invisible */
+    to { opacity: 1; } /* End fully visible */
+}
+
+@keyframes pulse-shadow {
+    from { box-shadow: 0 0 10px rgba(255,255,255,0.2); } /* Initial shadow */
+    to { box-shadow: 0 0 20px rgba(255,255,255,0.4); } /* Larger, brighter shadow */
 }
