@@ -1,37 +1,38 @@
 /* Basic Reset & Body Styling */
-/* Define a CSS variable for transition duration at the root level */
+/* Define a CSS variable for transition duration at the root level.
+   This allows for easy global adjustment of transition speeds. */
 :root {
     --transition-duration: 0.6s; /* Default transition duration for smooth changes */
 }
 
 body {
-    margin: 0; /* Remove default margin */
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Preferred font stack */
-    background: url('your-photo.jpg') no-repeat center center fixed; /* Background image */
-    background-size: cover; /* Cover the entire viewport */
-    overflow-x: hidden; /* Prevent horizontal scroll */
-    position: relative; /* Needed for pseudo-element positioning */
-    color: white; /* Default text color */
-    /* Use the CSS variable for transition duration */
+    margin: 0; /* Remove default browser margin */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Preferred font stack for text */
+    background: url('your-photo.jpg') no-repeat center center fixed; /* Sets a background image that covers the viewport */
+    background-size: cover; /* Ensures the background image covers the entire element */
+    overflow-x: hidden; /* Prevents horizontal scrolling, keeping layout clean */
+    position: relative; /* Essential for positioning the ::before pseudo-element */
+    color: white; /* Default text color for the entire body */
+    /* Smooth transition for background and text color changes, using the defined CSS variable */
     transition: background var(--transition-duration) ease, color var(--transition-duration) ease;
 }
 
-/* Overlay for background image */
+/* Overlay for the background image, creating a darkened, blurred effect */
 body::before {
-    content: ""; /* Required for pseudo-elements */
-    position: fixed; /* Fix to viewport */
+    content: ""; /* Required for pseudo-elements to render */
+    position: fixed; /* Fixes the overlay to the viewport, covering the entire screen */
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.6); /* Semi-transparent black overlay */
-    backdrop-filter: blur(4px); /* Blur the background image */
-    z-index: -1; /* Place behind other content */
-    /* Use the CSS variable for transition duration */
+    backdrop-filter: blur(4px); /* Applies a blur effect to content behind the overlay */
+    z-index: -1; /* Places the overlay behind the main content */
+    /* Smooth transition for the overlay's background color */
     transition: background var(--transition-duration) ease;
 }
 
-/* Dark Mode Styles */
+/* Styles applied when the 'dark-mode' class is added to the body */
 .dark-mode::before {
     background: rgba(0, 0, 0, 0.9); /* Darker overlay in dark mode */
 }
@@ -40,130 +41,131 @@ body::before {
 }
 
 /* Optional: Class for a faster transition, can be applied via JS for a "boom" effect */
-/* This overrides the --transition-duration variable for a quicker change */
+/* Uncomment and use in JS if you want a quicker transition specifically for the scroll-triggered dark mode */
+/*
 .fast-transition {
     --transition-duration: 0.3s;
 }
-
+*/
 
 /* Main Container Styling */
 .container {
-    max-width: 600px; /* Maximum width of the content area */
-    margin: 0 auto; /* Center the container horizontally */
-    text-align: center; /* Center text within the container */
-    padding: 40px 20px; /* Padding inside the container */
-    position: relative; /* For z-index to work with body::before */
-    z-index: 1; /* Ensure container is above the overlay */
+    max-width: 600px; /* Limits the maximum width of the content area */
+    margin: 0 auto; /* Centers the container horizontally on the page */
+    text-align: center; /* Centers text and inline elements within the container */
+    padding: 40px 20px; /* Adds internal spacing around the content */
+    position: relative; /* Ensures z-index works correctly for content above the overlay */
+    z-index: 1; /* Places the container above the body::before overlay */
 }
 
 /* Profile Image Styling */
 .profile-img {
-    width: 140px; /* Fixed width */
-    height: 140px; /* Fixed height */
-    border-radius: 50%; /* Make it circular */
-    object-fit: cover; /* Crop image to fit without stretching */
-    border: 4px solid white; /* White border around the image */
+    width: 140px; /* Fixed width for the image */
+    height: 140px; /* Fixed height for the image */
+    border-radius: 50%; /* Makes the image perfectly circular */
+    object-fit: cover; /* Ensures the image covers the area without distortion, cropping if necessary */
+    border: 4px solid white; /* Adds a white border around the circular image */
 }
 
 /* Heading (Name) Styling */
 h1 {
-    margin: 15px 0 5px; /* Margin around the heading */
-    font-size: 2.5rem; /* Large font size */
+    margin: 15px 0 5px; /* Margin around the main heading */
+    font-size: 2.5rem; /* Large font size for prominence */
 }
 
 /* Tech Stack Section */
 .tech-stack {
-    margin-top: 15px; /* Space above */
-    display: flex; /* Use flexbox for layout */
-    flex-wrap: wrap; /* Allow items to wrap to the next line */
-    justify-content: center; /* Center items horizontally */
-    gap: 12px; /* Space between items */
+    margin-top: 15px; /* Space above the tech stack section */
+    display: flex; /* Uses Flexbox for arranging tech tags */
+    flex-wrap: wrap; /* Allows tech tags to wrap to the next line on smaller screens */
+    justify-content: center; /* Centers the tech tags horizontally */
+    gap: 12px; /* Adds space between individual tech tags */
 }
 
-/* Individual Tech Stack Tags */
+/* Individual Tech Stack Tags (e.g., HTML5, CSS3) */
 .tech-stack span {
     background: rgba(255, 255, 255, 0.1); /* Semi-transparent white background */
-    padding: 6px 12px; /* Padding inside the span */
-    border-radius: 20px; /* Rounded corners for pill shape */
-    font-size: 0.9rem; /* Smaller font size */
+    padding: 6px 12px; /* Internal padding for the tags */
+    border-radius: 20px; /* Creates rounded, pill-like shapes for the tags */
+    font-size: 0.9rem; /* Slightly smaller font size for tags */
 }
 
-/* Buttons Section */
+/* Buttons Section (for social links and toggle button) */
 .buttons {
-    margin-top: 25px; /* Space above */
-    display: flex; /* Use flexbox */
-    flex-direction: column; /* Stack buttons vertically */
+    margin-top: 25px; /* Space above the buttons section */
+    display: flex; /* Uses Flexbox */
+    flex-direction: column; /* Stacks buttons vertically */
     gap: 15px; /* Space between buttons */
-    align-items: center; /* Center buttons horizontally */
+    align-items: center; /* Centers buttons horizontally within their container */
 }
 
-/* Styling for all buttons (links and toggle button) */
-.buttons a, .toggle-dark {
+/* Styling for all interactive buttons (links, toggle button, and new quote button) */
+.buttons a, .toggle-dark, .buttons-style { /* .buttons-style added here to apply common button styling */
     background: rgba(255, 255, 255, 0.15); /* Semi-transparent white background */
-    color: white; /* Text color */
-    padding: 12px 24px; /* Padding */
-    border-radius: 30px; /* More rounded corners */
-    text-decoration: none; /* Remove underline from links */
-    display: inline-flex; /* Allow icon and text to align */
-    align-items: center; /* Vertically align icon and text */
-    gap: 10px; /* Space between icon and text */
+    color: white; /* Text color for buttons */
+    padding: 12px 24px; /* Internal padding */
+    border-radius: 30px; /* Highly rounded corners for a soft look */
+    text-decoration: none; /* Removes underline from anchor tags */
+    display: inline-flex; /* Allows icon and text to sit side-by-side */
+    align-items: center; /* Vertically aligns icon and text */
+    gap: 10px; /* Space between the icon and text */
     border: 1px solid rgba(255,255,255,0.2); /* Subtle border */
-    transition: all 0.3s ease; /* Smooth transitions for hover effects */
-    cursor: pointer; /* Indicate button is clickable */
-    font-size: 1rem; /* Default font size */
+    transition: all 0.3s ease; /* Smooth transition for hover effects */
+    cursor: pointer; /* Changes cursor to pointer to indicate clickability */
+    font-size: 1rem; /* Standard font size for button text */
+    margin-top: 20px; /* Added margin-top specifically for the new quote button to separate it from the previous buttons group */
 }
 
-/* Hover effect for buttons */
-.buttons a:hover, .toggle-dark:hover {
-    background: rgba(255, 255, 255, 0.25); /* Slightly more opaque on hover */
+/* Hover effect for all interactive buttons */
+.buttons a:hover, .toggle-dark:hover, .buttons-style:hover { /* .buttons-style added here */
+    background: rgba(255, 255, 255, 0.25); /* Slightly more opaque background on hover */
 }
 
 /* Terminal Section Styling */
 .terminal {
     background: rgba(0, 0, 0, 0.4); /* Dark semi-transparent background */
-    padding: 25px; /* Padding */
+    padding: 25px; /* Internal padding */
     border-radius: 10px; /* Rounded corners */
-    margin-top: 30px; /* Space above */
-    font-family: monospace; /* Monospace font for terminal look */
-    max-width: 100%; /* Ensure it fits within container */
-    white-space: pre-line; /* Preserve line breaks from HTML */
+    margin-top: 30px; /* Space above the terminal section */
+    font-family: monospace; /* Monospace font for a classic terminal look */
+    max-width: 100%; /* Ensures the terminal fits within its parent container */
+    white-space: pre-line; /* Preserves line breaks and spaces from the HTML content */
     color: white; /* Text color */
-    text-align: left; /* Align terminal text to the left */
+    text-align: left; /* Aligns text to the left within the terminal box */
 }
 
 /* Quote Box Styling */
 .quote {
-    margin-top: 40px; /* Space above */
-    font-style: italic; /* Italic text */
-    font-size: 1rem; /* Font size */
-    transition: opacity 0.5s ease-in-out; /* Smooth fade for quote changes */
+    margin-top: 40px; /* Space above the quote box */
+    font-style: italic; /* Italicizes the quote text */
+    font-size: 1rem; /* Font size for the quote */
+    transition: opacity 0.5s ease-in-out; /* Smooth fade effect for quote changes */
 }
 
 /* Projects Section Styling */
 .projects {
-    margin-top: 40px; /* Space above */
+    margin-top: 40px; /* Space above the projects section */
     background: rgba(0,0,0,0.3); /* Semi-transparent dark background */
-    padding: 20px; /* Padding */
+    padding: 20px; /* Internal padding */
     border-radius: 10px; /* Rounded corners */
 }
 
 /* AI Project Card Specific Styling */
 .project-card.ai-coming-soon {
-    background: rgba(255, 255, 255, 0.04); /* Very subtle background */
-    border: 1px dashed rgba(255, 255, 255, 0.2); /* Dashed border */
-    padding: 25px; /* Padding */
+    background: rgba(255, 255, 255, 0.04); /* Very subtle background for the AI project card */
+    border: 1px dashed rgba(255, 255, 255, 0.2); /* Dashed border for a unique look */
+    padding: 25px; /* Internal padding */
     border-radius: 12px; /* Rounded corners */
-    margin-top: 30px; /* Space above */
-    text-align: center; /* Center text */
-    animation: pulse-shadow 2s infinite alternate; /* Pulsing shadow animation */
-    /* Nested element styles for readability, can be moved out if preferred */
+    margin-top: 30px; /* Space above this specific project card */
+    text-align: center; /* Centers content within the card */
+    animation: pulse-shadow 2s infinite alternate; /* Applies a pulsing shadow animation */
 }
 .project-card.ai-coming-soon h3 {
     color: white;
     margin-bottom: 12px;
 }
 .project-card.ai-coming-soon p {
-    color: #ccc; /* Lighter grey text */
+    color: #ccc; /* Lighter grey text for description */
     font-style: italic;
     font-size: 0.95rem;
 }
@@ -178,13 +180,13 @@ h1 {
     width: 8px;
     height: 8px;
     background: white;
-    border-radius: 50%;
-    animation: blink 1.2s infinite ease-in-out alternate;
+    border-radius: 50%; /* Makes the dots circular */
+    animation: blink 1.2s infinite ease-in-out alternate; /* Blinking animation for dots */
 }
-.project-card.ai-coming-soon .dot:nth-child(2) { /* Apply animation delay to second dot */
+.project-card.ai-coming-soon .dot:nth-child(2) { /* Applies an animation delay to the second dot */
     animation-delay: 0.2s;
 }
-.project-card.ai-coming-soon .dot:nth-child(3) { /* Apply animation delay to third dot */
+.project-card.ai-coming-soon .dot:nth-child(3) { /* Applies an animation delay to the third dot */
     animation-delay: 0.4s;
 }
 .project-card.ai-coming-soon .text#aiTease {
@@ -196,13 +198,13 @@ h1 {
 
 /* Footer Styling */
 footer {
-    background: rgba(255, 255, 255, 0.05); /* Semi-transparent white background */
+    background: rgba(255, 255, 255, 0.05); /* Semi-transparent white background for the footer */
     color: white; /* Text color */
-    text-align: center; /* Center text */
+    text-align: center; /* Centers text within the footer */
     padding: 20px 0; /* Vertical padding */
-    margin-top: 50px; /* Space above */
-    font-size: 0.95rem; /* Smaller font size */
-    border-top: 1px solid rgba(255, 255, 255, 0.1); /* Top border */
+    margin-top: 50px; /* Space above the footer */
+    font-size: 0.95rem; /* Slightly smaller font size */
+    border-top: 1px solid rgba(255, 255, 255, 0.1); /* Top border for separation */
 }
 
 .footer-links {
@@ -213,8 +215,8 @@ footer {
 }
 
 footer a {
-    color: white;
-    text-decoration: none;
+    color: white; /* Link color */
+    text-decoration: none; /* Removes underline from links */
     font-size: 1rem;
 }
 footer a:hover {
@@ -236,7 +238,7 @@ footer a:hover {
 /* --- NEW: Parallax Section Styling --- */
 .parallax-section {
     /* Set the background image for this section */
-    background-image: url('parallax-bg.jpg'); /* REMEMBER TO CHANGE THIS TO YOUR IMAGE PATH */
+    background-image: url('parallax-bg.jpg'); /* IMPORTANT: CHANGE THIS TO YOUR ACTUAL IMAGE PATH */
     background-size: cover; /* Scale the background image to cover the entire container */
     background-position: center; /* Center the background image */
     background-repeat: no-repeat; /* Do not repeat the background image */
@@ -251,14 +253,14 @@ footer a:hover {
     text-align: center; /* Center text within the content box */
     color: white; /* Text color for content within parallax section */
     margin-top: 50px; /* Add some space above this section */
-    position: relative; /* Needed for overlay */
+    position: relative; /* Needed for the ::before overlay positioning */
     overflow: hidden; /* Important for some mobile browsers to prevent artifacts with fixed backgrounds */
 }
 
 /* Optional: Add an overlay to the parallax section for better text readability */
 .parallax-section::before {
-    content: "";
-    position: absolute;
+    content: ""; /* Required for pseudo-elements */
+    position: absolute; /* Position relative to .parallax-section */
     top: 0;
     left: 0;
     width: 100%;
@@ -290,8 +292,8 @@ footer a:hover {
 @media (max-width: 768px) {
     .parallax-section {
         min-height: 350px; /* Smaller height on smaller screens */
-        /* On mobile, fixed background-attachment can be buggy or impact performance. */
-        /* Revert to scroll to ensure smooth scrolling, even if it removes the parallax effect. */
+        /* On mobile, fixed background-attachment can be buggy or impact performance.
+           Revert to scroll to ensure smooth scrolling, even if it removes the parallax effect. */
         background-attachment: scroll;
     }
     .parallax-content h2 {
