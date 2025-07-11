@@ -1,7 +1,7 @@
 <section id="block-visualizer" class="cosmic-visualizer-section">
   <canvas id="cosmicCanvas"></canvas>
   <div class="visualizer-content">
-    <h2>🔗 Blockchain Block Visualizer</h2>
+    <h2 aria-label="Blockchain Block Visualizer">🔗 Blockchain Block Visualizer</h2>
     <p>Explore block data in real-time — visualized in a cosmic way.</p>
     <div id="block-data" class="block-data">
       <!-- Live block data gets injected here -->
@@ -55,6 +55,12 @@
     max-width: 500px;
     text-align: left;
   }
+
+  @media (max-width: 768px) {
+    .visualizer-content {
+      padding: 2rem 1rem;
+    }
+  }
 </style>
 
 <script>
@@ -68,7 +74,7 @@
     canvas.height = window.innerHeight;
   }
   resizeCanvas();
-  window.addEventListener('resize', resizeCanvas);
+  window.addEventListener('resize', resizeCanvas, { passive: true });
 
   class Particle {
     constructor() {
@@ -134,7 +140,8 @@
   }
 
   function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
     particles.forEach(p => {
       p.update();
       p.draw();
@@ -164,5 +171,11 @@
   setInterval(() => {
     const newBlock = generateBlock(blockIndex++);
     blockDataEl.innerHTML = newBlock + blockDataEl.innerHTML;
+
+    // Keep only the latest 10 blocks
+    const blocks = blockDataEl.querySelectorAll('.block');
+    if (blocks.length > 10) {
+      blocks[blocks.length - 1].remove();
+    }
   }, 3000);
 </script>
