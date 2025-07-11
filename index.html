@@ -1,114 +1,114 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sumit Sukhralia</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <div class="container">
-    <img src="your-photo.jpg" alt="Sumit Sukhralia" class="profile-img">
-    <h1>Sumit Sukhralia</h1>
+// === Cosmic Energy Canvas Background ===
+const canvas = document.getElementById('cosmicCanvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
 
-    <div class="terminal animate" id="terminal">
-user@SUMIT: ~ whoami  
-19 • Beyond Curriculum  
-From Biochem to Backend  
-404: Limit Not Found    
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas, { passive: true });
+
+class Particle {
+  constructor() {
+    this.reset();
+  }
+
+  reset() {
+    const edges = ['top', 'right', 'bottom', 'left'];
+    const edge = edges[Math.floor(Math.random() * edges.length)];
+    const offset = 50;
+
+    switch (edge) {
+      case 'top':
+        this.x = Math.random() * canvas.width;
+        this.y = -offset;
+        this.vx = (Math.random() - 0.5) * 2;
+        this.vy = Math.random() * 1.5 + 0.5;
+        break;
+      case 'bottom':
+        this.x = Math.random() * canvas.width;
+        this.y = canvas.height + offset;
+        this.vx = (Math.random() - 0.5) * 2;
+        this.vy = -(Math.random() * 1.5 + 0.5);
+        break;
+      case 'left':
+        this.x = -offset;
+        this.y = Math.random() * canvas.height;
+        this.vx = Math.random() * 1.5 + 0.5;
+        this.vy = (Math.random() - 0.5) * 2;
+        break;
+      case 'right':
+        this.x = canvas.width + offset;
+        this.y = Math.random() * canvas.height;
+        this.vx = -(Math.random() * 1.5 + 0.5);
+        this.vy = (Math.random() - 0.5) * 2;
+        break;
+    }
+
+    this.size = Math.random() * 2 + 1;
+    this.life = 0;
+    this.maxLife = Math.random() * 100 + 100;
+  }
+
+  update() {
+    this.x += this.vx;
+    this.y += this.vy;
+    this.life++;
+    if (this.life >= this.maxLife) this.reset();
+  }
+
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fillStyle = '#582dbd';
+    ctx.shadowColor = '#582dbd';
+    ctx.shadowBlur = 10;
+    ctx.fill();
+  }
+}
+
+for (let i = 0; i < 100; i++) {
+  particles.push(new Particle());
+}
+
+function animate() {
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => {
+    p.update();
+    p.draw();
+  });
+  requestAnimationFrame(animate);
+}
+animate();
+
+// === Blockchain Block Demo (Fake Data) ===
+function generateBlock(index) {
+  const hash = Math.random().toString(36).substring(2, 15);
+  const time = new Date().toLocaleString();
+
+  return `
+    <div class="block">
+      <h3>Block #${index}</h3>
+      <p><strong>Hash:</strong> ${hash}</p>
+      <p><strong>Transactions:</strong> ${Math.floor(Math.random() * 100)}</p>
+      <p><strong>Timestamp:</strong> ${time}</p>
     </div>
+  `;
+}
 
-    <div class="tech-stack">
-      <span>HTML5</span><span>CSS3</span><span>JavaScript</span>
-      <span>React.js</span><span>Node.js</span><span>MongoDB</span><span>Git & GitHub</span>
-    </div>
+const blockDataEl = document.getElementById('block-data');
+let blockIndex = 123457;
 
-    <div class="buttons">
-      <a href="https://instagram.com/sumitsukhralia" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
-      <a href="https://github.com/sumitsukhralia" target="_blank"><i class="fab fa-github"></i> GitHub</a>
-      <a href="mailto:SUMITxNEUROBYTE@proton.me"><i class="fas fa-handshake"></i> Let’s Collaborate</a>
-      <a href="mailto:SUMITxNEUROBYTE@proton.me"><i class="fas fa-envelope"></i> Email Me</a>
-      <a href="#"><i class="fas fa-code"></i> Neur*****e — Coming Soon</a>
-      <button class="toggle-dark" onclick="toggleDarkMode()"><i class="fas fa-moon"></i> Toggle Dark Mode</button>
-    </div>
+setInterval(() => {
+  const newBlock = generateBlock(blockIndex++);
+  blockDataEl.innerHTML = newBlock + blockDataEl.innerHTML;
 
-    <div class="quote" id="quoteBox">"Ctrl your mind. Alt your path. Del the limits."</div>
-
-    <div id="scroll-dark-section"></div>
-
-    <div class="projects">
-      <div class="project-card ai-coming-soon">
-        <h3>👾 neu*****e AI — Coming Soon</h3>
-        <p>
-          A project that challenges what's possible with human-AI interaction.<br>
-          <em>The boundaries will blur. Stay curious. Stay tuned.</em>
-        </p>
-        <div class="tease-box">
-          <span class="dot"></span>
-          <span class="dot" style="animation-delay: 0.2s;"></span>
-          <span class="dot" style="animation-delay: 0.4s;"></span>
-          <span class="text" id="aiTease">Initializing...</span>
-        </div>
-      </div>
-
-      <h3>🚧 Projects Incoming</h3>
-      <p>Currently building — this space will soon be filled with awesome work!</p>
-    </div>
-  </div>
-
-<section class="parallax-end-section">
-  <div class="parallax-overlay">
-    <h2>🚀 Enter the Cosmos</h2>
-    <p>Scroll-triggered parallax space... or energy effects.</p>
-  </div>
-</section>
-
-<section id="block-visualizer" class="cosmic-visualizer-section">
-  <canvas id="cosmicCanvas"></canvas>
-  <div class="visualizer-content">
-    <h2>🔗 Blockchain Block Visualizer</h2>
-    <p>Explore block data in real-time — visualized in a cosmic way.</p>
-   <div id="block-data" class="block-data">
-
-      <div class="block">
-        <h3>Block #123456</h3>
-        <p><strong>Hash:</strong> 0xa3f...8d2b</p>
-        <p><strong>Transactions:</strong> 42</p>
-        <p><strong>Timestamp:</strong> 2025-07-10 12:34:56</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-  
-
-
-
-  <footer>
-    <p>&copy; 2025 <strong>Sumit Sukhralia</strong>. All rights reserved.</p>
-    <div class="footer-links">
-      <a href="https://github.com/sumitsukhralia" target="_blank"><i class="fab fa-github"></i> GitHub</a>
-      <a href="https://instagram.com/sumitsukhralia" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
-      <a href="https://twitter.com/sumitsukhralia" target="_blank"><i class="fab fa-twitter"></i> Twitter</a>
-    </div>
-  </footer>
-
-  <script src="script.js"></script>
-
-    <script src="script.js"></script>
-
-  <script>
-    const parallaxSection = document.querySelector('.parallax-end-section');
-
-    window.addEventListener('scroll', () => {
-      const sectionTop = parallaxSection.getBoundingClientRect().top;
-      const triggerPoint = window.innerHeight * 0.85;
-
-      if (sectionTop < triggerPoint) {
-        parallaxSection.classList.add('visible');
-      }
-    });
-  </script>
-</body>
-</html>
+  // Keep only the latest 10 blocks
+  const blocks = blockDataEl.querySelectorAll('.block');
+  if (blocks.length > 10) {
+    blocks[blocks.length - 1].remove();
+  }
+}, 3000);
