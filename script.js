@@ -1,4 +1,276 @@
+// script.js
 
+// --- GLOBAL VARIABLES AND HELPER FUNCTIONS ---
+// These are functions and data that can be used anywhere in your script.
+
+// --- Quote Display Functionality (Your existing code for quotes) ---
+const quotes = [
+    // ... your quotes ...
+];
+let currentQuoteIndex = -1;
+let quoteIntervalId;
+
+function displayNextQuote() {
+    // ... your displayNextQuote function code ...
+}
+
+// --- AI Tease Text Rotation Functionality (Your existing code for AI messages) ---
+const aiMessages = [
+    // ... your AI messages ...
+];
+let aiMessageIndex = 0;
+// Note: The setInterval for AI tease will be moved into window.onload
+let aiIntervalId; // Declare this globally if you need to clearInterval it later
+
+// --- Dark Mode Toggle Functionality (Your existing code for dark mode) ---
+let userPrefersDarkMode = false;
+function toggleDarkMode() {
+    // ... your toggleDarkMode function code ...
+}
+
+// --- NEW: Multi-Language Greeting Animation (ADD THIS BLOCK HERE) ---
+const greetings = [
+    "Hello!",
+    "नमस्ते!", // Namaste in Hindi
+    "Bonjour!",
+    "Hola!",
+    "こんにちは！", // Konnichiwa in Japanese
+    "안녕하세요!", // Annyeonghaseyo in Korean
+    "مرحبا!",     // Marhaba in Arabic
+    "Olá!",
+    "Hallo!"
+];
+
+let currentMultiGreetingIndex = 0;
+const multiGreetingFadeDuration = 600;
+const multiGreetingDisplayDuration = 1000;
+let greetingCycleCount = 0;
+let maxGreetingCycles = 2;
+let greetingIntervalId;
+
+function cycleMultiGreetingsOnPreloader() {
+    const animatedGreetingElement = document.getElementById('animated-greeting');
+    if (!animatedGreetingElement) return;
+
+    if (greetingCycleCount >= maxGreetingCycles) {
+        clearInterval(greetingIntervalId);
+        return;
+    }
+
+    animatedGreetingElement.classList.remove('greeting-fade-in');
+    animatedGreetingElement.classList.add('greeting-fade-out');
+
+    setTimeout(() => {
+        currentMultiGreetingIndex = (currentMultiGreetingIndex + 1) % greetings.length;
+        animatedGreetingElement.textContent = greetings[currentMultiGreetingIndex];
+
+        animatedGreetingElement.classList.remove('greeting-fade-out');
+        animatedGreetingElement.classList.add('greeting-fade-in');
+
+        greetingCycleCount++;
+
+        if (greetingCycleCount < maxGreetingCycles) {
+            greetingIntervalId = setTimeout(cycleMultiGreetingsOnPreloader, multiGreetingDisplayDuration + multiGreetingFadeDuration);
+        }
+
+    }, multiGreetingFadeDuration);
+}
+// --- END Multi-Language Greeting Animation block ---
+
+
+// --- Typing Effect for Name and Tagline (Your existing code for typing effect) ---
+const nameEl = document.getElementById('typing-name'); // Declare globally if accessed outside window.onload
+const skillEl = document.getElementById('typing-skill'); // Declare globally if accessed outside window.onload
+const nameText = "Sumit Sukhralia"; // Example, customize this!
+const skillText = "awesome web experiences."; // Example, customize this!
+
+function typeWriterEffect(element, text, speed, callback) {
+    // ... your typeWriterEffect function code ...
+}
+
+
+// --- Text Animation (Scramble Effect) Functionality (Your existing code for scramble) ---
+const ASCII_OF_A = "A".charCodeAt();
+const NO_OF_ALPHABETS = 26;
+
+function animateElement(element, originalText, options) {
+    // ... your animateElement function code ...
+}
+
+function animateElements() {
+    // ... your animateElements function code ...
+}
+
+// --- Scroll Reveal Animation for SECTIONS (Your existing Intersection Observer code) ---
+const sections = document.querySelectorAll('section'); // Declare globally
+const options = {
+    threshold: 0.1,
+    rootMargin: "0px"
+};
+
+const sectionObserver = new IntersectionObserver((entries, observer) => {
+    // ... your IntersectionObserver callback ...
+});
+
+function animateSkillBars() {
+    // ... your animateSkillBars function code ...
+}
+
+
+// --- MAIN PAGE LOAD INITIALIZATION (YOUR COMBINED window.onload FUNCTION) ---
+// THIS IS THE ONLY window.onload YOU SHOULD HAVE.
+window.onload = () => {
+    console.log("Window loaded. Initializing script.");
+
+    // --- 1. Get Element References (Keep these at the start of window.onload) ---
+    const preloader = document.getElementById('preloader');
+    const animatedGreetingElement = document.getElementById('animated-greeting');
+    const parallaxBg = document.getElementById('parallax-bg');
+    // Note: nameEl and skillEl are already globally declared above, no need to redeclare here.
+
+
+    // --- Your existing Dark Mode preference check (KEEP this where it is) ---
+    try {
+        const storedDarkMode = localStorage.getItem('darkMode');
+        if (storedDarkMode === 'true') {
+            document.body.classList.add('dark-mode');
+            userPrefersDarkMode = true;
+            console.log("Loaded dark mode preference from localStorage: ON");
+        } else {
+            userPrefersDarkMode = false;
+            console.log("Loaded dark mode preference from localStorage: OFF (or not set)");
+        }
+    } catch (e) {
+        console.error("Error loading dark mode preference from localStorage:", e);
+        userPrefersDarkMode = false;
+    }
+
+
+    // --- 2. Start Multi-Language Greeting (ADD this logic) ---
+    if (animatedGreetingElement && greetings.length > 0) {
+        animatedGreetingElement.textContent = greetings[currentMultiGreetingIndex];
+        setTimeout(() => {
+            animatedGreetingElement.classList.add('greeting-fade-in');
+            cycleMultiGreetingsOnPreloader(); // Starts the looping of greetings
+        }, 100);
+    } else {
+        console.warn("Multi-language greeting element or greetings array not found.");
+    }
+
+
+    // --- 3. Define Preloader Duration & Start Fade-Out (ADD this logic) ---
+    const preloaderDisplayDuration = 2000; // 2 seconds
+
+    setTimeout(() => {
+        if (preloader) {
+            preloader.classList.add('fade-out');
+            console.log("Preloader fading out...");
+        }
+
+        if (parallaxBg) {
+            parallaxBg.classList.add('show');
+            console.log("Parallax background starting...");
+        }
+
+        // --- 4. Start Main Content Animations (ADD this nested setTimeout) ---
+        setTimeout(() => {
+            // --- Typing Effect Initialization (This code MOVES HERE) ---
+            if (nameEl && skillEl) {
+                typeWriterEffect(nameEl, nameText, 80, () => {
+                    setTimeout(() => {
+                        typeWriterEffect(skillEl, skillText, 60);
+                    }, 500);
+                });
+            } else {
+                console.warn("Name or Skill typing elements not found. Typing effect will not run.");
+            }
+
+            // --- Your existing `animateElements()` call (MOVES HERE) ---
+            animateElements();
+
+            // --- Quote Display Initialization (MOVES HERE) ---
+            if (quotes.length > 0) {
+                displayNextQuote();
+                quoteIntervalId = setInterval(displayNextQuote, 60000);
+                console.log("Quote display initialized.");
+            } else {
+                console.warn("No quotes found for display.");
+            }
+
+            // --- AI Tease Text Rotation Initialization (MOVES HERE) ---
+            aiIntervalId = setInterval(() => {
+                const aiTeaseElement = document.getElementById("aiTease");
+                if (!aiTeaseElement) {
+                    console.error("Error: 'aiTease' element not found for AI messages. Stopping AI tease.");
+                    clearInterval(aiIntervalId);
+                    return;
+                }
+                aiTeaseElement.textContent = aiMessages[aiMessageIndex];
+                aiMessageIndex = (aiMessageIndex + 1) % aiMessages.length;
+            }, 3000);
+            console.log("AI Tease text rotation initialized.");
+
+        }, 500); // This delay allows the preloader's fade-out to begin before main animations start
+
+    }, preloaderDisplayDuration); // This is the main delay for the preloader to disappear
+
+
+    // --- Your existing `newQuoteBtn` event listener (KEEP it here) ---
+    const newQuoteBtn = document.getElementById('newQuoteBtn');
+    if (newQuoteBtn) {
+        newQuoteBtn.addEventListener('click', () => {
+            console.log("New Quote button clicked.");
+            displayNextQuote();
+            // Optional: Reset the automatic timer...
+        });
+    } else {
+        console.error("Error: 'newQuoteBtn' element not found. Quote button functionality will not work.");
+    }
+
+    // --- Your existing Scroll-Triggered Dark Mode Effect (KEEP it here) ---
+    const terminalElement = document.getElementById('terminal');
+    let hasScrolledPastTerminal = false;
+
+    if (terminalElement) {
+        window.addEventListener('scroll', () => {
+            const terminalBottom = terminalElement.getBoundingClientRect().bottom;
+
+            if (terminalBottom < 0 && !hasScrolledPastTerminal) {
+                // Removed the direct class add if userPrefersDarkMode is false
+                // because the auto-switch should respect the user preference.
+                // If you want it to always switch to dark regardless of user pref
+                // then uncomment the document.body.classList.add('dark-mode');
+                // if (!userPrefersDarkMode) {
+                //    document.body.classList.add('dark-mode');
+                // }
+                hasScrolledPastTerminal = true;
+                console.log("Scrolled past terminal: Auto-switching logic triggered.");
+            } else if (terminalBottom >= 0 && hasScrolledPastTerminal) {
+                // Only remove dark-mode if user didn't explicitly set it to dark.
+                if (!userPrefersDarkMode) {
+                    document.body.classList.remove('dark-mode');
+                }
+                // If user prefers dark mode, add it back if it was removed by scroll-up
+                if (userPrefersDarkMode) {
+                    document.body.classList.add('dark-mode');
+                }
+                hasScrolledPastTerminal = false;
+                console.log("Terminal back in view: Reverting to user preference.");
+            }
+        });
+    } else {
+        console.error("Error: 'terminal' element not found. Scroll-triggered dark mode will not function.");
+    }
+
+
+    // --- Scroll Reveal Animation for SECTIONS (Your existing Intersection Observer code) ---
+    sections.forEach(section => {
+        sectionObserver.observe(section);
+    });
+
+    // Animate Skill Bars on Scroll is called by the Intersection Observer, no direct call here.
+
+}; // END of window.onload
 
 // --- Quote Display Functionality ---
 // Your comprehensive list of quotes, now displayed sequentially.
