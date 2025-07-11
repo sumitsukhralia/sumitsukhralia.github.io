@@ -1,273 +1,297 @@
-// --- GLOBAL VARIABLES AND HELPER FUNCTIONS ---
-
-// For preloader greetings
-const greetings = [
-    "Hello!",
-    "नमस्ते!", // Namaste in Hindi
-    "Bonjour!",
-    "Hola!",
-    "こんにちは！", // Konnichiwa in Japanese
-    "안녕하세요!", // Annyeonghaseyo in Korean
-    "مرحبا!",     // Marhaba in Arabic
-    "Olá!",
-    "Hallo!"
-];
-
-let currentMultiGreetingIndex = 0;
-let greetingCycleCount = 0;
-const multiGreetingFadeDuration = 600; // Time for each greeting to fade in/out
-const multiGreetingVisibleDuration = 1000; // How long each greeting is fully visible (1 second)
-const multiGreetingTotalCycleTime = multiGreetingFadeDuration + multiGreetingVisibleDuration + multiGreetingFadeDuration;
-const maxGreetingCycles = greetings.length * 2; // Cycle through greetings twice
-let greetingIntervalId; // To store the interval ID for clearing
-
-// For typing effect (name and skill)
-const nameText = "Sumit Sukhralia";
-const skillText = "MERN Stack Developer | AI Enthusiast";
-const typingSpeed = 100; // milliseconds per character
-const deletingSpeed = 50; // milliseconds per character
-const delayBetweenTypingStages = 1000; // milliseconds before typing/deleting next
-
-// For terminal text animation
-const terminalLines = [
-    "user@SUMIT: ~ whoami",
-    "19 • Beyond Curriculum",
-    "From Biochem to Backend",
-    "404: Limit Not Found",
-    "Location: Faridkot, Punjab, India" // Your location
-];
-let currentTerminalLineIndex = 0;
-let charIndex = 0;
-let isDeleting = false;
-let terminalAnimationTimeoutId;
-
-// For AI tease messages
-const aiTeaseMessages = [
-    "Compiling insights...",
-    "Neural pathways syncing...",
-    "Awakening algorithms...",
-    "Querying the cosmos...",
-    "Data streams optimizing...",
-    "Consciousness initializing..."
-];
-let currentAiTeaseIndex = 0;
-let aiTeaseIntervalId;
-const aiTeaseDuration = 2500; // How long each AI tease message shows
-
-// For dynamic quotes
+// --- Quote Display Functionality ---
+// Your comprehensive list of quotes, now displayed sequentially.
 const quotes = [
-    "\"Ctrl your mind. Alt your path. Del the limits.\"",
-    "\"The only way to do great work is to love what you do.\" - Steve Jobs",
-    "\"Innovation distinguishes between a leader and a follower.\" - Steve Jobs",
-    "\"The future belongs to those who believe in the beauty of their dreams.\" - Eleanor Roosevelt",
-    "\"Stay hungry, stay foolish.\" - Steve Jobs",
-    "\"Code is like humor. When you have to explain it, it’s bad.\" - Cory House"
-    // You can add all your other quotes here
+    "Darkness teaches what light hides.",
+    "Silence says more than noise ever could.",
+    "Not all storms come to disrupt — some clear your path.",
+    "The shadows know your secrets.",
+    "Lost time whispers truths you ignored.",
+    "The more you see, the less you trust.",
+    "Loneliness sharpens the mind.",
+    "Some doors only open once.",
+    "Ghosts live in memories we revisit.",
+    "You become what you feed your mind.",
+    "Still waters drown deeper secrets.",
+    "Trust the quiet ones — they notice everything.",
+    "Chaos hides in routine.",
+    "A lie repeated is a truth forgotten.",
+    "Some scars glow in the dark.",
+    "The cost of freedom is solitude.",
+    "Words heal; silence breaks.",
+    "You fear what you refuse to face.",
+    "The cage is open — the mind stays locked.",
+    "Mirrors never lie — they just wait.",
+    "We chase time, but it buries us.",
+    "Dreams remember what you forget.",
+    "Unspoken words weigh the most.",
+    "Fear is a story we tell ourselves.",
+    "You break to rebuild stronger.",
+    "Some endings free you.",
+    "Shadows grow when the sun sets.",
+    "Pain makes poets of us all.",
+    "The truth is patient.",
+    "Destiny whispers — noise ignores.",
+    "Some people are storms disguised as calm seas.",
+    "Light attracts darkness.",
+    "Solitude builds empires within.",
+    "Answers hide in silence.",
+    "The past always finds its echo.",
+    "Your demons know your name.",
+    "What you run from stays closer.",
+    "Secrets poison slowly.",
+    "Bruises fade, lessons stay.",
+    "Hunger feeds the wild inside.",
+    "Some flowers only bloom in the dark.",
+    "Stars die to be seen.",
+    "Wolves don’t lose sleep over sheep.",
+    "Even broken clocks tell time twice.",
+    "Hope is rebellion.",
+    "Monsters are born in neglected corners.",
+    "Only the lost find hidden roads.",
+    "What you bury grows roots.",
+    "Trust your shadows — they never leave.",
+    "Storms cleanse more than they destroy.",
+    "The void listens.",
+    "Not every map shows the way out.",
+    "Fire teaches what ice forgets.",
+    "Some eyes hide entire universes.",
+    "You dig your grave daily.",
+    "Stillness is the loudest roar.",
+    "Destiny bends to the brave.",
+    "Nothing haunts like almost.",
+    "The mind is a maze with no exits.",
+    "Words taste different in the dark.",
+    "The moon keeps secrets daylight denies.",
+    "Trust breaks without sound.",
+    "Every scar is a page in your story.",
+    "Some souls wear borrowed faces.",
+    "Silence is loyalty to the self.",
+    "Broken wings remember flight.",
+    "The truth hides in half-said things.",
+    "Code whispers what logic screams.",
+    "The bug you ignore haunts your nights.",
+    "Silence is the best debugger.",
+    "One semicolon can break empires.",
+    "Errors are teachers in disguise.",
+    "Great devs trust the unseen.",
+    "A single line can change your fate.",
+    "Sleep is a myth when curiosity lives.",
+    "Shadows exist in code too.",
+    "Build alone, launch together.",
+    "Code is poetry for machines.",
+    "The compiler never lies.",
+    "Trust your logic, question your assumptions.",
+    "Some loops never end — like regret.",
+    "Debugging is a mirror for the mind.",
+    "Clarity is rarer than syntax.",
+    "Comments are confessions to the future.",
+    "If it works, you missed something.",
+    "The mind compiles what the heart ignores.",
+    "Version 1 is a graveyard of mistakes.",
+    "Deadlines kill perfection.",
+    "Creativity hides behind broken code.",
+    "Stack Overflow knows your secrets.",
+    "Some bugs are features waiting to be named.",
+    "Dark mode, deep thoughts.",
+    "Broken code builds better coders.",
+    "Code alone, ship loud.",
+    "Push your limits like you push commits.",
+    "You write bugs before you write brilliance.",
+    "Genius hides in drafts.",
+    "Trust your repo, distrust your ego.",
+    "Night owls build tomorrow’s empires.",
+    "Data never lies — but people do.",
+    "Syntax is simple — logic is chaos.",
+    "Hack your fears, deploy your courage.",
+    "If you can’t break it, you don’t own it.",
+    "Scripts sleep — logic never does.",
+    "Errors know your name.",
+    "Some branches must be deleted.",
+    "Rewrite or regret.",
+    "Code reveals character.",
+    "Dreams deploy at 2AM.",
+    "Learn, break, rebuild — repeat.",
+    "Silence your doubts, echo your skills.",
+    "Keyboard is sword, mind is shield.",
+    "Test your limits like you test your code.",
+    "Ghost commits haunt the careless.",
+    "Lost sleep, found purpose.",
+    "You debug you.",
+    "Some logs never lie.",
+    "Patience writes clean code.",
+    "Coffee fuels revolutions in silence.",
+    "Your mindset is the master branch.",
+    "Brackets close — ideas don’t.",
+    "Read the docs, trust your gut.",
+    "Legacy code — modern regret.",
+    "Stay curious — stay dangerous.",
+    "Push your chaos, pull your peace.",
+    "Code is alive — it changes you back.",
+    "Keyboard clicks echo your mind.",
+    "Comment your life like your code.",
+    "Only the brave merge master.",
+    "Fearless devs ship ugly.",
+    "Failing builds stronger brains.",
+    "A hacker’s silence is louder than noise.",
+    "Logic bends for the persistent.",
+    "One repo, infinite paths.",
+    "Bugs find lazy minds.",
+    "Never trust a green build.",
+    "Deploy hope, rollback fear.",
+    "Sometimes the root problem is you.",
+    "Security is an illusion — diligence is real.",
+    "Keep shipping until doubt dies.",
+    "Algorithms reflect your chaos.",
+    "Brave devs question comments.",
+    "Bad code outlives you.",
+    "Keyboard warriors build new worlds.",
+    "Merge conflict mirrors inner conflict.",
+    "Read your failures like logs.",
+    "The greatest feature: unfinished.",
+    "Never chase perfect — chase progress.",
+    "Code like no one’s watching — refactor like everyone is.",
+    "Silence your IDE, unleash your mind.",
+    "Frameworks age, logic evolves.",
+    "Build trust in your branches.",
+    "Break your own limits — or bugs will.",
+    "Every sprint leaves a footprint.",
+    "Deploy dreams, patch nightmares.",
+    "One line at 3AM can launch an empire.",
+    "Pseudocode your thoughts, compile your life.",
+    "Some bugs fix you.",
+    "Passion outlives syntax.",
+    "Deadlines teach speed — curiosity teaches depth.",
+    "Don’t fear blank screens — fear stale code.",
+    "The repo remembers what you forget.",
+    "True devs know when to delete.",
+    "Fear no error — fear no commit.",
+    "One branch can betray you.",
+    "All code is legacy tomorrow.",
+    "Debug your doubts daily.",
+    "Push when afraid.",
+    "The deeper the logic, the darker the nights.",
+    "Dreams are raw commits.",
+    "Sometimes you are the bottleneck.",
+    "Break code, not spirit.",
+    "Devs build realities in silence.",
+    "Architecture hides inside questions.",
+    "Secure your logic — unlock your mind.",
+    "One repo at a time, you evolve.",
+    "Rewrite yourself like your code.",
+    "Merge your chaos with purpose.",
+    "The cleanest code is invisible.",
+    "Fear writes sloppy code.",
+    "Trust the compiler — test your mind.",
+    "Each sprint reveals a flaw in you.",
+    "Stay raw — stay building.",
+    "The keyboard knows your secrets.",
+    "One feature at a time, one fear at a time.",
+    "Restarts are rebirths.",
+    "Dark mode hides tears.",
+    "Let your silence refactor your soul.",
+    "Shadows in code, demons in mind.",
+    "Learn the rules — break them clean.",
+    "Build what you fear to need.",
+    "Test cases teach patience.",
+    "The best devs break things twice.",
+    "A real dev fixes themselves first.",
+    "Never trust working code blindly.",
+    "Fearful devs write messy futures.",
+    "If it’s too easy, look deeper.",
+    "Work alone — change together.",
+    "Refactor your regrets.",
+    "Infinite loops mirror your mind.",
+    "Deploy your doubts to /dev/null.",
+    "Dreams versioned, doubts deleted.",
+    "Ghost branches never die.",
+    "Plan less, build more.",
+    "Ship now, sleep later.",
+    "IDEs crash — mind shouldn’t.",
+    "Protect your main branch — protect your peace.",
+    "Brave minds handle merge conflicts.",
+    "Git pull your purpose.",
+    "Build in silence — launch in noise.",
+    "The console knows your soul.",
+    "Each error log is a lesson.",
+    "Push past logic — trust your gut.",
+    "Ideas never compile perfectly.",
+    "Control your keys — own your future.",
+    "Brackets contain chaos.",
+    "Code what they can’t copy."
 ];
-let currentQuoteIndex = 0;
 
-// Dark mode preference
-let userPrefersDarkMode = false;
+let currentQuoteIndex = -1; // Start at -1 so the first call to displayNextQuote() shows index 0
+let quoteIntervalId; // To store the ID of the setInterval for automatic rotation
 
-
-// --- UTILITY FUNCTIONS ---
-
-/**
- * Types out a given text into an element.
- * @param {HTMLElement} element The HTML element to type into.
- * @param {string} text The text to type.
- * @param {number} speed Typing speed in milliseconds per character.
- * @param {function} [callback] An optional function to call after typing is complete.
- */
-function typeText(element, text, speed, callback) {
-    let i = 0;
-    element.textContent = ''; // Clear existing text
-    element.classList.add('typing-cursor'); // Add cursor for typing effect
-    element.style.opacity = '1'; // Make sure element is visible
-
-    function typeChar() {
-        if (i < text.length) {
-            element.textContent += text.charAt(i);
-            i++;
-            setTimeout(typeChar, speed);
-        } else {
-            element.classList.remove('typing-cursor'); // Remove cursor after typing
-            if (callback) {
-                setTimeout(callback, delayBetweenTypingStages); // Call callback after a delay
-            }
-        }
-    }
-    typeChar();
-}
-
-/**
- * Animates the typing and deleting of lines in the terminal.
- */
-function animateTerminalText() {
-    const terminalElement = document.getElementById('terminal');
-    if (!terminalElement) {
-        console.error("Terminal element not found for animation.");
-        return;
-    }
-
-    const fullText = terminalLines.join('\n'); // All lines combined for animation
-    const currentLine = terminalLines[currentTerminalLineIndex];
-
-    terminalElement.classList.add('typing-cursor'); // Add cursor to terminal
-
-    if (!isDeleting) {
-        // Typing phase
-        terminalElement.textContent = terminalLines.slice(0, currentTerminalLineIndex).join('\n');
-        if (currentTerminalLineIndex > 0) {
-            terminalElement.textContent += '\n'; // Add newline for subsequent lines
-        }
-        terminalElement.textContent += currentLine.substring(0, charIndex + 1);
-        charIndex++;
-
-        if (charIndex > currentLine.length) {
-            isDeleting = true;
-            terminalAnimationTimeoutId = setTimeout(animateTerminalText, delayBetweenTypingStages); // Pause after typing line
-        } else {
-            terminalAnimationTimeoutId = setTimeout(animateTerminalText, typingSpeed);
-        }
-    } else {
-        // Deleting phase (only delete the current line)
-        terminalElement.textContent = terminalLines.slice(0, currentTerminalLineIndex).join('\n');
-        if (currentTerminalLineIndex > 0) {
-            terminalElement.textContent += '\n';
-        }
-        terminalElement.textContent += currentLine.substring(0, charIndex - 1);
-        charIndex--;
-
-        if (charIndex < 0) {
-            isDeleting = false;
-            currentTerminalLineIndex = (currentTerminalLineIndex + 1) % terminalLines.length; // Move to next line
-            terminalAnimationTimeoutId = setTimeout(animateTerminalText, typingSpeed); // Pause before typing next line
-        } else {
-            terminalAnimationTimeoutId = setTimeout(animateTerminalText, deletingSpeed);
-        }
-    }
-}
-
-
-/**
- * Cycles through multi-language greetings on the preloader screen.
- */
-function cycleMultiGreetingsOnPreloader() {
-    const animatedGreetingElement = document.getElementById('animated-greeting');
-    if (!animatedGreetingElement) {
-        console.warn("Multi-language greeting element not found for cycling.");
-        return;
-    }
-
-    if (greetingCycleCount >= maxGreetingCycles) {
-        clearInterval(greetingIntervalId); // Stop future cycles
-        return;
-    }
-
-    // 1. Fade out current greeting (if any is visible)
-    animatedGreetingElement.classList.remove('greeting-fade-in');
-    animatedGreetingElement.classList.add('greeting-fade-out');
-
-    // 2. Wait for the fade-out to complete, then change text and fade in the next
-    setTimeout(() => {
-        // Increment index and update text
-        currentMultiGreetingIndex = (currentMultiGreetingIndex + 1) % greetings.length;
-        animatedGreetingElement.textContent = greetings[currentMultiGreetingIndex];
-
-        // Fade in new greeting
-        animatedGreetingElement.classList.remove('greeting-fade-out');
-        animatedGreetingElement.classList.add('greeting-fade-in');
-
-        // Increment cycle count after a greeting has appeared (faded in)
-        greetingCycleCount++; 
-
-        // Schedule the next full cycle (current fades out, next fades in)
-        if (greetingCycleCount < maxGreetingCycles) {
-            greetingIntervalId = setTimeout(cycleMultiGreetingsOnPreloader, multiGreetingVisibleDuration + multiGreetingFadeDuration);
-        }
-
-    }, multiGreetingFadeDuration); // This delay accounts for the fade-out duration
-}
-
-
-/**
- * Rotates through AI tease messages.
- */
-function rotateAiTeaseMessage() {
-    const aiTeaseElement = document.getElementById('aiTease');
-    if (!aiTeaseElement) {
-        console.error("Error: 'aiTease' element not found. Stopping AI tease.");
-        clearInterval(aiTeaseIntervalId); // Stop interval if element is missing
-        return;
-    }
-    aiTeaseElement.textContent = aiTeaseMessages[currentAiTeaseIndex];
-    currentAiTeaseIndex = (currentAiTeaseIndex + 1) % aiTeaseMessages.length;
-}
-
-/**
- * Displays a new random quote.
- */
-function displayNewQuote() {
+// Function to display the next quote in sequence
+function displayNextQuote() {
     const quoteBox = document.getElementById('quoteBox');
-    if (!quoteBox) {
+    if (!quoteBox) { // Robustness check: Ensure element exists
         console.error("Error: 'quoteBox' element not found. Cannot display quote.");
-        return;
+        return; // Exit function if element is missing
     }
-    
+
+    // Increment index, and loop back to 0 if we reach the end of the array
+    currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
+
     // Fade out the current quote
-    quoteBox.style.opacity = '0';
+    quoteBox.style.opacity = 0;
+    console.log(`Displaying quote #${currentQuoteIndex}: "${quotes[currentQuoteIndex].substring(0, 30)}..."`); // Log which quote is next
 
+    // After the fade-out, change the text and fade it back in
     setTimeout(() => {
-        // Ensure new quote is different from the last one (if possible with enough quotes)
-        let newIndex;
-        do {
-            newIndex = Math.floor(Math.random() * quotes.length);
-        } while (newIndex === currentQuoteIndex && quotes.length > 1);
-        currentQuoteIndex = newIndex;
-
-        quoteBox.textContent = quotes[currentQuoteIndex];
-        // Fade in the new quote
-        quoteBox.style.opacity = '1';
-    }, 500); // Half a second for fade out, then change text and fade in
+        quoteBox.innerText = quotes[currentQuoteIndex]; // Update text to the next sequential quote
+        quoteBox.style.opacity = 1; // Fade in the new quote
+    }, 500); // Wait 500ms (0.5 seconds) for the fade-out to complete before changing text
 }
 
-/**
- * Toggles dark mode on the body and saves preference to localStorage.
- */
+// --- AI Tease Text Rotation Functionality ---
+const aiMessages = [
+    "Initializing...",
+    "Waking neural core...",
+    "Connecting consciousness...",
+    "Decoding thoughts...",
+    "Compiling intuition...",
+    "Deploying self-awareness...",
+    "Spawning sentience..."
+];
+let aiMessageIndex = 0; // Initialize AI message index
+
+// Set an interval to change the AI tease message every 3 seconds (3000 milliseconds)
+setInterval(() => {
+    const aiTeaseElement = document.getElementById("aiTease");
+    if (!aiTeaseElement) { // Robustness check
+        console.error("Error: 'aiTease' element not found for AI messages.");
+        return;
+    }
+    aiTeaseElement.textContent = aiMessages[aiMessageIndex]; // Update text
+    aiMessageIndex = (aiMessageIndex + 1) % aiMessages.length; // Move to next message, loop if at end
+}, 3000);
+
+// --- Dark Mode Toggle Functionality (Manual Button) ---
+let userPrefersDarkMode = false; // Flag to store user's manual preference
+
 function toggleDarkMode() {
-    const body = document.body;
-    body.classList.toggle('dark-mode');
-    userPrefersDarkMode = body.classList.contains('dark-mode');
+    // Attempt to toggle dark mode class
+    document.body.classList.toggle('dark-mode');
+
+    // Update the user's preference flag
+    userPrefersDarkMode = document.body.classList.contains('dark-mode');
+
+    // Save the current dark mode preference in local storage
     try {
-        localStorage.setItem('darkMode', userPrefersDarkMode); // Save preference
-        console.log("Dark mode toggled:", userPrefersDarkMode ? "ON" : "OFF");
+        localStorage.setItem('darkMode', userPrefersDarkMode);
+        console.log("Dark mode preference saved to localStorage:", userPrefersDarkMode);
     } catch (e) {
         console.error("Error saving dark mode preference to localStorage:", e);
     }
 }
 
-
-// --- INITIALIZATION ON WINDOW LOAD ---
-
-// This ensures all HTML elements are fully loaded before JavaScript tries to access them.
-window.onload = function() {
+// --- Initial Setup on Page Load ---
+window.onload = () => {
     console.log("Window loaded. Initializing script.");
 
-    // Get references to all necessary DOM elements
-    const preloader = document.getElementById('preloader');
-    const parallaxBg = document.getElementById('parallax-bg');
-    const animatedGreetingElement = document.getElementById('animated-greeting');
-    const typingNameElement = document.getElementById('typing-name');
-    const typingSkillElement = document.getElementById('typing-skill');
-    const terminalElement = document.getElementById('terminal');
-    const quoteBox = document.getElementById('quoteBox');
-    const newQuoteBtn = document.getElementById('newQuoteBtn');
-    const aiTeaseElement = document.getElementById('aiTease');
-    const scrollDarkSection = document.getElementById('scroll-dark-section');
-
-
-    // 1. Load Dark Mode Preference from Local Storage
+    // Check local storage for dark mode preference when the page loads
     try {
         const storedDarkMode = localStorage.getItem('darkMode');
         if (storedDarkMode === 'true') {
@@ -276,147 +300,103 @@ window.onload = function() {
             console.log("Loaded dark mode preference from localStorage: ON");
         } else {
             userPrefersDarkMode = false;
-            // Ensure dark-mode is explicitly removed if preference is false or not set
-            document.body.classList.remove('dark-mode');
             console.log("Loaded dark mode preference from localStorage: OFF (or not set)");
         }
     } catch (e) {
         console.error("Error loading dark mode preference from localStorage:", e);
         userPrefersDarkMode = false; // Default to light if localStorage fails
-        document.body.classList.remove('dark-mode');
     }
 
 
-    // 2. Preloader & Initial Animations
-    if (preloader) {
-        // Minimum time preloader is fully visible, now considering greeting cycle time
-        const preloaderMinDisplayTime = multiGreetingTotalCycleTime * 2; // Show at least 2 full greeting cycles
-        if (preloaderMinDisplayTime < 2500) { // Ensure a minimum of 2.5 seconds
-            preloaderMinDisplayTime = 2500;
-        }
+    animateElements(); // Call the function to animate elements (like the terminal text)
 
-        // Start the greeting animation immediately
-        if (animatedGreetingElement && greetings.length > 0) {
-            animatedGreetingElement.textContent = greetings[currentMultiGreetingIndex];
-            // Initial fade-in of the first greeting
-            setTimeout(() => {
-                animatedGreetingElement.classList.add('greeting-fade-in');
-                // Start the continuous cycling after the first greeting has faded in and been visible
-                greetingIntervalId = setTimeout(cycleMultiGreetingsOnPreloader, multiGreetingVisibleDuration + multiGreetingFadeDuration);
-            }, multiGreetingFadeDuration); // Give a moment for the initial state to render (matches CSS transition)
-            console.log("Starting multi-language greeting animation.");
-        } else {
-            console.warn("Multi-language greeting element or greetings array not found. Skipping preloader greetings.");
-        }
+    // --- Quote Display Initialization ---
+    if (quotes.length > 0) { // Ensure there are quotes to display
+        displayNextQuote(); // Display the first quote immediately on load
+        quoteIntervalId = setInterval(displayNextQuote, 60000); // Auto-rotate every 60 seconds
+        console.log("Quote display initialized.");
+    } else {
+        console.warn("No quotes found in the 'quotes' array. Quote display will not function.");
+    }
 
-        // Fade out preloader after its minimum display time
-        setTimeout(() => {
-            preloader.classList.add('fade-out');
-            console.log("Preloader fading out...");
 
-            // After preloader starts fading, reveal the parallax background
-            if (parallaxBg) {
-                parallaxBg.classList.add('show');
-                console.log("Parallax background showing.");
-            } else {
-                console.warn("Parallax background element not found.");
+    // Add event listener to the new quote button
+    const newQuoteBtn = document.getElementById('newQuoteBtn');
+    if (newQuoteBtn) {
+        newQuoteBtn.addEventListener('click', () => {
+            console.log("New Quote button clicked.");
+            displayNextQuote();
+            // Optional: Reset the automatic timer so it doesn't change too quickly after a manual click
+            // clearInterval(quoteIntervalId);
+            // quoteIntervalId = setInterval(displayNextQuote, 60000);
+        });
+    } else {
+        console.error("Error: 'newQuoteBtn' element not found. Quote button functionality will not work.");
+    }
+
+    // --- Scroll-Triggered Dark Mode Effect ---
+    const terminalElement = document.getElementById('terminal');
+    let hasScrolledPastTerminal = false;
+
+    if (terminalElement) { // Robustness check
+        console.log("Terminal element found for scroll-triggered dark mode.");
+        window.addEventListener('scroll', () => {
+            const terminalBottom = terminalElement.getBoundingClientRect().bottom;
+
+            if (terminalBottom < 0 && !hasScrolledPastTerminal) {
+                document.body.classList.add('dark-mode');
+                // document.body.classList.add('fast-transition'); // Uncomment if you add this CSS class
+                hasScrolledPastTerminal = true;
+                console.log("Scrolled past terminal: Auto-switching to Dark Mode!");
+            } else if (terminalBottom >= 0 && hasScrolledPastTerminal) {
+                document.body.classList.remove('dark-mode');
+                // document.body.classList.remove('fast-transition'); // Uncomment if you add this CSS class
+
+                if (userPrefersDarkMode) {
+                    document.body.classList.add('dark-mode');
+                }
+                hasScrolledPastTerminal = false;
+                console.log("Terminal back in view: Reverting to user preference.");
             }
-
-            // Start main content animations AFTER preloader CSS fade-out transition completes (1s)
-            setTimeout(() => {
-                // Initial typewriter effect for name
-                if (typingNameElement && typingSkillElement) {
-                    typeText(typingNameElement, nameText, typingSpeed, () => {
-                        typeText(typingSkillElement, skillText, typingSpeed);
-                    });
-                    console.log("Starting typing effect for name and skill.");
-                } else {
-                    console.warn("Typing elements (typing-name or typing-skill) not found.");
-                }
-
-                // Initial AI tease message
-                if (aiTeaseElement) {
-                    rotateAiTeaseMessage(); // Set initial AI message
-                    aiTeaseIntervalId = setInterval(rotateAiTeaseMessage, aiTeaseDuration); // Cycle AI messages
-                    console.log("Starting AI tease messages.");
-                } else {
-                    console.warn("'aiTease' element not found. Skipping AI tease.");
-                }
-
-                // Initial Quote (and button listener)
-                if (quoteBox && newQuoteBtn) {
-                    currentQuoteIndex = Math.floor(Math.random() * quotes.length); // Pick a random first quote
-                    quoteBox.textContent = quotes[currentQuoteIndex]; 
-                    newQuoteBtn.addEventListener('click', displayNewQuote);
-                    console.log("Quote box initialized and button listener attached.");
-                } else {
-                    console.warn("Quote box or new quote button not found.");
-                }
-
-                // Initial terminal typing animation
-                if (terminalElement) {
-                    animateTerminalText(); // Start terminal animation
-                    console.log("Starting terminal animation.");
-                } else {
-                    console.warn("Terminal element not found. Skipping terminal animation.");
-                }
-
-            }, 1000); // Wait for preloader's CSS fade-out transition (1s) to complete
-        }, preloaderMinDisplayTime); // Wait for preloader's minimum display time
+        });
     } else {
-        console.error("Preloader element not found! Page will load immediately without preloader.");
-        // If preloader isn't found, ensure other elements are still shown
-        if (parallaxBg) {
-            parallaxBg.classList.add('show');
-        }
-        // Immediately start other animations if no preloader
-        if (typingNameElement && typingSkillElement) {
-            typeText(typingNameElement, nameText, typingSpeed, () => {
-                typeText(typingSkillElement, skillText, typingSpeed);
-            });
-        }
-        if (aiTeaseElement) {
-            rotateAiTeaseMessage();
-            aiTeaseIntervalId = setInterval(rotateAiTeaseMessage, aiTeaseDuration);
-        }
-        if (quoteBox && newQuoteBtn) {
-            currentQuoteIndex = Math.floor(Math.random() * quotes.length);
-            quoteBox.textContent = quotes[currentQuoteIndex];
-            newQuoteBtn.addEventListener('click', displayNewQuote);
-        }
-        if (terminalElement) animateTerminalText();
-    }
-
-
-    // 3. Scroll-triggered Dark Mode
-    if (scrollDarkSection) {
-        const observerOptions = {
-            root: null, // relative to the viewport
-            rootMargin: '0px',
-            threshold: 0.1 // 10% of the target element visible
-        };
-
-        const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                // If the scroll-dark-section is intersecting (i.e., user scrolled down to it)
-                if (entry.isIntersecting) {
-                    // Only apply dark mode if the user hasn't manually preferred light mode
-                    if (!userPrefersDarkMode) { 
-                        document.body.classList.add('dark-mode');
-                    }
-                } else {
-                    // If not intersecting (e.g., scrolled back up past it)
-                    // Only revert to light mode if the user hasn't manually preferred dark mode
-                    if (!userPrefersDarkMode) { 
-                        document.body.classList.remove('dark-mode');
-                    }
-                }
-            });
-        }, observerOptions);
-
-        observer.observe(scrollDarkSection);
-        console.log("Scroll observer for dark mode initialized.");
-    } else {
-        console.warn("Scroll dark section element not found. Scroll-triggered dark mode disabled.");
+        console.error("Error: 'terminal' element not found. Scroll-triggered dark mode will not function.");
     }
 };
+
+// --- Text Animation (Scramble Effect) Functionality ---
+const ASCII_OF_A = "A".charCodeAt();
+const NO_OF_ALPHABETS = 26;
+
+function animateElement(element, originalText, options) {
+    let iteration = 0;
+    if (options.interval) return;
+    options.interval = setInterval(() => {
+        const newWord = originalText
+            .split("")
+            .map((_, idx) => idx < iteration ? originalText[idx] : String.fromCharCode(Math.trunc(Math.random() * NO_OF_ALPHABETS) + ASCII_OF_A))
+            .join("");
+        element.innerText = newWord;
+        iteration += 1;
+        if (iteration > originalText.length) {
+            clearInterval(options.interval);
+            options.interval = null;
+        }
+    }, 30);
+}
+
+function animateElements() {
+    const elements = document.getElementsByClassName("animate");
+    if (elements.length === 0) {
+        console.warn("No elements found with class 'animate' for text scrambling.");
+        return;
+    }
+    for (const element of elements) {
+        const originalText = element.innerText;
+        const options = { interval: null };
+        animateElement(element, originalText, options);
+        element.addEventListener("mouseover", (event) => {
+            animateElement(event.target, originalText, options);
+        });
+    }
+}
