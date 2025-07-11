@@ -4,20 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sumit Sukhralia</title>
-    <!-- Link to Font Awesome for icons -->
+    <!-- Link to Font Awesome for icons (social media, toggle mode, new quote icon) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Link to your external CSS file -->
+    <!-- Link to your external CSS file for all styling -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Main container for the profile content -->
+    <!-- Main container for the profile content, centered and with max-width -->
     <div class="container">
-        <!-- Profile image -->
+        <!-- Profile image with circular styling and white border -->
         <img src="your-photo.jpg" alt="Sumit Sukhralia" class="profile-img">
-        <!-- Main heading for the name -->
+        <!-- Main heading for your name -->
         <h1>Sumit Sukhralia</h1>
 
-        <!-- Terminal-like section for intro text -->
+        <!-- Terminal-like section for intro text, with text scrambling animation -->
         <div class="terminal animate" id="terminal">
             user@SUMIT: ~ whoami
             19 • Beyond Curriculum
@@ -25,7 +25,7 @@
             404: Limit Not Found
         </div>
 
-        <!-- Section for displaying tech stack/skills -->
+        <!-- Section for displaying your tech stack/skills -->
         <div class="tech-stack">
             <span>HTML5</span><span>CSS3</span><span>JavaScript</span>
             <span>React.js</span><span>Node.js</span><span>MongoDB</span><span>Git & GitHub</span>
@@ -38,25 +38,29 @@
             <a href="mailto:SUMITxNEUROBYTE@proton.me"><i class="fas fa-handshake"></i> Let’s Collaborate</a>
             <a href="mailto:SUMITxNEUROBYTE@proton.me"><i class="fas fa-envelope"></i> Email Me</a>
             <a href="#"><i class="fas fa-code"></i> Neur*****e — Coming Soon</a>
-            <!-- Button to toggle dark/light mode -->
+            <!-- Button to manually toggle dark/light mode -->
             <button class="toggle-dark" onclick="toggleDarkMode()"><i class="fas fa-moon"></i> Toggle Dark Mode</button>
         </div>
 
         <!-- Section for a rotating quote -->
         <div class="quote" id="quoteBox">"Ctrl your mind. Alt your path. Del the limits."</div>
 
+        <!-- NEW: Button to manually generate the next sequential quote -->
+        <button id="newQuoteBtn" class="buttons-style"><i class="fas fa-sync-alt"></i> New Quote</button>
+
         <!-- A hidden div that was previously used as a scroll trigger, but is no longer actively used by the new JS logic -->
         <div id="scroll-dark-section"></div>
 
         <!-- Section for projects -->
         <div class="projects">
-            <!-- Project card for the AI project coming soon -->
+            <!-- Project card for the AI project coming soon, with pulsing shadow -->
             <div class="project-card ai-coming-soon">
                 <h3>👾 neu*****e AI — Coming Soon</h3>
                 <p>
                     A project that challenges what's possible with human-AI interaction.<br>
                     <em>The boundaries will blur. Stay curious. Stay tuned.</em>
                 </p>
+                <!-- Tease box with blinking dots and rotating text for AI project -->
                 <div class="tease-box">
                     <span class="dot"></span>
                     <span class="dot"></span>
@@ -65,14 +69,14 @@
                 </div>
             </div>
 
-            <!-- Placeholder for other projects -->
+            <!-- Placeholder for other projects that will be added later -->
             <h3>🚧 Projects Incoming</h3>
             <p>Currently building — this space will soon be filled with awesome work!</p>
         </div>
 
     </div> <!-- End of .container -->
 
-    <!-- NEW PARALLAX SECTION: Placed outside the container to allow full-width background -->
+    <!-- NEW PARALLAX SECTION: Placed outside the main container to allow a full-width background effect -->
     <div class="parallax-section">
         <div class="parallax-content">
             <h2>Explore More!</h2>
@@ -81,7 +85,7 @@
     </div>
     <!-- END OF NEW PARALLAX SECTION -->
 
-    <!-- Footer section -->
+    <!-- Footer section with copyright and social links -->
     <footer>
         <p>&copy; 2025 <strong>Sumit Sukhralia</strong>. All rights reserved.</p>
         <div class="footer-links">
