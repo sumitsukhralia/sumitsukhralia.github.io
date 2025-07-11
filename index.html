@@ -1,1 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sumit Sukhralia - Cosmic Dev Portfolio</title> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto+Mono&display=swap" rel="stylesheet">
+</head>
+<body>
 
+    <div id="preloader">
+        <div class="greeting-container">
+            <span id="animated-greeting"></span>
+        </div>
+    </div>
+
+    <div class="parallax-bg" id="parallax-bg"></div>
+
+    <section class="hero-section" id="hero">
+        <div class="container">
+            <img src="your-photo.jpg" alt="Sumit Sukhralia" class="profile-img">
+            <h1>Hi, I'm <span id="typing-name"></span></h1>
+            <p class="tagline">I build <span id="typing-skill"></span></p>
+
+            <div class="terminal animate" id="terminal">
+                user@SUMIT: ~ whoami
+                19 • Beyond Curriculum
+                From Biochem to Backend
+                404: Limit Not Found
+            </div>
+
+            <div class="buttons">
+                <a href="https://instagram.com/sumitsukhralia" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+                <a href="https://github.com/sumitsukhralia" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                <a href="mailto:SUMITxNEUROBYTE@proton.me"><i class="fas fa-handshake"></i> Let’s Collaborate</a>
+                <a href="mailto:SUMITxNEUROBYTE@proton.me"><i class="fas fa-envelope"></i> Email Me</a>
+                <a href="#"><i class="fas fa-code"></i> Neur*****e — Coming Soon</a>
+                <button class="toggle-dark" onclick="toggleDarkMode()"><i class="fas fa-moon"></i> Toggle Dark Mode</button>
+            </div>
+
+            <a href="#projects" class="scroll-down"><i class="fas fa-chevron-down"></i></a>
+        </div>
+    </section>
+
+    <section class="projects" id="projects">
+        <div class="container">
+            <h2>My Work</h2>
+            <div class="project-grid">
+                <div class="project-card ai-coming-soon">
+                    <img src="https://via.placeholder.com/400x250/8a2be2/ffffff?text=AI+Project+Image" alt="AI Project Image"> <div class="project-card-content">
+                        <h3>👾 neu*****e AI — Coming Soon</h3>
+                        <p>
+                            A project that challenges what's possible with human-AI interaction.<br>
+                            <em>The boundaries will blur. Stay curious. Stay tuned.</em>
+                        </p>
+                    </div>
+                    <div class="tease-box">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <span class="text" id="aiTease">Initializing...</span>
+                    </div>
+                    </div>
+
+                <div class="project-card quote-generator-card">
+                    <img src="https://via.placeholder.com/400x250/00e0ff/ffffff?text=Quote+Generator" alt="Quote Generator Image"> <div class="project-card-content">
+                        <h3>🌌 Cosmic Quote Generator</h3>
+                        <p>Discover profound, dark-themed quotes that resonate with the depths of the mind and the universe.</p>
+                        <div class="quote" id="quoteBox">"Ctrl your mind. Alt your path. Del the limits."</div>
+                    </div>
+                    <div class="card-links">
+                        <button id="newQuoteBtn" class="buttons-style"><i class="fas fa-sync-alt"></i> New Quote</button>
+                        </div>
+                </div>
+
+                <div class="project-card">
+                    <img src="https://via.placeholder.com/400x250/34495e/ffffff?text=Your+Project+3" alt="Project 3 Image">
+                    <div class="project-card-content">
+                        <h3>Web Development Showcase</h3>
+                        <p>A responsive website demonstrating modern front-end techniques and interactive UI elements.</p>
+                    </div>
+                    <div class="card-links">
+                        <a href="https://github.com/yourusername/your-project-3-repo" target="_blank">Code <i class="fab fa-github"></i></a>
+                        <a href="https://yourusername.github.io/your-project-3-demo/" target="_blank">Live Demo <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="skills-section" id="skills">
+        <div class="container">
+            <h2>My Skills</h2>
+            <div class="skill-list">
+                <div class="skill-item">
+                    <i class="fab fa-html5"></i>
+                    <span>HTML5</span>
+                    <div class="skill-bar"><div class="skill-level" data-level="95"></div></div>
+                </div>
+                <div class="skill-item">
+                    <i class="fab fa-css3-alt"></i>
+                    <span>CSS3</span>
+                    <div class="skill-bar"><div class="skill-level" data-level="90"></div></div>
+                </div>
+                <div class="skill-item">
+                    <i class="fab fa-js"></i>
+                    <span>JavaScript</span>
+                    <div class="skill-bar"><div class="skill-level" data-level="80"></div></div>
+                </div>
+                <div class="skill-item">
+                    <i class="fab fa-react"></i>
+                    <span>React.js</span>
+                    <div class="skill-bar"><div class="skill-level" data-level="70"></div></div>
+                </div>
+                <div class="skill-item">
+                    <i class="fab fa-node-js"></i>
+                    <span>Node.js</span>
+                    <div class="skill-bar"><div class="skill-level" data-level="65"></div></div>
+                </div>
+                <div class="skill-item">
+                    <i class="fas fa-database"></i> <span>MongoDB</span>
+                    <div class="skill-bar"><div class="skill-level" data-level="60"></div></div>
+                </div>
+                <div class="skill-item">
+                    <i class="fab fa-git-alt"></i>
+                    <span>Git & GitHub</span>
+                    <div class="skill-bar"><div class="skill-level" data-level="75"></div></div>
+                </div>
+                <div class="skill-item">
+                    <i class="fas fa-cogs"></i> <span>Problem Solving</span>
+                    <div class="skill-bar"><div class="skill-level" data-level="85"></div></div>
+                </div>
+                </div>
+        </div>
+    </section>
+
+    <div class="parallax-section">
+        <div class="parallax-content">
+            <h2>Beyond the Code</h2>
+            <p>I'm constantly pushing limits, exploring new paradigms, and turning complex ideas into seamless digital experiences. My journey is about continuous learning and challenging the status quo.</p>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Sumit Sukhralia. All rights reserved. | Built with ❤️ and Code.</p>
+            <div class="footer-links">
+                <a href="https://github.com/sumitsukhralia" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                <a href="https://linkedin.com/in/sumitsukhralia" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
+                <a href="mailto:SUMITxNEUROBYTE@proton.me"><i class="fas fa-envelope"></i> Email</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
