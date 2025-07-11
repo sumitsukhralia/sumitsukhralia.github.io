@@ -45,43 +45,67 @@ setInterval(() => {
     aiMessageIndex = (aiMessageIndex + 1) % aiMessages.length; // Move to next message, loop if at end
 }, 3000);
 
-// --- Dark Mode Toggle Functionality ---
+// --- Dark Mode Toggle Functionality (Manual Button) ---
+let userPrefersDarkMode = false; // Flag to store user's manual preference
+
 function toggleDarkMode() {
     // Toggle the 'dark-mode' class on the body element
     document.body.classList.toggle('dark-mode');
 
+    // Update the user's preference flag
+    userPrefersDarkMode = document.body.classList.contains('dark-mode');
+
     // Save the current dark mode preference in local storage
-    // localStorage.setItem stores data as key-value pairs in the browser
-    // document.body.classList.contains('dark-mode') returns true if 'dark-mode' class is present, false otherwise
-    localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+    localStorage.setItem('darkMode', userPrefersDarkMode);
 }
 
 // --- Initial Setup on Page Load ---
 window.onload = () => {
     // Check local storage for dark mode preference when the page loads
+    // This sets the initial state based on user's last choice
     if (localStorage.getItem('darkMode') === 'true') {
-        // If 'darkMode' was true, add the 'dark-mode' class to the body
         document.body.classList.add('dark-mode');
+        userPrefersDarkMode = true; // Set flag based on initial load
+    } else {
+        userPrefersDarkMode = false;
     }
 
-    // Call the function to animate elements (like the terminal text) when the page loads
-    animateElements();
+    animateElements(); // Call the function to animate elements (like the terminal text)
 
-    // --- Scroll-Triggered Dark Mode Effect ---
-    // This effect applies dark mode when scrolling past a certain point
+    // --- NEW: Scroll-Triggered Dark Mode ("Boom" Effect) ---
+    const terminalElement = document.getElementById('terminal'); // Get the terminal div
+    let hasScrolledPastTerminal = false; // State variable to track if we've scrolled past the terminal
+
     window.addEventListener('scroll', () => {
-        const darkSection = document.getElementById('scroll-dark-section');
-        // If the trigger element doesn't exist, exit the function
-        if (!darkSection) return;
+        if (!terminalElement) return; // Exit if terminal element isn't found
 
-        // Get the vertical position of the scroll trigger element
-        const threshold = darkSection.offsetTop;
+        // Get the position of the terminal element relative to the viewport
+        // .bottom gives the distance from the top of the viewport to the bottom edge of the element
+        const terminalBottom = terminalElement.getBoundingClientRect().bottom;
 
-        // If current scroll position is past the threshold (minus 100px buffer)
-        if (window.scrollY >= threshold - 100) {
-            document.body.classList.add('dark-mode'); // Apply dark mode
-        } else {
-            document.body.classList.remove('dark-mode'); // Remove dark mode
+        // Condition 1: Scroll down and terminal is out of view (past the top of the viewport)
+        if (terminalBottom < 0 && !hasScrolledPastTerminal) {
+            // "Boom" effect: Add dark mode class
+            document.body.classList.add('dark-mode');
+            // Optional: Add a temporary class for a faster 'boom' transition if desired
+            // document.body.classList.add('fast-transition');
+            hasScrolledPastTerminal = true; // Mark that we've scrolled past it
+            console.log("Scrolled past terminal: Auto-switching to Dark Mode!"); // For debugging
+        }
+        // Condition 2: Scroll up and terminal is back in view (or below the top of the viewport)
+        else if (terminalBottom >= 0 && hasScrolledPastTerminal) {
+            // Remove the dark mode class added by the scroll trigger
+            document.body.classList.remove('dark-mode');
+            // Optional: Remove the fast transition class
+            // document.body.classList.remove('fast-transition');
+
+            // Re-apply the user's manual preference from localStorage
+            // This ensures if they had dark mode on initially, it comes back when they scroll up
+            if (userPrefersDarkMode) {
+                document.body.classList.add('dark-mode');
+            }
+            hasScrolledPastTerminal = false; // Reset the state
+            console.log("Terminal back in view: Reverting to user preference."); // For debugging
         }
     });
 };
