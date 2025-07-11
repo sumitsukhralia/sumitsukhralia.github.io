@@ -1,20 +1,27 @@
-// === Cosmic Energy Background Canvas ===
+// === Cosmic Energy Canvas Background ===
+
+// Get canvas and context
 const canvas = document.getElementById('cosmicCanvas');
 const ctx = canvas.getContext('2d');
+
+// Particle array
 let particles = [];
 
+// Resize canvas to full screen
 function resizeCanvas() {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 }
 resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
+window.addEventListener('resize', resizeCanvas, { passive: true });
 
+// Particle class definition
 class Particle {
   constructor() {
     this.reset();
   }
 
+  // Reset particle from a random edge
   reset() {
     const edges = ['top', 'right', 'bottom', 'left'];
     const edge = edges[Math.floor(Math.random() * edges.length)];
@@ -52,6 +59,7 @@ class Particle {
     this.maxLife = Math.random() * 100 + 100;
   }
 
+  // Update particle position and check lifespan
   update() {
     this.x += this.vx;
     this.y += this.vy;
@@ -59,6 +67,7 @@ class Particle {
     if (this.life >= this.maxLife) this.reset();
   }
 
+  // Draw the particle
   draw() {
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
@@ -69,21 +78,31 @@ class Particle {
   }
 }
 
+// Create initial particles
 for (let i = 0; i < 100; i++) {
   particles.push(new Particle());
 }
 
+// Animate the background with trailing effect
 function animate() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  // Semi-transparent black background for trails
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // Update and draw each particle
   particles.forEach(p => {
     p.update();
     p.draw();
   });
+
   requestAnimationFrame(animate);
 }
 animate();
 
-// === Simulated Blockchain Block Generator ===
+
+// === Blockchain Block Visualizer (Fake Data Generator) ===
+
+// Generate a fake blockchain block
 function generateBlock(index) {
   const hash = Math.random().toString(36).substring(2, 15);
   const time = new Date().toLocaleString();
@@ -98,10 +117,18 @@ function generateBlock(index) {
   `;
 }
 
+// Reference to the block container
 const blockDataEl = document.getElementById('block-data');
 let blockIndex = 123457;
 
+// Add a new block every 3 seconds
 setInterval(() => {
   const newBlock = generateBlock(blockIndex++);
   blockDataEl.innerHTML = newBlock + blockDataEl.innerHTML;
+
+  // Keep only the latest 10 blocks to prevent overflow
+  const blocks = blockDataEl.querySelectorAll('.block');
+  if (blocks.length > 10) {
+    blocks[blocks.length - 1].remove();
+  }
 }, 3000);
