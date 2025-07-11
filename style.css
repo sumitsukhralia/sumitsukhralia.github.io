@@ -217,3 +217,75 @@ footer a:hover {
     from { box-shadow: 0 0 10px rgba(255,255,255,0.2); } /* Initial shadow */
     to { box-shadow: 0 0 20px rgba(255,255,255,0.4); } /* Larger, brighter shadow */
 }
+
+/* ... (Your existing CSS code) ... */
+
+
+/* Parallax Section Styling */
+.parallax-section {
+    /* Set the background image for this section */
+    background-image: url('parallax-bg.jpg'); /* CHANGE THIS TO YOUR IMAGE PATH */
+    background-size: cover; /* Scale the background image to cover the entire container */
+    background-position: center; /* Center the background image */
+    background-repeat: no-repeat; /* Do not repeat the background image */
+
+    /* THIS IS THE MAGIC FOR PARALLAX */
+    background-attachment: fixed; /* This makes the background image fixed relative to the viewport, creating the parallax effect */
+
+    min-height: 500px; /* Give the section a minimum height so the parallax effect is visible as you scroll */
+    display: flex; /* Use flexbox to center content vertically and horizontally */
+    align-items: center; /* Center content vertically */
+    justify-content: center; /* Center content horizontally */
+    text-align: center; /* Center text within the content box */
+    color: white; /* Text color for content within parallax section */
+    margin-top: 50px; /* Add some space above this section */
+    position: relative; /* Needed for overlay */
+    overflow: hidden; /* Important for some mobile browsers to prevent artifacts with fixed backgrounds */
+}
+
+/* Optional: Add an overlay to the parallax section for better text readability */
+.parallax-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* Semi-transparent black overlay */
+    z-index: 1; /* Place above the background image but below the content */
+}
+
+/* Styling for the content within the parallax section */
+.parallax-content {
+    position: relative; /* Position relative to allow z-index */
+    z-index: 2; /* Ensure content is above the overlay */
+    padding: 20px; /* Add padding to the content */
+    background: rgba(0, 0, 0, 0.3); /* Slightly darker background for content box */
+    border-radius: 10px; /* Rounded corners for content box */
+    max-width: 80%; /* Limit width of content box */
+}
+
+.parallax-content h2 {
+    font-size: 2.5rem; /* Larger heading */
+    margin-bottom: 10px;
+}
+
+.parallax-content p {
+    font-size: 1.2rem; /* Larger paragraph text */
+}
+
+/* Responsive Adjustments (Optional but Recommended) */
+@media (max-width: 768px) {
+    .parallax-section {
+        min-height: 350px; /* Smaller height on smaller screens */
+        background-attachment: scroll; /* Sometimes fixed background doesn't work well on mobile, so revert to scroll */
+        /* Alternative for mobile: You can try parallax effects using transform properties via JS for better mobile performance if needed,
+           but for simplicity, often fixed is simply turned off. */
+    }
+    .parallax-content h2 {
+        font-size: 1.8rem;
+    }
+    .parallax-content p {
+        font-size: 1rem;
+    }
+}
