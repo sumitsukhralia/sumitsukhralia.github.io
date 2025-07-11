@@ -1,5 +1,13 @@
-/* === Cosmic Visualizer Styles === */
+/* === Global Body Settings === */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: black;
+  color: white;
+}
 
+/* === Visualizer Section === */
 .cosmic-visualizer-section {
   position: relative;
   width: 100%;
@@ -9,6 +17,7 @@
   color: white;
 }
 
+/* === Canvas Background === */
 #cosmicCanvas {
   position: absolute;
   top: 0;
@@ -18,6 +27,7 @@
   z-index: 0;
 }
 
+/* === Foreground Content === */
 .visualizer-content {
   position: relative;
   z-index: 1;
@@ -25,6 +35,7 @@
   text-align: center;
 }
 
+/* === Scrollable Block Container === */
 .block-data {
   margin-top: 2rem;
   display: flex;
@@ -35,8 +46,9 @@
   overflow-y: auto;
 }
 
+/* === Individual Block Card === */
 .block {
-  background: rgba(255, 255, 255, 0.05);
+  background-color: rgba(255, 255, 255, 0.05);
   border: 1px solid #582dbd;
   padding: 1rem 1.5rem;
   border-radius: 10px;
@@ -44,10 +56,48 @@
   width: 90%;
   max-width: 500px;
   text-align: left;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-@media (max-width: 768px) {
+.block:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 20px #582dbd88;
+}
+
+/* === Block Heading === */
+.block h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.2rem;
+  color: #ffffff;
+}
+
+/* === Block Paragraphs === */
+.block p {
+  margin: 0.2rem 0;
+  font-size: 0.95rem;
+  color: #dddddd;
+}
+
+.block p strong {
+  color: #ffffff;
+}
+
+/* === Responsive Styling for Small Screens === */
+@media screen and (max-width: 600px) {
   .visualizer-content {
-    padding: 2rem 1rem;
+    padding: 1.5rem;
+  }
+
+  .block {
+    padding: 1rem;
+    width: 95%;
+  }
+
+  .block h3 {
+    font-size: 1rem;
+  }
+
+  .block p {
+    font-size: 0.9rem;
   }
 }
