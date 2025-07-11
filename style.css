@@ -1,630 +1,336 @@
-/* --- Variables --- */
+/* --- Global Styles & Body Setup --- */
+
+/* Define a CSS variable for transition duration at the root level.
+   This allows for easy global adjustment of transition speeds. */
 :root {
-    --bg-color-light: #f0f2f5;
-    --text-color-light: #333;
-    --card-bg-light: #fff;
-    --border-color-light: #e0e0e0;
-    --button-bg-light: #007bff;
-    --button-text-light: #fff;
-    --terminal-bg-light: #e6e6e6; /* Lighter grey for terminal in light mode */
-    --terminal-text-light: #333;
-    --terminal-border-light: #ccc;
-
-    --bg-color-dark: #1a1a1a;
-    --text-color-dark: #e0e0e0;
-    --card-bg-dark: #2c2c2c;
-    --border-color-dark: #444;
-    --button-bg-dark: #663399; /* Deeper purple */
-    --button-text-dark: #fff;
-    --terminal-bg-dark: #0d0d0d; /* Very dark for terminal in dark mode */
-    --terminal-text-dark: #00ff00; /* Green text for terminal */
-    --terminal-border-dark: #222;
-
-    --link-color: #007bff;
-    --link-color-hover: #0056b3;
-
-    --transition-duration: 0.5s; /* Smooth transition for dark mode */
+    --transition-duration: 0.6s; /* Default transition duration for smooth changes */
 }
 
-/* --- Base Styles --- */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    line-height: 1.6;
-    color: var(--text-color-light);
-    background-color: var(--bg-color-light);
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden; /* Prevent horizontal scroll */
+    margin: 0; /* Remove default browser margin */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Preferred font stack for text */
+    background: url('your-photo.jpg') no-repeat center center fixed; /* Sets a background image that covers the viewport */
+    background-size: cover; /* Ensures the background image covers the entire element */
+    overflow-x: hidden; /* Prevents horizontal scrolling, keeping layout clean */
+    position: relative; /* Essential for positioning the ::before pseudo-element */
+    color: white; /* Default text color for the entire body */
+    /* Smooth transition for background and text color changes, using the defined CSS variable */
     transition: background var(--transition-duration) ease, color var(--transition-duration) ease;
-    scroll-behavior: smooth;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
 }
 
-body.dark-mode {
-    color: var(--text-color-dark);
-    background-color: var(--bg-color-dark);
-}
-
-/* --- Parallax Background --- */
-.parallax-bg {
-    position: fixed;
+/* Overlay for the background image, creating a darkened, blurred effect */
+body::before {
+    content: ""; /* Required for pseudo-elements to render */
+    position: fixed; /* Fixes the overlay to the viewport, covering the entire screen */
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('your-main-parallax-bg.jpg'); /* Replace with your actual image */
-    background-size: cover;
-    background-position: center center;
-    background-attachment: fixed;
-    z-index: -1; /* Behind all content */
-    opacity: 0; /* Initially hidden, JS will make it visible */
-    transition: opacity 1s ease-in-out; /* Smooth fade-in */
+    background: rgba(0, 0, 0, 0.6); /* Semi-transparent black overlay */
+    backdrop-filter: blur(4px); /* Applies a blur effect to content behind the overlay */
+    z-index: -1; /* Places the overlay behind the main content */
+    /* Smooth transition for the overlay's background color */
+    transition: background var(--transition-duration) ease;
 }
 
-.parallax-bg.show {
-    opacity: 1; /* Make it visible */
+/* Styles applied when the 'dark-mode' class is added to the body */
+.dark-mode::before {
+    background: rgba(0, 0, 0, 0.9); /* Darker overlay in dark mode */
+}
+.dark-mode {
+    background: #000; /* Solid black background in dark mode */
 }
 
-/* Optional: Overlay for parallax background for better text readability */
-.parallax-bg::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.4); /* Dark overlay */
-    backdrop-filter: blur(2px); /* Slight blur */
-    transition: background var(--transition-duration) ease, backdrop-filter var(--transition-duration) ease;
+/* Optional: Class for a faster transition, can be applied via JS for a "boom" effect */
+/* Uncomment and use in JS if you want a quicker transition specifically for the scroll-triggered dark mode */
+/*
+.fast-transition {
+    --transition-duration: 0.3s;
 }
-
-body.dark-mode .parallax-bg::before {
-    background: rgba(0, 0, 0, 0.6); /* Darker overlay in dark mode */
-    backdrop-filter: blur(3px); /* Slightly more blur */
-}
-
-/* --- Preloader Styles --- */
-#preloader {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #000; /* Black background */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999; /* Makes it sit on top of everything else */
-    opacity: 1; /* Starts visible */
-    visibility: visible; /* Starts visible */
-    transition: opacity 1s ease-out, visibility 1s ease-out; /* Smooth fade-out */
-}
-
-#preloader.fade-out {
-    opacity: 0; /* Make it transparent */
-    visibility: hidden; /* Hide it completely */
-    pointer-events: none; /* Make it unclickable */
-}
-
-/* Styles for the greeting text inside the preloader */
-.greeting-container {
-    font-size: 3em; /* Example size, adjust as needed */
-    color: white;
-    font-weight: bold;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-    opacity: 0; /* Starts hidden for individual greetings */
-    transition: opacity 0.6s ease-in-out; /* Smooth fade for greetings */
-}
-
-.greeting-container.greeting-fade-in {
-    opacity: 1; /* Fade in this greeting */
-}
-
-.greeting-container.greeting-fade-out {
-    opacity: 0; /* Fade out this greeting */
-}
+*/
 
 
-/* --- Container and Profile Section --- */
+/* --- Main Content Container --- */
 .container {
-    max-width: 900px;
-    margin: 50px auto;
-    padding: 20px;
-    background-color: var(--card-bg-light);
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    position: relative;
-    z-index: 1; /* Above parallax bg */
-    transition: background-color var(--transition-duration) ease, box-shadow var(--transition-duration) ease;
+    max-width: 600px; /* Limits the maximum width of the content area */
+    margin: 0 auto; /* Centers the container horizontally on the page */
+    text-align: center; /* Centers text and inline elements within the container */
+    padding: 40px 20px; /* Adds internal spacing around the content */
+    position: relative; /* Ensures z-index works correctly for content above the overlay */
+    z-index: 1; /* Places the container above the body::before overlay */
 }
 
-body.dark-mode .container {
-    background-color: var(--card-bg-dark);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-}
-
+/* Profile Image Styling */
 .profile-img {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover;
-    display: block;
-    margin: 0 auto 20px;
-    border: 5px solid var(--button-bg-light); /* Accent border */
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-    transition: border-color var(--transition-duration) ease;
+    width: 140px; /* Fixed width for the image */
+    height: 140px; /* Fixed height for the image */
+    border-radius: 50%; /* Makes the image perfectly circular */
+    object-fit: cover; /* Ensures the image covers the area without distortion, cropping if necessary */
+    border: 4px solid white; /* Adds a white border around the circular image */
 }
 
-body.dark-mode .profile-img {
-    border-color: var(--button-bg-dark);
-}
-
+/* Heading (Name) Styling */
 h1 {
-    font-size: 2.8em;
-    text-align: center;
-    margin-bottom: 10px;
-    color: var(--text-color-light);
-    opacity: 0; /* For typing animation */
-    transition: opacity 0.5s ease;
+    margin: 15px 0 5px; /* Margin around the main heading */
+    font-size: 2.5rem; /* Large font size for prominence */
 }
 
-body.dark-mode h1 {
-    color: var(--text-color-dark);
-}
-
-/* Typing cursor for h1 and p */
-h1.typing-cursor::after,
-p.typing-cursor::after {
-    content: '|';
-    animation: blink-caret 0.75s step-end infinite;
-    display: inline-block; /* Ensure cursor is visible */
-    vertical-align: bottom; /* Align with text baseline */
-}
-
-/* Typing effect for paragraphs */
-p {
-    font-size: 1.2em;
-    text-align: center;
-    margin-bottom: 25px;
-    color: var(--text-color-light);
-    opacity: 0; /* For typing animation */
-    transition: opacity 0.5s ease;
-}
-
-body.dark-mode p {
-    color: var(--text-color-dark);
-}
-
-/* --- Terminal Section --- */
-.terminal {
-    background-color: var(--terminal-bg-light);
-    color: var(--terminal-text-light);
-    border: 1px solid var(--terminal-border-light);
-    border-radius: 8px;
-    padding: 20px;
-    margin: 30px 0;
-    font-family: 'Consolas', 'Monaco', monospace;
-    font-size: 0.95em;
-    white-space: pre-wrap; /* Preserves whitespace and wraps text */
-    overflow-x: auto; /* Allows horizontal scrolling if content overflows */
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-    line-height: 1.4;
-    position: relative; /* For cursor positioning */
-    min-height: 120px; /* Ensure enough space */
-    opacity: 0; /* Hidden for animation */
-    transition: background-color var(--transition-duration) ease, color var(--transition-duration) ease, border-color var(--transition-duration) ease, box-shadow var(--transition-duration) ease, opacity 0.5s ease;
-}
-
-body.dark-mode .terminal {
-    background-color: var(--terminal-bg-dark);
-    color: var(--terminal-text-dark);
-    border-color: var(--terminal-border-dark);
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
-}
-
-.terminal.animate {
-    opacity: 1; /* Make visible when animated */
-}
-
-/* Terminal Typing Cursor */
-.terminal.typing-cursor::after {
-    content: '|';
-    animation: blink-caret 0.75s step-end infinite;
-    display: inline-block;
-}
-
-@keyframes blink-caret {
-    from, to { border-color: transparent }
-    50% { border-color: var(--terminal-text-light); } /* Cursor color */
-}
-
-body.dark-mode @keyframes blink-caret {
-    from, to { border-color: transparent }
-    50% { border-color: var(--terminal-text-dark); }
-}
-
-
-/* --- Tech Stack --- */
+/* Tech Stack Section */
 .tech-stack {
-    text-align: center;
-    margin: 30px 0;
+    margin-top: 15px; /* Space above the tech stack section */
+    display: flex; /* Uses Flexbox for arranging tech tags */
+    flex-wrap: wrap; /* Allows tech tags to wrap to the next line on smaller screens */
+    justify-content: center; /* Centers the tech tags horizontally */
+    gap: 12px; /* Adds space between individual tech tags */
 }
 
+/* Individual Tech Stack Tags (e.g., HTML5, CSS3) */
 .tech-stack span {
-    display: inline-block;
-    background-color: #e9ecef;
-    color: #495057;
-    padding: 8px 15px;
-    margin: 5px;
-    border-radius: 20px;
-    font-size: 0.9em;
-    font-weight: 500;
-    transition: background-color var(--transition-duration) ease, color var(--transition-duration) ease;
+    background: rgba(255, 255, 255, 0.1); /* Semi-transparent white background */
+    padding: 6px 12px; /* Internal padding for the tags */
+    border-radius: 20px; /* Creates rounded, pill-like shapes for the tags */
+    font-size: 0.9rem; /* Slightly smaller font size for tags */
 }
 
-body.dark-mode .tech-stack span {
-    background-color: #444;
-    color: #eee;
-}
-
-/* --- Buttons --- */
+/* Buttons Section (for social links and toggle button) */
 .buttons {
-    text-align: center;
-    margin: 30px 0;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    margin-top: 25px; /* Space above the buttons section */
+    display: flex; /* Uses Flexbox */
+    flex-direction: column; /* Stacks buttons vertically */
     gap: 15px; /* Space between buttons */
+    align-items: center; /* Centers buttons horizontally within their container */
 }
 
-.buttons a, .buttons button {
-    display: inline-flex; /* Align icon and text */
-    align-items: center;
-    justify-content: center;
-    background-color: var(--button-bg-light);
-    color: var(--button-text-light);
-    padding: 12px 25px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 1em;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    border: none;
-    cursor: pointer;
-    white-space: nowrap; /* Prevent wrapping for button text */
+/* Styling for all interactive buttons (links, toggle button, and new quote button) */
+/* Note: The margin-top for .buttons-style is moved to a more specific selector below */
+.buttons a, .toggle-dark, .buttons-style {
+    background: rgba(255, 255, 255, 0.15); /* Semi-transparent white background */
+    color: white; /* Text color for buttons */
+    padding: 12px 24px; /* Internal padding */
+    border-radius: 30px; /* Highly rounded corners for a soft look */
+    text-decoration: none; /* Removes underline from anchor tags */
+    display: inline-flex; /* Allows icon and text to sit side-by-side */
+    align-items: center; /* Vertically aligns icon and text */
+    gap: 10px; /* Space between the icon and text */
+    border: 1px solid rgba(255,255,255,0.2); /* Subtle border */
+    transition: all 0.3s ease; /* Smooth transition for hover effects */
+    cursor: pointer; /* Changes cursor to pointer to indicate clickability */
+    font-size: 1rem; /* Standard font size for button text */
 }
 
-.buttons a:hover, .buttons button:hover {
-    background-color: var(--link-color-hover); /* Slightly darker on hover */
-    transform: translateY(-2px); /* Subtle lift effect */
+/* Hover effect for all interactive buttons */
+.buttons a:hover, .toggle-dark:hover, .buttons-style:hover {
+    background: rgba(255, 255, 255, 0.25); /* Slightly more opaque background on hover */
 }
 
-body.dark-mode .buttons a, body.dark-mode .buttons button {
-    background-color: var(--button-bg-dark);
+/* Terminal Section Styling */
+.terminal {
+    background: rgba(0, 0, 0, 0.4); /* Dark semi-transparent background */
+    padding: 25px; /* Internal padding */
+    border-radius: 10px; /* Rounded corners */
+    margin-top: 30px; /* Space above the terminal section */
+    font-family: monospace; /* Monospace font for a classic terminal look */
+    max-width: 100%; /* Ensures the terminal fits within its parent container */
+    white-space: pre-line; /* Preserves line breaks and spaces from the HTML content */
+    color: white; /* Text color */
+    text-align: left; /* Aligns text to the left within the terminal box */
 }
 
-body.dark-mode .buttons a:hover, body.dark-mode .buttons button:hover {
-    background-color: #7a46b3; /* Darker purple on hover */
+/* Quote Box Styling (general, now used inside project card) */
+.quote {
+    margin-top: 40px; /* Default margin-top, might be overridden in specific contexts */
+    font-style: italic; /* Italicizes the quote text */
+    font-size: 1rem; /* Font size for the quote */
+    transition: opacity 0.5s ease-in-out; /* Smooth fade effect for quote changes */
 }
 
-.buttons i {
-    margin-right: 8px;
-}
 
-/* Toggle Dark Mode Button specific styles */
-.toggle-dark {
-    background-color: #6c757d; /* Grey */
-}
-
-.toggle-dark:hover {
-    background-color: #5a6268;
-}
-
-body.dark-mode .toggle-dark {
-    background-color: #555; /* Darker grey in dark mode */
-}
-
-body.dark-mode .toggle-dark:hover {
-    background-color: #666;
-}
-
-/* --- Projects Section --- */
+/* --- Projects Section Styling --- */
 .projects {
-    margin-top: 50px;
+    margin-top: 40px; /* Space above the projects section */
+    background: rgba(0,0,0,0.3); /* Semi-transparent dark background */
+    padding: 20px; /* Internal padding */
+    border-radius: 10px; /* Rounded corners */
 }
 
-.projects h3 {
-    font-size: 2em;
-    text-align: center;
-    margin-bottom: 25px;
-    color: var(--text-color-light);
-}
-
-body.dark-mode .projects h3 {
-    color: var(--text-color-dark);
-}
-
+/* General Project Card Styling */
+/* This ensures both AI and Quote Generator cards have a consistent base look */
 .project-card {
-    background-color: var(--card-bg-light);
-    border: 1px solid var(--border-color-light);
-    border-radius: 10px;
-    padding: 25px;
-    margin-bottom: 25px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-    transition: background-color var(--transition-duration) ease, border-color var(--transition-duration) ease, box-shadow 0.3s ease;
+    background: rgba(255, 255, 255, 0.04); /* Very subtle background */
+    border: 1px dashed rgba(255, 255, 255, 0.2); /* Dashed border */
+    padding: 25px; /* Internal padding */
+    border-radius: 12px; /* Rounded corners */
+    margin-top: 30px; /* Space between project cards and from section top */
+    text-align: center; /* Centers content within the card */
 }
 
-body.dark-mode .project-card {
-    background-color: var(--card-bg-dark);
-    border-color: var(--border-color-dark);
-    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+/* Specific styling for the AI Project Card */
+.project-card.ai-coming-soon {
+    animation: pulse-shadow 2s infinite alternate; /* Pulsing shadow animation */
 }
-
-.project-card:hover {
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
-    transform: translateY(-3px); /* Lift effect on hover */
+.project-card.ai-coming-soon h3 {
+    color: white;
+    margin-bottom: 12px;
 }
-
-body.dark-mode .project-card:hover {
-    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.45);
+.project-card.ai-coming-soon p {
+    color: #ccc; /* Lighter grey text for description */
+    font-style: italic;
+    font-size: 0.95rem;
 }
-
-.project-card h3 {
-    font-size: 1.6em;
-    color: #007bff; /* Project title accent */
-    margin-top: 0;
-    margin-bottom: 15px;
-    text-align: left; /* Align project titles left */
-}
-
-body.dark-mode .project-card h3 {
-    color: var(--button-bg-dark); /* Dark mode project title accent */
-}
-
-.project-card p {
-    font-size: 1em;
-    text-align: left;
-    margin-bottom: 15px;
-}
-
-/* AI Coming Soon Tease Box */
-.tease-box {
+.project-card.ai-coming-soon .tease-box {
+    margin-top: 15px;
     display: flex;
+    justify-content: center;
     align-items: center;
-    background-color: rgba(0, 123, 255, 0.1); /* Light blue background */
-    border-left: 5px solid #007bff; /* Blue accent border */
-    padding: 10px 15px;
-    border-radius: 5px;
-    font-family: 'Consolas', 'Monaco', monospace;
-    font-size: 0.9em;
-    color: #007bff;
-    margin-top: 20px;
-    transition: background-color var(--transition-duration) ease, border-color var(--transition-duration) ease, color var(--transition-duration) ease;
+    gap: 8px;
 }
-
-body.dark-mode .tease-box {
-    background-color: rgba(102, 51, 153, 0.1); /* Light purple background */
-    border-left-color: var(--button-bg-dark); /* Purple accent border */
-    color: var(--button-bg-dark);
-}
-
-.tease-box .dot {
-    display: inline-block;
+.project-card.ai-coming-soon .dot {
     width: 8px;
     height: 8px;
-    background-color: #007bff;
-    border-radius: 50%;
-    margin-right: 5px;
-    animation: pulse-dot 1.5s infinite;
-    transition: background-color var(--transition-duration) ease;
+    background: white;
+    border-radius: 50%; /* Makes the dots circular */
+    animation: blink 1.2s infinite ease-in-out alternate; /* Blinking animation for dots */
+}
+.project-card.ai-coming-soon .dot:nth-child(2) { /* Applies an animation delay to the second dot */
+    animation-delay: 0.2s;
+}
+.project-card.ai-coming-soon .dot:nth-child(3) { /* Applies an animation delay to the third dot */
+    animation-delay: 0.4s;
+}
+.project-card.ai-coming-soon .text#aiTease {
+    margin-left: 10px;
+    color: white;
+    font-family: monospace;
+    font-size: 0.9rem;
 }
 
-body.dark-mode .tease-box .dot {
-    background-color: var(--button-bg-dark);
+/* Specific styling for the NEW Quote Generator Project Card */
+.project-card.quote-generator-card {
+    /* Inherits general .project-card styles. Add specific overrides here if needed. */
 }
 
-.tease-box .dot:nth-child(2) { animation-delay: 0.5s; }
-.tease-box .dot:nth-child(3) { animation-delay: 1s; }
-
-@keyframes pulse-dot {
-    0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.5); opacity: 0.7; }
-    100% { transform: scale(1); opacity: 1; }
+.quote-generator-card h3 {
+    color: white;
+    margin-bottom: 15px; /* Adjust margin for heading inside this card */
 }
 
-.tease-box .text {
-    flex-grow: 1;
-}
-
-/* Quote Generator Styles */
+/* Adjust quote box styling when it's inside the project card */
 .quote-generator-card .quote {
-    background-color: var(--terminal-bg-light); /* Matches terminal bg */
-    color: var(--terminal-text-light); /* Matches terminal text */
-    border: 1px solid var(--terminal-border-light);
-    border-radius: 8px;
-    padding: 15px;
-    margin: 15px 0;
-    font-style: italic;
-    text-align: center;
-    min-height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 1; /* Initial state for quotes */
-    transition: opacity 0.5s ease, background-color var(--transition-duration) ease, color var(--transition-duration) ease, border-color var(--transition-duration) ease;
+    margin-top: 0; /* Remove default margin-top from .quote if it causes too much space */
+    margin-bottom: 20px; /* Add some space before the button inside the card */
+    padding: 0 10px; /* Add horizontal padding to the quote inside the card for better spacing */
 }
 
-body.dark-mode .quote-generator-card .quote {
-    background-color: var(--terminal-bg-dark);
-    color: var(--terminal-text-dark);
-    border-color: var(--terminal-border-dark);
-}
-
-.quote-generator-card .buttons-style {
-    display: block; /* Make button full width */
-    margin: 15px auto 0;
-    background-color: #28a745; /* Green button */
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1em;
-    font-weight: bold;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.quote-generator-card .buttons-style:hover {
-    background-color: #218838; /* Darker green on hover */
-    transform: translateY(-2px);
-}
-
-body.dark-mode .quote-generator-card .buttons-style {
-    background-color: #33cc66; /* Lighter green in dark mode */
-}
-
-body.dark-mode .quote-generator-card .buttons-style:hover {
-    background-color: #24964e; /* Darker green on hover */
+/* Specific margin for the new quote button when it's inside a card */
+.quote-generator-card #newQuoteBtn {
+    margin-top: 20px; /* Add margin specifically for the button inside the card */
 }
 
 
-/* --- Another Parallax Section (Optional) --- */
+/* --- Parallax Section Styling --- */
 .parallax-section {
-    background-image: url('parallax-bg.jpg'); /* Another image if needed */
-    background-size: cover;
-    background-position: center center;
-    background-attachment: fixed;
-    height: 300px; /* Adjust height as needed */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
-    margin: 50px 0;
+    /* Set the background image for this section */
+    background-image: url('parallax-bg.jpg'); /* IMPORTANT: CHANGE THIS TO YOUR ACTUAL IMAGE PATH */
+    background-size: cover; /* Scale the background image to cover the entire container */
+    background-position: center; /* Center the background image */
+    background-repeat: no-repeat; /* Do not repeat the background image */
+
+    /* THIS IS THE MAGIC FOR PARALLAX */
+    background-attachment: fixed; /* This makes the background image fixed relative to the viewport, creating the parallax effect */
+
+    min-height: 500px; /* Give the section a minimum height so the parallax effect is visible as you scroll */
+    display: flex; /* Use flexbox to center content vertically and horizontally */
+    align-items: center; /* Center content vertically */
+    justify-content: center; /* Center content horizontally */
+    text-align: center; /* Center text within the content box */
+    color: white; /* Text color for content within parallax section */
+    margin-top: 50px; /* Add some space above this section */
+    position: relative; /* Needed for the ::before overlay positioning */
+    overflow: hidden; /* Important for some mobile browsers to prevent artifacts with fixed backgrounds */
 }
 
+/* Optional: Add an overlay to the parallax section for better text readability */
+.parallax-section::before {
+    content: ""; /* Required for pseudo-elements */
+    position: absolute; /* Position relative to .parallax-section */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* Semi-transparent black overlay */
+    z-index: 1; /* Place above the background image but below the content */
+}
+
+/* Styling for the content within the parallax section */
 .parallax-content {
-    text-align: center;
-    padding: 20px;
-    background-color: rgba(0, 0, 0, 0.4);
-    border-radius: 8px;
-    backdrop-filter: blur(3px);
+    position: relative; /* Position relative to allow z-index */
+    z-index: 2; /* Ensure content is above the overlay */
+    padding: 20px; /* Add padding to the content */
+    background: rgba(0, 0, 0, 0.3); /* Slightly darker background for content box */
+    border-radius: 10px; /* Rounded corners for content box */
+    max-width: 80%; /* Limit width of content box */
 }
 
-/* --- Footer --- */
+.parallax-content h2 {
+    font-size: 2.5rem; /* Larger heading */
+    margin-bottom: 10px;
+}
+
+.parallax-content p {
+    font-size: 1.2rem; /* Larger paragraph text */
+}
+
+/* --- Footer Styling --- */
 footer {
-    text-align: center;
-    padding: 30px 20px;
-    background-color: var(--card-bg-light);
-    border-top: 1px solid var(--border-color-light);
-    font-size: 0.9em;
-    color: var(--text-color-light);
-    margin-top: 50px;
-    transition: background-color var(--transition-duration) ease, border-color var(--transition-duration) ease, color var(--transition-duration) ease;
+    background: rgba(255, 255, 255, 0.05); /* Semi-transparent white background for the footer */
+    color: white; /* Text color */
+    text-align: center; /* Centers text within the footer */
+    padding: 20px 0; /* Vertical padding */
+    margin-top: 50px; /* Space above the footer */
+    font-size: 0.95rem; /* Slightly smaller font size */
+    border-top: 1px solid rgba(255, 255, 255, 0.1); /* Top border for separation */
 }
 
-body.dark-mode footer {
-    background-color: var(--card-bg-dark);
-    border-color: var(--border-color-dark);
-    color: var(--text-color-dark);
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
 }
 
-.footer-links a {
-    color: var(--link-color);
-    text-decoration: none;
-    margin: 0 10px;
-    transition: color 0.3s ease;
+footer a {
+    color: white; /* Link color */
+    text-decoration: none; /* Removes underline from links */
+    font-size: 1rem;
+}
+footer a:hover {
+    text-decoration: underline; /* Underline on hover for footer links */
 }
 
-.footer-links a:hover {
-    color: var(--link-color-hover);
+/* --- Keyframe Animations --- */
+@keyframes blink {
+    from { opacity: 0.2; } /* Start nearly invisible */
+    to { opacity: 1; } /* End fully visible */
 }
 
-body.dark-mode .footer-links a {
-    color: var(--button-bg-dark);
+@keyframes pulse-shadow {
+    from { box-shadow: 0 0 10px rgba(255,255,255,0.2); } /* Initial shadow */
+    to { box-shadow: 0 0 20px rgba(255,255,255,0.4); } /* Larger, brighter shadow */
 }
 
-body.dark-mode .footer-links a:hover {
-    color: #a06edd; /* Lighter purple on hover */
-}
 
-/* --- Scroll-triggered Dark Mode Section (Invisible) --- */
-/* This element is solely for JavaScript's IntersectionObserver */
-#scroll-dark-section {
-    height: 1px; /* Minimal height */
-    margin: 100px 0; /* Position it somewhere in the middle of your content */
-    /* background-color: rgba(255, 0, 0, 0.1); /* For debugging: makes it visible */
-}
-
-/* --- Responsive Design --- */
+/* --- Responsive Adjustments --- */
 @media (max-width: 768px) {
-    .container {
-        margin: 20px auto;
-        padding: 15px;
-    }
-
-    h1 {
-        font-size: 2em;
-    }
-
-    p {
-        font-size: 1em;
-    }
-
-    .terminal {
-        font-size: 0.85em;
-        padding: 15px;
-    }
-
-    .buttons {
-        flex-direction: column; /* Stack buttons vertically */
-        gap: 10px;
-    }
-
-    .buttons a, .buttons button {
-        width: 80%; /* Make buttons wider */
-        max-width: 300px;
-    }
-
-    .tech-stack span {
-        font-size: 0.8em;
-        padding: 6px 12px;
-    }
-
-    .project-card {
-        padding: 20px;
-    }
-
-    .project-card h3 {
-        font-size: 1.4em;
-    }
-
-    .tease-box, .quote-generator-card .quote {
-        font-size: 0.85em;
-    }
-
     .parallax-section {
-        height: 200px;
+        min-height: 350px; /* Smaller height on smaller screens */
+        /* On mobile, fixed background-attachment can be buggy or impact performance.
+           Revert to scroll to ensure smooth scrolling, even if it removes the parallax effect. */
+        background-attachment: scroll;
     }
-}
-
-@media (max-width: 480px) {
-    h1 {
-        font-size: 1.8em;
+    .parallax-content h2 {
+        font-size: 1.8rem;
     }
-
-    p {
-        font-size: 0.9em;
-    }
-
-    .terminal {
-        font-size: 0.75em;
-        padding: 10px;
-    }
-
-    .profile-img {
-        width: 120px;
-        height: 120px;
+    .parallax-content p {
+        font-size: 1rem;
     }
 }
