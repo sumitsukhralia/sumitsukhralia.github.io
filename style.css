@@ -1,17 +1,20 @@
 /* --- Global Styles & Body Setup --- */
+
+/* Define a CSS variable for transition duration at the root level.
+   This allows for easy global adjustment of transition speeds. */
 :root {
     --transition-duration: 0.6s; /* Default transition duration for smooth changes */
 }
 
 body {
-    margin: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    /* This is your initial body background. Ensure 'your-photo.jpg' exists and is visible. */
-    background: url('your-photo.jpg') no-repeat center center fixed;
-    background-size: cover;
-    overflow-x: hidden;
-    position: relative;
-    color: white;
+    margin: 0; /* Remove default browser margin */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Preferred font stack for text */
+    background: url('your-photo.jpg') no-repeat center center fixed; /* Sets a background image that covers the viewport */
+    background-size: cover; /* Ensures the background image covers the entire element */
+    overflow-x: hidden; /* Prevents horizontal scrolling, keeping layout clean */
+    position: relative; /* Essential for positioning the ::before pseudo-element */
+    color: white; /* Default text color for the entire body */
+    /* Smooth transition for background and text color changes, using the defined CSS variable */
     transition: background var(--transition-duration) ease, color var(--transition-duration) ease;
 }
 
@@ -23,84 +26,28 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    /* Changed default to be less opaque, so the main parallax image can be seen */
-    background: rgba(0, 0, 0, 0.3); /* Slightly transparent black overlay */
-    backdrop-filter: blur(2px); /* Less blur initially */
-    z-index: -1; /* Places the overlay behind the main content but over parallax-bg */
-    transition: background var(--transition-duration) ease, backdrop-filter var(--transition-duration) ease;
+    background: rgba(0, 0, 0, 0.6); /* Semi-transparent black overlay */
+    backdrop-filter: blur(4px); /* Applies a blur effect to content behind the overlay */
+    z-index: -1; /* Places the overlay behind the main content */
+    /* Smooth transition for the overlay's background color */
+    transition: background var(--transition-duration) ease;
 }
 
 /* Styles applied when the 'dark-mode' class is added to the body */
 .dark-mode::before {
-    background: rgba(0, 0, 0, 0.9); /* Much darker overlay in dark mode */
-    backdrop-filter: blur(4px); /* More blur in dark mode */
+    background: rgba(0, 0, 0, 0.9); /* Darker overlay in dark mode */
 }
 .dark-mode {
     background: #000; /* Solid black background in dark mode */
 }
 
-
-/* --- Preloader Styles --- */
-#preloader {
-    position: fixed; /* Keeps it on screen */
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #000; /* Black background */
-    display: flex; /* For centering content */
-    justify-content: center;
-    align-items: center;
-    z-index: 9999; /* Makes it sit on top of everything else */
-    opacity: 1; /* Starts visible */
-    visibility: visible; /* Starts visible */
-    transition: opacity 1s ease-out, visibility 1s ease-out; /* Smooth fade-out */
+/* Optional: Class for a faster transition, can be applied via JS for a "boom" effect */
+/* Uncomment and use in JS if you want a quicker transition specifically for the scroll-triggered dark mode */
+/*
+.fast-transition {
+    --transition-duration: 0.3s;
 }
-
-#preloader.fade-out {
-    opacity: 0; /* Make it transparent */
-    visibility: hidden; /* Hide it completely */
-    pointer-events: none; /* Make it unclickable once hidden */
-}
-
-/* Styles for the greeting text inside the preloader */
-.greeting-container {
-    font-size: 3em;
-    color: white;
-    opacity: 0; /* Starts hidden, JavaScript will add .greeting-fade-in */
-    transition: opacity 0.6s ease-in-out; /* Smooth fade for greetings */
-}
-
-.greeting-container.greeting-fade-in {
-    opacity: 1; /* Fade in this greeting */
-}
-
-.greeting-container.greeting-fade-out {
-    opacity: 0; /* Fade out this greeting */
-}
-
-
-/* --- Main Parallax Background Styles --- */
-/* This is the element that will show your main background image once the preloader fades. */
-.parallax-bg {
-    position: fixed; /* Fixed to the viewport */
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    /* IMPORTANT: REPLACE THIS WITH YOUR ACTUAL BACKGROUND IMAGE PATH */
-    background-image: url('your-main-parallax-bg.jpg'); 
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed; /* Creates the parallax effect */
-    z-index: -2; /* Ensures it's behind body::before and content */
-    opacity: 0; /* Starts completely transparent */
-    transition: opacity 1s ease-in-out; /* Smooth fade-in when .show is added */
-}
-
-.parallax-bg.show {
-    opacity: 1; /* Make it fully visible */
-}
+*/
 
 
 /* --- Main Content Container --- */
@@ -155,6 +102,7 @@ h1 {
 }
 
 /* Styling for all interactive buttons (links, toggle button, and new quote button) */
+/* Note: The margin-top for .buttons-style is moved to a more specific selector below */
 .buttons a, .toggle-dark, .buttons-style {
     background: rgba(255, 255, 255, 0.15); /* Semi-transparent white background */
     color: white; /* Text color for buttons */
@@ -257,6 +205,10 @@ h1 {
 }
 
 /* Specific styling for the NEW Quote Generator Project Card */
+.project-card.quote-generator-card {
+    /* Inherits general .project-card styles. Add specific overrides here if needed. */
+}
+
 .quote-generator-card h3 {
     color: white;
     margin-bottom: 15px; /* Adjust margin for heading inside this card */
@@ -365,6 +317,7 @@ footer a:hover {
     from { box-shadow: 0 0 10px rgba(255,255,255,0.2); } /* Initial shadow */
     to { box-shadow: 0 0 20px rgba(255,255,255,0.4); } /* Larger, brighter shadow */
 }
+
 
 /* --- Responsive Adjustments --- */
 @media (max-width: 768px) {
