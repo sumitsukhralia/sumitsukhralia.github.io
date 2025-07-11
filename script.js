@@ -1,4 +1,4 @@
-// === Cosmic Energy Canvas Background ===
+// === Cosmic Energy Background Canvas ===
 const canvas = document.getElementById('cosmicCanvas');
 const ctx = canvas.getContext('2d');
 let particles = [];
@@ -8,7 +8,7 @@ function resizeCanvas() {
   canvas.height = window.innerHeight;
 }
 resizeCanvas();
-window.addEventListener('resize', resizeCanvas, { passive: true });
+window.addEventListener('resize', resizeCanvas);
 
 class Particle {
   constructor() {
@@ -74,8 +74,7 @@ for (let i = 0; i < 100; i++) {
 }
 
 function animate() {
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   particles.forEach(p => {
     p.update();
     p.draw();
@@ -84,7 +83,7 @@ function animate() {
 }
 animate();
 
-// === Blockchain Block Demo (Fake Data) ===
+// === Simulated Blockchain Block Generator ===
 function generateBlock(index) {
   const hash = Math.random().toString(36).substring(2, 15);
   const time = new Date().toLocaleString();
@@ -105,10 +104,4 @@ let blockIndex = 123457;
 setInterval(() => {
   const newBlock = generateBlock(blockIndex++);
   blockDataEl.innerHTML = newBlock + blockDataEl.innerHTML;
-
-  // Keep only the latest 10 blocks
-  const blocks = blockDataEl.querySelectorAll('.block');
-  if (blocks.length > 10) {
-    blocks[blocks.length - 1].remove();
-  }
 }, 3000);
