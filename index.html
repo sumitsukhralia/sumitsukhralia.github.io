@@ -9,7 +9,7 @@
 </head>
 <body>
 
-  <div id="preloader">
+    <div id="preloader">
         <div class="greeting-container">
             <span id="animated-greeting"></span>
         </div>
@@ -19,21 +19,17 @@
 
     <section class="hero-section" id="hero"></section>
 
-
-
-
-
-    
     <div class="container">
         <img src="your-photo.jpg" alt="Sumit Sukhralia" class="profile-img">
-        <h1>Sumit Sukhralia</h1>
-
+        
+        <h1 id="typing-name"></h1> 
+        <p id="typing-skill"></p>
         <div class="terminal animate" id="terminal">
             user@SUMIT: ~ whoami
             19 • Beyond Curriculum
             From Biochem to Backend
             404: Limit Not Found
-        </div>
+            Location: <span id="current-location"></span> </div>
 
         <div class="tech-stack">
             <span>HTML5</span><span>CSS3</span><span>JavaScript</span>
@@ -49,15 +45,9 @@
             <button class="toggle-dark" onclick="toggleDarkMode()"><i class="fas fa-moon"></i> Toggle Dark Mode</button>
         </div>
 
-        <!-- The original quoteBox and newQuoteBtn are MOVED from here -->
-        <!-- <div class="quote" id="quoteBox">"Ctrl your mind. Alt your path. Del the limits."</div> -->
-        <!-- <button id="newQuoteBtn" class="buttons-style"><i class="fas fa-sync-alt"></i> New Quote</button> -->
-
-
         <div id="scroll-dark-section"></div>
 
         <div class="projects">
-            <!-- Existing AI Project Card -->
             <div class="project-card ai-coming-soon">
                 <h3>👾 neu*****e AI — Coming Soon</h3>
                 <p>
@@ -72,26 +62,24 @@
                 </div>
             </div>
 
-            <!-- NEW: Quote Generator Project Card - Styled like the AI one -->
             <div class="project-card quote-generator-card">
                 <h3>✍️ Deep Thoughts Terminal</h3>
-                <!-- The quoteBox and newQuoteBtn are now INSIDE this project card -->
                 <div class="quote" id="quoteBox">"Ctrl your mind. Alt your path. Del the limits."</div>
                 <button id="newQuoteBtn" class="buttons-style"><i class="fas fa-sync-alt"></i> New Quote</button>
             </div>
-            <!-- END NEW: Quote Generator Project Card -->
-
             <h3>🚧 Projects Incoming</h3>
             <p>Currently building — this space will soon be filled with awesome work!</p>
         </div>
 
     </div>
+    
     <div class="parallax-section">
         <div class="parallax-content">
             <h2>Explore More!</h2>
             <p>A glimpse into the vastness of innovation.</p>
         </div>
     </div>
+
     <footer>
         <p>&copy; 2025 <strong>Sumit Sukhralia</strong>. All rights reserved.</p>
         <div class="footer-links">
@@ -101,6 +89,6 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="script.js"></script> 
 </body>
 </html>
