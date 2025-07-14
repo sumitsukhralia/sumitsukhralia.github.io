@@ -1,1 +1,202 @@
+/* --- Parallax Container (within your #about-me-parallax section) --- */
+.parallax-container {
+    /* IMPORTANT: Adjust this value! 
+       This determines how much scroll space your parallax section occupies.
+       Make it long enough to fit all your content layers comfortably,
+       plus extra space for the "falling" effect. */
+    height: 3000px; /* This is an initial estimate, you MUST adjust this! */
+    position: relative; /* All parallax layers are absolute relative to this */
+    transform-style: preserve-3d; /* Enables 3D context for layers */
+    overflow: hidden; /* Crucial to clip parallax background images that extend outside */
+    padding-top: 50px; /* Initial padding at the top of the parallax section */
+    padding-bottom: 50px; /* Padding at the bottom */
+    
+    /* Ensure the parallax content does not inherit your body's fixed background.
+       It will use its own layers. */
+    background: none !important; 
+}
 
+/* --- Individual Parallax Layers (Background Images) --- */
+.parallax-layer {
+    position: absolute; /* Positioned relative to .parallax-container */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover; /* Cover the entire area */
+    background-position: center; /* Center the image */
+    transform-origin: 50% 50%; /* Scale from center, for better visual effect */
+    z-index: 1; /* Layers should be behind the content */
+    /* These transforms are the core of the parallax effect.
+       translateZ: makes layers appear further away (negative values).
+       scale: compensates for the perceived shrinking caused by translateZ.
+       The JavaScript will dynamically adjust translateY based on scroll. */
+}
+
+/* IMPORTANT: Adjust image paths based on your actual folder structure.
+   If 'images' is a direct subfolder of your project root, and this CSS is in root:
+   url('images/sky1.jpg') is correct. */
+.layer-1 {
+    background-image: url('images/sky1.jpg'); /* Closest layer, moves fastest */
+    transform: translateZ(0); /* Effectively no Z-depth, scales at 1 */
+}
+.layer-2 {
+    background-image: url('images/sky2.jpg'); /* Mid-ground layer, moves slower */
+    transform: translateZ(-0.5px) scale(1.5); /* Needs to be scaled up by 1 + |-0.5| = 1.5 */
+}
+.layer-3 {
+    background-image: url('images/sky3.jpg'); /* Furthest layer, moves slowest */
+    transform: translateZ(-1px) scale(2); /* Needs to be scaled up by 1 + |-1| = 2 */
+}
+
+/* --- Content Layers (Your About Me Sections) --- */
+.content-layer {
+    position: absolute; /* Positioned relative to .parallax-container */
+    width: 60%; /* Width of your content box */
+    left: 20%; /* Centered horizontally (100% - 60%) / 2 = 20% */
+    padding: 40px;
+    /* Use your existing theme colors/backgrounds where possible */
+    background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent dark background, consistent with your .terminal */
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); /* Darker shadow for dark theme */
+    text-align: center;
+    color: white; /* White text, consistent with your body */
+    opacity: 0; /* Starts hidden, JS will fade in */
+    transform: translateY(50px); /* Initial slight offset for fade-in animation */
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out; /* Smooth fade-in */
+    z-index: 10; /* Ensure content is above parallax background layers */
+}
+
+/* Manual positioning of content layers within the parallax-container's height */
+/* You will need to fine-tune these 'top' values after testing! */
+.intro-land {
+    top: 50px; /* Position of your first content block (the intro/landing part) */
+    opacity: 1; /* This one starts visible */
+    transform: translateY(0);
+}
+.content-layer:nth-of-type(2) { top: 600px; } /* Adjust this for the "The Spark" section */
+.content-layer:nth-of-type(3) { top: 1200px; } /* Adjust this for the "My Philosophy" section */
+.content-layer:nth-of-type(4) { top: 1800px; } /* Adjust this for the "My Craft" section */
+.content-layer:nth-of-type(5) { top: 2400px; } /* Adjust this for the "Collaborate" section */
+
+/* Class applied by JavaScript when content layer is in view */
+.content-layer.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- Styling for elements within content layers --- */
+.profile-landing-pic {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid white; /* Consistent with your existing profile-img border */
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.4); /* Subtle white shadow for dark theme */
+    margin-bottom: 20px;
+}
+
+/* Using colors that fit your existing dark theme, or can be adjusted to strict B&W */
+h1 { color: white; font-size: 2.2em; margin-bottom: 10px; }
+h2 { color: #f0e68c; margin-top: 40px; margin-bottom: 15px; } /* Khaki/yellow, or change to white/gray */
+h3 { color: #add8e6; margin-top: 30px; margin-bottom: 10px; } /* Light blue, or change to white/gray */
+p { line-height: 1.6; margin-bottom: 15px; }
+
+.skills-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+.skills-grid span {
+    background-color: rgba(255, 255, 255, 0.1); /* Consistent with your existing tech-stack */
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border */
+    white-space: nowrap;
+}
+
+.cta-button {
+    display: inline-block;
+    background-color: rgba(255, 255, 255, 0.15); /* Consistent with your existing buttons */
+    color: white;
+    padding: 12px 25px;
+    text-decoration: none;
+    border-radius: 8px;
+    margin: 15px 10px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    font-weight: bold;
+}
+.cta-button:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+    transform: translateY(-3px);
+}
+.cta-button.secondary {
+    background-color: rgba(108, 117, 125, 0.5); /* Slightly different gray for secondary */
+}
+.cta-button.secondary:hover {
+    background-color: rgba(108, 117, 125, 0.8);
+}
+
+/* --- Responsive Adjustments for Parallax Section --- */
+@media (max-width: 768px) {
+    .content-layer {
+        width: 85%;
+        left: 7.5%;
+        padding: 20px;
+    }
+    h1 { font-size: 1.8em; }
+    h2 { font-size: 1.5em; }
+    h3 { font-size: 1.2em; }
+    .skills-grid span { font-size: 0.8em; padding: 6px 12px; }
+    .cta-button {
+        padding: 10px 20px;
+        font-size: 0.9em;
+    }
+    /* Disable CSS 3D parallax on smaller screens for performance/compatibility */
+    .parallax-layer {
+        transform: none !important; /* Remove 3D transforms */
+        position: relative; /* Revert to relative positioning */
+        height: 200px; /* Fixed height for backgrounds */
+        margin-bottom: 20px; /* Space between background "layers" */
+    }
+    .parallax-container {
+        /* Adjust height to be based on content and image height */
+        height: auto; 
+        overflow: visible; /* Allow layers to flow naturally */
+        transform-style: flat; /* No 3D perspective */
+    }
+    .content-layer {
+        position: relative; /* Revert to relative positioning */
+        left: auto;
+        top: auto;
+        margin: 20px auto; /* Auto margins to center, add vertical spacing */
+        width: 90%; /* Wider content box */
+    }
+    /* When 3D is off, content layers will appear sequentially */
+    .content-layer:nth-of-type(n) { top: auto; } 
+    .content-layer.is-visible {
+        /* Still fade in, but without the translateY from 3D effect */
+        opacity: 1;
+        transform: none; 
+    }
+}
+
+@media (max-width: 480px) {
+    .content-layer {
+        width: 95%;
+        left: 2.5%;
+        padding: 15px;
+    }
+    h1 { font-size: 1.5em; }
+    h2 { font-size: 1.3em; }
+    h3 { font-size: 1em; }
+    .skills-grid span { font-size: 0.7em; padding: 5px 10px; }
+    .cta-button {
+        padding: 8px 15px;
+        font-size: 0.8em;
+    }
+}
