@@ -37,16 +37,16 @@
    If 'images' is a direct subfolder of your project root, and this CSS is in root:
    url('images/sky1.jpg') is correct. */
 .layer-1 {
-    background-image: url('images/sky1.jpg'); /* Closest layer, moves fastest */
-    transform: translateZ(0); /* Effectively no Z-depth, scales at 1 */
+    background-image: url('https://via.placeholder.com/1920x1080/000000/FFFFFF?text=Sky+Layer+1');
+    transform: translateZ(0);
 }
 .layer-2 {
-    background-image: url('images/sky2.jpg'); /* Mid-ground layer, moves slower */
-    transform: translateZ(-0.5px) scale(1.5); /* Needs to be scaled up by 1 + |-0.5| = 1.5 */
+    background-image: url('https://via.placeholder.com/1920x1080/333333/FFFFFF?text=Sky+Layer+2');
+    transform: translateZ(-0.5px) scale(1.5);
 }
 .layer-3 {
-    background-image: url('images/sky3.jpg'); /* Furthest layer, moves slowest */
-    transform: translateZ(-1px) scale(2); /* Needs to be scaled up by 1 + |-1| = 2 */
+    background-image: url('https://via.placeholder.com/1920x1080/666666/FFFFFF?text=Sky+Layer+3');
+    transform: translateZ(-1px) scale(2);
 }
 
 /* --- Content Layers (Your About Me Sections) --- */
