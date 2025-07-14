@@ -1,1 +1,164 @@
-hh
+/* Ensure the html and body are set up to handle the full-screen overlay */
+/* These are critical for the overlay to work correctly without issues with your existing body styles */
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden; /* Hide scrollbars during the intro */
+    /* Add this to prevent FOUC (flash of unstyled content) before intro is ready */
+    visibility: hidden; 
+    opacity: 0;
+    transition: visibility 0s 0.5s, opacity 0.5s ease-in; 
+}
+
+/* --- The Main Terminal Intro Overlay Container --- */
+/* This will sit on top of all your existing content initially */
+.intro-overlay {
+    position: fixed; /* Stays fixed relative to the viewport */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000; /* Classic black terminal background */
+    z-index: 9999; /* Very high to ensure it's always on top of everything */
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    justify-content: center;
+    align-items: center;
+    font-family: 'Courier New', Courier, monospace; /* Terminal font */
+    color: #0f0; /* Classic green terminal text */
+    opacity: 1; /* Starts fully visible */
+    visibility: visible;
+    /* Transition for fading out the entire overlay. Uses your global --transition-duration if available, otherwise defaults */
+    transition: opacity var(--transition-duration, 0.6s) ease-out, visibility var(--transition-duration, 0.6s) ease-out; 
+}
+
+/* Class to apply when the overlay needs to fade out */
+.intro-overlay.fade-out {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* --- Content within the Terminal (cat, text, button) --- */
+.intro-terminal-content {
+    text-align: center;
+    max-width: 90%; /* Responsive width */
+    padding: 20px;
+    box-sizing: border-box;
+    position: relative; /* For potential future animations of internal elements */
+}
+
+#intro-cat-art {
+    font-size: clamp(1.5em, 5vw, 4em); /* Responsive font size for the cat */
+    line-height: 1;
+    margin-bottom: 25px;
+    white-space: pre; /* Preserves ASCII art spacing */
+    color: #0f0; /* Ensure cat stays green */
+}
+
+.typing-text-container {
+    display: inline-block; /* Keeps cursor next to text */
+    min-height: 1.5em; /* Prevents layout shift before text appears */
+}
+
+#intro-typing-output {
+    font-size: clamp(1em, 3vw, 1.8em); /* Responsive font size for typing text */
+    white-space: nowrap; /* Keep text on one line */
+}
+
+.intro-cursor {
+    animation: blink 1s step-end infinite; /* Blinking cursor effect */
+}
+
+/* Re-using your blink keyframes from style.css, but explicitly defining for clarity */
+/* If you want different blink for intro, rename this */
+@keyframes blink {
+    from, to { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+#intro-proceed-button {
+    background: #007bff; /* A vibrant blue for the button (you can change this to a gray/white if strict B&W) */
+    color: white;
+    border: 2px solid #007bff;
+    padding: 12px 25px;
+    font-size: clamp(1em, 2.5vw, 1.3em); /* Responsive font size */
+    cursor: pointer;
+    margin-top: 40px; /* Space from typing text */
+    border-radius: 8px;
+    opacity: 0; /* Starts hidden, JS will fade it in */
+    transform: translateY(10px); /* Slight initial offset */
+    transition: background-color 0.3s ease, transform 0.3s ease, opacity 0.5s ease;
+}
+
+#intro-proceed-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    transform: translateY(-2px) scale(1.02); /* Slight lift and scale on hover */
+}
+
+.intro-hidden {
+    display: none; /* Used by JS to initially hide the button */
+}
+
+/* --- The Sky/Cloud Background for Transition --- */
+/* This will appear underneath the terminal content as it fades */
+.intro-transition-sky {
+    position: absolute; /* Positioned relative to .intro-overlay */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Gradient from dark blue/purple to deep space */
+    background: radial-gradient(circle at center, #6a85b6 0%, #060920 100%); 
+    opacity: 0; /* Starts hidden */
+    visibility: hidden;
+    /* Transition for fading in the sky */
+    transition: opacity var(--transition-duration, 0.6s) ease-out, visibility var(--transition-duration, 0.6s) ease-out;
+    z-index: -1; /* Placed behind the terminal content */
+}
+
+/* Class to activate the sky transition */
+.intro-transition-sky.active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 0; /* Bring it just above the terminal content's default z-index */
+}
+
+/* --- Styling for Your Main Website Content (initially hidden) --- */
+/* This ensures your main site is not visible until the intro is done */
+#main-content-wrapper {
+    opacity: 0; /* Start invisible */
+    visibility: hidden; /* Prevent interaction while hidden */
+    /* Transition for fading in your main website content */
+    transition: opacity var(--transition-duration, 0.6s) ease-out, visibility var(--transition-duration, 0.6s) ease-out; 
+    /* Occupy full screen to correctly align after overlay */
+    width: 100%; 
+    min-height: 100vh;
+    box-sizing: border-box; /* Include padding in element's total width and height */
+    /* Override initial body styles that might conflict */
+    position: relative; /* Ensure it respects its position within the flow */
+    z-index: 1; /* Above any default body pseudo-elements */
+    /* Your existing body background/overlay will now be active here */
+    background: none; /* Crucial: Prevent this wrapper from having its own background */
+}
+
+/* Class to apply when the main website content should become visible */
+#main-content-wrapper.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Responsive adjustments for the terminal overlay */
+@media (max-width: 600px) {
+    #intro-cat-art {
+        font-size: 1.2em;
+        margin-bottom: 15px;
+    }
+    #intro-typing-output {
+        font-size: 1em;
+    }
+    #intro-proceed-button {
+        padding: 8px 18px;
+        font-size: 1em;
+        margin-top: 30px;
+    }
+}
