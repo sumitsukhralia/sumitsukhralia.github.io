@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const introOverlay = document.getElementById('intro-overlay');
     const introTypingOutput = document.getElementById('intro-typing-output');
     const introProceedButton = document.getElementById('intro-proceed-button');
-    const introTransitionSky = document.getElementById('intro-transition-sky');
+    const introTransitionSky = document.getElementById('intro-transition-sky'); // This will be a solid color now
     const introTerminalContent = document.querySelector('.intro-terminal-content'); // For fading out
     const mainContentWrapper = document.getElementById('main-content-wrapper');
 
@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const contentLayers = document.querySelectorAll('.content-layer');
 
     // --- NEW: Terminal Typing Logic ---
-    const fullIntroText = "Want to know about me more?"; // Renamed to avoid conflict with your existing `quotes` array
+    const fullIntroText = "Want to know about me more?";
     let introCharIndex = 0;
     const introTypingSpeed = 70; // milliseconds per character
 
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
         introTerminalContent.style.opacity = 0;
         introTerminalContent.style.transition = 'opacity 1s ease-out';
 
-        // Activate sky background beneath terminal content
+        // Activate sky background beneath terminal content (will be a solid color)
         introTransitionSky.classList.add('active');
 
         // After sky is visible, remove terminal overlay and show main content
@@ -61,12 +61,6 @@ document.addEventListener('DOMContentLoaded', () => {
             mainContentWrapper.classList.remove('hidden'); // Ensure main content wrapper isn't explicitly hidden
             mainContentWrapper.classList.add('active'); // Fade in main content
 
-            // Optional: If you want to scroll to the 'About Me' section after the intro, uncomment below
-            // const aboutMeSection = document.getElementById('about-me-parallax');
-            // if (aboutMeSection) {
-            //     aboutMeSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            // }
-
         }, 1500); // Match this to intro-transition-sky's CSS transition duration
     });
 
@@ -74,13 +68,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Apply the necessary scale transformation based on translateZ for proper perspective
     function applyParallaxScale() {
-        if (!parallaxContainer) return; // Ensure parallax container exists
+        if (!parallaxContainer) return;
 
-        // Only apply 3D transforms if screen is wider than 768px (as per CSS media query)
-        if (window.innerWidth > 768) {
+        if (window.innerWidth > 768) { // Only apply 3D transforms if screen is wider than 768px
             parallaxLayers.forEach(layer => {
-                // Ensure transform property exists before trying to match
-                const currentTransform = layer.style.transform || ''; 
+                const currentTransform = layer.style.transform || '';
                 const translateZMatch = currentTransform.match(/translateZ\((-?\d+\.?\d*)px\)/);
                 
                 if (translateZMatch && translateZMatch[1]) {
@@ -88,8 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const scaleValue = 1 + (translateZ * -1); 
                     layer.style.transform = `translateZ(${translateZ}px) scale(${scaleValue})`;
                 } else {
-                    // If no translateZ, assume it's layer-1 or not meant for 3D scaling
-                    layer.style.transform = `scale(1)`; // Ensure a base scale
+                    layer.style.transform = `scale(1)`;
                 }
             });
         }
@@ -97,17 +88,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Handle scrolling for parallax and content visibility
     window.addEventListener('scroll', () => {
-        // Only run parallax if main content is active AND parallax container exists
         if (!mainContentWrapper.classList.contains('active') || !parallaxContainer) {
             return; 
         }
 
         const scrollTop = window.pageYOffset;
         const parallaxContainerRect = parallaxContainer.getBoundingClientRect();
-        const scrollInsideParallax = scrollTop - (parallaxContainerRect.top + scrollTop); // Calculate scroll relative to container's top
+        const scrollInsideParallax = scrollTop - (parallaxContainerRect.top + scrollTop);
 
-        // Move background layers based on scroll within the parallax container
-        // Only apply if the screen is wider than 768px (where 3D parallax is enabled)
         if (window.innerWidth > 768) {
             parallaxLayers.forEach(layer => {
                 const currentTransform = layer.style.transform || '';
@@ -115,12 +103,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (translateZMatch && translateZMatch[1]) {
                     const translateZ = parseFloat(translateZMatch[1]);
                     
-                    // Check if scroll is within the bounds of the parallax section
                     if (scrollInsideParallax >= 0 && scrollInsideParallax < parallaxContainer.offsetHeight) {
                        layer.style.transform = `translateZ(${translateZ}px) scale(${1 + (translateZ * -1)}) translateY(${scrollInsideParallax * translateZ * -1}px)`;
                     } else {
-                        // Reset or freeze when outside the section.
-                        // You might want to fine-tune this to match your desired "exit" effect.
                         layer.style.transform = `translateZ(${translateZ}px) scale(${1 + (translateZ * -1)}) translateY(0px)`;
                     }
                 }
@@ -130,27 +115,22 @@ document.addEventListener('DOMContentLoaded', () => {
         // Content Visibility on Scroll (Fade-in effect for content layers)
         contentLayers.forEach(layer => {
             const rect = layer.getBoundingClientRect();
-            // Check if element is in viewport (roughly 75% visible from top, 25% from bottom)
             if (rect.top < window.innerHeight * 0.75 && rect.bottom > window.innerHeight * 0.25) {
                 layer.classList.add('is-visible');
-            } else {
-                // Optional: remove class when out of view to re-animate if scrolled back
-                // layer.classList.remove('is-visible');
             }
         });
     });
 
     // --- NEW: Initializations for the Intro and Parallax ---
-    // Start typing on terminal when DOM is ready
-    typeIntroText();
-
-    // Setup parallax on initial load if the container exists
+    typeIntroText(); // Re-enable intro typing
     if (parallaxContainer) {
         applyParallaxScale();
     }
 
 
     // --- YOUR ORIGINAL script.js CONTENT (Integrated and Adjusted) ---
+    // Make sure all your original functions and initializations are here.
+    // This section starts from your 'quotes' array and goes to the end.
     
     // --- Quote Display Functionality ---
     const quotes = [
@@ -373,32 +353,23 @@ document.addEventListener('DOMContentLoaded', () => {
         "Code what they can’t copy."
     ];
 
-    let currentQuoteIndex = -1; // Start at -1 so the first call to displayNextQuote() shows index 0
-    let quoteIntervalId; // To store the ID of the setInterval for automatic rotation
+    let currentQuoteIndex = -1;
+    let quoteIntervalId;
 
-    // Function to display the next quote in sequence
     function displayNextQuote() {
         const quoteBox = document.getElementById('quoteBox');
-        if (!quoteBox) { // Robustness check: Ensure element exists
+        if (!quoteBox) {
             console.error("Error: 'quoteBox' element not found. Cannot display quote.");
-            return; // Exit function if element is missing
+            return;
         }
-
-        // Increment index, and loop back to 0 if we reach the end of the array
         currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
-
-        // Fade out the current quote
         quoteBox.style.opacity = 0;
-        console.log(`Displaying quote #${currentQuoteIndex}: "${quotes[currentQuoteIndex].substring(0, 30)}..."`); // Log which quote is next
-
-        // After the fade-out, change the text and fade it back in
         setTimeout(() => {
-            quoteBox.innerText = quotes[currentQuoteIndex]; // Update text to the next sequential quote
-            quoteBox.style.opacity = 1; // Fade in the new quote
-        }, 500); // Wait 500ms (0.5 seconds) for the fade-out to complete before changing text
+            quoteBox.innerText = quotes[currentQuoteIndex];
+            quoteBox.style.opacity = 1;
+        }, 500);
     }
 
-    // --- AI Tease Text Rotation Functionality ---
     const aiMessages = [
         "Initializing...",
         "Waking neural core...",
@@ -408,123 +379,56 @@ document.addEventListener('DOMContentLoaded', () => {
         "Deploying self-awareness...",
         "Spawning sentience..."
     ];
-    let aiMessageIndex = 0; // Initialize AI message index
+    let aiMessageIndex = 0;
 
-    // Set an interval to change the AI tease message every 3 seconds (3000 milliseconds)
     setInterval(() => {
         const aiTeaseElement = document.getElementById("aiTease");
-        if (!aiTeaseElement) { // Robustness check
+        if (!aiTeaseElement) {
             console.error("Error: 'aiTease' element not found for AI messages.");
             return;
         }
-        aiTeaseElement.textContent = aiMessages[aiMessageIndex]; // Update text
-        aiMessageIndex = (aiMessageIndex + 1) % aiMessages.length; // Move to next message, loop if at end
+        aiTeaseElement.textContent = aiMessages[aiMessageIndex];
+        aiMessageIndex = (aiMessageIndex + 1) % aiMessages.length;
     }, 3000);
 
-    // --- Dark Mode Toggle Functionality (Manual Button) ---
-    let userPrefersDarkMode = false; // Flag to store user's manual preference
+    let userPrefersDarkMode = false;
 
     function toggleDarkMode() {
-        // Attempt to toggle dark mode class
         document.body.classList.toggle('dark-mode');
-
-        // Update the user's preference flag
         userPrefersDarkMode = document.body.classList.contains('dark-mode');
-
-        // Save the current dark mode preference in local storage
         try {
             localStorage.setItem('darkMode', userPrefersDarkMode);
-            console.log("Dark mode preference saved to localStorage:", userPrefersDarkMode);
         } catch (e) {
             console.error("Error saving dark mode preference to localStorage:", e);
         }
     }
 
-    // --- Initial Setup on Page Load ---
-    // This is now handled within the DOMContentLoaded, and after the intro.
-    // The `window.onload` was moved here.
-
-    // Check local storage for dark mode preference when the page loads
     try {
         const storedDarkMode = localStorage.getItem('darkMode');
         if (storedDarkMode === 'true') {
             document.body.classList.add('dark-mode');
             userPrefersDarkMode = true;
-            console.log("Loaded dark mode preference from localStorage: ON");
         } else {
             userPrefersDarkMode = false;
-            console.log("Loaded dark mode preference from localStorage: OFF (or not set)");
         }
     } catch (e) {
         console.error("Error loading dark mode preference from localStorage:", e);
-        userPrefersDarkMode = false; // Default to light if localStorage fails
+        userPrefersDarkMode = false;
     }
 
+    animateElements(); // Your text scramble animation
 
-    animateElements(); // Call the function to animate elements (like the terminal text)
-
-    // --- Quote Display Initialization ---
-    if (quotes.length > 0) { // Ensure there are quotes to display
-        displayNextQuote(); // Display the first quote immediately on load
-        quoteIntervalId = setInterval(displayNextQuote, 60000); // Auto-rotate every 60 seconds
-        console.log("Quote display initialized.");
-    } else {
-        console.warn("No quotes found in the 'quotes' array. Quote display will not function.");
+    if (quotes.length > 0) {
+        displayNextQuote();
+        quoteIntervalId = setInterval(displayNextQuote, 60000);
     }
 
-
-    // Add event listener to the new quote button
     const newQuoteBtn = document.getElementById('newQuoteBtn');
     if (newQuoteBtn) {
         newQuoteBtn.addEventListener('click', () => {
-            console.log("New Quote button clicked.");
             displayNextQuote();
-            // Optional: Reset the automatic timer so it doesn't change too quickly after a manual click
-            // clearInterval(quoteIntervalId);
-            // quoteIntervalId = setInterval(displayNextQuote, 60000);
         });
-    } else {
-        console.error("Error: 'newQuoteBtn' element not found. Quote button functionality will not work.");
     }
-
-    // --- Scroll-Triggered Dark Mode Effect ---
-    // IMPORTANT: The `terminalElement` you were targeting for scroll-triggered dark mode
-    // (with ID 'terminal') is likely the old, general terminal section.
-    // The new intro handles the initial visibility.
-    // If you still want a section deeper in your page to trigger dark mode on scroll,
-    // you need to identify that specific section's ID or class.
-    // For now, I've commented out the `terminalElement` related scroll logic,
-    // as it conflicts with the new intro behavior.
-    // If you want this functionality on a *different* element, let me know its ID.
-
-    // const terminalElement = document.getElementById('terminal'); // This refers to your *old* terminal div
-    // let hasScrolledPastTerminal = false;
-
-    // if (terminalElement) { // Robustness check
-    //     console.log("Terminal element found for scroll-triggered dark mode.");
-    //     window.addEventListener('scroll', () => {
-    //         const terminalBottom = terminalElement.getBoundingClientRect().bottom;
-
-    //         if (terminalBottom < 0 && !hasScrolledPastTerminal) {
-    //             document.body.classList.add('dark-mode');
-    //             // document.body.classList.add('fast-transition'); // Uncomment if you add this CSS class
-    //             hasScrolledPastTerminal = true;
-    //             console.log("Scrolled past terminal: Auto-switching to Dark Mode!");
-    //         } else if (terminalBottom >= 0 && hasScrolledPastTerminal) {
-    //             document.body.classList.remove('dark-mode');
-    //             // document.body.classList.remove('fast-transition'); // Uncomment if you add this CSS class
-
-    //             if (userPrefersDarkMode) { // Revert to user preference
-    //                 document.body.classList.add('dark-mode');
-    //             }
-    //             hasScrolledPastTerminal = false;
-    //             console.log("Terminal back in view: Reverting to user preference.");
-    //         }
-    //     });
-    // } else {
-    //     console.error("Error: 'terminal' element not found. Scroll-triggered dark mode will not function.");
-    // }
-
 
     // --- Text Animation (Scramble Effect) Functionality ---
     const ASCII_OF_A = "A".charCodeAt();
@@ -556,16 +460,12 @@ document.addEventListener('DOMContentLoaded', () => {
         for (const element of elements) {
             const originalText = element.innerText;
             const options = { interval: null };
-            element.addEventListener("mouseover", (event) => { // Only animate on mouseover
+            element.addEventListener("mouseover", (event) => {
                 animateElement(event.target, originalText, options);
             });
-            // Initial animation removed, it will be handled by the intro if it's the main terminal
-            // If you want elements like h1 to animate on load, uncomment:
-            // animateElement(element, originalText, options); 
         }
     }
 
-    // --- Dark Mode Toggle Button Event Listener (Moved here for proper scope) ---
     const toggleDarkModeBtn = document.querySelector('.toggle-dark');
     if (toggleDarkModeBtn) {
         toggleDarkModeBtn.addEventListener('click', toggleDarkMode);
