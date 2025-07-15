@@ -1,136 +1,303 @@
-// --- Dark Mode Toggle Functionality ---
-// This function is called when the "Dark Mode" button is clicked.
-function toggleDarkMode() {
-    // Toggles the 'dark-mode' class on the <body> element.
-    // If 'dark-mode' is present, it removes it; if absent, it adds it.
-    document.body.classList.toggle('dark-mode');
-
-    // Save the current dark mode preference to the browser's local storage.
-    // localStorage.setItem stores data as key-value pairs.
-    // document.body.classList.contains('dark-mode') returns true if the class is present, false otherwise.
-    const isDarkMode = document.body.classList.contains('dark-mode');
-    localStorage.setItem('darkMode', isDarkMode);
-    console.log("Dark mode preference saved:", isDarkMode); // Log for debugging
-
-    // Update the icon on the toggle button (moon for light, sun for dark)
-    const icon = document.querySelector('.toggle-dark i'); // Get the <i> element (icon) inside the button
-    if (icon) { // Check if the icon element exists
-        if (isDarkMode) {
-            icon.classList.remove('fa-moon'); // Remove moon icon
-            icon.classList.add('fa-sun'); // Add sun icon
-        } else {
-            icon.classList.remove('fa-sun'); // Remove sun icon
-            icon.classList.add('fa-moon'); // Add moon icon
-        }
-    } else {
-        console.warn("Dark mode toggle icon not found."); // Warn if icon element is missing
-    }
+/* Basic Reset & Body Styling */
+/* Define a CSS variable for transition duration at the root level */
+:root {
+    --transition-duration: 0.6s; /* Default transition duration for smooth changes */
 }
 
-// --- Page Initialization (runs when the HTML content is fully loaded) ---
-// document.addEventListener('DOMContentLoaded') is generally preferred over window.onload
-// because it fires as soon as the DOM is ready, without waiting for images/stylesheets.
-document.addEventListener('DOMContentLoaded', () => {
-    console.log("DOM Content Loaded. Initializing script.");
+body {
+    margin: 0; /* Remove default margin */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Preferred font stack */
+    background: url('your-photo.jpg') no-repeat center center fixed; /* Background image */
+    background-size: cover; /* Cover the entire viewport */
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    position: relative; /* Needed for pseudo-element positioning */
+    color: white; /* Default text color */
+    /* Use the CSS variable for transition duration */
+    transition: background var(--transition-duration) ease, color var(--transition-duration) ease;
+}
 
-    // --- Check for Saved Dark Mode Preference on Load ---
-    try {
-        const savedDarkMode = localStorage.getItem('darkMode');
-        if (savedDarkMode === 'true') { // If the saved preference is 'true' (as a string)
-            document.body.classList.add('dark-mode'); // Apply dark mode class
-            // Also update the button icon immediately on load to reflect the saved state
-            const icon = document.querySelector('.toggle-dark i');
-            if (icon) {
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
-            }
-            console.log("Loaded dark mode preference from localStorage: ON");
-        } else {
-            console.log("Loaded dark mode preference from localStorage: OFF (or not set)");
-        }
-    } catch (e) {
-        console.error("Error loading dark mode preference from localStorage:", e);
-        // Default to light mode if localStorage access fails (e.g., security restrictions)
+/* Overlay for background image */
+body::before {
+    content: ""; /* Required for pseudo-elements */
+    position: fixed; /* Fix to viewport */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6); /* Semi-transparent black overlay */
+    backdrop-filter: blur(4px); /* Blur the background image */
+    z-index: -1; /* Place behind other content */
+    /* Use the CSS variable for transition duration */
+    transition: background var(--transition-duration) ease;
+}
+
+/* Dark Mode Styles */
+.dark-mode::before {
+    background: rgba(0, 0, 0, 0.9); /* Darker overlay in dark mode */
+}
+.dark-mode {
+    background: #000; /* Solid black background in dark mode */
+}
+
+/* Optional: Class for a faster transition, can be applied via JS for a "boom" effect */
+/* This overrides the --transition-duration variable for a quicker change */
+.fast-transition {
+    --transition-duration: 0.3s;
+}
+
+
+/* Main Container Styling */
+.container {
+    max-width: 600px; /* Maximum width of the content area */
+    margin: 0 auto; /* Center the container horizontally */
+    text-align: center; /* Center text within the container */
+    padding: 40px 20px; /* Padding inside the container */
+    position: relative; /* For z-index to work with body::before */
+    z-index: 1; /* Ensure container is above the overlay */
+}
+
+/* Profile Image Styling */
+.profile-img {
+    width: 140px; /* Fixed width */
+    height: 140px; /* Fixed height */
+    border-radius: 50%; /* Make it circular */
+    object-fit: cover; /* Crop image to fit without stretching */
+    border: 4px solid white; /* White border around the image */
+}
+
+/* Heading (Name) Styling */
+h1 {
+    margin: 15px 0 5px; /* Margin around the heading */
+    font-size: 2.5rem; /* Large font size */
+}
+
+/* Tech Stack Section */
+.tech-stack {
+    margin-top: 15px; /* Space above */
+    display: flex; /* Use flexbox for layout */
+    flex-wrap: wrap; /* Allow items to wrap to the next line */
+    justify-content: center; /* Center items horizontally */
+    gap: 12px; /* Space between items */
+}
+
+/* Individual Tech Stack Tags */
+.tech-stack span {
+    background: rgba(255, 255, 255, 0.1); /* Semi-transparent white background */
+    padding: 6px 12px; /* Padding inside the span */
+    border-radius: 20px; /* Rounded corners for pill shape */
+    font-size: 0.9rem; /* Smaller font size */
+}
+
+/* Buttons Section */
+.buttons {
+    margin-top: 25px; /* Space above */
+    display: flex; /* Use flexbox */
+    flex-direction: column; /* Stack buttons vertically */
+    gap: 15px; /* Space between buttons */
+    align-items: center; /* Center buttons horizontally */
+}
+
+/* Styling for all buttons (links and toggle button) */
+.buttons a, .toggle-dark {
+    background: rgba(255, 255, 255, 0.15); /* Semi-transparent white background */
+    color: white; /* Text color */
+    padding: 12px 24px; /* Padding */
+    border-radius: 30px; /* More rounded corners */
+    text-decoration: none; /* Remove underline from links */
+    display: inline-flex; /* Allow icon and text to align */
+    align-items: center; /* Vertically align icon and text */
+    gap: 10px; /* Space between icon and text */
+    border: 1px solid rgba(255,255,255,0.2); /* Subtle border */
+    transition: all 0.3s ease; /* Smooth transitions for hover effects */
+    cursor: pointer; /* Indicate button is clickable */
+    font-size: 1rem; /* Default font size */
+}
+
+/* Hover effect for buttons */
+.buttons a:hover, .toggle-dark:hover {
+    background: rgba(255, 255, 255, 0.25); /* Slightly more opaque on hover */
+}
+
+/* Terminal Section Styling */
+.terminal {
+    background: rgba(0, 0, 0, 0.4); /* Dark semi-transparent background */
+    padding: 25px; /* Padding */
+    border-radius: 10px; /* Rounded corners */
+    margin-top: 30px; /* Space above */
+    font-family: monospace; /* Monospace font for terminal look */
+    max-width: 100%; /* Ensure it fits within container */
+    white-space: pre-line; /* Preserve line breaks from HTML */
+    color: white; /* Text color */
+    text-align: left; /* Align terminal text to the left */
+}
+
+/* Quote Box Styling */
+.quote {
+    margin-top: 40px; /* Space above */
+    font-style: italic; /* Italic text */
+    font-size: 1rem; /* Font size */
+    transition: opacity 0.5s ease-in-out; /* Smooth fade for quote changes */
+}
+
+/* Projects Section Styling */
+.projects {
+    margin-top: 40px; /* Space above */
+    background: rgba(0,0,0,0.3); /* Semi-transparent dark background */
+    padding: 20px; /* Padding */
+    border-radius: 10px; /* Rounded corners */
+}
+
+/* AI Project Card Specific Styling */
+.project-card.ai-coming-soon {
+    background: rgba(255, 255, 255, 0.04); /* Very subtle background */
+    border: 1px dashed rgba(255, 255, 255, 0.2); /* Dashed border */
+    padding: 25px; /* Padding */
+    border-radius: 12px; /* Rounded corners */
+    margin-top: 30px; /* Space above */
+    text-align: center; /* Center text */
+    animation: pulse-shadow 2s infinite alternate; /* Pulsing shadow animation */
+    /* Nested element styles for readability, can be moved out if preferred */
+}
+.project-card.ai-coming-soon h3 {
+    color: white;
+    margin-bottom: 12px;
+}
+.project-card.ai-coming-soon p {
+    color: #ccc; /* Lighter grey text */
+    font-style: italic;
+    font-size: 0.95rem;
+}
+.project-card.ai-coming-soon .tease-box {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+.project-card.ai-coming-soon .dot {
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+    animation: blink 1.2s infinite ease-in-out alternate;
+}
+.project-card.ai-coming-soon .dot:nth-child(2) { /* Apply animation delay to second dot */
+    animation-delay: 0.2s;
+}
+.project-card.ai-coming-soon .dot:nth-child(3) { /* Apply animation delay to third dot */
+    animation-delay: 0.4s;
+}
+.project-card.ai-coming-soon .text#aiTease {
+    margin-left: 10px;
+    color: white;
+    font-family: monospace;
+    font-size: 0.9rem;
+}
+
+/* Footer Styling */
+footer {
+    background: rgba(255, 255, 255, 0.05); /* Semi-transparent white background */
+    color: white; /* Text color */
+    text-align: center; /* Center text */
+    padding: 20px 0; /* Vertical padding */
+    margin-top: 50px; /* Space above */
+    font-size: 0.95rem; /* Smaller font size */
+    border-top: 1px solid rgba(255, 255, 255, 0.1); /* Top border */
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+footer a {
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+}
+footer a:hover {
+    text-decoration: underline; /* Underline on hover for footer links */
+}
+
+/* Keyframe Animations */
+@keyframes blink {
+    from { opacity: 0.2; } /* Start nearly invisible */
+    to { opacity: 1; } /* End fully visible */
+}
+
+@keyframes pulse-shadow {
+    from { box-shadow: 0 0 10px rgba(255,255,255,0.2); } /* Initial shadow */
+    to { box-shadow: 0 0 20px rgba(255,255,255,0.4); } /* Larger, brighter shadow */
+}
+
+
+/* --- NEW: Parallax Section Styling --- */
+.parallax-section {
+    /* Set the background image for this section */
+    background-image: url('parallax-bg.jpg'); /* REMEMBER TO CHANGE THIS TO YOUR IMAGE PATH */
+    background-size: cover; /* Scale the background image to cover the entire container */
+    background-position: center; /* Center the background image */
+    background-repeat: no-repeat; /* Do not repeat the background image */
+
+    /* THIS IS THE MAGIC FOR PARALLAX */
+    background-attachment: fixed; /* This makes the background image fixed relative to the viewport, creating the parallax effect */
+
+    min-height: 500px; /* Give the section a minimum height so the parallax effect is visible as you scroll */
+    display: flex; /* Use flexbox to center content vertically and horizontally */
+    align-items: center; /* Center content vertically */
+    justify-content: center; /* Center content horizontally */
+    text-align: center; /* Center text within the content box */
+    color: white; /* Text color for content within parallax section */
+    margin-top: 50px; /* Add some space above this section */
+    position: relative; /* Needed for overlay */
+    overflow: hidden; /* Important for some mobile browsers to prevent artifacts with fixed backgrounds */
+}
+
+/* Optional: Add an overlay to the parallax section for better text readability */
+.parallax-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* Semi-transparent black overlay */
+    z-index: 1; /* Place above the background image but below the content */
+}
+
+/* Styling for the content within the parallax section */
+.parallax-content {
+    position: relative; /* Position relative to allow z-index */
+    z-index: 2; /* Ensure content is above the overlay */
+    padding: 20px; /* Add padding to the content */
+    background: rgba(0, 0, 0, 0.3); /* Slightly darker background for content box */
+    border-radius: 10px; /* Rounded corners for content box */
+    max-width: 80%; /* Limit width of content box */
+}
+
+.parallax-content h2 {
+    font-size: 2.5rem; /* Larger heading */
+    margin-bottom: 10px;
+}
+
+.parallax-content p {
+    font-size: 1.2rem; /* Larger paragraph text */
+}
+
+/* Responsive Adjustments (Optional but Recommended) */
+@media (max-width: 768px) {
+    .parallax-section {
+        min-height: 350px; /* Smaller height on smaller screens */
+        /* On mobile, fixed background-attachment can be buggy or impact performance. */
+        /* Revert to scroll to ensure smooth scrolling, even if it removes the parallax effect. */
+        background-attachment: scroll;
     }
-
-    // --- Profile Section Scroll Effects (Opacity and Parallax on Image) ---
-    const profileSection = document.getElementById('profile'); // Get the main profile section
-    const profileImg = document.querySelector('.profile-img'); // Get the profile image
-
-    if (profileSection && profileImg) { // Ensure both elements exist before adding listeners
-        console.log("Profile section and image found. Adding scroll effects.");
-        window.addEventListener('scroll', () => {
-            const scrollPosition = window.scrollY; // Get current vertical scroll position
-
-            // 1. Opacity Fade Effect for Profile Section:
-            // Calculates opacity: 1 (fully visible) at top, fades to 0 (invisible) as scrollPosition reaches 500px.
-            // Math.min(scrollPosition / 500, 1) ensures the value doesn't go above 1.
-            const opacity = 1 - Math.min(scrollPosition / 500, 1);
-            profileSection.style.opacity = opacity;
-            // Optional: You could also use display: none when opacity is 0 to remove it from flow
-            // if (opacity <= 0) { profileSection.style.display = 'none'; } else { profileSection.style.display = 'flex'; }
-
-
-            // 2. Parallax Effect for Profile Image:
-            // Moves the image down at a slower rate (0.3x scroll speed) than the page.
-            // This creates a subtle parallax effect on the image itself.
-            const translateY = scrollPosition * 0.3;
-            profileImg.style.transform = `translateY(${translateY}px)`;
-        });
-    } else {
-        console.warn("Profile section or image not found. Scroll effects not applied.");
+    .parallax-content h2 {
+        font-size: 1.8rem;
     }
-
-    // --- Terminal Text Animation (Scramble Effect on Mouse Enter) ---
-    // Selects all elements with the class 'terminal-content'
-    document.querySelectorAll('.terminal-content').forEach(terminal => {
-        const originalText = terminal.textContent; // Store the original text content of the terminal
-        let animationInterval = null; // Variable to hold the interval ID for animation control
-
-        terminal.addEventListener('mouseenter', () => {
-            console.log("Mouse entered terminal. Starting scramble animation.");
-            if (animationInterval) { // If an animation is already running, clear it first
-                clearInterval(animationInterval);
-            }
-
-            let iteration = 0; // Counter for how many characters have been "revealed"
-            animationInterval = setInterval(() => {
-                // Generates the scrambled text:
-                // - Splits the original text into an array of characters.
-                // - Maps over each character and its index:
-                //   - If the current index is less than 'iteration', use the original character (it's "revealed").
-                //   - Otherwise, generate a random lowercase letter (ASCII 97 is 'a').
-                // - Joins the characters back into a string.
-                terminal.textContent = originalText
-                    .split('')
-                    .map((char, index) => {
-                        if (index < iteration) {
-                            return originalText[index]; // Keep original character
-                        }
-                        // Generate a random lowercase letter (ASCII 'a' is 97, 'z' is 122)
-                        return String.fromCharCode(Math.floor(Math.random() * 26) + 97);
-                    })
-                    .join('');
-
-                // If all characters have been revealed, stop the animation
-                if (iteration >= originalText.length) {
-                    clearInterval(animationInterval); // Stop the interval
-                    animationInterval = null; // Reset the interval ID
-                    console.log("Terminal scramble animation complete.");
-                }
-
-                iteration += 1; // Move to reveal the next character in the next interval tick
-            }, 30); // Run every 30 milliseconds (controls animation speed)
-        });
-
-        // Optional: Reset text on mouse leave if you want it to go back to original state
-        // terminal.addEventListener('mouseleave', () => {
-        //     if (animationInterval) {
-        //         clearInterval(animationInterval);
-        //         animationInterval = null;
-        //     }
-        //     terminal.textContent = originalText;
-        //     console.log("Mouse left terminal. Resetting text.");
-        // });
-    });
-});
+    .parallax-content p {
+        font-size: 1rem;
+    }
+}
