@@ -1,41 +1,5 @@
-// --- Preloader Functionality (originally preloader.js) ---
-document.addEventListener('DOMContentLoaded', function() {
-    const preloader = document.getElementById('preloader');
-    const greetings = [
-        'greeting-1', 'greeting-2', 'greeting-3',
-        'greeting-4', 'greeting-5', 'greeting-6',
-        'greeting-7',
-        'greeting-8'
-    ];
-
-    // Show each greeting one after another
-    greetings.forEach((id, index) => {
-        setTimeout(() => {
-            const prevElement = document.getElementById(greetings[index - 1]);
-            const currentElement = document.getElementById(id);
-
-            if (prevElement) prevElement.style.opacity = '0';
-            currentElement.style.opacity = '1';
-
-            // On last greeting, fade out everything
-            if (index === greetings.length - 1) {
-                setTimeout(() => {
-                    preloader.style.opacity = '0';
-                    setTimeout(() => {
-                        preloader.style.display = 'none';
-                        // Re-enable body scroll after preloader is gone
-                        document.body.style.overflow = 'auto';
-                    }, 300); // Faster fade-out
-                }, 500); // Shorter display time for the last greeting
-            }
-        }, index * 120); // Faster greeting display intervals
-    });
-});
-
-
-// --- Main Website Functionality (originally script.js) ---
-
 // --- Quote Display Functionality ---
+// Your comprehensive list of quotes, now displayed sequentially.
 const quotes = [
     "Darkness teaches what light hides.",
     "Silence says more than noise ever could.",
@@ -256,25 +220,29 @@ const quotes = [
     "Code what they can’t copy."
 ];
 
-let currentQuoteIndex = -1;
-let quoteIntervalId;
+let currentQuoteIndex = -1; // Start at -1 so the first call to displayNextQuote() shows index 0
+let quoteIntervalId; // To store the ID of the setInterval for automatic rotation
 
+// Function to display the next quote in sequence
 function displayNextQuote() {
     const quoteBox = document.getElementById('quoteBox');
-    if (!quoteBox) {
+    if (!quoteBox) { // Robustness check: Ensure element exists
         console.error("Error: 'quoteBox' element not found. Cannot display quote.");
-        return;
+        return; // Exit function if element is missing
     }
 
+    // Increment index, and loop back to 0 if we reach the end of the array
     currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
 
+    // Fade out the current quote
     quoteBox.style.opacity = 0;
-    console.log(`Displaying quote #${currentQuoteIndex}: "${quotes[currentQuoteIndex].substring(0, 30)}..."`);
+    console.log(`Displaying quote #${currentQuoteIndex}: "${quotes[currentQuoteIndex].substring(0, 30)}..."`); // Log which quote is next
 
+    // After the fade-out, change the text and fade it back in
     setTimeout(() => {
-        quoteBox.innerText = quotes[currentQuoteIndex];
-        quoteBox.style.opacity = 1;
-    }, 500);
+        quoteBox.innerText = quotes[currentQuoteIndex]; // Update text to the next sequential quote
+        quoteBox.style.opacity = 1; // Fade in the new quote
+    }, 500); // Wait 500ms (0.5 seconds) for the fade-out to complete before changing text
 }
 
 // --- AI Tease Text Rotation Functionality ---
@@ -287,132 +255,80 @@ const aiMessages = [
     "Deploying self-awareness...",
     "Spawning sentience..."
 ];
-let aiMessageIndex = 0;
+let aiMessageIndex = 0; // Initialize AI message index
 
+// Set an interval to change the AI tease message every 3 seconds (3000 milliseconds)
 setInterval(() => {
     const aiTeaseElement = document.getElementById("aiTease");
-    if (!aiTeaseElement) {
+    if (!aiTeaseElement) { // Robustness check
         console.error("Error: 'aiTease' element not found for AI messages.");
         return;
     }
-    aiTeaseElement.textContent = aiMessages[aiMessageIndex];
-    aiMessageIndex = (aiMessageIndex + 1) % aiMessages.length;
+    aiTeaseElement.textContent = aiMessages[aiMessageIndex]; // Update text
+    aiMessageIndex = (aiMessageIndex + 1) % aiMessages.length; // Move to next message, loop if at end
 }, 3000);
 
 // --- Dark Mode Toggle Functionality (Manual Button) ---
+let userPrefersDarkMode = false; // Flag to store user's manual preference
+
 function toggleDarkMode() {
+    // Attempt to toggle dark mode class
     document.body.classList.toggle('dark-mode');
 
-    const isDarkMode = document.body.classList.contains('dark-mode');
-    localStorage.setItem('darkMode', isDarkMode);
-    console.log("Dark mode preference saved:", isDarkMode);
+    // Update the user's preference flag
+    userPrefersDarkMode = document.body.classList.contains('dark-mode');
 
-    const icon = document.querySelector('.toggle-dark i');
-    if (icon) {
-        if (isDarkMode) {
-            icon.classList.remove('fa-moon');
-            icon.classList.add('fa-sun');
-        } else {
-            icon.classList.remove('fa-sun');
-            icon.classList.add('fa-moon');
-        }
-    } else {
-        console.warn("Dark mode toggle icon not found.");
+    // Save the current dark mode preference in local storage
+    try {
+        localStorage.setItem('darkMode', userPrefersDarkMode);
+        console.log("Dark mode preference saved to localStorage:", userPrefersDarkMode);
+    } catch (e) {
+        console.error("Error saving dark mode preference to localStorage:", e);
     }
 }
 
-// --- Page Initialization (runs when the HTML content is fully loaded) ---
-// Note: Since preloader logic is now at the top of this file and relies on DOMContentLoaded,
-// this main DOMContentLoaded listener will run after the preloader has potentially
-// started its animation. This is generally fine for your setup.
-document.addEventListener('DOMContentLoaded', () => {
-    console.log("Main script: DOM Content Loaded. Initializing website features.");
+// --- Initial Setup on Page Load ---
+window.onload = () => {
+    console.log("Window loaded. Initializing script.");
 
-    // --- Check for Saved Dark Mode Preference on Load ---
+    // Check local storage for dark mode preference when the page loads
     try {
-        const savedDarkMode = localStorage.getItem('darkMode');
-        if (savedDarkMode === 'true') {
+        const storedDarkMode = localStorage.getItem('darkMode');
+        if (storedDarkMode === 'true') {
             document.body.classList.add('dark-mode');
-            const icon = document.querySelector('.toggle-dark i');
-            if (icon) {
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
-            }
+            userPrefersDarkMode = true;
             console.log("Loaded dark mode preference from localStorage: ON");
         } else {
+            userPrefersDarkMode = false;
             console.log("Loaded dark mode preference from localStorage: OFF (or not set)");
         }
     } catch (e) {
         console.error("Error loading dark mode preference from localStorage:", e);
+        userPrefersDarkMode = false; // Default to light if localStorage fails
     }
 
-    // --- Profile Section Scroll Effects (Opacity and Parallax on Image) ---
-    const profileSection = document.querySelector('.container'); // Assuming 'container' is your main profile section
-    const profileImg = document.querySelector('.profile-img');
 
-    if (profileSection && profileImg) {
-        console.log("Profile section and image found. Adding scroll effects.");
-        window.addEventListener('scroll', () => {
-            const scrollPosition = window.scrollY;
-
-            const opacity = 1 - Math.min(scrollPosition / 500, 1);
-            profileSection.style.opacity = opacity;
-
-            const translateY = scrollPosition * 0.3;
-            profileImg.style.transform = `translateY(${translateY}px)`;
-        });
-    } else {
-        console.warn("Profile section or image not found. Scroll effects not applied.");
-    }
-
-    // --- Terminal Text Animation (Scramble Effect on Mouse Enter) ---
-    document.querySelectorAll('.terminal-content').forEach(terminal => {
-        const originalText = terminal.textContent;
-        let animationInterval = null;
-
-        terminal.addEventListener('mouseenter', () => {
-            console.log("Mouse entered terminal. Starting scramble animation.");
-            if (animationInterval) {
-                clearInterval(animationInterval);
-            }
-
-            let iteration = 0;
-            animationInterval = setInterval(() => {
-                terminal.textContent = originalText
-                    .split('')
-                    .map((char, index) => {
-                        if (index < iteration) {
-                            return originalText[index];
-                        }
-                        return String.fromCharCode(Math.floor(Math.random() * 26) + "A".charCodeAt(0));
-                    })
-                    .join('');
-
-                if (iteration >= originalText.length) {
-                    clearInterval(animationInterval);
-                    animationInterval = null;
-                    console.log("Terminal scramble animation complete.");
-                }
-
-                iteration += 1;
-            }, 30);
-        });
-    });
+    animateElements(); // Call the function to animate elements (like the terminal text)
 
     // --- Quote Display Initialization ---
-    if (quotes.length > 0) {
-        displayNextQuote();
-        quoteIntervalId = setInterval(displayNextQuote, 60000);
+    if (quotes.length > 0) { // Ensure there are quotes to display
+        displayNextQuote(); // Display the first quote immediately on load
+        quoteIntervalId = setInterval(displayNextQuote, 60000); // Auto-rotate every 60 seconds
         console.log("Quote display initialized.");
     } else {
         console.warn("No quotes found in the 'quotes' array. Quote display will not function.");
     }
 
+
+    // Add event listener to the new quote button
     const newQuoteBtn = document.getElementById('newQuoteBtn');
     if (newQuoteBtn) {
         newQuoteBtn.addEventListener('click', () => {
             console.log("New Quote button clicked.");
             displayNextQuote();
+            // Optional: Reset the automatic timer so it doesn't change too quickly after a manual click
+            // clearInterval(quoteIntervalId);
+            // quoteIntervalId = setInterval(displayNextQuote, 60000);
         });
     } else {
         console.error("Error: 'newQuoteBtn' element not found. Quote button functionality will not work.");
@@ -422,19 +338,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const terminalElement = document.getElementById('terminal');
     let hasScrolledPastTerminal = false;
 
-    if (terminalElement) {
+    if (terminalElement) { // Robustness check
         console.log("Terminal element found for scroll-triggered dark mode.");
         window.addEventListener('scroll', () => {
             const terminalBottom = terminalElement.getBoundingClientRect().bottom;
 
             if (terminalBottom < 0 && !hasScrolledPastTerminal) {
                 document.body.classList.add('dark-mode');
+                // document.body.classList.add('fast-transition'); // Uncomment if you add this CSS class
                 hasScrolledPastTerminal = true;
                 console.log("Scrolled past terminal: Auto-switching to Dark Mode!");
             } else if (terminalBottom >= 0 && hasScrolledPastTerminal) {
                 document.body.classList.remove('dark-mode');
+                // document.body.classList.remove('fast-transition'); // Uncomment if you add this CSS class
 
-                const userPrefersDarkMode = localStorage.getItem('darkMode') === 'true';
                 if (userPrefersDarkMode) {
                     document.body.classList.add('dark-mode');
                 }
@@ -445,4 +362,41 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         console.error("Error: 'terminal' element not found. Scroll-triggered dark mode will not function.");
     }
-});
+};
+
+// --- Text Animation (Scramble Effect) Functionality ---
+const ASCII_OF_A = "A".charCodeAt();
+const NO_OF_ALPHABETS = 26;
+
+function animateElement(element, originalText, options) {
+    let iteration = 0;
+    if (options.interval) return;
+    options.interval = setInterval(() => {
+        const newWord = originalText
+            .split("")
+            .map((_, idx) => idx < iteration ? originalText[idx] : String.fromCharCode(Math.trunc(Math.random() * NO_OF_ALPHABETS) + ASCII_OF_A))
+            .join("");
+        element.innerText = newWord;
+        iteration += 1;
+        if (iteration > originalText.length) {
+            clearInterval(options.interval);
+            options.interval = null;
+        }
+    }, 30);
+}
+
+function animateElements() {
+    const elements = document.getElementsByClassName("animate");
+    if (elements.length === 0) {
+        console.warn("No elements found with class 'animate' for text scrambling.");
+        return;
+    }
+    for (const element of elements) {
+        const originalText = element.innerText;
+        const options = { interval: null };
+        animateElement(element, originalText, options);
+        element.addEventListener("mouseover", (event) => {
+            animateElement(event.target, originalText, options);
+        });
+    }
+}
