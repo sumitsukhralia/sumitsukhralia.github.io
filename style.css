@@ -45,6 +45,87 @@ body::before {
     --transition-duration: 0.3s;
 }
 
+/* --- START: Preloader Specific Styles (ADDED) --- */
+.preloader {
+    position: fixed; /* Stays fixed on screen */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000; /* Solid black background for the preloader */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Vertically center content */
+    align-items: center; /* Horizontally center content */
+    z-index: 1000; /* Ensures it's on top of everything */
+    opacity: 1; /* Starts fully visible */
+    transition: opacity 0.5s ease-out, visibility 0.5s ease-out; /* Smooth fade-out */
+    visibility: visible; /* Starts visible */
+}
+
+/* Hide preloader when JS sets opacity to 0 and display to none */
+.preloader[style*="opacity: 0"] {
+    visibility: hidden;
+    pointer-events: none; /* Prevents clicks on hidden preloader */
+}
+
+.greeting-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center horizontally within flex container */
+    justify-content: center; /* Center vertically within flex container */
+    height: 100%; /* Take full height of preloader */
+    width: 100%; /* Take full width of preloader */
+    position: relative; /* Crucial: Establishes positioning context for absolute children */
+}
+
+.greeting {
+    color: #fff;
+    font-weight: 500;
+    opacity: 0; /* Starts hidden, JS animates visibility */
+    position: absolute; /* Allows greetings to overlap */
+    text-align: center; /* Ensures text itself is centered within its box */
+    transition: opacity 0.3s ease; /* Smooth fade for greetings */
+
+    /* --- IMPORTANT: Centering for Absolutely Positioned Elements --- */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Moves element back by half its own width/height */
+    width: 90%; /* Max width to ensure text doesn't hit edges on small screens */
+    max-width: 600px; /* Prevent it from getting too wide on very large screens */
+    font-size: 3rem; /* Default for larger screens */
+}
+
+/* Media query for smaller screens: adjusts font size for greetings */
+@media (max-width: 768px) {
+    .greeting {
+        font-size: 2rem; /* Reduced font size for tablets/larger phones */
+    }
+}
+
+@media (max-width: 480px) {
+    .greeting {
+        font-size: 1.5rem; /* Further reduced for smaller phones */
+    }
+}
+
+.logo {
+    position: absolute;
+    bottom: 40px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1rem;
+    opacity: 0; /* Starts hidden */
+    animation: fadeIn 1s ease 2s forwards; /* Fades in after a delay */
+    text-align: center; /* Center text if it wraps */
+    width: 100%; /* Ensure it spans the width */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+/* --- END: Preloader Specific Styles (ADDED) --- */
+
 
 /* Main Container Styling */
 .container {
@@ -98,7 +179,7 @@ h1 {
 }
 
 /* Styling for all buttons (links and toggle button) */
-.buttons a, .toggle-dark {
+.buttons a, .toggle-dark, .buttons-style { /* Added .buttons-style here for the New Quote button */
     background: rgba(255, 255, 255, 0.15); /* Semi-transparent white background */
     color: white; /* Text color */
     padding: 12px 24px; /* Padding */
@@ -114,7 +195,7 @@ h1 {
 }
 
 /* Hover effect for buttons */
-.buttons a:hover, .toggle-dark:hover {
+.buttons a:hover, .toggle-dark:hover, .buttons-style:hover {
     background: rgba(255, 255, 255, 0.25); /* Slightly more opaque on hover */
 }
 
