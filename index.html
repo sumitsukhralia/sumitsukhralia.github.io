@@ -7,18 +7,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Preloader Styles - Consider moving these to your style.css for better organization */
+        /* Preloader Styles - These should ideally be in style.css, but keeping here for completeness */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         /* This body style is for the preloader, preventing scroll during its animation */
         body {
-            overflow: hidden; 
+            overflow: hidden;
         }
-        
+
         .preloader {
             position: fixed;
             top: 0;
@@ -34,7 +34,7 @@
             opacity: 1;
             transition: opacity 0.5s ease-out;
         }
-        
+
         .greeting-container {
             display: flex;
             flex-direction: column;
@@ -43,7 +43,7 @@
             height: 100%;
             width: 100%;
         }
-        
+
         .greeting {
             color: #fff;
             font-size: 3rem;
@@ -54,7 +54,7 @@
             transition: opacity 0.3s ease;
             width: 100%;
         }
-        
+
         .logo {
             position: absolute;
             bottom: 40px;
@@ -63,13 +63,13 @@
             opacity: 0;
             animation: fadeIn 1s ease 2s forwards;
         }
-        
+
         @media (max-width: 768px) {
             .greeting {
                 font-size: 2rem;
             }
         }
-        
+
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -79,23 +79,23 @@
 <body>
     <div class="preloader" id="preloader">
         <div class="greeting-container">
-            <div class="greeting" id="greeting-1">Hello! (English)</div>
-            <div class="greeting" id="greeting-2">नमस्ते! (Namaste - Hindi)</div>
-            <div class="greeting" id="greeting-3">Bonjour! (French)</div>
-            <div class="greeting" id="greeting-4">Hola! (Spanish)</div>
-            <div class="greeting" id="greeting-5">こんにちは！ (Konnichiwa - Japanese)</div>
-            <div class="greeting" id="greeting-6">안녕하세요! (Annyeonghaseyo - Korean)</div>
-            <div class="greeting" id="greeting-7">Olá! (Portuguese)</div>
-            <div class="greeting" id="greeting-8">Hallo! (German/Dutch)</div>
+            <div class="greeting" id="greeting-1">Hello!</div>
+            <div class="greeting" id="greeting-2">नमस्ते! </div>
+            <div class="greeting" id="greeting-3">Bonjour! </div>
+            <div class="greeting" id="greeting-4">Hola! </div>
+            <div class="greeting" id="greeting-5">こんにちは！</div>
+            <div class="greeting" id="greeting-6">안녕하세요! </div>
+            <div class="greeting" id="greeting-7">Olá! </div>
+            <div class="greeting" id="greeting-8">Hallo!)</div>
         </div>
         <div class="logo">Welcome!</div>
     </div>
 
-    <div class="container">
+    <div class="container" id="profile">
         <img src="your-photo.jpg" alt="Sumit Sukhralia" class="profile-img">
         <h1>Sumit Sukhralia</h1>
 
-        <div class="terminal animate" id="terminal">
+        <div class="terminal terminal-content" id="terminal">
             user@SUMIT: ~ whoami
             19 • Beyond Curriculum
             From Biochem to Backend
@@ -158,40 +158,6 @@
         </div>
     </footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const preloader = document.getElementById('preloader');
-            const greetings = [
-                'greeting-1', 'greeting-2', 'greeting-3', 
-                'greeting-4', 'greeting-5', 'greeting-6',
-                'greeting-7', 
-                'greeting-8'  
-            ];
-            
-            // Show each greeting one after another
-            greetings.forEach((id, index) => {
-                setTimeout(() => {
-                    const prevElement = document.getElementById(greetings[index - 1]);
-                    const currentElement = document.getElementById(id);
-                    
-                    if (prevElement) prevElement.style.opacity = '0';
-                    currentElement.style.opacity = '1';
-                    
-                    // On last greeting, fade out everything
-                    if (index === greetings.length - 1) {
-                        setTimeout(() => {
-                            preloader.style.opacity = '0';
-                            setTimeout(() => {
-                                preloader.style.display = 'none';
-                                // Re-enable body scroll after preloader is gone
-                                document.body.style.overflow = 'auto'; 
-                            }, 300); // Faster fade-out
-                        }, 500); // Shorter display time for the last greeting
-                    }
-                }, index * 120); // Faster greeting display intervals
-            });
-        });
-    </script>
     <script src="script.js"></script>
 </body>
 </html>
