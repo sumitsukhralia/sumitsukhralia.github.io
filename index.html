@@ -7,18 +7,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Preloader Styles - You can also move these to your style.css */
+        /* Preloader Styles - Consider moving these to your style.css for better organization */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
         
+        /* This body style is for the preloader, preventing scroll during its animation */
         body {
-            /* Keep existing body styles from your style.css */
-            overflow: hidden; /* This is crucial for the preloader to cover the page */
-            /* font-family and background-color should come from your main style.css, 
-               but ensuring overflow: hidden here for the preloader's initial state is good */
+            overflow: hidden; 
         }
         
         .preloader {
@@ -87,9 +85,8 @@
             <div class="greeting" id="greeting-4">Hola! (Spanish)</div>
             <div class="greeting" id="greeting-5">こんにちは！ (Konnichiwa - Japanese)</div>
             <div class="greeting" id="greeting-6">안녕하세요! (Annyeonghaseyo - Korean)</div>
-            <div class="greeting" id="greeting-7">مرحبا! (Marhaba - Arabic)</div>
-            <div class="greeting" id="greeting-8">Olá! (Portuguese)</div>
-            <div class="greeting" id="greeting-9">Hallo! (German/Dutch)</div>
+            <div class="greeting" id="greeting-7">Olá! (Portuguese)</div>
+            <div class="greeting" id="greeting-8">Hallo! (German/Dutch)</div>
         </div>
         <div class="logo">Welcome!</div>
     </div>
@@ -167,7 +164,8 @@
             const greetings = [
                 'greeting-1', 'greeting-2', 'greeting-3', 
                 'greeting-4', 'greeting-5', 'greeting-6',
-                'greeting-7', 'greeting-8', 'greeting-9'
+                'greeting-7', 
+                'greeting-8'  
             ];
             
             // Show each greeting one after another
@@ -187,10 +185,10 @@
                                 preloader.style.display = 'none';
                                 // Re-enable body scroll after preloader is gone
                                 document.body.style.overflow = 'auto'; 
-                            }, 500);
-                        }, 800); // Show last greeting for 800ms before fade out
+                            }, 300); // Faster fade-out
+                        }, 500); // Shorter display time for the last greeting
                     }
-                }, index * 200); // Each greeting appears for 200ms
+                }, index * 120); // Faster greeting display intervals
             });
         });
     </script>
