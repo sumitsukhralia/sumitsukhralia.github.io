@@ -1,1 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sumit Sukhralia</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Preloader Styles - You can also move these to your style.css */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            /* Keep existing body styles from your style.css */
+            overflow: hidden; /* This is crucial for the preloader to cover the page */
+            /* font-family and background-color should come from your main style.css, 
+               but ensuring overflow: hidden here for the preloader's initial state is good */
+        }
+        
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 1;
+            transition: opacity 0.5s ease-out;
+        }
+        
+        .greeting-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            width: 100%;
+        }
+        
+        .greeting {
+            color: #fff;
+            font-size: 3rem;
+            font-weight: 500;
+            opacity: 0;
+            position: absolute;
+            text-align: center;
+            transition: opacity 0.3s ease;
+            width: 100%;
+        }
+        
+        .logo {
+            position: absolute;
+            bottom: 40px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+            opacity: 0;
+            animation: fadeIn 1s ease 2s forwards;
+        }
+        
+        @media (max-width: 768px) {
+            .greeting {
+                font-size: 2rem;
+            }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="preloader" id="preloader">
+        <div class="greeting-container">
+            <div class="greeting" id="greeting-1">Hello! (English)</div>
+            <div class="greeting" id="greeting-2">नमस्ते! (Namaste - Hindi)</div>
+            <div class="greeting" id="greeting-3">Bonjour! (French)</div>
+            <div class="greeting" id="greeting-4">Hola! (Spanish)</div>
+            <div class="greeting" id="greeting-5">こんにちは！ (Konnichiwa - Japanese)</div>
+            <div class="greeting" id="greeting-6">안녕하세요! (Annyeonghaseyo - Korean)</div>
+            <div class="greeting" id="greeting-7">مرحبا! (Marhaba - Arabic)</div>
+            <div class="greeting" id="greeting-8">Olá! (Portuguese)</div>
+            <div class="greeting" id="greeting-9">Hallo! (German/Dutch)</div>
+        </div>
+        <div class="logo">Welcome!</div>
+    </div>
 
+    <div class="container">
+        <img src="your-photo.jpg" alt="Sumit Sukhralia" class="profile-img">
+        <h1>Sumit Sukhralia</h1>
+
+        <div class="terminal animate" id="terminal">
+            user@SUMIT: ~ whoami
+            19 • Beyond Curriculum
+            From Biochem to Backend
+            404: Limit Not Found
+        </div>
+
+        <div class="tech-stack">
+            <span>HTML5</span><span>CSS3</span><span>JavaScript</span>
+            <span>React.js</span><span>Node.js</span><span>MongoDB</span><span>Git & GitHub</span>
+        </div>
+
+        <div class="buttons">
+            <a href="https://instagram.com/sumitsukhralia" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+            <a href="https://github.com/sumitsukhralia" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+            <a href="mailto:SUMITxNEUROBYTE@proton.me"><i class="fas fa-handshake"></i> Let’s Collaborate</a>
+            <a href="mailto:SUMITxNEUROBYTE@proton.me"><i class="fas fa-envelope"></i> Email Me</a>
+            <a href="#"><i class="fas fa-code"></i> Neur*****e — Coming Soon</a>
+            <button class="toggle-dark" onclick="toggleDarkMode()"><i class="fas fa-moon"></i> Toggle Dark Mode</button>
+        </div>
+
+        <div id="scroll-dark-section"></div>
+
+        <div class="projects">
+            <div class="project-card ai-coming-soon">
+                <h3>👾 neu*****e AI — Coming Soon</h3>
+                <p>
+                    A project that challenges what's possible with human-AI interaction.<br>
+                    <em>The boundaries will blur. Stay curious. Stay tuned.</em>
+                </p>
+                <div class="tease-box">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="text" id="aiTease">Initializing...</span>
+                </div>
+            </div>
+
+            <div class="project-card quote-generator-card">
+                <h3>✍️ Deep Thoughts Terminal</h3>
+                <div class="quote" id="quoteBox">"Ctrl your mind. Alt your path. Del the limits."</div>
+                <button id="newQuoteBtn" class="buttons-style"><i class="fas fa-sync-alt"></i> New Quote</button>
+            </div>
+
+            <h3>🚧 Projects Incoming</h3>
+            <p>Currently building — this space will soon be filled with awesome work!</p>
+        </div>
+    </div>
+    <div class="parallax-section">
+        <div class="parallax-content">
+            <h2>Explore More!</h2>
+            <p>A glimpse into the vastness of innovation.</p>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2025 <strong>Sumit Sukhralia</strong>. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://github.com/sumitsukhralia" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+            <a href="https://instagram.com/sumitsukhralia" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+            <a href="https://twitter.com/sumitsukhralia" target="_blank"><i class="fab fa-twitter"></i> Twitter</a>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const preloader = document.getElementById('preloader');
+            const greetings = [
+                'greeting-1', 'greeting-2', 'greeting-3', 
+                'greeting-4', 'greeting-5', 'greeting-6',
+                'greeting-7', 'greeting-8', 'greeting-9'
+            ];
+            
+            // Show each greeting one after another
+            greetings.forEach((id, index) => {
+                setTimeout(() => {
+                    const prevElement = document.getElementById(greetings[index - 1]);
+                    const currentElement = document.getElementById(id);
+                    
+                    if (prevElement) prevElement.style.opacity = '0';
+                    currentElement.style.opacity = '1';
+                    
+                    // On last greeting, fade out everything
+                    if (index === greetings.length - 1) {
+                        setTimeout(() => {
+                            preloader.style.opacity = '0';
+                            setTimeout(() => {
+                                preloader.style.display = 'none';
+                                // Re-enable body scroll after preloader is gone
+                                document.body.style.overflow = 'auto'; 
+                            }, 500);
+                        }, 800); // Show last greeting for 800ms before fade out
+                    }
+                }, index * 200); // Each greeting appears for 200ms
+            });
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
