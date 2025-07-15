@@ -4,89 +4,22 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sumit Sukhralia</title>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <link rel="stylesheet" href="style.css">
-    <style>
-        /* Preloader Styles - These should ideally be in style.css, but keeping here for completeness */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        /* This body style is for the preloader, preventing scroll during its animation */
-        body {
-            overflow: hidden;
-        }
-
-        .preloader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #000;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            opacity: 1;
-            transition: opacity 0.5s ease-out;
-        }
-
-        .greeting-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            width: 100%;
-        }
-
-        .greeting {
-            color: #fff;
-            font-size: 3rem;
-            font-weight: 500;
-            opacity: 0;
-            position: absolute;
-            text-align: center;
-            transition: opacity 0.3s ease;
-            width: 100%;
-        }
-
-        .logo {
-            position: absolute;
-            bottom: 40px;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 1rem;
-            opacity: 0;
-            animation: fadeIn 1s ease 2s forwards;
-        }
-
-        @media (max-width: 768px) {
-            .greeting {
-                font-size: 2rem;
-            }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-    </style>
 </head>
 <body>
     <div class="preloader" id="preloader">
         <div class="greeting-container">
             <div class="greeting" id="greeting-1">Hello!</div>
-            <div class="greeting" id="greeting-2">नमस्ते! </div>
-            <div class="greeting" id="greeting-3">Bonjour! </div>
-            <div class="greeting" id="greeting-4">Hola! </div>
+            <div class="greeting" id="greeting-2">नमस्ते!</div>
+            <div class="greeting" id="greeting-3">Bonjour!</div>
+            <div class="greeting" id="greeting-4">Hola!</div>
             <div class="greeting" id="greeting-5">こんにちは！</div>
-            <div class="greeting" id="greeting-6">안녕하세요! </div>
-            <div class="greeting" id="greeting-7">Olá! </div>
-            <div class="greeting" id="greeting-8">Hallo!)</div>
+            <div class="greeting" id="greeting-6">안녕하세요!</div>
+            <div class="greeting" id="greeting-7">Olá!</div>
+            <div class="greeting" id="greeting-8">Hallo!</div>
         </div>
         <div class="logo">Welcome!</div>
     </div>
@@ -143,12 +76,14 @@
             <p>Currently building — this space will soon be filled with awesome work!</p>
         </div>
     </div>
+
     <div class="parallax-section">
         <div class="parallax-content">
             <h2>Explore More!</h2>
             <p>A glimpse into the vastness of innovation.</p>
         </div>
     </div>
+
     <footer>
         <p>&copy; 2025 <strong>Sumit Sukhralia</strong>. All rights reserved.</p>
         <div class="footer-links">
