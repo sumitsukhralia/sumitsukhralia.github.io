@@ -171,7 +171,7 @@ const quotes = [
     "Brackets contain chaos.",
     "Code what they can’t copy."
 ];
-let currentQuoteIndex = -1;
+let currentQuoteIndex = -1; // Kept to avoid showing the exact same random quote twice in a row
 let quoteIntervalId;
 
 // AI Tease Messages
@@ -305,37 +305,68 @@ if (darkModeToggleBtn) {
         console.warn("Profile section or image not found. Scroll effects not applied.");
     }
 
-    // --- Terminal Text Animation (Scramble Effect on Mouse Enter) ---
+    // --- Terminal Text Animation (Scramble Effect on Mouse Enter/Leave) ---
     // Targets elements with class 'terminal-content' (from your HTML)
     document.querySelectorAll('.terminal-content').forEach(terminal => {
-        const originalText = terminal.textContent;
-        let animationInterval = null;
+        let animationInterval = null; // Stores the interval ID for the scramble animation
 
-        terminal.addEventListener('mouseenter', () => {
-            console.log("Mouse entered terminal. Starting scramble animation.");
+        // Function to scramble the text
+        const scrambleText = () => {
+            // Get the *current* text from the quote box.
+            // This ensures we always scramble the quote that is actually displayed,
+            // even if it changed due to auto-rotation before the scramble began.
+            const quoteBox = document.getElementById('quoteBox');
+            if (!quoteBox) return; // Exit if quoteBox isn't found
+            const currentTextContent = quoteBox.textContent;
+
+            // Stop any existing animation to prevent overlap
             if (animationInterval) {
                 clearInterval(animationInterval);
             }
 
             let iteration = 0;
+            const chars = "!@#$%^&*()_+`-=[]{}|;':\",./<>?~"; // More diverse scramble characters
+
             animationInterval = setInterval(() => {
-                terminal.textContent = originalText
+                terminal.textContent = currentTextContent
                     .split('')
                     .map((char, index) => {
+                        // If we've passed this character's index, keep the original character
                         if (index < iteration) {
-                            return originalText[index];
+                            return currentTextContent[index];
                         }
-                        return String.fromCharCode(Math.floor(Math.random() * 26) + "A".charCodeAt(0)); // Uppercase scramble
+                        // Otherwise, return a random scramble character
+                        return chars[Math.floor(Math.random() * chars.length)];
                     })
                     .join('');
 
-                if (iteration >= originalText.length) {
+                // If all characters have been revealed, stop the animation
+                if (iteration >= currentTextContent.length) {
                     clearInterval(animationInterval);
                     animationInterval = null;
-                    console.log("Terminal scramble animation complete.");
+                    terminal.textContent = currentTextContent; // Ensure final text is exact
+                    // console.log("Terminal scramble animation complete."); // For debugging
                 }
-                iteration += 1;
-            }, 30); // Animation speed
+                iteration += 1; // Move to the next character for the next iteration
+            }, 30); // Animation speed (lower number = faster scramble)
+        };
+
+        // Event listener for mouse entering the terminal content
+        terminal.addEventListener('mouseenter', scrambleText); // Call the scramble function
+
+        // Event listener for mouse leaving the terminal content
+        terminal.addEventListener('mouseleave', () => {
+            if (animationInterval) {
+                clearInterval(animationInterval); // Stop any ongoing scramble
+                animationInterval = null;
+            }
+            // Immediately revert the text to the *current* active quote
+            // This ensures the full quote is always visible if mouse leaves
+            const quoteBox = document.getElementById('quoteBox');
+            if (quoteBox && quotes[currentQuoteIndex] !== undefined) {
+                quoteBox.textContent = quotes[currentQuoteIndex];
+            }
+            // console.log("Mouse left terminal. Scramble animation stopped/reset."); // For debugging
         });
     });
 
@@ -352,7 +383,7 @@ if (darkModeToggleBtn) {
     }, 3000); // Change message every 3 seconds
 
 
-    // --- Quote Display Initialization ---
+    // --- Quote Display Initialization (Random & Faster) ---
     function displayNextQuote() {
         const quoteBox = document.getElementById('quoteBox');
         if (!quoteBox) {
@@ -363,19 +394,27 @@ if (darkModeToggleBtn) {
             quoteBox.innerText = "No quotes available.";
             return;
         }
-        currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
-        quoteBox.style.opacity = 0;
-        console.log(`Displaying quote #${currentQuoteIndex}: "${quotes[currentQuoteIndex].substring(0, 30)}..."`);
+
+        // Select a random quote index, ensuring it's different from the current one
+        let newQuoteIndex;
+        do {
+            newQuoteIndex = Math.floor(Math.random() * quotes.length);
+        } while (newQuoteIndex === currentQuoteIndex && quotes.length > 1); // Only try to avoid repeat if there's more than 1 quote
+
+        currentQuoteIndex = newQuoteIndex; // Update the global index to the new random one
+
+        quoteBox.style.opacity = 0; // Start fade-out
         setTimeout(() => {
-            quoteBox.innerText = quotes[currentQuoteIndex];
-            quoteBox.style.opacity = 1;
-        }, 500);
+            quoteBox.innerText = quotes[currentQuoteIndex]; // Set new random quote
+            quoteBox.style.opacity = 1; // Fade-in
+        }, 500); // Fade in duration
     }
 
+    // Initial call and automation setup
     if (quotes.length > 0) {
-        displayNextQuote();
-        quoteIntervalId = setInterval(displayNextQuote, 60000); // Auto-rotate every 60 seconds
-        console.log("Quote display initialized.");
+        displayNextQuote(); // Display an initial random quote immediately on load
+        quoteIntervalId = setInterval(displayNextQuote, 6000); // Auto-rotate every 6 seconds (6000ms)
+        console.log("Quote display initialized, auto-rotating every 6 seconds.");
     } else {
         console.warn("No quotes found in the 'quotes' array. Quote display will not function.");
     }
@@ -385,16 +424,16 @@ if (darkModeToggleBtn) {
         newQuoteBtn.addEventListener('click', () => {
             console.log("New Quote button clicked.");
             clearInterval(quoteIntervalId); // Stop automatic rotation temporarily
-            displayNextQuote();
-            quoteIntervalId = setInterval(displayNextQuote, 60000); // Restart rotation
+            displayNextQuote(); // Display a new random quote manually
+            quoteIntervalId = setInterval(displayNextQuote, 6000); // Restart rotation with 6-second interval
         });
     } else {
         console.error("Error: 'newQuoteBtn' element not found. Quote button functionality will not work.");
     }
 
     // --- Scroll-Triggered Dark Mode Effect ---
-    const terminalElement = document.getElementById('terminal');
-    let hasScrolledPastTerminal = false; // Local variable for this specific effect
+    const terminalElement = document.getElementById('terminal'); // This refers to the main 'whoami' terminal
+    let hasScrolledPastTerminal = false;
 
     if (terminalElement) {
         console.log("Terminal element found for scroll-triggered dark mode.");
@@ -409,18 +448,20 @@ if (darkModeToggleBtn) {
                     icon.classList.add('fa-sun');
                 }
                 hasScrolledPastTerminal = true;
-                console.log("Scrolled past terminal: Auto-switching to Dark Mode!");
+                console.log("Scrolled past main terminal: Auto-switching to Dark Mode!");
             } else if (terminalBottom >= 0 && hasScrolledPastTerminal) {
+                // If scrolling back up and the main terminal is in view
                 document.body.classList.remove('dark-mode');
 
-                if (userPrefersDarkMode) { // Use the global userPrefersDarkMode flag
+                // Revert to user's manual preference if they had dark mode enabled
+                if (userPrefersDarkMode) {
                     document.body.classList.add('dark-mode');
                     const icon = document.querySelector('.toggle-dark i');
                     if (icon) {
                         icon.classList.remove('fa-moon');
                         icon.classList.add('fa-sun');
                     }
-                } else {
+                } else { // Revert to light mode if user preference was light mode
                     const icon = document.querySelector('.toggle-dark i');
                     if (icon) {
                         icon.classList.remove('fa-sun');
@@ -428,10 +469,10 @@ if (darkModeToggleBtn) {
                     }
                 }
                 hasScrolledPastTerminal = false;
-                console.log("Terminal back in view: Reverting to user preference.");
+                console.log("Main terminal back in view: Reverting to user preference.");
             }
         });
     } else {
-        console.error("Error: 'terminal' element not found. Scroll-triggered dark mode will not function.");
+        console.error("Error: Main 'terminal' element not found for scroll-triggered dark mode. This effect will not function.");
     }
 });
