@@ -253,6 +253,41 @@ document.addEventListener('DOMContentLoaded', () => {
         userPrefersDarkMode = false;
     }
 
+// --- Dark Mode Toggle Button Functionality ---
+const darkModeToggleBtn = document.querySelector('.toggle-dark');
+if (darkModeToggleBtn) {
+    console.log("Dark mode toggle button found. Adding click listener.");
+    darkModeToggleBtn.addEventListener('click', () => {
+        console.log("Dark mode toggle button clicked!");
+        document.body.classList.toggle('dark-mode'); // Toggles the 'dark-mode' class on the body
+
+        // Update the global flag based on current body class
+        userPrefersDarkMode = document.body.classList.contains('dark-mode');
+
+        // Save the preference to localStorage
+        try {
+            localStorage.setItem('darkMode', userPrefersDarkMode);
+            console.log(`Dark mode preference saved: ${userPrefersDarkMode}`);
+        } catch (e) {
+            console.error("Error saving dark mode preference to localStorage:", e);
+        }
+
+        // Update the icon (sun/moon)
+        const icon = darkModeToggleBtn.querySelector('i');
+        if (icon) {
+            if (userPrefersDarkMode) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        }
+    });
+} else {
+    console.error("Error: Dark mode toggle button (.toggle-dark) not found in the DOM.");
+}
+    
     // --- Profile Section Scroll Effects (Opacity and Parallax on Image) ---
     const profileSection = document.getElementById('profile'); // Assuming your main container has id="profile"
     const profileImg = document.querySelector('.profile-img');
