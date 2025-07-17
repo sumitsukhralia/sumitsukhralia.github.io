@@ -1,112 +1,103 @@
-/* Basic Reset & Body Styling */
-/* Define a CSS variable for transition duration at the root level */
+/* === ROOT VARIABLES === */
 :root {
-    --transition-duration: 0.6s; /* Default transition duration for smooth changes */
+    --transition-duration: 0.6s; /* Smooth transitions */
 }
 
+/* === BODY === */
 body {
-    margin: 0; /* Remove default margin */
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Preferred font stack */
-    background: url('your-photo.jpg') no-repeat center center fixed; /* Background image */
-    background-size: cover; /* Cover the entire viewport */
-    overflow-x: hidden; /* Prevent horizontal scroll */
-    position: relative; /* Needed for pseudo-element positioning */
-    color: white; /* Default text color */
-    /* Use the CSS variable for transition duration */
-    transition: background var(--transition-duration) ease, color var(--transition-duration) ease;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: url('your-photo.jpg') no-repeat center center fixed;
+    background-size: cover;
+    overflow-x: hidden;
+    position: relative;
+    color: white;
+    transition: color var(--transition-duration) ease;
 }
 
-/* Overlay for background image */
+/* === OVERLAY === */
 body::before {
-    content: ""; /* Required for pseudo-elements */
-    position: fixed; /* Fix to viewport */
+    content: "";
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.6); /* Semi-transparent black overlay */
-    backdrop-filter: blur(4px); /* Blur the background image */
-    z-index: -1; /* Place behind other content */
-    /* Use the CSS variable for transition duration */
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: -1;
     transition: background var(--transition-duration) ease;
 }
 
-/* Dark Mode Styles */
+/* === DARK MODE === */
 .dark-mode::before {
-    background: rgba(0, 0, 0, 0.9); /* Darker overlay in dark mode */
+    background: rgba(0, 0, 0, 0.9);
 }
 .dark-mode {
-    background: #000; /* Solid black background in dark mode */
+    /* No background override — photo stays */
 }
 
-/* Optional: Class for a faster transition, can be applied via JS for a "boom" effect */
-/* This overrides the --transition-duration variable for a quicker change */
+/* === FAST TRANSITION === */
 .fast-transition {
     --transition-duration: 0.3s;
 }
 
-/* --- START: Preloader Specific Styles (ADDED) --- */
+/* === PRELOADER === */
 .preloader {
-    position: fixed; /* Stays fixed on screen */
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #000; /* Solid black background for the preloader */
+    background-color: #000;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Vertically center content */
-    align-items: center; /* Horizontally center content */
-    z-index: 1000; /* Ensures it's on top of everything */
-    opacity: 1; /* Starts fully visible */
-    transition: opacity 0.5s ease-out, visibility 0.5s ease-out; /* Smooth fade-out */
-    visibility: visible; /* Starts visible */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 1;
+    transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+    visibility: visible;
 }
 
-/* Hide preloader when JS sets opacity to 0 and display to none */
-.preloader[style*="opacity: 0"] {
+.preloader.hidden {
+    opacity: 0;
     visibility: hidden;
-    pointer-events: none; /* Prevents clicks on hidden preloader */
+    pointer-events: none;
 }
 
 .greeting-container {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center horizontally within flex container */
-    justify-content: center; /* Center vertically within flex container */
-    height: 100%; /* Take full height of preloader */
-    width: 100%; /* Take full width of preloader */
-    position: relative; /* Crucial: Establishes positioning context for absolute children */
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    position: relative;
 }
 
 .greeting {
     color: #fff;
     font-weight: 500;
-    opacity: 0; /* Starts hidden, JS animates visibility */
-    position: absolute; /* Allows greetings to overlap */
-    text-align: center; /* Ensures text itself is centered within its box */
-    transition: opacity 0.3s ease; /* Smooth fade for greetings */
-
-    /* --- IMPORTANT: Centering for Absolutely Positioned Elements --- */
+    opacity: 0;
+    position: absolute;
+    text-align: center;
+    transition: opacity 0.3s ease;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%); /* Moves element back by half its own width/height */
-    width: 90%; /* Max width to ensure text doesn't hit edges on small screens */
-    max-width: 600px; /* Prevent it from getting too wide on very large screens */
-    font-size: 3rem; /* Default for larger screens */
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 600px;
+    font-size: 3rem;
 }
 
-/* Media query for smaller screens: adjusts font size for greetings */
 @media (max-width: 768px) {
-    .greeting {
-        font-size: 2rem; /* Reduced font size for tablets/larger phones */
-    }
+    .greeting { font-size: 2rem; }
 }
 
 @media (max-width: 480px) {
-    .greeting {
-        font-size: 1.5rem; /* Further reduced for smaller phones */
-    }
+    .greeting { font-size: 1.5rem; }
 }
 
 .logo {
@@ -114,140 +105,134 @@ body::before {
     bottom: 40px;
     color: rgba(255, 255, 255, 0.7);
     font-size: 1rem;
-    opacity: 0; /* Starts hidden */
-    animation: fadeIn 1s ease 2s forwards; /* Fades in after a delay */
-    text-align: center; /* Center text if it wraps */
-    width: 100%; /* Ensure it spans the width */
+    opacity: 0;
+    animation: fadeIn 1s ease 2s forwards;
+    text-align: center;
+    width: 100%;
 }
 
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
 }
-/* --- END: Preloader Specific Styles (ADDED) --- */
 
-
-/* Main Container Styling */
+/* === MAIN CONTAINER === */
 .container {
-    max-width: 600px; /* Maximum width of the content area */
-    margin: 0 auto; /* Center the container horizontally */
-    text-align: center; /* Center text within the container */
-    padding: 40px 20px; /* Padding inside the container */
-    position: relative; /* For z-index to work with body::before */
-    z-index: 1; /* Ensure container is above the overlay */
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 40px 20px;
+    position: relative;
+    z-index: 1;
 }
 
-/* Profile Image Styling */
 .profile-img {
-    width: 140px; /* Fixed width */
-    height: 140px; /* Fixed height */
-    border-radius: 50%; /* Make it circular */
-    object-fit: cover; /* Crop image to fit without stretching */
-    border: 4px solid white; /* White border around the image */
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid white;
 }
 
-/* Heading (Name) Styling */
 h1 {
-    margin: 15px 0 5px; /* Margin around the heading */
-    font-size: 2.5rem; /* Large font size */
+    margin: 15px 0 5px;
+    font-size: 2.5rem;
 }
 
-/* Tech Stack Section */
 .tech-stack {
-    margin-top: 15px; /* Space above */
-    display: flex; /* Use flexbox for layout */
-    flex-wrap: wrap; /* Allow items to wrap to the next line */
-    justify-content: center; /* Center items horizontally */
-    gap: 12px; /* Space between items */
+    margin-top: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
 }
 
-/* Individual Tech Stack Tags */
 .tech-stack span {
-    background: rgba(255, 255, 255, 0.1); /* Semi-transparent white background */
-    padding: 6px 12px; /* Padding inside the span */
-    border-radius: 20px; /* Rounded corners for pill shape */
-    font-size: 0.9rem; /* Smaller font size */
+    background: rgba(255, 255, 255, 0.1);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
 }
 
-/* Buttons Section */
 .buttons {
-    margin-top: 25px; /* Space above */
-    display: flex; /* Use flexbox */
-    flex-direction: column; /* Stack buttons vertically */
-    gap: 15px; /* Space between buttons */
-    align-items: center; /* Center buttons horizontally */
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
 }
 
-/* Styling for all buttons (links and toggle button) */
-.buttons a, .toggle-dark, .buttons-style { /* Added .buttons-style here for the New Quote button */
-    background: rgba(255, 255, 255, 0.15); /* Semi-transparent white background */
-    color: white; /* Text color */
-    padding: 12px 24px; /* Padding */
-    border-radius: 30px; /* More rounded corners */
-    text-decoration: none; /* Remove underline from links */
-    display: inline-flex; /* Allow icon and text to align */
-    align-items: center; /* Vertically align icon and text */
-    gap: 10px; /* Space between icon and text */
-    border: 1px solid rgba(255,255,255,0.2); /* Subtle border */
-    transition: all 0.3s ease; /* Smooth transitions for hover effects */
-    cursor: pointer; /* Indicate button is clickable */
-    font-size: 1rem; /* Default font size */
+.buttons a,
+.toggle-dark,
+.buttons-style {
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 30px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid rgba(255,255,255,0.2);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    font-size: 1rem;
 }
 
-/* Hover effect for buttons */
-.buttons a:hover, .toggle-dark:hover, .buttons-style:hover {
-    background: rgba(255, 255, 255, 0.25); /* Slightly more opaque on hover */
+.buttons a:hover,
+.toggle-dark:hover,
+.buttons-style:hover {
+    background: rgba(255, 255, 255, 0.25);
 }
 
-/* Terminal Section Styling */
+/* === TERMINAL === */
 .terminal {
-    background: rgba(0, 0, 0, 0.4); /* Dark semi-transparent background */
-    padding: 25px; /* Padding */
-    border-radius: 10px; /* Rounded corners */
-    margin-top: 30px; /* Space above */
-    font-family: monospace; /* Monospace font for terminal look */
-    max-width: 100%; /* Ensure it fits within container */
-    white-space: pre-line; /* Preserve line breaks from HTML */
-    color: white; /* Text color */
-    text-align: left; /* Align terminal text to the left */
+    background: rgba(0, 0, 0, 0.4);
+    padding: 25px;
+    border-radius: 10px;
+    margin-top: 30px;
+    font-family: monospace;
+    max-width: 100%;
+    white-space: pre-line;
+    color: white;
+    text-align: left;
 }
 
-/* Quote Box Styling */
 .quote {
-    margin-top: 40px; /* Space above */
-    font-style: italic; /* Italic text */
-    font-size: 1rem; /* Font size */
-    transition: opacity 0.5s ease-in-out; /* Smooth fade for quote changes */
+    margin-top: 40px;
+    font-style: italic;
+    font-size: 1rem;
+    transition: opacity 0.5s ease-in-out;
 }
 
-/* Projects Section Styling */
 .projects {
-    margin-top: 40px; /* Space above */
-    background: rgba(0,0,0,0.3); /* Semi-transparent dark background */
-    padding: 20px; /* Padding */
-    border-radius: 10px; /* Rounded corners */
+    margin-top: 40px;
+    background: rgba(0,0,0,0.3);
+    padding: 20px;
+    border-radius: 10px;
 }
 
-/* AI Project Card Specific Styling */
 .project-card.ai-coming-soon {
-    background: rgba(255, 255, 255, 0.04); /* Very subtle background */
-    border: 1px dashed rgba(255, 255, 255, 0.2); /* Dashed border */
-    padding: 25px; /* Padding */
-    border-radius: 12px; /* Rounded corners */
-    margin-top: 30px; /* Space above */
-    text-align: center; /* Center text */
-    animation: pulse-shadow 2s infinite alternate; /* Pulsing shadow animation */
-    /* Nested element styles for readability, can be moved out if preferred */
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+    padding: 25px;
+    border-radius: 12px;
+    margin-top: 30px;
+    text-align: center;
+    animation: pulse-shadow 2s infinite alternate;
 }
+
 .project-card.ai-coming-soon h3 {
     color: white;
     margin-bottom: 12px;
 }
+
 .project-card.ai-coming-soon p {
-    color: #ccc; /* Lighter grey text */
+    color: #ccc;
     font-style: italic;
     font-size: 0.95rem;
 }
+
 .project-card.ai-coming-soon .tease-box {
     margin-top: 15px;
     display: flex;
@@ -255,6 +240,7 @@ h1 {
     align-items: center;
     gap: 8px;
 }
+
 .project-card.ai-coming-soon .dot {
     width: 8px;
     height: 8px;
@@ -262,12 +248,14 @@ h1 {
     border-radius: 50%;
     animation: blink 1.2s infinite ease-in-out alternate;
 }
-.project-card.ai-coming-soon .dot:nth-child(2) { /* Apply animation delay to second dot */
+
+.project-card.ai-coming-soon .dot:nth-child(2) {
     animation-delay: 0.2s;
 }
-.project-card.ai-coming-soon .dot:nth-child(3) { /* Apply animation delay to third dot */
+.project-card.ai-coming-soon .dot:nth-child(3) {
     animation-delay: 0.4s;
 }
+
 .project-card.ai-coming-soon .text#aiTease {
     margin-left: 10px;
     color: white;
@@ -275,59 +263,38 @@ h1 {
     font-size: 0.9rem;
 }
 
-/* --- Gradient Glowing Outline for Quote Generator Terminal --- */
+@keyframes blink {
+    from { opacity: 0.2; }
+    to { opacity: 1; }
+}
 
-/* Define a new keyframe animation for the gradient glow */
+@keyframes pulse-shadow {
+    from { box-shadow: 0 0 10px rgba(255,255,255,0.2); }
+    to { box-shadow: 0 0 20px rgba(255,255,255,0.4); }
+}
+
+/* === GLOW === */
 @keyframes gradientTerminalGlow {
-    0% {
-        /* Starting glow: #896ccc with some white */
-        box-shadow: 0 0 10px rgba(137, 108, 204, 0.7), /* Primary color glow (#896ccc) */
-                    0 0 20px rgba(255, 255, 255, 0.3); /* Subtle white secondary glow */
-    }
-    50% {
-        /* Mid-point glow: more intense, shifting towards white */
-        box-shadow: 0 0 20px rgba(137, 108, 204, 0.9), /* Stronger primary */
-                    0 0 35px rgba(255, 255, 255, 0.7); /* Stronger white */
-    }
-    100% {
-        /* End-point glow: back to starting intensity */
-        box-shadow: 0 0 10px rgba(137, 108, 204, 0.7),
-                    0 0 20px rgba(255, 255, 255, 0.3);
-    }
+    0% { box-shadow: 0 0 10px rgba(137, 108, 204, 0.7), 0 0 20px rgba(255, 255, 255, 0.3); }
+    50% { box-shadow: 0 0 20px rgba(137, 108, 204, 0.9), 0 0 35px rgba(255, 255, 255, 0.7); }
+    100% { box-shadow: 0 0 10px rgba(137, 108, 204, 0.7), 0 0 20px rgba(255, 255, 255, 0.3); }
 }
 
-/* Apply the gradient glow and animation to the quote generator's terminal box */
 .project-card.quote-generator-card .terminal {
-    /* Set an initial box-shadow state */
-    box-shadow: 0 0 10px rgba(137, 108, 204, 0.7), 0 0 20px rgba(255, 255, 255, 0.3);
-    
-    /* Apply the animation */
-    animation: gradientTerminalGlow 3.5s infinite alternate ease-in-out; /* Adjust timing (e.g., 3.5s) as desired */
-    
-    /* Ensure text color is still white for readability within the glow */
-    color: white; /* Make sure this is present if you want white text */
+    box-shadow: 0 0 10px rgba(137, 108, 204, 0.7), 0 0 20px rgba(255, 255, 255, 0.3);
+    animation: gradientTerminalGlow 3.5s infinite alternate ease-in-out;
+    color: white;
 }
 
-/* --- Dark Mode Adjustment for the Quote Terminal Glow (Optional) --- */
-/* If you want the glow to look different or less intense in dark mode, you can modify it here.
-   Otherwise, it will use the same glow defined above. */
-body.dark-mode .project-card.quote-generator-card .terminal {
-    /* Example: Slightly reduce the white component's opacity in dark mode if it's too bright */
-    /* box-shadow: 0 0 10px rgba(137, 108, 204, 0.8), 0 0 20px rgba(255, 255, 255, 0.2); */
-    /* You would typically re-apply the animation if you modify the box-shadow here */
-    /* animation: gradientTerminalGlow 3.5s infinite alternate ease-in-out; */
-}
-
-
-/* Footer Styling */
+/* === FOOTER === */
 footer {
-    background: rgba(255, 255, 255, 0.05); /* Semi-transparent white background */
-    color: white; /* Text color */
-    text-align: center; /* Center text */
-    padding: 20px 0; /* Vertical padding */
-    margin-top: 50px; /* Space above */
-    font-size: 0.95rem; /* Smaller font size */
-    border-top: 1px solid rgba(255, 255, 255, 0.1); /* Top border */
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 50px;
+    font-size: 0.95rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .footer-links {
@@ -342,45 +309,29 @@ footer a {
     text-decoration: none;
     font-size: 1rem;
 }
+
 footer a:hover {
-    text-decoration: underline; /* Underline on hover for footer links */
+    text-decoration: underline;
 }
 
-/* Keyframe Animations */
-@keyframes blink {
-    from { opacity: 0.2; } /* Start nearly invisible */
-    to { opacity: 1; } /* End fully visible */
-}
-
-@keyframes pulse-shadow {
-    from { box-shadow: 0 0 10px rgba(255,255,255,0.2); } /* Initial shadow */
-    to { box-shadow: 0 0 20px rgba(255,255,255,0.4); } /* Larger, brighter shadow */
-}
-
-
-/* --- NEW: Parallax Section Styling --- */
+/* === PARALLAX === */
 .parallax-section {
-    /* Set the background image for this section */
-    background-image: url('parallax-bg.jpg'); /* REMEMBER TO CHANGE THIS TO YOUR IMAGE PATH */
-    background-size: cover; /* Scale the background image to cover the entire container */
-    background-position: center; /* Center the background image */
-    background-repeat: no-repeat; /* Do not repeat the background image */
-
-    /* THIS IS THE MAGIC FOR PARALLAX */
-    background-attachment: fixed; /* This makes the background image fixed relative to the viewport, creating the parallax effect */
-
-    min-height: 500px; /* Give the section a minimum height so the parallax effect is visible as you scroll */
-    display: flex; /* Use flexbox to center content vertically and horizontally */
-    align-items: center; /* Center content vertically */
-    justify-content: center; /* Center content horizontally */
-    text-align: center; /* Center text within the content box */
-    color: white; /* Text color for content within parallax section */
-    margin-top: 50px; /* Add some space above this section */
-    position: relative; /* Needed for overlay */
-    overflow: hidden; /* Important for some mobile browsers to prevent artifacts with fixed backgrounds */
+    background-image: url('parallax-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    margin-top: 50px;
+    position: relative;
+    overflow: hidden;
 }
 
-/* Optional: Add an overlay to the parallax section for better text readability */
 .parallax-section::before {
     content: "";
     position: absolute;
@@ -388,35 +339,31 @@ footer a:hover {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.4); /* Semi-transparent black overlay */
-    z-index: 1; /* Place above the background image but below the content */
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1;
 }
 
-/* Styling for the content within the parallax section */
 .parallax-content {
-    position: relative; /* Position relative to allow z-index */
-    z-index: 2; /* Ensure content is above the overlay */
-    padding: 20px; /* Add padding to the content */
-    background: rgba(0, 0, 0, 0.3); /* Slightly darker background for content box */
-    border-radius: 10px; /* Rounded corners for content box */
-    max-width: 80%; /* Limit width of content box */
+    position: relative;
+    z-index: 2;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    max-width: 80%;
 }
 
 .parallax-content h2 {
-    font-size: 2.5rem; /* Larger heading */
+    font-size: 2.5rem;
     margin-bottom: 10px;
 }
 
 .parallax-content p {
-    font-size: 1.2rem; /* Larger paragraph text */
+    font-size: 1.2rem;
 }
 
-/* Responsive Adjustments (Optional but Recommended) */
 @media (max-width: 768px) {
     .parallax-section {
-        min-height: 350px; /* Smaller height on smaller screens */
-        /* On mobile, fixed background-attachment can be buggy or impact performance. */
-        /* Revert to scroll to ensure smooth scrolling, even if it removes the parallax effect. */
+        min-height: 350px;
         background-attachment: scroll;
     }
     .parallax-content h2 {
