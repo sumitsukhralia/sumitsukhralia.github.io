@@ -544,46 +544,26 @@ if (apodImage && apodTitle && apodExplanation) {
   console.warn('APOD elements not found in DOM.');
 }
 
-// --- SpaceX Next Launch ---
-async function fetchNextSpaceXLaunch() {
-  const missionEl = document.getElementById('spacex-mission');
-  const dateEl = document.getElementById('spacex-date');
-  const countdownEl = document.getElementById('spacex-countdown');
 
-  if (!missionEl || !dateEl || !countdownEl) {
-    console.warn("SpaceX elements not found.");
-    return;
+// This is my secret note
+
+/* Or this is a multi-line secret note */
+
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  const apiUrl = 'https://ll.thespacedevs.com/2.0.0/launch/upcoming/?limit=1';
+  try {
+    const resp = await fetch(apiUrl);
+    const json = await resp.json();
+    const next = json.results[0];
+    if (!next) throw Error("No launch found");
+    document.getElementById('up-mission').textContent = `Mission: ${next.name}`;
+    document.getElementById('up-rocket').textContent = `Rocket: ${next.rocket?.configuration?.name || 'N/A'}`;
+    document.getElementById('up-pad').textContent = `Pad: ${next.pad?.name}, ${next.pad?.location?.name}`;
+    document.getElementById('up-date').textContent = `Date: ${new Date(next.net).toLocaleString()}`;
+  } catch(err) {
+    console.error(err);
+    document.querySelector('.launch-info').textContent = 'Launch data unavailable.';
   }
-
-  const response = await fetch('https://api.spacexdata.com/v4/launches/next');
-  const data = await response.json();
-
-  const mission = data.name;
-  const dateUTC = new Date(data.date_utc);
-
-  missionEl.textContent = `Mission: ${mission}`;
-  dateEl.textContent = `Date: ${dateUTC.toLocaleString()}`;
-
-  function updateCountdown() {
-    const now = new Date();
-    const diff = dateUTC - now;
-
-    if (diff <= 0) {
-      countdownEl.textContent = "Launched!";
-      clearInterval(interval);
-      return;
-    }
-
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-    const minutes = Math.floor((diff / (1000 * 60)) % 60);
-    const seconds = Math.floor((diff / 1000) % 60);
-
-    countdownEl.textContent = `Countdown: ${days}d ${hours}h ${minutes}m ${seconds}s`;
-  }
-
-  updateCountdown();
-  const interval = setInterval(updateCountdown, 1000);
-}
-
-document.addEventListener('DOMContentLoaded', fetchNextSpaceXLaunch);
+});
+</script>
