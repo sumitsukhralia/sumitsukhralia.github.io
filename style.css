@@ -458,46 +458,19 @@ footer a:hover {
   line-height: 1.4;
   color: #ccc;
 }
- /* === SpaceX Launch Card === */
-.spacex-launch {
+/* --- Upcoming Launch Styles --- */
+.upcoming-launch {
   margin: 2rem auto;
   max-width: 500px;
 }
 
-.terminal-wall {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+.launch-info {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.1);
   padding: 2rem;
   border-radius: 12px;
   color: #fff;
-  font-family: monospace;
-  text-align: left;
+  font-family: 'Bitcount Single', monospace;
   position: relative;
-  overflow: hidden;
 }
-
-.terminal-wall p {
-  margin: 0.5rem 0;
-}
-
-.terminal-glow-line {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 2px;
-  width: 100%;
-  background: white;
-  box-shadow: 0 0 8px white, 0 0 16px white;
-  animation: glow-pulse 2s infinite alternate;
-}
-
-@keyframes glow-pulse {
-  0% {
-    opacity: 0.6;
-    box-shadow: 0 0 8px white, 0 0 16px white;
-  }
-  100% {
-    opacity: 1;
-    box-shadow: 0 0 16px white, 0 0 32px white;
-  }
-}
+.launch-info p { margin: 0.5rem 0; }
