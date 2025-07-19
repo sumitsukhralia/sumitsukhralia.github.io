@@ -229,6 +229,46 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 500); // Delay before preloader fade out
         }
     }
+
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  const ipAddressElement = document.getElementById('ip-address');
+
+  if (ipAddressElement) {
+    fetch('https://api.ipify.org?format=json')
+      .then(response => response.json())
+      .then(data => {
+        ipAddressElement.textContent = data.ip;
+      })
+      .catch(error => {
+        console.error('Error fetching IP:', error);
+        ipAddressElement.textContent = 'Unavailable';
+      });
+
+    console.log('IP Flip Card initialized.');
+  } else {
+    console.warn('IP Flip Card element (#ip-address) not found.');
+  }
+
+  // Optional: Flip on click
+  const flipCard = document.querySelector('.flip-card');
+  if (flipCard) {
+    flipCard.addEventListener('click', () => {
+      flipCard.classList.toggle('flipped');
+    });
+  }
+});
+
+
+
+
+
+
+    
     showNextGreeting(); // Start preloader animation immediately on DOMContentLoaded
 
 
@@ -476,29 +516,4 @@ if (darkModeToggleBtn) {
         console.error("Error: Main 'terminal' element not found for scroll-triggered dark mode. This effect will not function.");
     }
 });
-// --- IP Flip Card Functionality ---
-const ipAddressElement = document.getElementById('ip-address');
 
-if (ipAddressElement) {
-  fetch('https://api.ipify.org?format=json')
-    .then(response => response.json())
-    .then(data => {
-      ipAddressElement.textContent = data.ip;
-    })
-    .catch(error => {
-      console.error('Error fetching IP:', error);
-      ipAddressElement.textContent = 'Unavailable';
-    });
-
-  console.log('IP Flip Card initialized.');
-} else {
-  console.warn('IP Flip Card element (#ip-address) not found.');
-}
-
-// Optional: Flip on click
-const flipCard = document.querySelector('.flip-card');
-if (flipCard) {
-  flipCard.addEventListener('click', () => {
-    flipCard.classList.toggle('flipped');
-  });
-}
