@@ -521,3 +521,26 @@ if (darkModeToggleBtn) {
     }
 });
 
+
+// --- NASA APOD ---
+const apodImage = document.getElementById('apod-image');
+const apodTitle = document.getElementById('apod-title');
+const apodExplanation = document.getElementById('apod-explanation');
+
+if (apodImage && apodTitle && apodExplanation) {
+  fetch('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY')
+    .then(res => res.json())
+    .then(data => {
+      apodImage.src = data.url;
+      apodTitle.textContent = data.title;
+      apodExplanation.textContent = data.explanation;
+      console.log('APOD fetched successfully');
+    })
+    .catch(err => {
+      console.error('Error fetching APOD:', err);
+      apodTitle.textContent = 'Could not load APOD.';
+    });
+} else {
+  console.warn('APOD elements not found in DOM.');
+}
+
