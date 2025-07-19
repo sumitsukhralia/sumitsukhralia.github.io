@@ -544,26 +544,3 @@ if (apodImage && apodTitle && apodExplanation) {
   console.warn('APOD elements not found in DOM.');
 }
 
-
-// This is my secret note
-
-/* Or this is a multi-line secret note */
-
-<script>
-document.addEventListener('DOMContentLoaded', async () => {
-  const apiUrl = 'https://ll.thespacedevs.com/2.0.0/launch/upcoming/?limit=1';
-  try {
-    const resp = await fetch(apiUrl);
-    const json = await resp.json();
-    const next = json.results[0];
-    if (!next) throw Error("No launch found");
-    document.getElementById('up-mission').textContent = `Mission: ${next.name}`;
-    document.getElementById('up-rocket').textContent = `Rocket: ${next.rocket?.configuration?.name || 'N/A'}`;
-    document.getElementById('up-pad').textContent = `Pad: ${next.pad?.name}, ${next.pad?.location?.name}`;
-    document.getElementById('up-date').textContent = `Date: ${new Date(next.net).toLocaleString()}`;
-  } catch(err) {
-    console.error(err);
-    document.querySelector('.launch-info').textContent = 'Launch data unavailable.';
-  }
-});
-</script>
