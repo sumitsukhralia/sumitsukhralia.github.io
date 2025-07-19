@@ -544,3 +544,46 @@ if (apodImage && apodTitle && apodExplanation) {
   console.warn('APOD elements not found in DOM.');
 }
 
+// --- SpaceX Next Launch ---
+async function fetchNextSpaceXLaunch() {
+  const missionEl = document.getElementById('spacex-mission');
+  const dateEl = document.getElementById('spacex-date');
+  const countdownEl = document.getElementById('spacex-countdown');
+
+  if (!missionEl || !dateEl || !countdownEl) {
+    console.warn("SpaceX elements not found.");
+    return;
+  }
+
+  const response = await fetch('https://api.spacexdata.com/v4/launches/next');
+  const data = await response.json();
+
+  const mission = data.name;
+  const dateUTC = new Date(data.date_utc);
+
+  missionEl.textContent = `Mission: ${mission}`;
+  dateEl.textContent = `Date: ${dateUTC.toLocaleString()}`;
+
+  function updateCountdown() {
+    const now = new Date();
+    const diff = dateUTC - now;
+
+    if (diff <= 0) {
+      countdownEl.textContent = "Launched!";
+      clearInterval(interval);
+      return;
+    }
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+
+    countdownEl.textContent = `Countdown: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+  }
+
+  updateCountdown();
+  const interval = setInterval(updateCountdown, 1000);
+}
+
+document.addEventListener('DOMContentLoaded', fetchNextSpaceXLaunch);
