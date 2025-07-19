@@ -382,3 +382,47 @@ footer a:hover {
         font-size: 1rem;
     }
 }
+/* IP Flip Card Styles */
+.flip-card {
+  width: 300px;
+  height: 200px;
+  perspective: 1000px;
+  margin: 0 auto;
+}
+
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  animation: spin 3s ease-out forwards;
+}
+
+.card-front, .card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-front {
+  transform: rotateY(0deg);
+}
+
+.card-back {
+  transform: rotateY(180deg);
+}
+
+@keyframes spin {
+  0% { transform: rotateY(0deg); }
+  80% { transform: rotateY(720deg); }
+  100% { transform: rotateY(900deg); }
+}
