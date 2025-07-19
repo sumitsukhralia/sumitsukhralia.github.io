@@ -1,142 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sumit Sukhralia</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <!-- Make the page responsive on all devices -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sumit Sukhralia</title>
+
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Your custom CSS -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="preloader" id="preloader">
-        <div class="greeting-container">
-            <div class="greeting" id="greeting-1">Hello!</div>
-            <div class="greeting" id="greeting-2">नमस्ते!</div>
-            <div class="greeting" id="greeting-3">Bonjour!</div>
-            <div class="greeting" id="greeting-4">Hola!</div>
-            <div class="greeting" id="greeting-5">こんにちは！</div>
-            <div class="greeting" id="greeting-6">안녕하세요!</div>
-            <div class="greeting" id="greeting-7">Olá!</div>
-            <div class="greeting" id="greeting-8">Hallo!</div>
-        </div>
-        <div class="logo">Welcome!</div>
+
+  <!-- ✅ PRELOADER SECTION (Animated greetings) -->
+  <div class="preloader" id="preloader">
+    <div class="greeting-container">
+      <!-- Greetings in multiple languages -->
+      <div class="greeting" id="greeting-1">Hello!</div>
+      <div class="greeting" id="greeting-2">नमस्ते!</div>
+      <div class="greeting" id="greeting-3">Bonjour!</div>
+      <div class="greeting" id="greeting-4">Hola!</div>
+      <div class="greeting" id="greeting-5">こんにちは！</div>
+      <div class="greeting" id="greeting-6">안녕하세요!</div>
+      <div class="greeting" id="greeting-7">Olá!</div>
+      <div class="greeting" id="greeting-8">Hallo!</div>
+    </div>
+    <div class="logo">Welcome!</div>
+  </div>
+
+  <!-- ✅ MAIN CONTAINER -->
+  <div class="container">
+
+    <!-- Profile photo -->
+    <img src="your-photo.jpg" alt="Sumit Sukhralia" class="profile-img">
+
+    <!-- Name -->
+    <h1>Sumit Sukhralia</h1>
+
+    <!-- Terminal style intro -->
+    <div class="terminal terminal-content" id="terminal">
+      user@SUMIT: ~ whoami  
+      19 • Beyond Curriculum  
+      From Biochem to Backend  
+      404: Limit Not Found
     </div>
 
-    <div class="container">
-        <img src="your-photo.jpg" alt="Sumit Sukhralia" class="profile-img">
-        <h1>Sumit Sukhralia</h1>
-
-        <div class="terminal terminal-content" id="terminal">
-            user@SUMIT: ~ whoami
-            19 • Beyond Curriculum
-            From Biochem to Backend
-            404: Limit Not Found
-        </div>
-
-        <div class="tech-stack">
-            <span>HTML5</span><span>CSS3</span><span>JavaScript</span>
-            <span>React.js</span><span>Node.js</span><span>MongoDB</span><span>Git & GitHub</span>
-        </div>
-
-        <div class="buttons">
-            <a href="https://instagram.com/sumitsukhralia" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
-            <a href="https://github.com/sumitsukhralia" target="_blank"><i class="fab fa-github"></i> GitHub</a>
-            <a href="mailto:SUMITxNEUROBYTE@proton.me"><i class="fas fa-handshake"></i> Let’s Collaborate</a>
-            <a href="mailto:SUMITxNEUROBYTE@proton.me"><i class="fas fa-envelope"></i> Email Me</a>
-            <a href="#"><i class="fas fa-code"></i> Neur*****e — Coming Soon</a>
-            <button class="toggle-dark" onclick="toggleDarkMode()"><i class="fas fa-moon"></i> Toggle Dark Mode</button>
-        </div>
-
-        <div id="scroll-dark-section"></div>
-
-        <div class="projects">
-            <div class="project-card ai-coming-soon">
-                <h3>👾 neu*****e AI — Coming Soon</h3>
-                <p>
-                    A project that challenges what's possible with human-AI interaction.<br>
-                    <em>The boundaries will blur. Stay curious. Stay tuned.</em>
-                </p>
-                <div class="tease-box">
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                    <span class="text" id="aiTease">Initializing...</span>
-                </div>
-            </div>
-
-
-<div class="project-card quote-generator-card">
-    <h3>✍️ Deep Thoughts Terminal</h3>
-    <div class="terminal">
-        <div class="quote terminal-content" id="quoteBox">"Ctrl your mind. Alt your path. Del the limits."</div>
-        <button id="newQuoteBtn" class="buttons-style"><i class="fas fa-sync-alt"></i> New Quote</button>
+    <!-- ✅ TECH STACK -->
+    <div class="tech-stack">
+      <span>HTML5</span><span>CSS3</span><span>JavaScript</span>
+      <span>React.js</span><span>Node.js</span><span>MongoDB</span><span>Git & GitHub</span>
     </div>
-</div>
-            
-            <h3>🚧 Projects Incoming</h3>
-            <p>Currently building — this space will soon be filled with awesome work!</p>
+
+    <!-- ✅ SOCIAL / ACTION BUTTONS -->
+    <div class="buttons">
+      <a href="https://instagram.com/sumitsukhralia" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+      <a href="https://github.com/sumitsukhralia" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+      <a href="mailto:SUMITxNEUROBYTE@proton.me"><i class="fas fa-handshake"></i> Let’s Collaborate</a>
+      <a href="mailto:SUMITxNEUROBYTE@proton.me"><i class="fas fa-envelope"></i> Email Me</a>
+      <a href="#"><i class="fas fa-code"></i> Neur*****e — Coming Soon</a>
+      <!-- Dark mode toggle button -->
+      <button class="toggle-dark" onclick="toggleDarkMode()"><i class="fas fa-moon"></i> Toggle Dark Mode</button>
+    </div>
+
+    <!-- Section to scroll for dark mode or theme changes -->
+    <div id="scroll-dark-section"></div>
+
+    <!-- ✅ PROJECTS SECTION -->
+
+    <!-- Project Card: AI Coming Soon -->
+    <div class="projects">
+      <div class="project-card ai-coming-soon">
+        <h3>👾 neu*****e AI — Coming Soon</h3>
+        <p>
+          A project that challenges what's possible with human-AI interaction.<br>
+          <em>The boundaries will blur. Stay curious. Stay tuned.</em>
+        </p>
+        <div class="tease-box">
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="text" id="aiTease">Initializing...</span>
         </div>
-
-
-
-
-
-   
-<!-- 🌐 IP Flip Card Project -->
-<div class="project-card ip-flip-card">
-  <h3>🌐 Your Public IP</h3>
-  <div class="flip-card">
-    <div class="card-inner">
-      <div class="card-front">
-        <h2>Encrypting…</h2>
       </div>
-      <div class="card-back">
-        <h2>Your IP Info</h2>
-        <div id="ip-address">Fetching...</div>
+
+      <!-- Project Card: Quote Generator -->
+      <div class="project-card quote-generator-card">
+        <h3>✍️ Deep Thoughts Terminal</h3>
+        <div class="terminal">
+          <div class="quote terminal-content" id="quoteBox">
+            "Ctrl your mind. Alt your path. Del the limits."
+          </div>
+          <button id="newQuoteBtn" class="buttons-style">
+            <i class="fas fa-sync-alt"></i> New Quote
+          </button>
+        </div>
+      </div>
+
+      <!-- Placeholder for more projects -->
+      <h3>🚧 Projects Incoming</h3>
+      <p>Currently building — this space will soon be filled with awesome work!</p>
+    </div>
+
+    <!-- ✅ IP Flip Card -->
+    <div class="project-card ip-flip-card">
+      <h3>🌐 Your Public IP</h3>
+      <div class="flip-card">
+        <div class="card-inner">
+          <div class="card-front">
+            <h2>Encrypting…</h2>
+          </div>
+          <div class="card-back">
+            <h2>Your IP Info</h2>
+            <div id="ip-address">Fetching...</div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
 
+    <!-- ✅ NASA APOD Card -->
+    <div class="project-card apod-card">
+      <h3>🌌 NASA Astronomy Picture of the Day</h3>
+      <div class="apod-content">
+        <!-- Image from NASA API -->
+        <img id="apod-image" src="" alt="NASA APOD" />
+        <h4 id="apod-title"></h4>
+        <p id="apod-explanation"></p>
+      </div>
+    </div>
 
-<!-- NASA APOD Card -->
-<div class="project-card apod-card">
-  <h3>🌌 NASA Astronomy Picture of the Day</h3>
-  <div class="apod-content">
-    <img id="apod-image" src="" alt="NASA APOD" />
-    <h4 id="apod-title"></h4>
-    <p id="apod-explanation"></p>
-  </div>
-</div>
-<!-- Upcoming Launch Widget -->
-<div class="project-card upcoming-launch">
-  <h3>📡 Upcoming Launch</h3>
-  <div class="launch-info">
-    <p id="up-mission">Mission: Loading...</p>
-    <p id="up-rocket">Rocket: …</p>
-    <p id="up-pad">Pad: …</p>
-    <p id="up-date">Date: …</p>
-  </div>
-</div>
+    <!-- ✅ Upcoming Launch Widget -->
+    <div class="project-card upcoming-launch">
+      <h3>📡 Upcoming Launch</h3>
+      <div class="launch-info">
+        <p id="up-mission">Mission: Loading...</p>
+        <p id="up-rocket">Rocket: …</p>
+        <p id="up-pad">Pad: …</p>
+        <p id="up-date">Date: …</p>
+      </div>
+    </div>
 
-
-
-        
+    <!-- ✅ Parallax section -->
     <div class="parallax-section">
-        <div class="parallax-content">
-            <h2>Locked — For Now</h2>
-           
-        </div>
+      <div class="parallax-content">
+        <h2>Locked — For Now</h2>
+      </div>
     </div>
+
+    <!-- ✅ FOOTER -->
     <footer>
-        <p>&copy; 2025 <strong>Sumit Sukhralia</strong>. All rights reserved.</p>
-        <div class="footer-links">
-            <a href="https://github.com/sumitsukhralia" target="_blank"><i class="fab fa-github"></i> GitHub</a>
-            <a href="https://instagram.com/sumitsukhralia" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
-            <a href="https://twitter.com/sumitsukhralia" target="_blank"><i class="fab fa-twitter"></i> Twitter</a>
-        </div>
+      <p>&copy; 2025 <strong>Sumit Sukhralia</strong>. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="https://github.com/sumitsukhralia" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+        <a href="https://instagram.com/sumitsukhralia" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+        <a href="https://twitter.com/sumitsukhralia" target="_blank"><i class="fab fa-twitter"></i> Twitter</a>
+      </div>
     </footer>
 
-    <script src="script.js"></script>
+  </div>
+
+  <!-- ✅ SCRIPT -->
+  <script src="script.js"></script>
+
 </body>
 </html>
