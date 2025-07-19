@@ -1,47 +1,43 @@
-// === Sumit Sukhralia's Full Portfolio Script (with Comments) ===
+// --- Consolidated JavaScript for Sumit Sukhralia's Portfolio ---
 
-// -------------------------------
-// GLOBAL FLAGS & CONSTANTS
-// -------------------------------
-
-// Stores the user's manual dark mode preference
+// === Global flag for user dark mode preference ===
 let userPrefersDarkMode = false;
 
-// --- Quotes for the Deep Thoughts Terminal ---
-// This huge list drives the random quote box.
+// === Quotes Array ===
 const quotes = [
-    // Original full quotes kept exactly as given:
+    // your entire huge quotes array exactly as-is
     "Darkness teaches what light hides.", "Silence says more than noise ever could.",
     "Not all storms come to disrupt — some clear your path.", "The shadows know your secrets.",
     "Lost time whispers truths you ignored.", "The more you see, the less you trust.",
-    // (... keep all your quotes exactly as you wrote ...)
-    "Code what they can’t copy."
+    "Loneliness sharpens the mind.", "Some doors only open once.",
+    "Ghosts live in memories we revisit.", "You become what you feed your mind.",
+    "Still waters drown deeper secrets.", "Trust the quiet ones — they notice everything.",
+    "Chaos hides in routine.", "A lie repeated is a truth forgotten.",
+    "Some scars glow in the dark.", "The cost of freedom is solitude.",
+    "Words heal; silence breaks.", "You fear what you refuse to face.",
+    "The cage is open — the mind stays locked.", "Mirrors never lie — they just wait.",
+    "We chase time, but it buries us.", "Dreams remember what you forget.",
+    "Unspoken words weigh the most.", "Fear is a story we tell ourselves.",
+    "You break to rebuild stronger.", "Some endings free you.",
+    "Shadows grow when the sun sets.", "Pain makes poets of us all.",
+    "The truth is patient.", "Destiny whispers — noise ignores.",
+    // (and so on... keep the rest exactly)
 ];
-
-// To avoid repeating the same quote twice in a row
-let currentQuoteIndex = -1;
+let currentQuoteIndex = -1; // === Current quote tracker ===
 let quoteIntervalId;
 
-// --- Teaser lines for your AI Terminal animation ---
+// === AI Tease Messages ===
 const aiMessages = [
-    "Initializing...",
-    "Waking neural core...",
-    "Connecting consciousness...",
-    "Decoding thoughts...",
-    "Compiling intuition...",
-    "Deploying self-awareness...",
+    "Initializing...", "Waking neural core...", "Connecting consciousness...",
+    "Decoding thoughts...", "Compiling intuition...", "Deploying self-awareness...",
     "Spawning sentience..."
 ];
 let aiMessageIndex = 0;
 
-// -------------------------------
-// MAIN INITIALIZATION
-// -------------------------------
-
+// === DOMContentLoaded Main ===
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("DOM fully loaded, initializing features...");
 
-    // --- Preloader Greeting Animation ---
+    // === Preloader ===
     const preloader = document.getElementById('preloader');
     const greetings = [
         'greeting-1', 'greeting-2', 'greeting-3',
@@ -52,17 +48,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function showNextGreeting() {
         if (currentGreetingDisplayIndex > 0) {
-            const prev = document.getElementById(greetings[currentGreetingDisplayIndex - 1]);
-            if (prev) prev.style.opacity = '0';
+            const prevElement = document.getElementById(greetings[currentGreetingDisplayIndex - 1]);
+            if (prevElement) {
+                prevElement.style.opacity = '0';
+            }
         }
-
         if (currentGreetingDisplayIndex < greetings.length) {
-            const curr = document.getElementById(greetings[currentGreetingDisplayIndex]);
-            if (curr) curr.style.opacity = '1';
+            const currentElement = document.getElementById(greetings[currentGreetingDisplayIndex]);
+            if (currentElement) {
+                currentElement.style.opacity = '1';
+            }
             currentGreetingDisplayIndex++;
             setTimeout(showNextGreeting, 120);
         } else {
-            // Done showing all greetings, fade out preloader
             setTimeout(() => {
                 if (preloader) {
                     preloader.style.opacity = '0';
@@ -75,11 +73,41 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // === IP Flip Card ===
+    document.addEventListener('DOMContentLoaded', () => {
+        const ipAddressElement = document.getElementById('ip-address');
+
+        if (ipAddressElement) {
+            fetch('https://ipinfo.io/json?token=YOUR_TOKEN_HERE')
+                .then(response => response.json())
+                .then(data => {
+                    ipAddressElement.innerHTML = `
+                        <strong>IP:</strong> ${data.ip}<br>
+                        <strong>Country:</strong> ${data.country}<br>
+                        <strong>ISP:</strong> ${data.org}
+                    `;
+                })
+                .catch(error => {
+                    console.error('Error fetching IP info:', error);
+                    ipAddressElement.textContent = 'Unavailable';
+                });
+
+            console.log('IP Flip Card initialized.');
+        } else {
+            console.warn('IP Flip Card element (#ip-address) not found.');
+        }
+
+        const flipCard = document.querySelector('.flip-card');
+        if (flipCard) {
+            flipCard.addEventListener('click', () => {
+                flipCard.classList.toggle('flipped');
+            });
+        }
+    });
+
     showNextGreeting();
 
-    // -------------------------------
-    // DARK MODE: LOAD SAVED STATE
-    // -------------------------------
+    // === Check Saved Dark Mode ===
     try {
         const savedDarkMode = localStorage.getItem('darkMode');
         if (savedDarkMode === 'true') {
@@ -90,77 +118,93 @@ document.addEventListener('DOMContentLoaded', () => {
                 icon.classList.remove('fa-moon');
                 icon.classList.add('fa-sun');
             }
+        } else {
+            userPrefersDarkMode = false;
         }
     } catch (e) {
-        console.error("Error reading dark mode:", e);
+        console.error("Error loading dark mode preference:", e);
+        userPrefersDarkMode = false;
     }
 
-    // -------------------------------
-    // DARK MODE: TOGGLE BUTTON
-    // -------------------------------
+    // === Dark Mode Toggle ===
     const darkModeToggleBtn = document.querySelector('.toggle-dark');
     if (darkModeToggleBtn) {
         darkModeToggleBtn.addEventListener('click', () => {
             document.body.classList.toggle('dark-mode');
             userPrefersDarkMode = document.body.classList.contains('dark-mode');
-            localStorage.setItem('darkMode', userPrefersDarkMode);
+            try {
+                localStorage.setItem('darkMode', userPrefersDarkMode);
+            } catch (e) {
+                console.error("Error saving dark mode preference:", e);
+            }
             const icon = darkModeToggleBtn.querySelector('i');
             if (icon) {
-                icon.classList.toggle('fa-sun', userPrefersDarkMode);
-                icon.classList.toggle('fa-moon', !userPrefersDarkMode);
+                if (userPrefersDarkMode) {
+                    icon.classList.remove('fa-moon');
+                    icon.classList.add('fa-sun');
+                } else {
+                    icon.classList.remove('fa-sun');
+                    icon.classList.add('fa-moon');
+                }
             }
         });
     }
 
-    // -------------------------------
-    // PROFILE SECTION SCROLL EFFECTS
-    // -------------------------------
+    // === Profile Section Scroll ===
     const profileSection = document.getElementById('profile');
     const profileImg = document.querySelector('.profile-img');
-
     if (profileSection && profileImg) {
         window.addEventListener('scroll', () => {
-            const scrollY = window.scrollY;
-            const opacity = 1 - Math.min(scrollY / 500, 1);
-            const translateY = scrollY * 0.3;
+            const scrollPosition = window.scrollY;
+            const opacity = 1 - Math.min(scrollPosition / 500, 1);
             profileSection.style.opacity = opacity;
+            const translateY = scrollPosition * 0.3;
             profileImg.style.transform = `translateY(${translateY}px)`;
         });
     }
 
-    // -------------------------------
-    // TERMINAL TEXT SCRAMBLE EFFECT
-    // -------------------------------
+    // === Terminal Scramble ===
     document.querySelectorAll('.terminal-content').forEach(terminal => {
         let animationInterval = null;
 
         const scrambleText = () => {
             const quoteBox = document.getElementById('quoteBox');
             if (!quoteBox) return;
-
             const currentTextContent = quoteBox.textContent;
-            if (animationInterval) clearInterval(animationInterval);
+
+            if (animationInterval) {
+                clearInterval(animationInterval);
+            }
 
             let iteration = 0;
             const chars = "!@#$%^&*()_+`-=[]{}|;':\",./<>?~";
 
             animationInterval = setInterval(() => {
-                terminal.textContent = currentTextContent.split('').map((char, index) => {
-                    if (index < iteration) return currentTextContent[index];
-                    return chars[Math.floor(Math.random() * chars.length)];
-                }).join('');
+                terminal.textContent = currentTextContent
+                    .split('')
+                    .map((char, index) => {
+                        if (index < iteration) {
+                            return currentTextContent[index];
+                        }
+                        return chars[Math.floor(Math.random() * chars.length)];
+                    })
+                    .join('');
 
                 if (iteration >= currentTextContent.length) {
                     clearInterval(animationInterval);
+                    animationInterval = null;
                     terminal.textContent = currentTextContent;
                 }
-                iteration++;
+                iteration += 1;
             }, 30);
         };
 
         terminal.addEventListener('mouseenter', scrambleText);
         terminal.addEventListener('mouseleave', () => {
-            if (animationInterval) clearInterval(animationInterval);
+            if (animationInterval) {
+                clearInterval(animationInterval);
+                animationInterval = null;
+            }
             const quoteBox = document.getElementById('quoteBox');
             if (quoteBox && quotes[currentQuoteIndex] !== undefined) {
                 quoteBox.textContent = quotes[currentQuoteIndex];
@@ -168,29 +212,28 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // -------------------------------
-    // AI TEASE TEXT ROTATION
-    // -------------------------------
+    // === AI Tease ===
     setInterval(() => {
-        const aiTease = document.getElementById("aiTease");
-        if (!aiTease) return;
-        aiTease.textContent = aiMessages[aiMessageIndex];
+        const aiTeaseElement = document.getElementById("aiTease");
+        if (!aiTeaseElement) return;
+        aiTeaseElement.textContent = aiMessages[aiMessageIndex];
         aiMessageIndex = (aiMessageIndex + 1) % aiMessages.length;
     }, 3000);
 
-    // -------------------------------
-    // QUOTE BOX: RANDOM QUOTE ROTATOR
-    // -------------------------------
+    // === Quote Display ===
     function displayNextQuote() {
         const quoteBox = document.getElementById('quoteBox');
         if (!quoteBox) return;
-
-        let newIndex;
+        if (quotes.length === 0) {
+            quoteBox.innerText = "No quotes available.";
+            return;
+        }
+        let newQuoteIndex;
         do {
-            newIndex = Math.floor(Math.random() * quotes.length);
-        } while (newIndex === currentQuoteIndex && quotes.length > 1);
+            newQuoteIndex = Math.floor(Math.random() * quotes.length);
+        } while (newQuoteIndex === currentQuoteIndex && quotes.length > 1);
+        currentQuoteIndex = newQuoteIndex;
 
-        currentQuoteIndex = newIndex;
         quoteBox.style.opacity = 0;
         setTimeout(() => {
             quoteBox.innerText = quotes[currentQuoteIndex];
@@ -198,7 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 500);
     }
 
-    if (quotes.length) {
+    if (quotes.length > 0) {
         displayNextQuote();
         quoteIntervalId = setInterval(displayNextQuote, 6000);
     }
@@ -212,9 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // -------------------------------
-    // SCROLL-TRIGGERED DARK MODE
-    // -------------------------------
+    // === Scroll-Triggered Dark Mode ===
     const terminalElement = document.getElementById('terminal');
     let hasScrolledPastTerminal = false;
 
@@ -252,9 +293,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// -------------------------------
-// NASA APOD WIDGET
-// -------------------------------
+// === NASA APOD ===
 const apodImage = document.getElementById('apod-image');
 const apodTitle = document.getElementById('apod-title');
 const apodExplanation = document.getElementById('apod-explanation');
@@ -268,7 +307,6 @@ if (apodImage && apodTitle && apodExplanation) {
             apodExplanation.textContent = data.explanation;
         })
         .catch(err => {
-            console.error('APOD error:', err);
             apodTitle.textContent = 'Could not load APOD.';
         });
 }
