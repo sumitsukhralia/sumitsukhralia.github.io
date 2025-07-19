@@ -235,17 +235,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+
 document.addEventListener('DOMContentLoaded', () => {
   const ipAddressElement = document.getElementById('ip-address');
 
   if (ipAddressElement) {
-    fetch('https://api.ipify.org?format=json')
+    fetch('https://ipinfo.io/json?token=YOUR_TOKEN_HERE') // Replace with your token
       .then(response => response.json())
       .then(data => {
-        ipAddressElement.textContent = data.ip;
+        ipAddressElement.innerHTML = `
+          <strong>IP:</strong> ${data.ip}<br>
+          <strong>Country:</strong> ${data.country}<br>
+          <strong>ISP:</strong> ${data.org}
+        `;
       })
       .catch(error => {
-        console.error('Error fetching IP:', error);
+        console.error('Error fetching IP info:', error);
         ipAddressElement.textContent = 'Unavailable';
       });
 
@@ -254,7 +259,6 @@ document.addEventListener('DOMContentLoaded', () => {
     console.warn('IP Flip Card element (#ip-address) not found.');
   }
 
-  // Optional: Flip on click
   const flipCard = document.querySelector('.flip-card');
   if (flipCard) {
     flipCard.addEventListener('click', () => {
