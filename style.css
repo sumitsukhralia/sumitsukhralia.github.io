@@ -458,19 +458,3 @@ footer a:hover {
   line-height: 1.4;
   color: #ccc;
 }
-/* --- Upcoming Launch Styles --- */
-.upcoming-launch {
-  margin: 2rem auto;
-  max-width: 500px;
-}
-
-.launch-info {
-  
-  border: 1px solid rgba(255,255,255,0.1);
-  padding: 2rem;
-  border-radius: 12px;
-  color: #fff;
-  
-  position: relative;
-}
-.launch-info p { margin: 0.5rem 0; }
