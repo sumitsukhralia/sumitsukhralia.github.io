@@ -386,7 +386,12 @@ footer a:hover {
 /* Basic reset and styling */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+.apod-container {
   background: #0b1a2b;
+  padding: 20px;
+  border-radius: 10px;
+}
+
   color: #e0e0e0;
   margin: 0;
   padding: 20px;
