@@ -1,494 +1,450 @@
-/* ================================
-   🌐 GLOBAL ROOT & RESET
-   ================================ */
-
+/* Basic Reset & Body Styling */
+/* Define a CSS variable for transition duration at the root level */
 :root {
-  --transition-duration: 0.6s; /* Smooth transition default */
+    --transition-duration: 0.6s; /* Default transition duration for smooth changes */
 }
 
 body {
-  margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: url('your-photo.jpg') no-repeat center center fixed;
-  background-size: cover;
-  overflow-x: hidden;
-  position: relative;
-  color: #fff;
-  transition: background var(--transition-duration) ease, color var(--transition-duration) ease;
+    margin: 0; /* Remove default margin */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Preferred font stack */
+    background: url('your-photo.jpg') no-repeat center center fixed; /* Background image */
+    background-size: cover; /* Cover the entire viewport */
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    position: relative; /* Needed for pseudo-element positioning */
+    color: white; /* Default text color */
+    /* Use the CSS variable for transition duration */
+    transition: background var(--transition-duration) ease, color var(--transition-duration) ease;
 }
 
-/* 🔳 Background overlay for readability */
+/* Overlay for background image */
 body::before {
-  content: "";
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(4px);
-  z-index: -1;
-  transition: background var(--transition-duration) ease;
+    content: ""; /* Required for pseudo-elements */
+    position: fixed; /* Fix to viewport */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6); /* Semi-transparent black overlay */
+    backdrop-filter: blur(4px); /* Blur the background image */
+    z-index: -1; /* Place behind other content */
+    /* Use the CSS variable for transition duration */
+    transition: background var(--transition-duration) ease;
 }
 
-/* 🌙 Dark Mode */
-.dark-mode {
-  background: #000;
-}
+/* Dark Mode Styles */
 .dark-mode::before {
-  background: rgba(0, 0, 0, 0.9);
+    background: rgba(0, 0, 0, 0.9); /* Darker overlay in dark mode */
+}
+.dark-mode {
+    background: #000; /* Solid black background in dark mode */
 }
 
-/* Optional faster transition class */
+/* Optional: Class for a faster transition, can be applied via JS for a "boom" effect */
+/* This overrides the --transition-duration variable for a quicker change */
 .fast-transition {
-  --transition-duration: 0.3s;
+    --transition-duration: 0.3s;
 }
 
-/* ================================
-   🚀 PRELOADER
-   ================================ */
-
+/* --- START: Preloader Specific Styles (ADDED) --- */
 .preloader {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background-color: #000;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  opacity: 1;
-  visibility: visible;
-  transition: opacity 0.5s ease, visibility 0.5s ease;
+    position: fixed; /* Stays fixed on screen */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000; /* Solid black background for the preloader */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Vertically center content */
+    align-items: center; /* Horizontally center content */
+    z-index: 1000; /* Ensures it's on top of everything */
+    opacity: 1; /* Starts fully visible */
+    transition: opacity 0.5s ease-out, visibility 0.5s ease-out; /* Smooth fade-out */
+    visibility: visible; /* Starts visible */
 }
 
+/* Hide preloader when JS sets opacity to 0 and display to none */
 .preloader[style*="opacity: 0"] {
-  visibility: hidden;
-  pointer-events: none;
+    visibility: hidden;
+    pointer-events: none; /* Prevents clicks on hidden preloader */
 }
 
 .greeting-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%; width: 100%;
-  position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center horizontally within flex container */
+    justify-content: center; /* Center vertically within flex container */
+    height: 100%; /* Take full height of preloader */
+    width: 100%; /* Take full width of preloader */
+    position: relative; /* Crucial: Establishes positioning context for absolute children */
 }
 
 .greeting {
-  color: #fff;
-  font-weight: 500;
-  opacity: 0;
-  position: absolute;
-  text-align: center;
-  transition: opacity 0.3s ease;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  width: 90%;
-  max-width: 600px;
-  font-size: 3rem;
+    color: #fff;
+    font-weight: 500;
+    opacity: 0; /* Starts hidden, JS animates visibility */
+    position: absolute; /* Allows greetings to overlap */
+    text-align: center; /* Ensures text itself is centered within its box */
+    transition: opacity 0.3s ease; /* Smooth fade for greetings */
+
+    /* --- IMPORTANT: Centering for Absolutely Positioned Elements --- */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Moves element back by half its own width/height */
+    width: 90%; /* Max width to ensure text doesn't hit edges on small screens */
+    max-width: 600px; /* Prevent it from getting too wide on very large screens */
+    font-size: 3rem; /* Default for larger screens */
 }
 
-/* ✅ Greeting responsive sizes */
+/* Media query for smaller screens: adjusts font size for greetings */
 @media (max-width: 768px) {
-  .greeting { font-size: 2rem; }
+    .greeting {
+        font-size: 2rem; /* Reduced font size for tablets/larger phones */
+    }
 }
+
 @media (max-width: 480px) {
-  .greeting { font-size: 1.5rem; }
+    .greeting {
+        font-size: 1.5rem; /* Further reduced for smaller phones */
+    }
 }
 
 .logo {
-  position: absolute;
-  bottom: 40px;
-  color: rgba(255,255,255,0.7);
-  font-size: 1rem;
-  opacity: 0;
-  animation: fadeIn 1s ease 2s forwards;
-  text-align: center;
-  width: 100%;
+    position: absolute;
+    bottom: 40px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1rem;
+    opacity: 0; /* Starts hidden */
+    animation: fadeIn 1s ease 2s forwards; /* Fades in after a delay */
+    text-align: center; /* Center text if it wraps */
+    width: 100%; /* Ensure it spans the width */
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
+/* --- END: Preloader Specific Styles (ADDED) --- */
 
-/* ================================
-   🗂️ MAIN CONTAINER
-   ================================ */
 
+/* Main Container Styling */
 .container {
-  max-width: 1000px; /* Wider for laptops/desktops */
-  margin: 0 auto;
-  text-align: center;
-  padding: 40px 20px;
-  position: relative;
-  z-index: 1;
+    max-width: 600px; /* Maximum width of the content area */
+    margin: 0 auto; /* Center the container horizontally */
+    text-align: center; /* Center text within the container */
+    padding: 40px 20px; /* Padding inside the container */
+    position: relative; /* For z-index to work with body::before */
+    z-index: 1; /* Ensure container is above the overlay */
 }
 
-/* ✅ Profile Photo */
+/* Profile Image Styling */
 .profile-img {
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 4px solid #fff;
+    width: 140px; /* Fixed width */
+    height: 140px; /* Fixed height */
+    border-radius: 50%; /* Make it circular */
+    object-fit: cover; /* Crop image to fit without stretching */
+    border: 4px solid white; /* White border around the image */
 }
 
-/* Larger photo on bigger screens */
-@media (min-width: 768px) {
-  .profile-img {
-    width: 180px;
-    height: 180px;
-  }
-}
-
-/* ✅ Name Heading */
+/* Heading (Name) Styling */
 h1 {
-  margin: 15px 0 5px;
-  font-size: 2.5rem;
+    margin: 15px 0 5px; /* Margin around the heading */
+    font-size: 2.5rem; /* Large font size */
 }
 
-/* ================================
-   🧩 TECH STACK
-   ================================ */
-
+/* Tech Stack Section */
 .tech-stack {
-  margin-top: 15px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 12px;
+    margin-top: 15px; /* Space above */
+    display: flex; /* Use flexbox for layout */
+    flex-wrap: wrap; /* Allow items to wrap to the next line */
+    justify-content: center; /* Center items horizontally */
+    gap: 12px; /* Space between items */
 }
 
+/* Individual Tech Stack Tags */
 .tech-stack span {
-  background: rgba(255,255,255,0.1);
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 0.9rem;
+    background: rgba(255, 255, 255, 0.1); /* Semi-transparent white background */
+    padding: 6px 12px; /* Padding inside the span */
+    border-radius: 20px; /* Rounded corners for pill shape */
+    font-size: 0.9rem; /* Smaller font size */
 }
 
-/* ================================
-   🔗 BUTTONS
-   ================================ */
-
+/* Buttons Section */
 .buttons {
-  margin-top: 25px;
-  display: flex;
-  flex-direction: column; /* Stack vertically on small screens */
-  gap: 15px;
-  align-items: center;
+    margin-top: 25px; /* Space above */
+    display: flex; /* Use flexbox */
+    flex-direction: column; /* Stack buttons vertically */
+    gap: 15px; /* Space between buttons */
+    align-items: center; /* Center buttons horizontally */
 }
 
-/* Shared button style */
-.buttons a,
-.toggle-dark,
-.buttons-style {
-  background: rgba(255,255,255,0.15);
-  color: #fff;
-  padding: 12px 24px;
-  border-radius: 30px;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  border: 1px solid rgba(255,255,255,0.2);
-  transition: all 0.3s ease;
-  cursor: pointer;
-  font-size: 1rem;
+/* Styling for all buttons (links and toggle button) */
+.buttons a, .toggle-dark, .buttons-style { /* Added .buttons-style here for the New Quote button */
+    background: rgba(255, 255, 255, 0.15); /* Semi-transparent white background */
+    color: white; /* Text color */
+    padding: 12px 24px; /* Padding */
+    border-radius: 30px; /* More rounded corners */
+    text-decoration: none; /* Remove underline from links */
+    display: inline-flex; /* Allow icon and text to align */
+    align-items: center; /* Vertically align icon and text */
+    gap: 10px; /* Space between icon and text */
+    border: 1px solid rgba(255,255,255,0.2); /* Subtle border */
+    transition: all 0.3s ease; /* Smooth transitions for hover effects */
+    cursor: pointer; /* Indicate button is clickable */
+    font-size: 1rem; /* Default font size */
 }
 
-.buttons a:hover,
-.toggle-dark:hover,
-.buttons-style:hover {
-  background: rgba(255,255,255,0.25);
+/* Hover effect for buttons */
+.buttons a:hover, .toggle-dark:hover, .buttons-style:hover {
+    background: rgba(255, 255, 255, 0.25); /* Slightly more opaque on hover */
 }
 
-/* On larger screens, buttons align horizontally */
-@media (min-width: 768px) {
-  .buttons {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-}
-
-/* ================================
-   💻 TERMINAL
-   ================================ */
-
+/* Terminal Section Styling */
 .terminal {
-  background: rgba(0,0,0,0.4);
-  padding: 25px;
-  border-radius: 10px;
-  margin-top: 30px;
-  font-family: monospace;
-  max-width: 100%;
-  white-space: pre-line;
-  color: #fff;
-  text-align: left;
+    background: rgba(0, 0, 0, 0.4); /* Dark semi-transparent background */
+    padding: 25px; /* Padding */
+    border-radius: 10px; /* Rounded corners */
+    margin-top: 30px; /* Space above */
+    font-family: monospace; /* Monospace font for terminal look */
+    max-width: 100%; /* Ensure it fits within container */
+    white-space: pre-line; /* Preserve line breaks from HTML */
+    color: white; /* Text color */
+    text-align: left; /* Align terminal text to the left */
 }
 
-@media (min-width: 768px) {
-  .terminal { font-size: 1rem; }
-}
-
-/* ================================
-   ✍️ QUOTE BOX
-   ================================ */
-
+/* Quote Box Styling */
 .quote {
-  margin-top: 40px;
-  font-style: italic;
-  font-size: 1rem;
-  transition: opacity 0.5s ease-in-out;
+    margin-top: 40px; /* Space above */
+    font-style: italic; /* Italic text */
+    font-size: 1rem; /* Font size */
+    transition: opacity 0.5s ease-in-out; /* Smooth fade for quote changes */
 }
 
-/* ================================
-   📂 PROJECTS
-   ================================ */
-
+/* Projects Section Styling */
 .projects {
-  margin-top: 40px;
-  background: rgba(0,0,0,0.3);
-  padding: 20px;
-  border-radius: 10px;
+    margin-top: 40px; /* Space above */
+    background: rgba(0,0,0,0.3); /* Semi-transparent dark background */
+    padding: 20px; /* Padding */
+    border-radius: 10px; /* Rounded corners */
 }
 
+/* AI Project Card Specific Styling */
 .project-card.ai-coming-soon {
-  background: rgba(255,255,255,0.04);
-  border: 1px dashed rgba(255,255,255,0.2);
-  padding: 25px;
-  border-radius: 12px;
-  margin-top: 30px;
-  text-align: center;
-  animation: pulse-shadow 2s infinite alternate;
+    background: rgba(255, 255, 255, 0.04); /* Very subtle background */
+    border: 1px dashed rgba(255, 255, 255, 0.2); /* Dashed border */
+    padding: 25px; /* Padding */
+    border-radius: 12px; /* Rounded corners */
+    margin-top: 30px; /* Space above */
+    text-align: center; /* Center text */
+    animation: pulse-shadow 2s infinite alternate; /* Pulsing shadow animation */
+    /* Nested element styles for readability, can be moved out if preferred */
 }
-
 .project-card.ai-coming-soon h3 {
-  color: #fff;
-  margin-bottom: 12px;
+    color: white;
+    margin-bottom: 12px;
 }
-
 .project-card.ai-coming-soon p {
-  color: #ccc;
-  font-style: italic;
-  font-size: 0.95rem;
+    color: #ccc; /* Lighter grey text */
+    font-style: italic;
+    font-size: 0.95rem;
 }
-
 .project-card.ai-coming-soon .tease-box {
-  margin-top: 15px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
 }
-
 .project-card.ai-coming-soon .dot {
-  width: 8px;
-  height: 8px;
-  background: #fff;
-  border-radius: 50%;
-  animation: blink 1.2s infinite ease-in-out alternate;
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+    animation: blink 1.2s infinite ease-in-out alternate;
 }
-
-.project-card.ai-coming-soon .dot:nth-child(2) {
-  animation-delay: 0.2s;
+.project-card.ai-coming-soon .dot:nth-child(2) { /* Apply animation delay to second dot */
+    animation-delay: 0.2s;
 }
-.project-card.ai-coming-soon .dot:nth-child(3) {
-  animation-delay: 0.4s;
+.project-card.ai-coming-soon .dot:nth-child(3) { /* Apply animation delay to third dot */
+    animation-delay: 0.4s;
 }
-
 .project-card.ai-coming-soon .text#aiTease {
-  margin-left: 10px;
-  color: #fff;
-  font-family: monospace;
-  font-size: 0.9rem;
+    margin-left: 10px;
+    color: white;
+    font-family: monospace;
+    font-size: 0.9rem;
 }
 
-/* ================================
-   🗂️ IP FLIP CARD
-   ================================ */
-
-.flip-card {
-  width: 300px;
-  height: 200px;
-  perspective: 1000px;
-  margin: 0 auto;
-}
-
-.card-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  transform-style: preserve-3d;
-  animation: spin 3s ease-out forwards;
-}
-
-.card-front, .card-back {
-  position: absolute;
-  width: 100%; height: 100%;
-  backface-visibility: hidden;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 12px;
-  box-shadow: 0 0 20px rgba(255,255,255,0.1);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.card-front { transform: rotateY(0deg); }
-.card-back { transform: rotateY(180deg); }
-
-@keyframes spin {
-  0% { transform: rotateY(0deg); }
-  80% { transform: rotateY(720deg); }
-  100% { transform: rotateY(900deg); }
-}
-
-/* ================================
-   🌌 APOD CARD
-   ================================ */
-
-.apod-card {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 12px;
-  padding: 20px;
-  text-align: center;
-  margin: 2rem auto;
-  max-width: 600px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.2);
-}
-
-.apod-card img {
-  width: 100%;
-  max-height: 400px;
-  object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-}
-
-.apod-card h4 {
-  margin: 0.5rem 0;
-  font-size: 1.2rem;
-}
-
-.apod-card p {
-  font-size: 0.95rem;
-  line-height: 1.4;
-  color: #ccc;
-}
-
-/* ================================
-   🗻 PARALLAX SECTION
-   ================================ */
-
-.parallax-section {
-  background-image: url('parallax-bg.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  min-height: 500px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  color: #fff;
-  margin-top: 50px;
-  position: relative;
-  overflow: hidden;
-}
-
-.parallax-section::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.4);
-  z-index: 1;
-}
-
-.parallax-content {
-  position: relative;
-  z-index: 2;
-  padding: 20px;
-  background: rgba(0,0,0,0.3);
-  border-radius: 10px;
-  max-width: 80%;
-}
-
-.parallax-content h2 {
-  font-size: 2.5rem;
-  margin-bottom: 10px;
-}
-
-.parallax-content p {
-  font-size: 1.2rem;
-}
-
-@media (max-width: 768px) {
-  .parallax-section {
-    min-height: 350px;
-    background-attachment: scroll;
-  }
-  .parallax-content h2 { font-size: 1.8rem; }
-  .parallax-content p { font-size: 1rem; }
-}
-
-/* ================================
-   🦶 FOOTER
-   ================================ */
-
+/* Footer Styling */
 footer {
-  background: rgba(255,255,255,0.05);
-  color: #fff;
-  text-align: center;
-  padding: 20px 0;
-  margin-top: 50px;
-  font-size: 0.95rem;
-  border-top: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255, 255, 255, 0.05); /* Semi-transparent white background */
+    color: white; /* Text color */
+    text-align: center; /* Center text */
+    padding: 20px 0; /* Vertical padding */
+    margin-top: 50px; /* Space above */
+    font-size: 0.95rem; /* Smaller font size */
+    border-top: 1px solid rgba(255, 255, 255, 0.1); /* Top border */
 }
 
 .footer-links {
-  display: flex;
-  justify-content: center;
-  gap: 25px;
-  flex-wrap: wrap;
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
 }
 
 footer a {
-  color: #fff;
-  text-decoration: none;
-  font-size: 1rem;
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
 }
-
 footer a:hover {
-  text-decoration: underline;
+    text-decoration: underline; /* Underline on hover for footer links */
 }
 
-/* ================================
-   ✨ GLOBAL IMAGE RESPONSIVENESS
-   ================================ */
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
-/* ================================
-   ⚡️ ANIMATIONS
-   ================================ */
-
+/* Keyframe Animations */
 @keyframes blink {
-  from { opacity: 0.2; }
-  to { opacity: 1; }
+    from { opacity: 0.2; } /* Start nearly invisible */
+    to { opacity: 1; } /* End fully visible */
 }
 
 @keyframes pulse-shadow {
-  from { box-shadow: 0 0 10px rgba(255,255,255,0.2); }
-  to { box-shadow: 0 0 20px rgba(255,255,255,0.4); }
+    from { box-shadow: 0 0 10px rgba(255,255,255,0.2); } /* Initial shadow */
+    to { box-shadow: 0 0 20px rgba(255,255,255,0.4); } /* Larger, brighter shadow */
+}
+
+
+/* --- NEW: Parallax Section Styling --- */
+.parallax-section {
+    /* Set the background image for this section */
+    background-image: url('parallax-bg.jpg'); /* REMEMBER TO CHANGE THIS TO YOUR IMAGE PATH */
+    background-size: cover; /* Scale the background image to cover the entire container */
+    background-position: center; /* Center the background image */
+    background-repeat: no-repeat; /* Do not repeat the background image */
+
+    /* THIS IS THE MAGIC FOR PARALLAX */
+    background-attachment: fixed; /* This makes the background image fixed relative to the viewport, creating the parallax effect */
+
+    min-height: 500px; /* Give the section a minimum height so the parallax effect is visible as you scroll */
+    display: flex; /* Use flexbox to center content vertically and horizontally */
+    align-items: center; /* Center content vertically */
+    justify-content: center; /* Center content horizontally */
+    text-align: center; /* Center text within the content box */
+    color: white; /* Text color for content within parallax section */
+    margin-top: 50px; /* Add some space above this section */
+    position: relative; /* Needed for overlay */
+    overflow: hidden; /* Important for some mobile browsers to prevent artifacts with fixed backgrounds */
+}
+
+/* Optional: Add an overlay to the parallax section for better text readability */
+.parallax-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* Semi-transparent black overlay */
+    z-index: 1; /* Place above the background image but below the content */
+}
+
+/* Styling for the content within the parallax section */
+.parallax-content {
+    position: relative; /* Position relative to allow z-index */
+    z-index: 2; /* Ensure content is above the overlay */
+    padding: 20px; /* Add padding to the content */
+    background: rgba(0, 0, 0, 0.3); /* Slightly darker background for content box */
+    border-radius: 10px; /* Rounded corners for content box */
+    max-width: 80%; /* Limit width of content box */
+}
+
+.parallax-content h2 {
+    font-size: 2.5rem; /* Larger heading */
+    margin-bottom: 10px;
+}
+
+.parallax-content p {
+    font-size: 1.2rem; /* Larger paragraph text */
+}
+
+/* Responsive Adjustments (Optional but Recommended) */
+@media (max-width: 768px) {
+    .parallax-section {
+        min-height: 350px; /* Smaller height on smaller screens */
+        /* On mobile, fixed background-attachment can be buggy or impact performance. */
+        /* Revert to scroll to ensure smooth scrolling, even if it removes the parallax effect. */
+        background-attachment: scroll;
+    }
+    .parallax-content h2 {
+        font-size: 1.8rem;
+    }
+    .parallax-content p {
+        font-size: 1rem;
+    }
+}
+
+/* Basic reset and styling */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #0b1a2b;
+  color: #e0e0e0;
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  align-items: center;
+}
+
+.container {
+  max-width: 700px;
+  text-align: center;
+  background: #112b4a;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px #0066ccaa;
+}
+
+h1 {
+  margin-bottom: 20px;
+  color: #00aaff;
+}
+
+#apod-image {
+  max-width: 100%;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  box-shadow: 0 0 10px #005599cc;
+}
+
+#apod-title {
+  font-size: 1.8rem;
+  margin: 10px 0 5px;
+}
+
+#apod-date {
+  font-style: italic;
+  color: #99ccff;
+  margin-bottom: 15px;
+}
+
+#apod-explanation {
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+#fetch-button {
+  background: #007acc;
+  border: none;
+  padding: 10px 20px;
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background 0.3s ease;
+}
+
+#fetch-button:hover {
+  background: #005fa3;
 }
