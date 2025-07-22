@@ -404,3 +404,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+const apiKey = 'DEMO_KEY'; // Replace with your NASA API key if you have one
+const url = `https://api.nasa.gov/planetary/apod?api_key=${apiKey}`;
+
+fetch(url)
+  .then(response => response.json())
+  .then(data => {
+    document.getElementById('apodTitle').textContent = data.title;
+    document.getElementById('apodImage').src = data.url;
+    document.getElementById('apodExplanation').textContent = data.explanation;
+  })
+  .catch(error => {
+    console.error('Error fetching APOD:', error);
+  });
