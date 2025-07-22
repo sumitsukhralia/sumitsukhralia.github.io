@@ -404,18 +404,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-const apiKey = 'DEMO_KEY'; // Replace with your NASA API key
+const apiKey = 'DEMO_KEY'; // Replace with NASA API key
 const url = `https://api.nasa.gov/planetary/apod?api_key=${apiKey}`;
 
 fetch(url)
   .then(response => response.json())
   .then(data => {
     document.getElementById('apodTitle').textContent = data.title;
-    document.getElementById('apodImage').src = data.url;
+    document.getElementById('apodImage').src = data.url; // normal res
     document.getElementById('apodExplanation').textContent = data.explanation;
     document.getElementById('apodDate').textContent = `Date: ${data.date}`;
     document.getElementById('apodCopyright').textContent =
       `© ${data.copyright || 'NASA'}`;
+
+    // Make image clickable to HD version if available
+    document.getElementById('apodHdWrapper').href = data.hdurl || data.url;
   })
   .catch(error => {
     console.error('Error fetching APOD:', error);
@@ -428,7 +431,7 @@ const observer = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       apodBox.classList.add('visible');
-      observer.unobserve(apodBox); // only trigger once
+      observer.unobserve(apodBox); // only run once
     }
   });
 }, {
@@ -436,3 +439,4 @@ const observer = new IntersectionObserver(entries => {
 });
 
 observer.observe(apodBox);
+
