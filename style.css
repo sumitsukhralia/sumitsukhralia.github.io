@@ -383,26 +383,31 @@ footer a:hover {
     }
 }
 
+
+
+
+
 .apod-terminal {
-  background: rgba(255, 255, 255, 0.05); /* subtle tint for glassmorphism */
+  background: rgba(255, 255, 255, 0.05); /* subtle glass tint */
   backdrop-filter: blur(5px);
   color: white;
   border: 2px solid white;
   padding: 20px;
-  font-family: monospace; /* headings default */
+  font-family: monospace; /* for headings */
   max-width: 600px;
-  opacity: 0; /* hidden by default for scroll animation */
+  opacity: 0; /* for scroll animation */
   transform: translateY(20px);
   transition: opacity 1s ease, transform 1s ease;
 }
 
 .apod-terminal p {
-  font-family: inherit; /* keep paragraph in default site font */
+  font-family: inherit; /* default site font for paragraph */
 }
 
 .apod-terminal img {
   max-width: 100%;
   margin: 10px 0;
+  cursor: pointer; /* indicates clickable for HD */
 }
 
 .apod-terminal small {
@@ -415,4 +420,3 @@ footer a:hover {
   opacity: 1;
   transform: translateY(0);
 }
-
