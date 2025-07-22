@@ -388,7 +388,7 @@ footer a:hover {
   color: white;
   border: 2px solid white;
   padding: 20px;
-  font-family: monospace; /* terminal feel */
+  font-family: cursive; /* terminal feel */
   max-width: 600px;
 }
 
