@@ -404,7 +404,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-const apiKey = 'DEMO_KEY'; // Replace with your NASA API key if you have one
+const apiKey = 'DEMO_KEY'; // Replace with your NASA API key
 const url = `https://api.nasa.gov/planetary/apod?api_key=${apiKey}`;
 
 fetch(url)
@@ -413,7 +413,26 @@ fetch(url)
     document.getElementById('apodTitle').textContent = data.title;
     document.getElementById('apodImage').src = data.url;
     document.getElementById('apodExplanation').textContent = data.explanation;
+    document.getElementById('apodDate').textContent = `Date: ${data.date}`;
+    document.getElementById('apodCopyright').textContent =
+      `© ${data.copyright || 'NASA'}`;
   })
   .catch(error => {
     console.error('Error fetching APOD:', error);
   });
+
+// Animate on scroll
+const apodBox = document.getElementById('apodBox');
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      apodBox.classList.add('visible');
+      observer.unobserve(apodBox); // only trigger once
+    }
+  });
+}, {
+  threshold: 0.1
+});
+
+observer.observe(apodBox);
