@@ -383,3 +383,16 @@ footer a:hover {
     }
 }
 
+.apod-terminal {
+  background: transparent; /* invisible background */
+  color: white;
+  border: 2px solid white;
+  padding: 20px;
+  font-family: monospace; /* terminal feel */
+  max-width: 600px;
+}
+
+.apod-terminal img {
+  max-width: 100%;
+  margin: 10px 0;
+}
