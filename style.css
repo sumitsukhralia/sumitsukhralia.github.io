@@ -460,7 +460,7 @@ body {
   cursor: pointer;
   outline: none;
   position: relative;
-  padding: 12px 30px;
+  padding: 8px 20px;
   transition: all 0.3s ease-in-out 0s;
 }
 
