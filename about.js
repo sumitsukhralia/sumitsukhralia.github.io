@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         particles = new THREE.Points(geometry, particleMaterial);
         scene.add(particles);
-        /*--okk--*/
+
         camera.position.z = 200;
 
         document.addEventListener('mousemove', onDocumentMouseMove, false);
@@ -209,7 +209,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         animatedVoidScreen.style.opacity = '1';
 
         await typeText(quoteText, 'Some truths are not found, but forged.', 70);
-        await new Promise(r => setTimeout(r, 1000));
+        await new Promise(r => setTimeout(r, 300)); // Faster appearance for input box
 
         // Fade in name input container
         nameInputContainer.style.opacity = '1';
@@ -222,7 +222,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Show and fade out hint
         nameInputHint.textContent = 'A designation for access...'; // Updated hint text
         nameInputHint.style.opacity = '1';
-        await new Promise(r => setTimeout(r, 1000)); // Display hint for 2 seconds
+        await new Promise(r => setTimeout(r, 2000)); // Display hint for 2 seconds
         nameInputHint.style.opacity = '0';
         await new Promise(r => setTimeout(r, 500)); // Wait for hint to fade
 
@@ -230,38 +230,61 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.log('Animated void, quote, and name input shown.');
     }
 
-    // --- Timeline Autoscroll Logic ---
-    let autoscrollInterval;
+    // --- Timeline Autoscroll Logic (using requestAnimationFrame) ---
+    let animationFrameId;
+    let lastScrollTime;
     let isUserScrolling = false;
-    const scrollSpeed = 20; // Pixels per interval - Made 1.5x faster (from 2 to 3)
-    const scrollIntervalTime = 5; // Milliseconds - Kept same for smoother steps
+    const scrollSpeedPerSecond = 2000; // Pixels per second (20 pixels per 10ms for example, so 2000/sec)
 
     function startAutoscroll() {
-        if (autoscrollInterval) clearInterval(autoscrollInterval);
+        if (animationFrameId) cancelAnimationFrame(animationFrameId); // Cancel any existing frame
 
-        autoscrollInterval = setInterval(() => {
-            if (!isUserScrolling) {
-                timelinePath.scrollBy(0, scrollSpeed);
+        lastScrollTime = performance.now(); // Get current time
+
+        function animateScroll(currentTime) {
+            if (isUserScrolling) {
+                // If user is scrolling, stop auto-scroll but keep requesting frames
+                // to re-evaluate if user stops scrolling.
+                animationFrameId = requestAnimationFrame(animateScroll);
+                return;
             }
+
+            const deltaTime = currentTime - lastScrollTime;
+            const scrollAmount = (scrollSpeedPerSecond * deltaTime) / 1000; // Calculate scroll based on time elapsed
+
+            timelinePath.scrollBy(0, scrollAmount);
+            lastScrollTime = currentTime; // Update last scroll time
+
             // Check if reached end (within a small buffer)
             if (timelinePath.scrollTop + timelinePath.clientHeight >= timelinePath.scrollHeight - 10) {
-                clearInterval(autoscrollInterval);
+                cancelAnimationFrame(animationFrameId);
                 console.log('Timeline end reached. Triggering boom effect.');
                 triggerTimelineEndBoom();
+            } else {
+                animationFrameId = requestAnimationFrame(animateScroll);
             }
-        }, scrollIntervalTime);
+        }
+        animationFrameId = requestAnimationFrame(animateScroll); // Start the animation loop
     }
 
     function stopAutoscroll() {
-        clearInterval(autoscrollInterval);
+        if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+            animationFrameId = null;
+        }
     }
 
     function handleTimelineScroll() {
         isUserScrolling = true;
+        // Reset user scrolling flag after a short delay
         clearTimeout(timelinePath.scrollTimeout);
         timelinePath.scrollTimeout = setTimeout(() => {
             isUserScrolling = false;
-        }, 200);
+            // If user stops scrolling, restart auto-scroll if not at end
+            if (timelinePath.scrollTop + timelinePath.clientHeight < timelinePath.scrollHeight - 10) {
+                startAutoscroll();
+            }
+        }, 300); // Give user 300ms to continue scrolling
     }
 
     // --- Timeline End Boom Effect & Redirect ---
