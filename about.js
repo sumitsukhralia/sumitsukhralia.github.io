@@ -234,7 +234,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     let animationFrameId;
     let lastScrollTime;
     let isUserScrolling = false;
-    const scrollSpeedPerSecond = 2000; // Pixels per second (20 pixels per 10ms for example, so 2000/sec)
+    const scrollSpeedPerSecond = 5000; // Pixels per second (20 pixels per 10ms for example, so 2000/sec)
 
     function startAutoscroll() {
         if (animationFrameId) cancelAnimationFrame(animationFrameId); // Cancel any existing frame
