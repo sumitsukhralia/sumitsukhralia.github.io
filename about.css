@@ -1,4 +1,4 @@
-/* ✅ Reset */
+
 * {
   margin: 0;
   padding: 0;
@@ -6,16 +6,16 @@
 }
 
 html, body {
-  height: 100%; /* Ensure html and body take full height for fixed positioning */
+  height: 100%; 
 }
 
 body {
-  background: black; /* Pure black background throughout initial phases */
+  background: black; 
   color: white;
-  font-family: 'Courier New', monospace; /* Typing font for curiosity */
+  font-family: 'Courier New', monospace; /* Typing font  */
   overflow-x: hidden; /* Prevent horizontal scrolling */
   overflow-y: hidden; /* Prevent vertical scrolling initially */
-  /* Added for "Live Things" - subtle pulsating glow */
+  
   animation: subtle-glow 10s infinite alternate ease-in-out;
 }
 
@@ -27,19 +27,19 @@ body {
 /* Hide scrollbar for Chrome, Safari, Opera */
 body::-webkit-scrollbar,
 #timeline-path::-webkit-scrollbar,
-.story-content::-webkit-scrollbar { /* Also hide for timeline and story content */
+.story-content::-webkit-scrollbar { /*  hide for timeline and story content */
     display: none;
 }
 /* Hide scrollbar for IE, Edge, Firefox */
 body,
 #timeline-path,
-.story-content { /* Also hide for timeline and story content */
+.story-content { 
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
 }
 
 
-/* --- Initial Boom Effect --- */
+
 #boom-container {
   position: fixed;
   top: 0;
@@ -47,7 +47,7 @@ body,
   width: 100%;
   height: 100%;
   background: #000;
-  z-index: 10000; /* Highest z-index to cover everything */
+  z-index: 10000; 
   display: flex;
   justify-content: center;
   align-items: center;
@@ -64,9 +64,9 @@ body,
   100% { background-color: #000; opacity: 0; transform: scale(1); }
 }
 
-/* --- Typing Animation --- */
+/* Typing Animation  */
 .typing-animation {
-  overflow: hidden; /* Ensures text is hidden until typed */
+  overflow: hidden; /*  text is hidden until typed */
   white-space: nowrap; /* Keeps text on a single line */
   border-right: 0.15em solid white; /* The blinking caret */
 }
@@ -81,14 +81,14 @@ body,
   50% { border-color: white; }
 }
 
-/* --- Preloader Styles --- */
+
 #preloader {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: #000; /* Pure black background */
+  background: #000; /* black background */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -125,7 +125,7 @@ body,
   transform: scale(1.05);
 }
 
-/* --- Animated Void Screen & Name Input --- */
+
 #animated-void-screen {
   position: fixed;
   top: 0;
