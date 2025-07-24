@@ -453,9 +453,9 @@ body {
   letter-spacing: 1.3px;
   font-weight: 700;
   color: #fff;
-  background: ;   /* ✅ Transparent background */
+  background:transparent;/* ✅ Transparent background */
   border: 2px solid #fff;     /* ✅ White border */
-  border-radius: 1000px;      /* ✅ Fully rounded */
+  border-radius: 900px;      /* ✅ Fully rounded */
   text-decoration: none;
   cursor: pointer;
   outline: none;
