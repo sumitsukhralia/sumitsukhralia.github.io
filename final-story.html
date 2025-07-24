@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Me - Sumit Sukhralia</title> <!-- Updated title -->
+    <title>About Me - Sumit Sukhralia</title>
     <!-- Custom Font: Space Mono -->
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -22,8 +22,7 @@
             justify-content: center;
             min-height: 100vh; /* Ensure it takes full viewport height */
             text-align: center;
-            opacity: 0; /* Start hidden for fade-in */
-            animation: fade-in 1.5s ease-out forwards;
+            /* Removed initial opacity and fade-in animation, handled by boom-container */
             position: relative; /* Needed for z-index context */
             overflow: hidden; /* Hide any overflow from canvas */
         }
@@ -38,10 +37,33 @@
             scrollbar-width: none;  /* Firefox */
         }
 
-        @keyframes fade-in {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        /* Removed fade-in keyframes as not needed */
+
+        /* --- Initial Boom Effect Container for final-story.html --- */
+        #final-boom-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 10000; /* Highest z-index to cover everything */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; /* Ensure nothing spills out */
         }
+
+        .final-boom-effect {
+            animation: final-boom-flash 0.5s ease-out forwards;
+        }
+
+        @keyframes final-boom-flash {
+            0% { background-color: #000; opacity: 1; }
+            50% { background-color: #fff; opacity: 1; transform: scale(1.1); }
+            100% { background-color: #000; opacity: 0; transform: scale(1); }
+        }
+
 
         #finalStoryCanvas {
             position: fixed; /* Fixed to cover the entire viewport */
@@ -131,7 +153,7 @@
             padding: 2rem;
             background: rgba(10, 10, 10, 0.6); /* Slightly darker transparent background */
             border-radius: 10px;
-            box-shadow: 0 0 20px rgba(167, 32, 255, 0.2);
+            box-shadow: 0 0 20px rgba(88, 58, 186, 0.2); /* Adjusted shadow for new purple */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -140,7 +162,12 @@
 
         .oracle-section h2 {
             font-size: 1.8rem;
-            color: #a720ff; /* Purple heading */
+            /* Apply new purple gradient to oracle section heading */
+            background: linear-gradient(90deg, #583aba, #8a6edb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
             margin-bottom: 15px;
         }
 
@@ -148,7 +175,7 @@
             width: 100%;
             padding: 12px 20px;
             font-size: 1rem;
-            border: 2px solid #6a0dad;
+            border: 2px solid #583aba; /* New purple border */
             border-radius: 8px;
             background: rgba(255, 255, 255, 0.1);
             color: #fff;
@@ -159,34 +186,34 @@
         }
 
         .oracle-input:focus {
-            border-color: #a720ff;
-            box-shadow: 0 0 15px rgba(167, 32, 255, 0.5);
+            border-color: #8a6edb; /* Lighter shade on focus */
+            box-shadow: 0 0 15px rgba(88, 58, 186, 0.5); /* Adjusted shadow */
         }
 
         .oracle-button {
             padding: 15px 40px;
             font-size: 1.2rem;
             font-weight: bold;
-            background: linear-gradient(45deg, #6a0dad, #a720ff);
+            background: linear-gradient(45deg, #583aba, #8a6edb);
             color: white;
             border: none;
             border-radius: 10px;
             cursor: pointer;
-            box-shadow: 0 5px 20px rgba(106, 13, 173, 0.4);
+            box-shadow: 0 5px 20px rgba(88, 58, 186, 0.4); /* Adjusted shadow */
             transition: all 0.3s ease;
         }
 
         .oracle-button:hover {
-            background: linear-gradient(45deg, #a720ff, #6a0dad);
+            background: linear-gradient(45deg, #8a6edb, #583aba); /* Reverse gradient on hover */
             transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 8px 25px rgba(106, 13, 173, 0.6);
+            box-shadow: 0 8px 25px rgba(88, 58, 186, 0.6); /* Adjusted shadow */
         }
 
         .oracle-response {
             margin-top: 20px;
             padding: 15px;
             background: rgba(255, 255, 255, 0.05);
-            border-left: 3px solid #a720ff;
+            border-left: 3px solid #8a6edb; /* New purple border */
             border-radius: 5px;
             font-size: 1rem;
             color: #e0e0e0;
@@ -206,7 +233,7 @@
         .loading-indicator {
             display: none;
             font-size: 1.2rem;
-            color: #a720ff;
+            color: #8a6edb; /* New purple color */
             margin-top: 10px;
         }
         .loading-indicator::after {
@@ -265,6 +292,9 @@
     </style>
 </head>
 <body>
+    <!-- Initial Boom Effect Container for final-story.html -->
+    <div id="final-boom-container"></div>
+
     <canvas id="finalStoryCanvas"></canvas>
     <div class="content-overlay">
         <div class="story-content">
@@ -490,11 +520,23 @@
         });
 
 
+        // --- Boom Effect for final-story.html ---
+        const finalBoomContainer = document.getElementById('final-boom-container');
+        function triggerFinalBoomEffect() {
+            finalBoomContainer.classList.add('final-boom-effect');
+            setTimeout(() => {
+                finalBoomContainer.style.display = 'none';
+                finalBoomContainer.classList.remove('final-boom-effect');
+                // Now that the boom is done, initialize Three.js and make content visible
+                initFinalStoryThreeJs();
+                animateFinalStoryThreeJs();
+                // No need for body opacity fade-in, as content is revealed after boom
+            }, 500); // Match final-boom-flash animation duration
+        }
+
         // Initialize and start animation on window load
         window.onload = function() {
-            initFinalStoryThreeJs();
-            animateFinalStoryThreeJs();
-            document.body.style.opacity = '1'; /* Fade in the body after canvas is ready */
+            triggerFinalBoomEffect(); // Trigger the boom effect first
         };
     </script>
 </body>
