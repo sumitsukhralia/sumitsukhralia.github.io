@@ -233,8 +233,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     // --- Timeline Autoscroll Logic ---
     let autoscrollInterval;
     let isUserScrolling = false;
-    const scrollSpeed = 5; // Pixels per interval - Made 1.5x faster (from 2 to 3)
-    const scrollIntervalTime = 30; // Milliseconds - Kept same for smoother steps
+    const scrollSpeed = 9; // Pixels per interval - Made 1.5x faster (from 2 to 3)
+    const scrollIntervalTime = 20; // Milliseconds - Kept same for smoother steps
 
     function startAutoscroll() {
         if (autoscrollInterval) clearInterval(autoscrollInterval);
