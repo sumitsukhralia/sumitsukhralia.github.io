@@ -225,9 +225,9 @@ h1 {
     letter-spacing: 1.3px;
     font-weight: 700;
     color: #fff;
-    /* Default state: transparent background, white border */
-    background: transparent;
-    border: 2px solid #fff;
+    /* Default state: purple to white gradient background */
+    background: linear-gradient(to right, #583aba, #FFFFFF 70%); /* Purple to White (70% white) */
+    border: 2px solid rgba(255, 255, 255, 0.4); /* Subtle white border for idle state */
     border-radius: 900px; /* Fully rounded */
     text-decoration: none;
     cursor: pointer;
