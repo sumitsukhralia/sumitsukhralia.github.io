@@ -27,8 +27,9 @@
     <div class="overlay-content">
       <div id="quote-text" class="typing-animation"></div>
       <div id="name-input-container">
-        <label for="visitorName">Identity required for access:</label>
-        <input type="text" id="visitorName" placeholder="Your Designation..." autocomplete="off">
+        <label id="name-input-label" for="visitorName"></label> <!-- Dynamic label -->
+        <div id="name-input-hint"></div> <!-- Disappearing hint -->
+        <input type="text" id="visitorName" placeholder="" autocomplete="off"> <!-- Placeholder removed, hint used -->
         <button id="submitNameBtn">Submit</button>
         <div id="status-message"></div>
       </div>
@@ -38,7 +39,6 @@
   <!-- 3. Timeline Story Path -->
   <div id="timeline-path" class="content-path">
     <div class="timeline">
-      <!-- Timeline items will be dynamically revealed or manually scrolled -->
       <div class="container left">
         <div class="content">
           <div class="date">Est. 2005</div>
@@ -73,34 +73,28 @@
         <div class="content">
           <div class="date">The Architect's Hand</div>
           <p>From the study of life's intricate machinery, a new purpose emerged: to sculpt digital landscapes, to design the very frameworks of emergent thought and interaction.</p>
-        </div>
-      </div>
-      <div class="container left">
         <div class="content">
           <div class="date">The Unfolding Mission</div>
           <p>Driven by an insatiable need to comprehend the subtle mechanics of human connection, the quest to build systems that truly resonate, not merely function, began.</p>
         </div>
       </div>
-      <div class="container right">
+      <div class="container left">
         <div class="content">
           <div class="date">The Inner Citadel</div>
           <p>A fortress built not of stone, but of reasoned thought. The cultivation of an inner sanctuary, impervious to external storms, where true purpose is forged.</p>
         </div>
       </div>
-      <div class="container left">
+      <div class="container right">
         <div class="content">
           <div class="date">The Unwritten Code</div>
           <p>Beyond the visible algorithms, a deeper logic. The pursuit of an unwritten code, a framework for existence, where clarity of mind orchestrates impactful creation.</p>
         </div>
       </div>
-      <!-- Final AI-generated content will appear here -->
-      <div class="container right final-story-container">
+      <!-- Final timeline entry - leads to the static story page -->
+      <div class="container left final-timeline-entry">
         <div class="content">
-          <div class="date">Your Story</div>
-          <p id="aboutContentParagraph">Loading your deeper story...</p>
-          <button id="backHomeBtn" class="back-home-button">
-            <i class="fas fa-home"></i> Back Home
-          </button>
+          <div class="date">The Path Continues...</div>
+          <p>The journey extends beyond these known parameters. A new chapter awaits those who seek the deeper narrative.</p>
         </div>
       </div>
     </div>
