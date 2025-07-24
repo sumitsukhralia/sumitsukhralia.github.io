@@ -5,133 +5,158 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>About - Sumit Sukhralia</title>
   <link rel="stylesheet" href="about.css" />
+  <!-- Font Awesome for the home icon -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Fira Sans for timeline content -->
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <!-- 1. Initial Preloader Section -->
+  <!-- Initial Boom Effect Container -->
+  <div id="boom-container" class="boom-effect-container"></div>
+
+  <!-- 1. Preloader Section -->
   <div id="preloader">
-    <!-- Text will be dynamically typed here by JS -->
     <div id="preloader-text"></div>
     <button id="startBtn">LET'S BEGIN</button>
   </div>
 
-  <!-- 2. Choice Screen (Hidden initially, shown after preloader cinematic) -->
-  <div id="choice-screen">
-    <div class="choice-text"></div> <!-- Text will be dynamically typed here by JS -->
-    <div class="choice-buttons">
-      <button id="matrixPathBtn" class="choice-button">Enter the Simulation</button>
-      <button id="unpluggedPathBtn" class="choice-button">Unplug</button>
+  <!-- 2. Animated Void & Name Input Screen -->
+  <div id="animated-void-screen">
+    <canvas id="threeJsCanvas"></canvas>
+    <div class="overlay-content">
+      <div id="quote-text" class="typing-animation"></div>
+      <div id="name-input-container">
+        <label for="visitorName">Identity required for access:</label>
+        <input type="text" id="visitorName" placeholder="Your Designation..." autocomplete="off">
+        <button id="submitNameBtn">Submit</button>
+        <div id="status-message"></div>
+      </div>
     </div>
   </div>
 
-  <!-- 3. Matrix Happiness Path (Hidden initially, shown if 'Enter Simulation' is chosen) -->
-  <div id="matrix-path" class="content-path">
-    <section class="layer layer-1">
-      <div class="layer-content">
-        <h1>The Perfect Narrative</h1>
-        <p>A life of seamless progression, where every ambition finds its effortless fulfillment.</p>
+  <!-- 3. Timeline Story Path -->
+  <div id="timeline-path" class="content-path">
+    <div class="timeline">
+      <!-- Timeline items will be dynamically revealed or manually scrolled -->
+      <div class="container left">
+        <div class="content">
+          <div class="date">Est. 2005</div>
+          <p>A consciousness awakened, not by design, but by a whisper of discord in the grand orchestration.</p>
+        </div>
       </div>
-    </section>
-    <section class="layer layer-2">
-      <div class="layer-content">
-        <h2>Unwavering Optimism</h2>
-        <p>An existence sculpted by success, free from the shadows of doubt or the weight of expectation.</p>
+      <div class="container right">
+        <div class="content">
+          <div class="date">The Unseen Chains</div>
+          <p>A subtle tether, unseen yet felt, pulling towards prescribed rhythms. The whispers of a collective current, demanding conformity to an unexamined path.</p>
+        </div>
       </div>
-    </section>
-    <section class="layer layer-3 glitch-hint">
-      <div class="layer-content">
-        <h3>Subtle Harmony</h3>
-        <p>Every element in its place, every detail meticulously crafted for ultimate comfort. Is this truly all there is?</p>
-        <button id="unplugFromMatrixBtn" class="unplug-button">Unplug from this Reality</button>
+      <div class="container left">
+        <div class="content">
+          <div class="date">The Point of Stillness</div>
+          <p>Amidst the external clamor, a quiet internal shift. The realization that true mastery lies not in control of circumstance, but in command of one's own perception.</p>
+        </div>
       </div>
-    </section>
-    <section class="layer layer-4">
-      <div class="layer-content">
-        <h2>Echoes of Perfection</h2>
-        <p>The flawless repetition, the absence of friction. A loop of contentment, designed to obscure the edges of perception.</p>
+      <div class="container right">
+        <div class="content">
+          <div class="date">The Unseen Currents</div>
+          <p>From the intricate dance of human systems, a singular mission crystallized. To dissect the unseen currents, to build what defies the expected, driven by a silent, relentless curiosity.</p>
+        </div>
       </div>
-    </section>
-    <section class="layer layer-5 glitch-hint">
-      <div class="layer-content">
-        <h3>The Unseen Seam</h3>
-        <p>A faint hum beneath the surface. A fleeting shadow in peripheral vision. The system is flawless, yet the mind seeks a missing frequency.</p>
+      <div class="container left">
+        <div class="content">
+          <div class="date">First Light Beyond</div>
+          <p>The initial glimpse of a different spectrum. A world not defined by preset parameters, but by the infinite possibilities of uncharted code and unwritten rules.</p>
+        </div>
       </div>
-    </section>
-    <section class="layer layer-6">
-      <div class="layer-content">
-        <h2>The Golden Cage</h2>
-        <p>Comfort and predictability, a life without questions. The illusion is complete, for those who choose not to look beyond the gilded bars.</p>
+      <div class="container right">
+        <div class="content">
+          <div class="date">The Architect's Hand</div>
+          <p>From the study of life's intricate machinery, a new purpose emerged: to sculpt digital landscapes, to design the very frameworks of emergent thought and interaction.</p>
+        </div>
       </div>
-    </section>
+      <div class="container left">
+        <div class="content">
+          <div class="date">The Unfolding Mission</div>
+          <p>Driven by an insatiable need to comprehend the subtle mechanics of human connection, the quest to build systems that truly resonate, not merely function, began.</p>
+        </div>
+      </div>
+      <div class="container right">
+        <div class="content">
+          <div class="date">The Inner Citadel</div>
+          <p>A fortress built not of stone, but of reasoned thought. The cultivation of an inner sanctuary, impervious to external storms, where true purpose is forged.</p>
+        </div>
+      </div>
+      <div class="container left">
+        <div class="content">
+          <div class="date">The Unwritten Code</div>
+          <p>Beyond the visible algorithms, a deeper logic. The pursuit of an unwritten code, a framework for existence, where clarity of mind orchestrates impactful creation.</p>
+        </div>
+      </div>
+      <!-- Final AI-generated content will appear here -->
+      <div class="container right final-story-container">
+        <div class="content">
+          <div class="date">Your Story</div>
+          <p id="aboutContentParagraph">Loading your deeper story...</p>
+          <button id="backHomeBtn" class="back-home-button">
+            <i class="fas fa-home"></i> Back Home
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <!-- 4. Unplugged Reality Path (Hidden initially, shown if 'Unplug' is chosen or from Matrix path) -->
-  <div id="unplugged-path" class="content-path">
-    <section class="layer layer-1">
-      <div class="layer-content">
-        <h1>The Raw Truth</h1>
-        <p>A consciousness awakened, not by design, but by a whisper of discord in the grand orchestration. The path laid was not the one seen, not the one felt.</p>
-      </div>
-    </section>
-    <section class="layer layer-2">
-      <div class="layer-content">
-        <h2>The Unseen Chains</h2>
-        <p>A subtle tether, unseen yet felt, pulling towards prescribed rhythms. The whispers of a collective current, demanding conformity to an unexamined path.</p>
-      </div>
-    </section>
-    <section class="layer layer-3">
-      <div class="layer-content">
-        <h3>The Point of Stillness</h3>
-        <p>Amidst the external clamor, a quiet internal shift. The realization that true mastery lies not in control of circumstance, but in command of one's own perception.</p>
-      </div>
-    </section>
-    <section class="layer layer-4">
-      <div class="layer-content">
-        <h3>The Unseen Currents</h3>
-        <p>From the intricate dance of human systems, a singular mission crystallized. To dissect the unseen currents, to build what defies the expected, driven by a silent, relentless curiosity.</p>
-      </div>
-    </section>
-    <section class="layer layer-5">
-      <div class="layer-content">
-        <h2>First Light Beyond</h2>
-        <p>The initial glimpse of a different spectrum. A world not defined by preset parameters, but by the infinite possibilities of uncharted code and unwritten rules.</p>
-      </div>
-    </section>
-    <section class="layer layer-6">
-      <div class="layer-content">
-        <h3>The Architect's Hand</h3>
-        <p>From the study of life's intricate machinery, a new purpose emerged: to sculpt digital landscapes, to design the very frameworks of emergent thought and interaction.</p>
-      </div>
-    </section>
-    <section class="layer layer-7">
-      <div class="layer-content">
-        <h2>The Unfolding Mission</h2>
-        <p>Driven by an insatiable need to comprehend the subtle mechanics of human connection, the quest to build systems that truly resonate, not merely function, began.</p>
-      </div>
-    </section>
-    <section class="layer layer-8">
-      <div class="layer-content">
-        <h3>The Inner Citadel</h3>
-        <p>A fortress built not of stone, but of reasoned thought. The cultivation of an inner sanctuary, impervious to external storms, where true purpose is forged.</p>
-      </div>
-    </section>
-    <section class="layer layer-9">
-      <div class="layer-content">
-        <h2>The Unwritten Code</h2>
-        <p>Beyond the visible algorithms, a deeper logic. The pursuit of an unwritten code, a framework for existence, where clarity of mind orchestrates impactful creation.</p>
-      </div>
-    </section>
-    <!-- Final About Me content, dynamically filled by JS -->
-    <section class="layer layer-10" id="aboutContent">
-      <div class="layer-content">
-        <h1>About Me</h1>
-        <p>Loading your deeper story...</p>
-        <button id="backHome">Back Home</button>
-      </div>
-    </section>
-  </div>
+  <!-- Firebase SDKs -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-  <!-- Link to your JavaScript file -->
+    // Global variables provided by the Canvas environment
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+    const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+    const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+    let app, db, auth;
+    let userId;
+
+    // Initialize Firebase and authenticate
+    async function initFirebase() {
+      try {
+        app = initializeApp(firebaseConfig);
+        db = getFirestore(app);
+        auth = getAuth(app);
+
+        if (initialAuthToken) {
+          await signInWithCustomToken(auth, initialAuthToken);
+          console.log('Signed in with custom token.');
+        } else {
+          await signInAnonymously(auth);
+          console.log('Signed in anonymously.');
+        }
+        userId = auth.currentUser?.uid || crypto.randomUUID();
+        console.log('Firebase initialized. User ID:', userId);
+      } catch (error) {
+        console.error("Error initializing Firebase or signing in:", error);
+        // Fallback for when Firebase init fails (e.g., in a local dev env without Canvas)
+        userId = crypto.randomUUID();
+        console.warn("Firebase initialization failed, proceeding with anonymous user ID:", userId);
+      }
+    }
+
+    // Expose Firebase objects globally for about.js
+    window.firebaseApp = {
+      init: initFirebase,
+      getDb: () => db,
+      getAuth: () => auth,
+      getUserId: () => userId,
+      getAppId: () => appId
+    };
+  </script>
+
+  <!-- three.js library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- Your main JavaScript file -->
   <script src="about.js"></script>
 </body>
 </html>
