@@ -425,6 +425,47 @@ footer a:hover {
 
 
 
+
+
+
+
+.about-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 30px;
+  background: #000;
+  color: #fff;
+  border: 2px solid #fff;
+  text-decoration: none;
+  font-family: monospace;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.about-btn:hover {
+  background: #fff;
+  color: #000;
+}
+
+.cat-icon {
+  width: 40px;
+  height: 40px;
+  animation: float 2s infinite ease-in-out;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+  100% { transform: translateY(0px); }
+}
+
+
+
+
 /* Reset */
 * {
   margin: 0;
