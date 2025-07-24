@@ -570,7 +570,7 @@ body {
 
 .button {
   min-width: 200px;
-  min-height: 50px;
+  min-height: 30px;
   display: inline-flex;
   font-family: 'Nunito', sans-serif;
   font-size: 18px;
