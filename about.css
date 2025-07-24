@@ -6,11 +6,31 @@
 }
 
 body {
-  background: black;
+  background: black; /* Pure black background throughout initial phases */
   color: white;
-  font-family: monospace, sans-serif;
+  font-family: 'Courier New', monospace; /* Typing font for curiosity */
   overflow-x: hidden; /* Prevent horizontal scrolling */
   overflow-y: hidden; /* Prevent vertical scrolling initially */
+}
+
+/* --- Typing Animation --- */
+/* This is applied to elements that will have the typing effect */
+.typing-animation {
+  overflow: hidden; /* Ensures text is hidden until typed */
+  white-space: nowrap; /* Keeps text on a single line */
+  border-right: 0.15em solid white; /* The blinking caret */
+  /* Animation properties will be set by JS dynamically based on text length */
+}
+
+/* Cursor blink effect */
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: white; }
 }
 
 /* --- Preloader Styles --- */
@@ -20,47 +40,40 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: #000; /* Ensure black background */
+  background: #000; /* Pure black background */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
   z-index: 9999;
-  transition: background 1s ease-in-out, opacity 1s ease-in-out;
+  transition: opacity 1s ease-in-out; /* Only opacity transition, no background change */
 }
 
 #preloader-text {
-  font-size: 2rem;
+  font-size: 2.5rem; /* Slightly larger for cinematic impact */
   max-width: 90%;
   line-height: 1.4;
   padding: 20px;
-  opacity: 1;
-  transition: opacity 0.5s ease-in-out;
+  opacity: 0; /* Start hidden, will be revealed by JS typing */
 }
 
 #startBtn {
-  margin-top: 20px;
-  padding: 15px 40px;
-  font-size: 1.2rem;
+  margin-top: 40px; /* More space for dramatic effect */
+  padding: 18px 50px; /* Larger button */
+  font-size: 1.4rem; /* Larger font */
   font-weight: bold;
   background: #fff;
   color: #000;
   border: none;
   cursor: pointer;
   border-radius: 50px;
-  transition: background 0.3s, opacity 0.5s;
+  transition: background 0.3s, opacity 0.5s, transform 0.3s;
 }
 
 #startBtn:hover {
   background: #ddd;
-}
-
-/* Cinematic background for preloader */
-.cinematic-bg {
-  background: url('assets/image.jpeg') center center/cover no-repeat;
-  background-size: cover;
-  background-position: center;
+  transform: scale(1.05);
 }
 
 /* --- Choice Screen Styles --- */
@@ -70,14 +83,14 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.9); /* Semi-transparent overlay */
+  background: #000; /* Pure black background */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
-  z-index: 9998; /* Below preloader, above content paths */
-  opacity: 0; /* Starts hidden, fades in */
+  z-index: 9998;
+  opacity: 0;
   transition: opacity 0.5s ease-in-out;
 }
 
@@ -86,18 +99,21 @@ body {
   margin-bottom: 40px;
   color: #fff;
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  opacity: 0; /* Start hidden for typing effect */
 }
 
 .choice-buttons {
   display: flex;
   gap: 30px;
+  opacity: 0; /* Start hidden, fade in after text types */
+  transition: opacity 0.5s ease 0.5s; /* Delay fade-in */
 }
 
 .choice-button, .unplug-button {
   padding: 20px 50px;
   font-size: 1.5rem;
   font-weight: bold;
-  background: linear-gradient(45deg, #007bff, #00c6ff); /* Blue gradient */
+  background: linear-gradient(45deg, #007bff, #00c6ff);
   color: white;
   border: none;
   border-radius: 10px;
@@ -115,13 +131,13 @@ body {
 /* --- Content Path Base Styles --- */
 .content-path {
   width: 100%;
-  height: 100vh; /* Each path takes full viewport height */
-  overflow-y: auto; /* Enable scrolling within the path */
-  scroll-snap-type: y mandatory; /* Snap to sections */
-  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-  position: relative; /* For z-index and absolute positioning */
-  z-index: 1; /* Below choice screen */
-  display: none; /* Hidden by default, controlled by JS */
+  height: 100vh;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  -webkit-overflow-scrolling: touch;
+  position: relative;
+  z-index: 1;
+  display: none;
 }
 
 .layer {
@@ -130,12 +146,12 @@ body {
   justify-content: center;
   align-items: center;
   text-align: center;
-  scroll-snap-align: start; /* Snap to the start of each layer */
-  position: relative; /* For parallax effects */
+  scroll-snap-align: start;
+  position: relative;
   background-size: cover;
   background-position: center;
-  color: white; /* Default text color for layers */
-  padding: 20px; /* Add some padding */
+  color: white;
+  padding: 20px;
 }
 
 .layer-content {
@@ -144,9 +160,9 @@ body {
   background: rgba(0, 0, 0, 0.7); /* Semi-transparent background for text */
   border-radius: 10px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-  transform: translateY(0); /* Initial state for animation */
-  opacity: 1; /* Initial state for animation */
-  transition: transform 0.8s ease-out, opacity 0.8s ease-out; /* Smooth reveal */
+  transform: translateY(0);
+  opacity: 1;
+  transition: transform 0.8s ease-out, opacity 0.8s ease-out;
 }
 
 .layer h1, .layer h2, .layer h3 {
@@ -174,7 +190,10 @@ body {
 #matrix-path .layer-1 { background-color: #f0f0f0; }
 #matrix-path .layer-2 { background-color: #e0e0e0; }
 #matrix-path .layer-3 { background-color: #d0d0d0; }
-#matrix-path .layer-4 { background-color: #c0c0c0; } /* Buffer layer */
+#matrix-path .layer-4 { background-color: #c0c0c0; }
+#matrix-path .layer-5 { background-color: #b0b0b0; }
+#matrix-path .layer-6 { background-color: #a0a0a0; }
+
 
 /* Matrix Glitch Effect */
 .glitch-hint .layer-content {
@@ -182,29 +201,36 @@ body {
 }
 
 @keyframes subtle-glitch {
-  0% { filter: hue-rotate(0deg); transform: scale(1); }
-  25% { filter: hue-rotate(5deg); transform: scale(1.005); }
-  50% { filter: hue-rotate(0deg); transform: scale(1); }
-  75% { filter: hue-rotate(-5deg); transform: scale(0.995); }
-  100% { filter: hue-rotate(0deg); transform: scale(1); }
+  0% { filter: hue-rotate(0deg) brightness(1); transform: scale(1); }
+  25% { filter: hue-rotate(5deg) brightness(1.02); transform: scale(1.005); }
+  50% { filter: hue-rotate(0deg) brightness(1); transform: scale(1); }
+  75% { filter: hue-rotate(-5deg) brightness(0.98); transform: scale(0.995); }
+  100% { filter: hue-rotate(0deg) brightness(1); transform: scale(1); }
 }
 
 /* --- Unplugged Path Specific Styles --- */
 #unplugged-path .layer {
-  background-color: #1a1a1a; /* Dark, raw background */
+  background-color: #000; /* Deep black background */
   color: #eee; /* Light text */
-  transition: background-color 1s ease-in-out;
 }
 #unplugged-path .layer-content {
   background: rgba(0, 0, 0, 0.7);
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
 }
 
-#unplugged-path .layer-1 { background-image: url('https://placehold.co/1920x1080/333/fff?text=The+Beginning'); }
-#unplugged-path .layer-2 { background-image: url('https://placehold.co/1920x1080/555/fff?text=The+Grind'); }
-#unplugged-path .layer-3 { background-image: url('https://placehold.co/1920x1080/777/fff?text=The+Realization'); }
-#unplugged-path .layer-4 { background-image: url('https://placehold.co/1920x1080/999/fff?text=The+Transformation'); }
-#unplugged-path .layer-5 { background-image: url('https://placehold.co/1920x1080/bbb/fff?text=Your+Story'); } /* Final About Me layer */
+/* Thematic background images for Unplugged Path layers */
+/* REPLACE THESE WITH YOUR ACTUAL IMAGES */
+#unplugged-path .layer-1 { background-image: url('https://placehold.co/1920x1080/000/fff?text=The+Awakening'); }
+#unplugged-path .layer-2 { background-image: url('https://placehold.co/1920x1080/000/fff?text=Unseen+Currents'); }
+#unplugged-path .layer-3 { background-image: url('https://placehold.co/1920x1080/000/fff?text=Stillness+Found'); }
+#unplugged-path .layer-4 { background-image: url('https://placehold.co/1920x1080/000/fff?text=The+Mission'); }
+#unplugged-path .layer-5 { background-image: url('https://placehold.co/1920x1080/000/fff?text=New+Perspective'); }
+#unplugged-path .layer-6 { background-image: url('https://placehold.co/1920x1080/000/fff?text=Digital+Sculptor'); }
+#unplugged-path .layer-7 { background-image: url('https://placehold.co/1920x1080/000/fff?text=Purpose+Defined'); }
+#unplugged-path .layer-8 { background-image: url('https://placehold.co/1920x1080/000/fff?text=Inner+Fortress'); }
+#unplugged-path .layer-9 { background-image: url('https://placehold.co/1920x1080/000/fff?text=Unwritten+Rules'); }
+#unplugged-path .layer-10 { background-image: url('https://placehold.co/1920x1080/000/fff?text=Your+Story+Revealed'); }
+
 
 /* --- About Content (Final Section) Styles --- */
 #aboutContent {
