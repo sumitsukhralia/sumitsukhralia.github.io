@@ -169,9 +169,19 @@ body {
   width: 90%;
 }
 
-#name-input-container label {
-  font-size: 1.2rem;
+#name-input-label {
+  font-size: 1.8rem; /* Larger for "Who are you?" */
   color: #fff;
+  opacity: 0; /* Hidden initially, typed by JS */
+  margin-bottom: 5px; /* Space below label */
+}
+
+#name-input-hint {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.7);
+  opacity: 0; /* Hidden initially, faded in/out by JS */
+  transition: opacity 0.5s ease-out;
+  margin-bottom: 10px; /* Space above input */
 }
 
 #visitorName {
@@ -311,39 +321,28 @@ body {
   line-height: 1.5;
 }
 
+/* Headings with subtle purple gradient */
+.timeline h1, .timeline h2, .timeline h3 {
+  background: linear-gradient(90deg, #a720ff, #6a0dad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  font-weight: bold;
+  margin-bottom: 15px;
+  font-size: 2.2rem; /* Adjust as needed */
+}
+
+/* Override for timeline specific heading sizes */
+.timeline .container h1 { font-size: 2.2rem; }
+.timeline .container h2 { font-size: 1.8rem; }
+.timeline .container h3 { font-size: 1.5rem; }
+
+
 /* Final story container styles */
-.final-story-container {
+.final-timeline-entry {
   margin-top: 6rem; /* Extra space before final section */
   margin-bottom: 4rem; /* Space at the bottom */
-}
-
-#aboutContentParagraph {
-  font-size: 1.3rem;
-  line-height: 1.6;
-  max-width: 600px;
-  margin: 20px auto;
-  color: #fff;
-}
-
-.back-home-button {
-  padding: 12px 30px;
-  font-size: 1rem;
-  background: linear-gradient(45deg, #6a0dad, #a720ff);
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: 0.3s;
-  margin-top: 30px;
-}
-
-.back-home-button:hover {
-  background: linear-gradient(45deg, #a720ff, #6a0dad);
-  transform: translateY(-2px);
-}
-
-.back-home-button i {
-  margin-right: 8px;
 }
 
 /* --- Mobile Optimizations --- */
@@ -353,8 +352,7 @@ body {
   }
 
   #preloader-text,
-  #quote-text,
-  .choice-text {
+  #quote-text {
     font-size: 1.6rem;
     padding: 10px;
   }
@@ -365,8 +363,12 @@ body {
     margin-top: 25px;
   }
 
-  #name-input-container label {
-    font-size: 1rem;
+  #name-input-label {
+    font-size: 1.4rem; /* Smaller for mobile */
+  }
+
+  #name-input-hint {
+    font-size: 0.9rem;
   }
 
   #visitorName {
@@ -398,10 +400,14 @@ body {
     left: 0%; /* Stack all containers on the left for mobile */
   }
 
-  .layer h1, .layer h2, .layer h3 {
-    font-size: 1.8rem;
+  .timeline h1, .timeline h2, .timeline h3 {
+    font-size: 1.8rem; /* Smaller headings */
     margin-bottom: 10px;
   }
+
+  .timeline .container h1 { font-size: 1.8rem; }
+  .timeline .container h2 { font-size: 1.5rem; }
+  .timeline .container h3 { font-size: 1.3rem; }
 
   .layer p {
     font-size: 0.95rem;
@@ -411,9 +417,5 @@ body {
 
   .layer-content {
     padding: 20px;
-  }
-
-  #aboutContentParagraph {
-    font-size: 1.1rem;
   }
 }
