@@ -451,11 +451,7 @@ footer a:hover {
   color: #000;
 }
 
-.cat-icon {
-  width: 40px;
-  height: 40px;
-  animation: float 2s infinite ease-in-out;
-}
+
 
 @keyframes float {
   0% { transform: translateY(0px); }
@@ -564,15 +560,12 @@ body {
 
 
 
-html, body {
-  height: 100%;
-}
-
-.wrap {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+body {
+  background: #fff;
+  color: #000;
+  font-family: 'Nunito', sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 .button {
@@ -597,7 +590,7 @@ html, body {
   cursor: pointer;
   outline: none;
   position: relative;
-  padding: 10px;
+  padding: 10px 30px;
   text-decoration: none;
 }
 
