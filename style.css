@@ -442,18 +442,18 @@ body {
 
 /* BUTTON STYLE */
 .button {
-  min-width: 200px;
-  min-height: 50px;
+  min-width: 150px;
+  min-height: 30px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   font-family: 'Nunito', sans-serif;
-  font-size: 18px;
+  font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 1.3px;
   font-weight: 700;
   color: #fff;
-  background: transparent;    /* ✅ Transparent background */
+  background: ;   /* ✅ Transparent background */
   border: 2px solid #fff;     /* ✅ White border */
   border-radius: 1000px;      /* ✅ Fully rounded */
   text-decoration: none;
