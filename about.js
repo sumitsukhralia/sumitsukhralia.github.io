@@ -40,5 +40,12 @@ document.addEventListener('DOMContentLoaded', () => {
     };
   }
 
+
   runPreloader();
+});
+
+
+
+video.play().catch((err) => {
+  console.log("Autoplay failed, user must click: ", err);
 });
