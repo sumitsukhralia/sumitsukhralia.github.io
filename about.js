@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         particles = new THREE.Points(geometry, particleMaterial);
         scene.add(particles);
-
+        /*--okk--*/
         camera.position.z = 200;
 
         document.addEventListener('mousemove', onDocumentMouseMove, false);
@@ -209,7 +209,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         animatedVoidScreen.style.opacity = '1';
 
         await typeText(quoteText, 'Some truths are not found, but forged.', 70);
-        await new Promise(r => setTimeout(r, 1500));
+        await new Promise(r => setTimeout(r, 1000));
 
         // Fade in name input container
         nameInputContainer.style.opacity = '1';
@@ -222,7 +222,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Show and fade out hint
         nameInputHint.textContent = 'A designation for access...'; // Updated hint text
         nameInputHint.style.opacity = '1';
-        await new Promise(r => setTimeout(r, 2000)); // Display hint for 2 seconds
+        await new Promise(r => setTimeout(r, 1000)); // Display hint for 2 seconds
         nameInputHint.style.opacity = '0';
         await new Promise(r => setTimeout(r, 500)); // Wait for hint to fade
 
@@ -233,7 +233,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // --- Timeline Autoscroll Logic ---
     let autoscrollInterval;
     let isUserScrolling = false;
-    const scrollSpeed = 3; // Pixels per interval - Made 1.5x faster (from 2 to 3)
+    const scrollSpeed = 5; // Pixels per interval - Made 1.5x faster (from 2 to 3)
     const scrollIntervalTime = 30; // Milliseconds - Kept same for smoother steps
 
     function startAutoscroll() {
