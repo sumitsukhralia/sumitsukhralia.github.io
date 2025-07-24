@@ -5,9 +5,13 @@
   box-sizing: border-box;
 }
 
-body {
-  font-family: monospace, sans-serif;
-  
+
+  body.about-page {
+  background: black;
+  color: white;
+    font-family: monospace, sans-serif;
+}
+
   color: #fff;
   overflow: hidden; /* prevent scroll during preloader/video */
 }
