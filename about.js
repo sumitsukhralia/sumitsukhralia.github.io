@@ -1,156 +1,314 @@
-document.addEventListener('DOMContentLoaded', () => {
+// Global variables for Firebase (will be populated by the script tag in HTML)
+let firebaseDb, firebaseAuth, currentUserId, currentAppId;
+
+document.addEventListener('DOMContentLoaded', async () => {
     // Get references to all necessary DOM elements
+    const boomContainer = document.getElementById('boom-container');
     const preloader = document.getElementById('preloader');
     const preloaderText = document.getElementById('preloader-text');
     const startBtn = document.getElementById('startBtn');
-    const choiceScreen = document.getElementById('choice-screen');
-    const choiceText = choiceScreen.querySelector('.choice-text'); // Get choice screen text element
-    const choiceButtonsContainer = choiceScreen.querySelector('.choice-buttons'); // Get choice buttons container
-    const matrixPathBtn = document.getElementById('matrixPathBtn');
-    const unpluggedPathBtn = document.getElementById('unpluggedPathBtn');
-    const matrixPath = document.getElementById('matrix-path');
-    const unpluggedPath = document.getElementById('unplugged-path');
-    const unplugFromMatrixBtn = document.getElementById('unplugFromMatrixBtn');
-    const aboutContent = document.getElementById('aboutContent');
-    const aboutParagraph = aboutContent.querySelector('p');
-    const backHome = document.getElementById('backHome');
+    const animatedVoidScreen = document.getElementById('animated-void-screen');
+    const threeJsCanvas = document.getElementById('threeJsCanvas');
+    const quoteText = document.getElementById('quote-text');
+    const nameInputContainer = document.getElementById('name-input-container');
+    const visitorNameInput = document.getElementById('visitorName');
+    const submitNameBtn = document.getElementById('submitNameBtn');
+    const statusMessage = document.getElementById('status-message');
+    const timelinePath = document.getElementById('timeline-path');
+    const timelineContainers = document.querySelectorAll('.timeline .container');
+    const aboutContentParagraph = document.getElementById('aboutContentParagraph');
+    const backHomeBtn = document.getElementById('backHomeBtn');
 
-    // Select all layer content elements for scroll animations
-    const layerContents = document.querySelectorAll('.layer-content');
+    console.log('DOM Content Loaded. Initializing game-like experience...');
 
-    console.log('DOM Content Loaded. Initializing mysterious cinematic experience...');
+    // --- Firebase Initialization ---
+    // Wait for the Firebase SDK to be loaded and exposed globally by the HTML script tag
+    if (window.firebaseApp && typeof window.firebaseApp.init === 'function') {
+        await window.firebaseApp.init();
+        firebaseDb = window.firebaseApp.getDb();
+        firebaseAuth = window.firebaseApp.getAuth();
+        currentUserId = window.firebaseApp.getUserId();
+        currentAppId = window.firebaseApp.getAppId();
+        console.log('Firebase services available.');
+    } else {
+        console.error('Firebase SDK not loaded or initialized correctly.');
+        // Fallback for local testing without Canvas Firebase setup
+        firebaseDb = null;
+        firebaseAuth = null;
+        currentUserId = crypto.randomUUID();
+        currentAppId = 'local-dev-app';
+    }
+
 
     // --- Initial Setup ---
-    preloader.style.display = 'flex';
-    choiceScreen.style.display = 'none';
-    matrixPath.style.display = 'none';
-    unpluggedPath.style.display = 'none';
+    boomContainer.style.display = 'flex'; // Show boom container initially
+    preloader.style.display = 'none';
+    animatedVoidScreen.style.display = 'none';
+    timelinePath.style.display = 'none';
     document.body.style.overflow = 'hidden'; // Prevent scrolling initially
 
-    // Initially hide all layer content for fade-in effect
-    layerContents.forEach(content => content.classList.add('hidden'));
+    // Hide overlay elements on animated void screen
+    quoteText.style.opacity = '0';
+    nameInputContainer.style.opacity = '0';
+
+    // Hide all timeline items initially
+    timelineContainers.forEach(container => container.classList.remove('visible'));
+
+    // --- Boom Effect ---
+    function triggerBoomEffect() {
+        boomContainer.classList.add('boom-effect');
+        setTimeout(() => {
+            boomContainer.style.display = 'none';
+            boomContainer.classList.remove('boom-effect');
+            showPreloader(); // Proceed to preloader after boom
+        }, 500); // Match boom-flash animation duration
+    }
+
+    // --- Preloader Sequence ---
+    function showPreloader() {
+        preloader.style.display = 'flex';
+        // Force reflow for transition
+        void preloader.offsetWidth;
+        preloader.style.opacity = '1';
+        startBtn.style.opacity = '1';
+        startBtn.style.pointerEvents = 'auto'; // Enable button
+    }
 
     // --- Typing Animation Function ---
     async function typeText(element, text, delay = 70) {
-        element.textContent = ''; // Clear existing text
-        element.classList.add('typing-animation'); // Add typing animation class
-        element.style.opacity = '1'; // Make sure element is visible
+        element.textContent = '';
+        element.classList.add('typing-animation');
+        element.style.opacity = '1';
 
-        // Calculate animation duration based on text length and delay
-        const animationDuration = (text.length * delay) / 1000; // in seconds
+        const animationDuration = (text.length * delay) / 1000;
         element.style.animation = `typing ${animationDuration}s steps(${text.length}, end), blink-caret .75s step-end infinite`;
 
-        // Manually type text for browsers that don't fully support CSS typing on content change
-        // This also ensures the text is fully present for screen readers immediately
+        // Manually set text content for immediate rendering and accessibility
         element.textContent = text;
 
         return new Promise(resolve => {
-            // Wait for the animation to complete
             setTimeout(() => {
-                element.classList.remove('typing-animation'); // Remove typing animation class
-                element.style.animation = ''; // Clear animation property
+                element.classList.remove('typing-animation');
+                element.style.animation = '';
                 resolve();
-            }, animationDuration * 1000 + 100); // Add a small buffer
+            }, animationDuration * 1000 + 100);
         });
     }
 
+    // --- Three.js Animated Void ---
+    let scene, camera, renderer, particles, particleMaterial, particleCount;
+    let mouseX = 0, mouseY = 0;
+    let windowHalfX = window.innerWidth / 2;
+    let windowHalfY = window.innerHeight / 2;
 
-    // --- Main Cinematic Preloader Sequence ---
-    async function runCinematicSequence() {
-        console.log('Cinematic sequence started.');
-        startBtn.style.opacity = '0';
-        startBtn.style.pointerEvents = 'none';
-        await new Promise(r => setTimeout(r, 500)); // Wait for button to fade
+    function initThreeJs() {
+        scene = new THREE.Scene();
+        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        renderer = new THREE.WebGLRenderer({ canvas: threeJsCanvas, alpha: true }); // alpha: true for transparent background
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio); // For sharper rendering
 
-        // Type out the cinematic phrase
-        await typeText(preloaderText, 'A journey began. A path diverged. Est. 2005.', 70); // Adjust delay as needed
-        await new Promise(r => setTimeout(r, 2000)); // Pause after typing
+        // Particle System
+        particleCount = 1000;
+        const geometry = new THREE.BufferGeometry();
+        const positions = [];
+        const colors = [];
+        const color = new THREE.Color();
 
-        // Fade out preloader and show choice screen
+        for (let i = 0; i < particleCount; i++) {
+            // Position particles randomly in a cube
+            positions.push(
+                (Math.random() * 2 - 1) * 500, // x
+                (Math.random() * 2 - 1) * 500, // y
+                (Math.random() * 2 - 1) * 500  // z
+            );
+            // Assign a random color, leaning towards blues/purples for mystery
+            color.setHSL(Math.random() * 0.2 + 0.6, 0.7, 0.5); // Hue between blue and purple
+            colors.push(color.r, color.g, color.b);
+        }
+
+        geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+        geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+
+        particleMaterial = new THREE.PointsMaterial({
+            size: 2,
+            vertexColors: true,
+            blending: THREE.AdditiveBlending, // For glowing effect
+            transparent: true,
+            opacity: 0.7
+        });
+
+        particles = new THREE.Points(geometry, particleMaterial);
+        scene.add(particles);
+
+        camera.position.z = 200;
+
+        // Add event listeners for mouse interaction
+        document.addEventListener('mousemove', onDocumentMouseMove, false);
+        document.addEventListener('touchstart', onDocumentTouchStart, false);
+        document.addEventListener('touchmove', onDocumentTouchMove, false);
+
+        window.addEventListener('resize', onWindowResize, false);
+    }
+
+    function onDocumentMouseMove(event) {
+        mouseX = event.clientX - windowHalfX;
+        mouseY = event.clientY - windowHalfY;
+    }
+
+    function onDocumentTouchStart(event) {
+        if (event.touches.length === 1) {
+            event.preventDefault();
+            mouseX = event.touches[0].pageX - windowHalfX;
+            mouseY = event.touches[0].pageY - windowHalfY;
+        }
+    }
+
+    function onDocumentTouchMove(event) {
+        if (event.touches.length === 1) {
+            event.preventDefault();
+            mouseX = event.touches[0].pageX - windowHalfX;
+            mouseY = event.touches[0].pageY - windowHalfY;
+        }
+    }
+
+    function onWindowResize() {
+        windowHalfX = window.innerWidth / 2;
+        windowHalfY = window.innerHeight / 2;
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    function animateThreeJs() {
+        requestAnimationFrame(animateThreeJs);
+
+        // Rotate particles slowly
+        particles.rotation.x += 0.0005;
+        particles.rotation.y += 0.001;
+
+        // Move particles slightly
+        particles.geometry.attributes.position.array.forEach((_, i) => {
+            if (i % 3 === 0) particles.geometry.attributes.position.array[i] += Math.sin(Date.now() * 0.0001 + i) * 0.1;
+            if (i % 3 === 1) particles.geometry.attributes.position.array[i] += Math.cos(Date.now() * 0.0001 + i) * 0.1;
+        });
+        particles.geometry.attributes.position.needsUpdate = true;
+
+
+        // Camera movement based on mouse/touch
+        camera.position.x += (mouseX * 0.1 - camera.position.x) * 0.05;
+        camera.position.y += (-mouseY * 0.1 - camera.position.y) * 0.05;
+        camera.lookAt(scene.position);
+
+        renderer.render(scene, camera);
+    }
+
+    // --- Main Game-like Sequence ---
+    async function runGameSequence() {
+        console.log('Game sequence started.');
         preloader.style.opacity = '0';
-        await new Promise(r => setTimeout(r, 1000)); // Wait for preloader to fade out
+        preloader.style.pointerEvents = 'none'; // Disable clicks on preloader
+        await new Promise(r => setTimeout(r, 1000)); // Wait for preloader to fade
+
         preloader.style.display = 'none';
+        animatedVoidScreen.style.display = 'block'; // Show animated void screen
+        initThreeJs(); // Initialize Three.js
+        animateThreeJs(); // Start Three.js animation loop
 
-        choiceScreen.style.display = 'flex';
-        void choiceScreen.offsetWidth; // Force reflow
-        choiceScreen.style.opacity = '1';
+        // Force reflow for transition
+        void animatedVoidScreen.offsetWidth;
+        animatedVoidScreen.style.opacity = '1';
 
-        // Type out choice screen text
-        await typeText(choiceText, 'Which reality will you explore?', 70);
-        choiceButtonsContainer.style.opacity = '1'; // Fade in buttons after text types
-        console.log('Preloader hidden, choice screen shown, text typed.');
+        // Type out the quote
+        await typeText(quoteText, 'Some truths are not found, but forged.', 70);
+        await new Promise(r => setTimeout(r, 1500)); // Pause after quote
+
+        // Fade in name input container
+        nameInputContainer.style.opacity = '1';
+        nameInputContainer.style.pointerEvents = 'auto'; // Enable input/button
+        visitorNameInput.focus(); // Focus on input field
+        console.log('Animated void and name input shown.');
     }
 
-    // --- Handle Path Selection ---
-    function activatePath(pathElement) {
-        choiceScreen.style.opacity = '0';
-        choiceScreen.style.pointerEvents = 'none';
+    // --- Timeline Autoscroll Logic ---
+    let autoscrollInterval;
+    let isUserScrolling = false;
+    const scrollSpeed = 1; // Pixels per interval
+    const scrollIntervalTime = 50; // Milliseconds
+
+    function startAutoscroll() {
+        if (autoscrollInterval) clearInterval(autoscrollInterval); // Clear any existing interval
+
+        autoscrollInterval = setInterval(() => {
+            if (!isUserScrolling) {
+                timelinePath.scrollBy(0, scrollSpeed);
+            }
+            // Check if reached end
+            if (timelinePath.scrollTop + timelinePath.clientHeight >= timelinePath.scrollHeight - 5) { // -5 for buffer
+                clearInterval(autoscrollInterval);
+                console.log('Timeline end reached. Triggering boom effect.');
+                triggerTimelineEndBoom();
+            }
+        }, scrollIntervalTime);
+    }
+
+    function stopAutoscroll() {
+        clearInterval(autoscrollInterval);
+    }
+
+    function handleTimelineScroll() {
+        isUserScrolling = true;
+        // Reset user scrolling flag after a short delay
+        clearTimeout(timelinePath.scrollTimeout);
+        timelinePath.scrollTimeout = setTimeout(() => {
+            isUserScrolling = false;
+        }, 200); // Adjust this delay as needed
+    }
+
+    // --- Timeline End Boom Effect ---
+    function triggerTimelineEndBoom() {
+        const timelineBoomOverlay = document.createElement('div');
+        timelineBoomOverlay.id = 'timeline-boom-overlay';
+        timelineBoomOverlay.style.cssText = `
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: #000;
+            z-index: 10001;
+            opacity: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 3rem;
+            text-shadow: 0 0 20px rgba(255,255,255,0.8);
+            animation: timeline-boom-flash 0.8s ease-out forwards;
+        `;
+        document.body.appendChild(timelineBoomOverlay);
+
+        // After boom, reveal final content and remove overlay
         setTimeout(() => {
-            choiceScreen.style.display = 'none';
-            pathElement.style.display = 'block'; // Show the selected path
-            document.body.style.overflowY = 'auto'; // Enable scrolling for the path
-            pathElement.scrollTop = 0; // Reset scroll position to top for the new path
-            console.log('Path activated:', pathElement.id);
-
-            // Trigger initial reveal for the first visible layer
-            const firstLayerContent = pathElement.querySelector('.layer-content');
-            if (firstLayerContent) {
-                firstLayerContent.classList.remove('hidden');
-            }
-        }, 500); // Match choice screen fade-out time
+            timelineBoomOverlay.remove();
+            // Ensure the final story paragraph is visible and generated
+            aboutContentParagraph.style.opacity = '1';
+            aboutContentParagraph.style.transform = 'translateY(0)';
+            generateAboutParagraph();
+            backHomeBtn.style.opacity = '1';
+            backHomeBtn.style.pointerEvents = 'auto';
+        }, 800); // Match timeline-boom-flash animation duration
     }
 
-    // --- Scroll Animation Logic ---
-    function handleScrollAnimations() {
-        // Determine which path is currently active
-        const currentPath = matrixPath.style.display === 'block' ? matrixPath : (unpluggedPath.style.display === 'block' ? unpluggedPath : null);
-
-        if (!currentPath) return; // Only run if a path is active
-
-        const scrollPosition = currentPath.scrollTop + window.innerHeight * 0.8; // Trigger point 80% down the viewport
-
-        currentPath.querySelectorAll('.layer-content').forEach(content => {
-            const layer = content.closest('.layer');
-            if (!layer) return;
-
-            const layerTop = layer.offsetTop;
-            const layerBottom = layerTop + layer.offsetHeight;
-
-            // Check if the layer is in the viewport (or approaching)
-            if (scrollPosition > layerTop && currentPath.scrollTop < layerBottom) {
-                content.classList.remove('hidden');
-            } else {
-                // Optionally hide content that's far out of view to reset animations on re-scroll
-                // content.classList.add('hidden');
-            }
-        });
-
-        // Check if user has scrolled to the final 'aboutContent' section on unplugged path
-        if (currentPath.id === 'unplugged-path') {
-            const aboutContentSection = document.getElementById('aboutContent');
-            if (aboutContentSection) {
-                const aboutContentRect = aboutContentSection.getBoundingClientRect();
-                // If aboutContent is mostly in view and paragraph not yet generated
-                if (aboutContentRect.top < window.innerHeight * 0.5 && aboutContentRect.bottom > 0 && aboutParagraph.textContent === 'Loading your deeper story...') {
-                    generateAboutParagraph();
-                }
-            }
-        }
-    }
-
-    // --- Function to Generate About Paragraph ---
+    // --- Function to Generate About Paragraph (20 words) ---
     async function generateAboutParagraph() {
-        if (aboutParagraph.textContent !== 'Loading your deeper story...') {
-            // Already generated or being generated
-            return;
+        if (aboutContentParagraph.textContent !== 'Loading your deeper story...') {
+            return; // Already generated or being generated
         }
-        console.log('Generating about paragraph...');
-        // UPDATED AI PROMPT for stoic and expanded themes
-        const prompt = "Generate a 30-word paragraph about a mind's journey from an unchosen path (biochemistry) to a consuming passion (computer science), driven by a mysterious mission to understand and reshape unseen human systems through unconventional methods, relentless curiosity, and a stoic pursuit of inner clarity and control.";
+        console.log('Generating final about paragraph...');
+        const prompt = "Generate a concise, mysterious 20-word paragraph about a mind's journey from an unchosen biological path to a consuming passion for computer science, driven by a stoic mission to reshape unseen human systems.";
         let chatHistory = [];
         chatHistory.push({ role: "user", parts: [{ text: prompt }] });
         const payload = { contents: chatHistory };
-        const apiKey = ""; // Leave as empty string; Canvas will provide it at runtime
+        const apiKey = ""; // Canvas will provide it at runtime
         const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
         try {
@@ -165,56 +323,118 @@ document.addEventListener('DOMContentLoaded', () => {
                 result.candidates[0].content && result.candidates[0].content.parts &&
                 result.candidates[0].content.parts.length > 0) {
                 const generatedText = result.candidates[0].content.parts[0].text;
-                aboutParagraph.textContent = generatedText;
+                aboutContentParagraph.textContent = generatedText;
                 console.log('About paragraph generated successfully.');
             } else {
                 console.error("LLM response structure unexpected:", result);
-                aboutParagraph.textContent = "A profound journey from biological intricacies to digital architecture, driven by an enigmatic quest to decode and influence the subtle currents of human interaction. A silent mission, fueled by insatiable curiosity, embracing stoic clarity."; // Fallback with stoic hint
+                aboutContentParagraph.textContent = "A mind diverged from biology to code, driven by a stoic quest to reshape unseen human systems. A silent mission, forged in curiosity, now unfolds."; // Fallback
             }
         } catch (error) {
             console.error("Error fetching LLM content:", error);
-            aboutParagraph.textContent = "A profound journey from biological intricacies to digital architecture, driven by an enigmatic quest to decode and influence the subtle currents of human interaction. A silent mission, fueled by insatiable curiosity, embracing stoic clarity."; // Fallback
+            aboutContentParagraph.textContent = "A mind diverged from biology to code, driven by a stoic quest to reshape unseen human systems. A silent mission, forged in curiosity, now unfolds."; // Fallback
         }
     }
 
     // --- Event Listeners ---
-    startBtn.onclick = runCinematicSequence;
-    matrixPathBtn.onclick = () => activatePath(matrixPath);
-    unpluggedPathBtn.onclick = () => activatePath(unpluggedPath);
+    // Initial boom on page load
+    window.onload = triggerBoomEffect;
 
-    unplugFromMatrixBtn.onclick = () => {
-        console.log('Unplug from Matrix button clicked. Initiating intense glitch and transition.');
-        // Apply intense glitch effect before transition
-        document.body.style.filter = 'hue-rotate(90deg) saturate(200%) invert(100%)';
-        document.body.style.transition = 'filter 0.2s ease-in-out';
+    startBtn.onclick = runGameSequence;
 
-        setTimeout(() => {
-            document.body.style.filter = 'none'; // Reset filter
-            document.body.style.transition = 'none'; // Remove transition for immediate display change
+    submitNameBtn.onclick = async () => {
+        const visitorName = visitorNameInput.value.trim();
+        if (visitorName) {
+            statusMessage.style.opacity = '1';
+            statusMessage.textContent = 'Processing...';
 
-            matrixPath.style.display = 'none';
-            unpluggedPath.style.display = 'block';
-            unpluggedPath.scrollTop = 0; // Scroll to top of unplugged path
-            document.body.style.overflowY = 'auto'; // Ensure scrolling is enabled
+            if (firebaseDb) {
+                try {
+                    const visitorsCollectionRef = collection(firebaseDb, `artifacts/${currentAppId}/public/data/visitors`);
+                    await addDoc(visitorsCollectionRef, {
+                        name: visitorName,
+                        userId: currentUserId, // Store user ID
+                        timestamp: new Date()
+                    });
+                    statusMessage.textContent = 'Access Granted. Welcome.';
+                    console.log('Visitor name submitted to Firestore:', visitorName);
 
-            // Trigger initial reveal for the first visible layer of unplugged path
-            const firstLayerContent = unpluggedPath.querySelector('.layer-content');
-            if (firstLayerContent) {
-                firstLayerContent.classList.remove('hidden');
+                    // Transition to timeline
+                    setTimeout(() => {
+                        animatedVoidScreen.style.opacity = '0';
+                        animatedVoidScreen.style.pointerEvents = 'none';
+                        setTimeout(() => {
+                            animatedVoidScreen.style.display = 'none';
+                            timelinePath.style.display = 'block';
+                            void timelinePath.offsetWidth; // Force reflow
+                            timelinePath.style.opacity = '1';
+                            document.body.style.overflowY = 'auto'; // Enable scrolling for timeline
+                            startAutoscroll(); // Start autoscroll
+                            console.log('Transitioned to timeline path.');
+                        }, 1000); // Match fade out duration
+                    }, 1500); // Show status message for a bit
+                } catch (error) {
+                    console.error("Error submitting name to Firestore:", error);
+                    statusMessage.textContent = 'Error. Try again.';
+                    // Fallback to timeline even on error
+                    setTimeout(() => {
+                        animatedVoidScreen.style.opacity = '0';
+                        animatedVoidScreen.style.pointerEvents = 'none';
+                        setTimeout(() => {
+                            animatedVoidScreen.style.display = 'none';
+                            timelinePath.style.display = 'block';
+                            void timelinePath.offsetWidth;
+                            timelinePath.style.opacity = '1';
+                            document.body.style.overflowY = 'auto';
+                            startAutoscroll();
+                            console.log('Transitioned to timeline path (with Firestore error).');
+                        }, 1000);
+                    }, 1500);
+                }
+            } else {
+                // Fallback for when Firebase is not initialized
+                statusMessage.textContent = 'Access Granted (offline). Welcome.';
+                console.warn('Firestore not available, name not stored.');
+                setTimeout(() => {
+                    animatedVoidScreen.style.opacity = '0';
+                    animatedVoidScreen.style.pointerEvents = 'none';
+                    setTimeout(() => {
+                        animatedVoidScreen.style.display = 'none';
+                        timelinePath.style.display = 'block';
+                        void timelinePath.offsetWidth;
+                        timelinePath.style.opacity = '1';
+                        document.body.style.overflowY = 'auto';
+                        startAutoscroll();
+                        console.log('Transitioned to timeline path (Firebase not initialized).');
+                    }, 1000);
+                }, 1500);
             }
-        }, 300); // Short delay for glitch effect
+        } else {
+            statusMessage.style.opacity = '1';
+            statusMessage.textContent = 'Please enter your designation.';
+        }
     };
 
-    // Attach scroll event listener to the window and content paths
-    window.addEventListener('scroll', handleScrollAnimations);
-    matrixPath.addEventListener('scroll', handleScrollAnimations);
-    unpluggedPath.addEventListener('scroll', handleScrollAnimations);
+    // Event listener for timeline scroll to detect manual scrolling
+    timelinePath.addEventListener('scroll', handleTimelineScroll);
 
-    backHome.onclick = () => {
+    // Observer to reveal timeline items as they enter view
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            } else {
+                // Optional: remove 'visible' class if item scrolls out of view
+                // entry.target.classList.remove('visible');
+            }
+        });
+    }, { threshold: 0.5 }); // Trigger when 50% of the item is visible
+
+    timelineContainers.forEach(container => {
+        observer.observe(container);
+    });
+
+    backHomeBtn.onclick = () => {
         console.log('Back Home button clicked.');
         window.location.href = 'index.html';
     };
-
-    // Initial check for scroll animations in case content is already visible on load
-    handleScrollAnimations();
 });
