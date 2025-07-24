@@ -8,14 +8,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const backHome = document.getElementById('backHome');
 
   function showText(text) {
-    preloaderText.textContent = text;
+    preloaderText.innerHTML = text; // Use HTML to keep <br> and <em>
   }
 
   async function runPreloader() {
     showText('Make sure you have turned on sound to 70% for best experience.');
     await new Promise(r => setTimeout(r, 2000));
 
-    showText('“Life is a race, if you don’t run fast, you’ll be a broken anda.”');
+    showText('“Life is a race. If you don’t run fast, you’ll be like a broken anda.”');
     await new Promise(r => setTimeout(r, 4000));
 
     preloader.style.display = 'none';
