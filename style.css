@@ -569,11 +569,11 @@ body {
 }
 
 .button {
-  min-width: 300px;
-  min-height: 60px;
+  min-width: 200px;
+  min-height: 50px;
   display: inline-flex;
   font-family: 'Nunito', sans-serif;
-  font-size: 22px;
+  font-size: 18px;
   align-items: center;
   justify-content: center;
   text-transform: uppercase;
@@ -590,7 +590,7 @@ body {
   cursor: pointer;
   outline: none;
   position: relative;
-  padding: 10px 30px;
+  padding: 8px 20px;
   text-decoration: none;
 }
 
