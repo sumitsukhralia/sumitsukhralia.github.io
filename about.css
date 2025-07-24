@@ -7,7 +7,7 @@
 
 body {
   font-family: monospace, sans-serif;
-  background: #000; /* fallback background */
+  
   color: #fff;
   overflow: hidden; /* prevent scroll during preloader/video */
 }
