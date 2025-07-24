@@ -426,43 +426,7 @@ footer a:hover {
 
 
 
-
-
-
-.about-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 15px 30px;
-  background: #000;
-  color: #fff;
-  border: 2px solid #fff;
-  text-decoration: none;
-  font-family: monospace;
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.about-btn:hover {
-  background: #fff;
-  color: #000;
-}
-
-
-
-@keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-5px); }
-  100% { transform: translateY(0px); }
-}
-
-
-
-
-/* Reset */
+/* RESET */
 * {
   margin: 0;
   padding: 0;
@@ -470,149 +434,56 @@ footer a:hover {
 }
 
 body {
-  background: black;
-  color: white;
-  font-family: monospace;
-  overflow: hidden; /* prevent scroll during preloader/video */
-}
-
-/* Preloader */
-#preloader {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100%;
-  background: black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  z-index: 9999;
-}
-
-#preloader-text {
-  font-size: 2rem;
-  color: white;
-}
-
-.quote-bg {
-  background: url('assets/images.jpeg') center/cover no-repeat;
-}
-
-/* Video */
-#video-container {
-  display: none;
-  width: 100%;
-  height: 100vh;
-}
-
-#aboutVideo {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* About Content */
-#aboutContent {
-  display: none;
-  padding: 40px;
-  text-align: center;
-}
-
-#aboutContent h1 {
-  font-size: 2.5rem;
-  margin-bottom: 20px;
-}
-
-#aboutContent p {
-  font-size: 1.2rem;
-  max-width: 700px;
-  margin: 0 auto 40px;
-}
-
-#aboutContent button {
-  padding: 12px 30px;
-  font-size: 1rem;
-  background: #fff;
-  color: #000;
-  border: none;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-#aboutContent button:hover {
-  background: #999;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-body {
-  background: #fff;
-  color: #000;
+  background: #000;      /* Black background */
+  color: #fff;           /* White text by default */
   font-family: 'Nunito', sans-serif;
-  margin: 0;
-  padding: 0;
+  overflow-x: hidden;
 }
 
+/* BUTTON STYLE */
 .button {
   min-width: 200px;
-  min-height: 30px;
+  min-height: 50px;
   display: inline-flex;
-  font-family: 'Nunito', sans-serif;
-  font-size: 18px;
   align-items: center;
   justify-content: center;
+  font-family: 'Nunito', sans-serif;
+  font-size: 18px;
   text-transform: uppercase;
-  text-align: center;
   letter-spacing: 1.3px;
   font-weight: 700;
   color: #fff;
-  background: #333;
-  background: linear-gradient(90deg, #333 0%, #555 100%);
-  border: none;
-  border-radius: 1000px;
-  box-shadow: 12px 12px 24px rgba(255,255,255,.2);
-  transition: all 0.3s ease-in-out 0s;
+  background: transparent;    /* ✅ Transparent background */
+  border: 2px solid #fff;     /* ✅ White border */
+  border-radius: 1000px;      /* ✅ Fully rounded */
+  text-decoration: none;
   cursor: pointer;
   outline: none;
   position: relative;
-  padding: 8px 20px;
-  text-decoration: none;
+  padding: 12px 30px;
+  transition: all 0.3s ease-in-out 0s;
+}
+
+.button:hover,
+.button:focus {
+  transform: translateY(-6px);
+  color: #000;                /* Invert text color on hover */
+  background: #fff;           /* Fill white on hover */
 }
 
 .button::before {
   content: '';
   border-radius: 1000px;
-  min-width: calc(300px + 12px);
-  min-height: calc(60px + 12px);
-  border: 6px solid #fff;
-  box-shadow: 0 0 60px rgba(255,255,255,.4);
+  min-width: calc(200px + 12px);
+  min-height: calc(50px + 12px);
+  border: 2px solid #fff;
+  box-shadow: 0 0 60px rgba(255, 255, 255, 0.4);
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   opacity: 0;
-  transition: all .3s ease-in-out 0s;
-}
-
-.button:hover,
-.button:focus {
-  color: #fff;
-  transform: translateY(-6px);
+  transition: all 0.3s ease-in-out 0s;
 }
 
 .button:hover::before,
@@ -624,8 +495,8 @@ body {
   content: '';
   width: 30px;
   height: 30px;
-  border-radius: 100%;
-  border: 6px solid #fff;
+  border-radius: 50%;
+  border: 2px solid #fff;
   position: absolute;
   z-index: -1;
   top: 50%;
@@ -652,3 +523,4 @@ body {
     opacity: 0;
   }
 }
+
