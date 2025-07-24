@@ -10,15 +10,14 @@
 
   <!-- 1. Initial Preloader Section -->
   <div id="preloader">
-    <div id="preloader-text">
-      Be Ready...
-    </div>
+    <!-- Text will be dynamically typed here by JS -->
+    <div id="preloader-text"></div>
     <button id="startBtn">LET'S BEGIN</button>
   </div>
 
   <!-- 2. Choice Screen (Hidden initially, shown after preloader cinematic) -->
-  <div id="choice-screen" style="display: none;">
-    <div class="choice-text">Which reality will you explore?</div>
+  <div id="choice-screen">
+    <div class="choice-text"></div> <!-- Text will be dynamically typed here by JS -->
     <div class="choice-buttons">
       <button id="matrixPathBtn" class="choice-button">Enter the Simulation</button>
       <button id="unpluggedPathBtn" class="choice-button">Unplug</button>
@@ -26,17 +25,17 @@
   </div>
 
   <!-- 3. Matrix Happiness Path (Hidden initially, shown if 'Enter Simulation' is chosen) -->
-  <div id="matrix-path" class="content-path" style="display: none;">
+  <div id="matrix-path" class="content-path">
     <section class="layer layer-1">
       <div class="layer-content">
         <h1>The Perfect Narrative</h1>
-        <p>A polished existence, where every achievement shines and every path is clear. Life is a smooth, predictable journey towards success.</p>
+        <p>A life of seamless progression, where every ambition finds its effortless fulfillment.</p>
       </div>
     </section>
     <section class="layer layer-2">
       <div class="layer-content">
         <h2>Unwavering Optimism</h2>
-        <p>No challenges too great, no setbacks too deep. A world designed for constant smiles and effortless progression.</p>
+        <p>An existence sculpted by success, free from the shadows of doubt or the weight of expectation.</p>
       </div>
     </section>
     <section class="layer layer-3 glitch-hint">
@@ -48,39 +47,82 @@
     </section>
     <section class="layer layer-4">
       <div class="layer-content">
-        <!-- This layer serves as a buffer or end for the matrix path -->
+        <h2>Echoes of Perfection</h2>
+        <p>The flawless repetition, the absence of friction. A loop of contentment, designed to obscure the edges of perception.</p>
+      </div>
+    </section>
+    <section class="layer layer-5 glitch-hint">
+      <div class="layer-content">
+        <h3>The Unseen Seam</h3>
+        <p>A faint hum beneath the surface. A fleeting shadow in peripheral vision. The system is flawless, yet the mind seeks a missing frequency.</p>
+      </div>
+    </section>
+    <section class="layer layer-6">
+      <div class="layer-content">
+        <h2>The Golden Cage</h2>
+        <p>Comfort and predictability, a life without questions. The illusion is complete, for those who choose not to look beyond the gilded bars.</p>
       </div>
     </section>
   </div>
 
   <!-- 4. Unplugged Reality Path (Hidden initially, shown if 'Unplug' is chosen or from Matrix path) -->
-  <div id="unplugged-path" class="content-path" style="display: none;">
+  <div id="unplugged-path" class="content-path">
     <section class="layer layer-1">
       <div class="layer-content">
         <h1>The Raw Truth</h1>
-        <p>Beyond the facade, a journey of grit, growth, and the relentless pursuit of authentic purpose.</p>
+        <p>A consciousness awakened, not by design, but by a whisper of discord in the grand orchestration. The path laid was not the one seen, not the one felt.</p>
       </div>
     </section>
     <section class="layer layer-2">
       <div class="layer-content">
-        <h2>The Rat Race Echoes</h2>
-        <p>The relentless hum of expectation, the endless chase. A world where conformity was king, but freedom called louder.</p>
+        <h2>The Unseen Chains</h2>
+        <p>A subtle tether, unseen yet felt, pulling towards prescribed rhythms. The whispers of a collective current, demanding conformity to an unexamined path.</p>
       </div>
     </section>
     <section class="layer layer-3">
       <div class="layer-content">
-        <h3>The "Broken Anda" Moment</h3>
-        <p>A pivotal realization: life's true race isn't about speed, but about finding your own lane. The moment clarity struck.</p>
+        <h3>The Point of Stillness</h3>
+        <p>Amidst the external clamor, a quiet internal shift. The realization that true mastery lies not in control of circumstance, but in command of one's own perception.</p>
       </div>
     </section>
     <section class="layer layer-4">
       <div class="layer-content">
-        <h3>The Queen Bee's Wisdom</h3>
-        <p>Learning from the collective, leading with vision, and building a hive of true collaboration, not just competition.</p>
+        <h3>The Unseen Currents</h3>
+        <p>From the intricate dance of human systems, a singular mission crystallized. To dissect the unseen currents, to build what defies the expected, driven by a silent, relentless curiosity.</p>
+      </div>
+    </section>
+    <section class="layer layer-5">
+      <div class="layer-content">
+        <h2>First Light Beyond</h2>
+        <p>The initial glimpse of a different spectrum. A world not defined by preset parameters, but by the infinite possibilities of uncharted code and unwritten rules.</p>
+      </div>
+    </section>
+    <section class="layer layer-6">
+      <div class="layer-content">
+        <h3>The Architect's Hand</h3>
+        <p>From the study of life's intricate machinery, a new purpose emerged: to sculpt digital landscapes, to design the very frameworks of emergent thought and interaction.</p>
+      </div>
+    </section>
+    <section class="layer layer-7">
+      <div class="layer-content">
+        <h2>The Unfolding Mission</h2>
+        <p>Driven by an insatiable need to comprehend the subtle mechanics of human connection, the quest to build systems that truly resonate, not merely function, began.</p>
+      </div>
+    </section>
+    <section class="layer layer-8">
+      <div class="layer-content">
+        <h3>The Inner Citadel</h3>
+        <p>A fortress built not of stone, but of reasoned thought. The cultivation of an inner sanctuary, impervious to external storms, where true purpose is forged.</p>
+      </div>
+    </section>
+    <section class="layer layer-9">
+      <div class="layer-content">
+        <h2>The Unwritten Code</h2>
+        <p>Beyond the visible algorithms, a deeper logic. The pursuit of an unwritten code, a framework for existence, where clarity of mind orchestrates impactful creation.</p>
       </div>
     </section>
     <!-- Final About Me content, dynamically filled by JS -->
-    <section class="layer layer-5" id="aboutContent">
+    <section class="layer layer-10" id="aboutContent">
       <div class="layer-content">
         <h1>About Me</h1>
         <p>Loading your deeper story...</p>
