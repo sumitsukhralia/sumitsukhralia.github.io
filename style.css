@@ -190,8 +190,8 @@ h1 {
 }
 
 /* Styling for all buttons (links and toggle button) */
-/* The .button class is now specifically for the About Me button and its unique effects */
-.buttons a:not(.button), .toggle-dark, .buttons-style { /* Exclude .button class from these generic styles */
+/* This block defines the *generic* button style, which the .button class will now also share in its idle state */
+.buttons a, .toggle-dark, .buttons-style {
     background: rgba(255, 255, 255, 0.15); /* Semi-transparent white background */
     color: white; /* Text color */
     padding: 12px 24px; /* Padding */
@@ -207,34 +207,34 @@ h1 {
 }
 
 /* Hover effect for generic buttons */
-.buttons a:not(.button):hover, .toggle-dark:hover, .buttons-style:hover {
+.buttons a:hover, .toggle-dark:hover, .buttons-style:hover {
     background: rgba(255, 255, 255, 0.25); /* Slightly more opaque on hover */
 }
 
 
 /* --- START: Specific Styling for the .button class (About Me button) --- */
+/* This class now inherits the generic button styles for its idle state */
 .button {
-    min-width: 150px;
-    min-height: 30px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    /* Removed min-width and min-height to allow sizing by padding and font-size */
+    display: inline-flex; /* Ensure it behaves like other buttons for padding/sizing */
+    align-items: center; /* Align content vertically */
+    gap: 10px; /* Space for potential icon, consistent with others */
     font-family: 'Nunito', sans-serif; /* Ensure Nunito font is used for this button */
-    font-size: 12px;
+    font-size: 1rem; /* Changed to match generic buttons */
     text-transform: uppercase;
     letter-spacing: 1.3px;
     font-weight: 700;
     color: #fff;
-    /* Default state: purple to white gradient background */
-    background: linear-gradient(to right, #583aba, #FFFFFF 70%); /* Purple to White (70% white) */
-    border: 2px solid rgba(255, 255, 255, 0.4); /* Subtle white border for idle state */
-    border-radius: 900px; /* Fully rounded */
+    /* Default state: semi-transparent white background, subtle white border - matching other buttons */
+    background: rgba(255, 255, 255, 0.15); /* Match generic buttons */
+    border: 1px solid rgba(255,255,255,0.2); /* Match generic buttons */
+    border-radius: 900px; /* Fully rounded, overriding 30px from generic */
     text-decoration: none;
     cursor: pointer;
     outline: none;
     position: relative;
-    padding: 8px 20px;
-    transition: all 0.3s ease-in-out 0s;
+    padding: 12px 24px; /* Changed to match generic buttons */
+    transition: all 0.3s ease-in-out 0s; /* Keep its own transition */
     overflow: hidden; /* Crucial for clipping the expanding circle */
     z-index: 1; /* Ensure button content is above pseudo-elements */
 }
