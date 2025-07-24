@@ -440,3 +440,42 @@ const observer = new IntersectionObserver(entries => {
 
 observer.observe(apodBox);
 
+const preloader = document.getElementById('preloader');
+const preloaderText = document.getElementById('preloader-text');
+const videoContainer = document.getElementById('video-container');
+const video = document.getElementById('aboutVideo');
+const aboutContent = document.getElementById('aboutContent');
+const backHome = document.getElementById('backHome');
+
+function showText(text, className = '') {
+  preloaderText.textContent = text;
+  preloaderText.className = className;
+}
+
+async function runPreloader() {
+  showText('Be ready...');
+  await new Promise(r => setTimeout(r, 2000));
+
+  showText('Make sure you have turned on sound to 70% for best experience.');
+  await new Promise(r => setTimeout(r, 2000));
+
+  showText('“Life is a race, if you don’t run fast, you’ll be a broken anda.”', 'quote-bg');
+  await new Promise(r => setTimeout(r, 4000));
+
+  // End preloader
+  preloader.style.display = 'none';
+  videoContainer.style.display = 'block';
+  video.play();
+}
+
+video.onended = () => {
+  videoContainer.style.display = 'none';
+  aboutContent.style.display = 'block';
+  document.body.style.overflow = 'auto'; // allow scroll if needed
+};
+
+backHome.onclick = () => {
+  window.location.href = 'index.html';
+};
+
+runPreloader();
