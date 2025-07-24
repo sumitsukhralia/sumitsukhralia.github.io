@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const startBtn = document.getElementById('startBtn');
     const videoContainer = document.getElementById('video-container');
     const video = document.getElementById('aboutVideo');
+    const videoPlayBtn = document.getElementById('videoPlayBtn'); // Get the new play button
     const aboutContent = document.getElementById('aboutContent');
     const aboutParagraph = aboutContent.querySelector('p'); // Get the paragraph element within aboutContent
     const backHome = document.getElementById('backHome');
@@ -15,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     videoContainer.style.display = 'none';
     aboutContent.style.display = 'none';
     document.body.style.overflow = 'hidden'; // Prevent scrolling until the final content is shown
+    videoPlayBtn.style.display = 'none'; // Ensure video play button is hidden initially
 
     // Function to update the preloader text
     function showText(text) {
@@ -34,27 +36,42 @@ document.addEventListener('DOMContentLoaded', () => {
         preloader.classList.add('quote-bg'); // Add class to change background image
         await new Promise(r => setTimeout(r, 4000)); // Wait for 4 seconds
 
-        // Transition to video
+        // Transition to video container, show play button
         preloader.style.display = 'none'; // Hide the preloader
         videoContainer.style.display = 'block'; // Show the video container
-
-        video.volume = 0.7; // Set video volume
-        // Attempt to play video, catch and log any errors (e.g., autoplay restrictions)
-        video.play().catch(err => console.log('Video play failed, user interaction needed:', err));
+        videoPlayBtn.style.display = 'block'; // Show the new play button
     }
 
-    // --- Event Listener for the Start Button ---
+    // --- Event Listener for the Start Button (on preloader) ---
     startBtn.onclick = () => {
         runPreloader(); // Start the preloader sequence when button is clicked
     };
 
+    // --- Event Listener for the NEW Video Play Button ---
+    videoPlayBtn.onclick = () => {
+        videoPlayBtn.style.display = 'none'; // Hide the play button
+        video.volume = 0.7; // Set video volume (now allowed due to direct user click)
+        video.play().catch(err => {
+            console.error('Video play failed:', err);
+            // Fallback: If for some reason play still fails, hide video and show about content
+            videoContainer.style.display = 'none';
+            aboutContent.style.display = 'flex';
+            document.body.style.overflow = 'auto';
+            // Also generate text immediately if video fails to play
+            generateAboutParagraph();
+        });
+    };
+
     // --- Event Listener for Video End ---
-    video.onended = async () => {
+    video.onended = () => {
         videoContainer.style.display = 'none'; // Hide the video container
         aboutContent.style.display = 'flex'; // Show the about content (using flex for centering)
         document.body.style.overflow = 'auto'; // Allow scrolling on the page now
+        generateAboutParagraph(); // Generate the "About Me" paragraph
+    };
 
-        // Generate the "About Me" paragraph using the Gemini API
+    // --- Function to Generate About Paragraph (moved to its own function for reusability) ---
+    async function generateAboutParagraph() {
         const prompt = "Generate a short, engaging paragraph about someone's journey of self-discovery and growth, exactly 30 words long. Focus on themes of overcoming challenges and finding purpose.";
         let chatHistory = [];
         chatHistory.push({ role: "user", parts: [{ text: prompt }] });
@@ -70,7 +87,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             const result = await response.json();
 
-            // Check if the response structure is as expected and update the paragraph
             if (result.candidates && result.candidates.length > 0 &&
                 result.candidates[0].content && result.candidates[0].content.parts &&
                 result.candidates[0].content.parts.length > 0) {
@@ -78,15 +94,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 aboutParagraph.textContent = generatedText; // Update the paragraph content
             } else {
                 console.error("LLM response structure unexpected:", result);
-                // Fallback text if API call fails or response is malformed
                 aboutParagraph.textContent = "A journey of self-discovery unfolds, embracing challenges and celebrating growth. Each step forward reveals new strengths, paving a path towards a purposeful and fulfilling life, rich with experiences and profound understanding.";
             }
         } catch (error) {
             console.error("Error fetching LLM content:", error);
-            // Fallback text for network or other errors
             aboutParagraph.textContent = "A journey of self-discovery unfolds, embracing challenges and celebrating growth. Each step forward reveals new strengths, paving a path towards a purposeful and fulfilling life, rich with experiences and profound understanding.";
         }
-    };
+    }
 
     // --- Event Listener for Back Home Button ---
     if (backHome) {
