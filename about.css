@@ -5,6 +5,10 @@
   box-sizing: border-box;
 }
 
+html, body {
+  height: 100%; /* Ensure html and body take full height for fixed positioning */
+}
+
 body {
   background: black; /* Pure black background throughout initial phases */
   color: white;
@@ -20,16 +24,38 @@ body {
   to { box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.15); }
 }
 
+/* --- Initial Boom Effect --- */
+#boom-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  z-index: 10000; /* Highest z-index to cover everything */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* Ensure nothing spills out */
+}
+
+.boom-effect {
+  animation: boom-flash 0.5s ease-out forwards;
+}
+
+@keyframes boom-flash {
+  0% { background-color: #000; opacity: 1; }
+  50% { background-color: #fff; opacity: 1; transform: scale(1.1); }
+  100% { background-color: #000; opacity: 0; transform: scale(1); }
+}
+
 /* --- Typing Animation --- */
-/* This is applied to elements that will have the typing effect */
 .typing-animation {
   overflow: hidden; /* Ensures text is hidden until typed */
   white-space: nowrap; /* Keeps text on a single line */
   border-right: 0.15em solid white; /* The blinking caret */
-  /* Animation properties will be set by JS dynamically based on text length */
 }
 
-/* Cursor blink effect */
 @keyframes typing {
   from { width: 0 }
   to { width: 100% }
@@ -54,15 +80,16 @@ body {
   align-items: center;
   text-align: center;
   z-index: 9999;
-  transition: opacity 1s ease-in-out; /* Only opacity transition, no background change */
+  opacity: 1;
+  transition: opacity 1s ease-in-out;
 }
 
 #preloader-text {
-  font-size: 2.5rem; /* Slightly larger for cinematic impact */
+  font-size: 2.5rem; /* Cinematic impact */
   max-width: 90%;
   line-height: 1.4;
   padding: 20px;
-  opacity: 0; /* Start hidden, will be revealed by JS typing */
+  opacity: 0; /* Start hidden, revealed by JS typing */
 }
 
 #startBtn {
@@ -83,255 +110,310 @@ body {
   transform: scale(1.05);
 }
 
-/* --- Choice Screen Styles --- */
-#choice-screen {
+/* --- Animated Void Screen & Name Input --- */
+#animated-void-screen {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: #000; /* Pure black background */
+  background: #000;
+  z-index: 9997; /* Below preloader, above timeline */
+  display: none; /* Hidden initially */
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+#threeJsCanvas {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.overlay-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  z-index: 2; /* Above canvas */
   text-align: center;
-  z-index: 9998;
-  opacity: 0;
-  transition: opacity 0.5s ease-in-out;
+  padding: 20px;
 }
 
-.choice-text {
-  font-size: 2.5rem;
-  margin-bottom: 40px;
-  color: #fff;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-  opacity: 0; /* Start hidden for typing effect */
+#quote-text {
+  font-size: 2.2rem;
+  max-width: 90%;
+  line-height: 1.4;
+  padding: 20px;
+  opacity: 0; /* Hidden initially, typed by JS */
+  margin-bottom: 50px; /* Space for input */
 }
 
-.choice-buttons {
+#name-input-container {
   display: flex;
-  gap: 30px;
-  opacity: 0; /* Start hidden, fade in after text types */
-  transition: opacity 0.5s ease 0.5s; /* Delay fade-in */
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  opacity: 0; /* Hidden initially, faded in by JS */
+  transition: opacity 0.5s ease 0.5s;
+  max-width: 400px;
+  width: 90%;
 }
 
-.choice-button, .unplug-button {
-  padding: 20px 50px;
-  font-size: 1.5rem;
+#name-input-container label {
+  font-size: 1.2rem;
+  color: #fff;
+}
+
+#visitorName {
+  padding: 12px 20px;
+  font-size: 1.1rem;
+  width: 100%;
+  border: 2px solid #6a0dad; /* Purple border */
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1); /* Slightly transparent background */
+  color: #fff;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+#visitorName:focus {
+  border-color: #a720ff;
+  box-shadow: 0 0 15px rgba(167, 32, 255, 0.5);
+}
+
+#submitNameBtn {
+  padding: 15px 40px;
+  font-size: 1.3rem;
   font-weight: bold;
-  /* Updated to purple gradient */
   background: linear-gradient(45deg, #6a0dad, #a720ff); /* Premium purple gradient */
   color: white;
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  /* Updated box-shadow for purple gradient */
   box-shadow: 0 5px 20px rgba(106, 13, 173, 0.4);
   transition: all 0.3s ease;
 }
 
-.choice-button:hover, .unplug-button:hover {
+#submitNameBtn:hover {
   background: linear-gradient(45deg, #a720ff, #6a0dad); /* Reverse gradient on hover */
-  transform: translateY(-5px) scale(1.02);
-  /* Updated box-shadow for purple gradient hover */
+  transform: translateY(-3px) scale(1.02);
   box-shadow: 0 8px 25px rgba(106, 13, 173, 0.6);
 }
 
-/* --- Content Path Base Styles --- */
-.content-path {
+#status-message {
+  margin-top: 10px;
+  font-size: 1rem;
+  color: #00ff00; /* Green for success */
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* --- Timeline Story Path --- */
+#timeline-path {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 100vh;
-  overflow-y: auto;
-  scroll-snap-type: y mandatory;
-  -webkit-overflow-scrolling: touch;
-  position: relative;
-  z-index: 1;
-  display: none;
+  height: 100%;
+  background: #000; /* Black background for timeline */
+  display: none; /* Hidden initially */
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  overflow-y: auto; /* Enable scrolling */
+  scroll-behavior: smooth; /* Smooth scrolling for autoscroll */
 }
 
-.layer {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  scroll-snap-align: start;
+.timeline {
   position: relative;
-  background-size: cover;
-  background-position: center;
-  color: white;
-  padding: 20px;
-}
-
-.layer-content {
   max-width: 800px;
-  padding: 40px;
-  background: rgba(0, 0, 0, 0.7); /* Semi-transparent background for text */
-  border-radius: 10px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-  transform: translateY(0);
+  margin: 4rem auto;
+  padding: 0 20px; /* Add horizontal padding */
+}
+
+.timeline::after {
+  content: '';
+  position: absolute;
+  width: 4px;
+  background-color: #9966cc; /* Purple timeline line */
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  margin-left: -2px;
+}
+
+.container {
+  padding: 1rem 2rem;
+  position: relative;
+  background-color: inherit;
+  width: 50%;
+  opacity: 0; /* Hidden initially for scroll reveal */
+  transform: translateY(50px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.container.visible {
   opacity: 1;
-  transition: transform 0.8s ease-out, opacity 0.8s ease-out;
+  transform: translateY(0);
 }
 
-.layer h1, .layer h2, .layer h3 {
-  font-size: 3rem;
-  margin-bottom: 20px;
-  text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+.left {
+  left: 0;
 }
 
-.layer p {
+.right {
+  left: 50%;
+}
+
+.content {
+  background: rgba(26, 26, 26, 0.9); /* Slightly transparent dark background */
+  padding: 1.5rem; /* Increased padding */
+  border-radius: 8px;
+  position: relative;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.container::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  right: -10px;
+  background-color: #9966cc;
+  border: 4px solid #fff;
+  top: 25px; /* Adjusted to center with increased padding */
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.right::after {
+  left: -10px;
+}
+
+.container .date {
+  font-weight: bold;
+  margin-bottom: 0.8rem; /* More space */
+  font-size: 1.1rem;
+  color: #a720ff; /* Purple date */
+}
+
+.container p {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* Final story container styles */
+.final-story-container {
+  margin-top: 6rem; /* Extra space before final section */
+  margin-bottom: 4rem; /* Space at the bottom */
+}
+
+#aboutContentParagraph {
   font-size: 1.3rem;
   line-height: 1.6;
+  max-width: 600px;
+  margin: 20px auto;
+  color: #fff;
 }
 
-/* --- Matrix Path Specific Styles (Now also black) --- */
-#matrix-path .layer {
-  background-color: #000; /* Changed to black */
-  color: #eee; /* Changed text color for readability on black */
-  transition: background-color 1s ease-in-out;
-}
-#matrix-path .layer-content {
-  background: rgba(0, 0, 0, 0.7); /* Changed to semi-transparent black */
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1); /* Adjusted shadow for black background */
-}
-
-/* All matrix layers are now black */
-#matrix-path .layer-1,
-#matrix-path .layer-2,
-#matrix-path .layer-3,
-#matrix-path .layer-4,
-#matrix-path .layer-5,
-#matrix-path .layer-6 {
-  background-color: #000;
-}
-
-
-/* Matrix Glitch Effect */
-.glitch-hint .layer-content {
-  animation: subtle-glitch 5s infinite linear;
-}
-
-@keyframes subtle-glitch {
-  0% { filter: hue-rotate(0deg) brightness(1); transform: scale(1); }
-  25% { filter: hue-rotate(5deg) brightness(1.02); transform: scale(1.005); }
-  50% { filter: hue-rotate(0deg) brightness(1); transform: scale(1); }
-  75% { filter: hue-rotate(-5deg) brightness(0.98); transform: scale(0.995); }
-  100% { filter: hue-rotate(0deg) brightness(1); transform: scale(1); }
-}
-
-/* --- Unplugged Path Specific Styles --- */
-#unplugged-path .layer {
-  background-color: #000; /* Deep black background */
-  color: #eee; /* Light text */
-}
-#unplugged-path .layer-content {
-  background: rgba(0, 0, 0, 0.7);
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-}
-
-/* Thematic background images for Unplugged Path layers */
-/* REPLACE THESE WITH YOUR ACTUAL IMAGES */
-#unplugged-path .layer-1 { background-image: url('https://placehold.co/1920x1080/000/fff?text=The+Awakening'); }
-#unplugged-path .layer-2 { background-image: url('https://placehold.co/1920x1080/000/fff?text=Unseen+Currents'); }
-#unplugged-path .layer-3 { background-image: url('https://placehold.co/1920x1080/000/fff?text=Stillness+Found'); }
-#unplugged-path .layer-4 { background-image: url('https://placehold.co/1920x1080/000/fff?text=The+Mission'); }
-#unplugged-path .layer-5 { background-image: url('https://placehold.co/1920x1080/000/fff?text=New+Perspective'); }
-#unplugged-path .layer-6 { background-image: url('https://placehold.co/1920x1080/000/fff?text=Digital+Sculptor'); }
-#unplugged-path .layer-7 { background-image: url('https://placehold.co/1920x1080/000/fff?text=Purpose+Defined'); }
-#unplugged-path .layer-8 { background-image: url('https://placehold.co/1920x1080/000/fff?text=Inner+Fortress'); }
-#unplugged-path .layer-9 { background-image: url('https://placehold.co/1920x1080/000/fff?text=Unwritten+Rules'); }
-#unplugged-path .layer-10 { background-image: url('https://placehold.co/1920x1080/000/fff?text=Your+Story+Revealed'); }
-
-
-/* --- About Content (Final Section) Styles --- */
-#aboutContent {
-  /* Inherits from .layer and .layer-content */
-  padding: 60px 20px;
-}
-
-#aboutContent h1 {
-  font-size: 2.5rem;
-  margin-bottom: 20px;
-}
-
-#aboutContent p {
-  font-size: 1.2rem;
-  max-width: 700px;
-  margin: 0 auto 40px;
-  line-height: 1.6;
-}
-
-#aboutContent button {
+.back-home-button {
   padding: 12px 30px;
   font-size: 1rem;
-  background: #fff;
-  color: #000;
+  background: linear-gradient(45deg, #6a0dad, #a720ff);
+  color: white;
   border: none;
+  border-radius: 5px;
   cursor: pointer;
   transition: 0.3s;
-  border-radius: 5px;
+  margin-top: 30px;
 }
 
-#aboutContent button:hover {
-  background: #999;
+.back-home-button:hover {
+  background: linear-gradient(45deg, #a720ff, #6a0dad);
+  transform: translateY(-2px);
 }
 
-/* Scroll-triggered opacity/transform for layers */
-.layer-content.hidden {
-  opacity: 0;
-  transform: translateY(50px);
+.back-home-button i {
+  margin-right: 8px;
 }
 
 /* --- Mobile Optimizations --- */
 @media (max-width: 768px) {
   body {
-    font-size: 0.9rem; /* Slightly smaller base font */
+    font-size: 0.85rem;
   }
 
   #preloader-text,
+  #quote-text,
   .choice-text {
-    font-size: 1.8rem; /* Smaller font for mobile */
-    padding: 15px;
+    font-size: 1.6rem;
+    padding: 10px;
   }
 
   #startBtn {
-    padding: 15px 40px;
-    font-size: 1.2rem;
-    margin-top: 30px;
+    padding: 12px 30px;
+    font-size: 1rem;
+    margin-top: 25px;
   }
 
-  .choice-buttons {
-    flex-direction: column; /* Stack buttons vertically on small screens */
-    gap: 20px;
+  #name-input-container label {
+    font-size: 1rem;
   }
 
-  .choice-button, .unplug-button {
-    padding: 15px 40px;
-    font-size: 1.2rem;
-    width: 80%; /* Make buttons wider */
-    max-width: 300px; /* Limit max width */
+  #visitorName {
+    padding: 10px 15px;
+    font-size: 1rem;
+  }
+
+  #submitNameBtn {
+    padding: 12px 30px;
+    font-size: 1.1rem;
+  }
+
+  .timeline::after {
+    left: 31px; /* Adjust timeline bar position */
+  }
+
+  .container {
+    width: 100%;
+    padding-left: 70px; /* Space for the line and dot */
+    padding-right: 25px;
+  }
+
+  .container::after {
+    left: 15px; /* Adjust dot position */
+    top: 20px; /* Adjust dot vertical position */
+  }
+
+  .right {
+    left: 0%; /* Stack all containers on the left for mobile */
   }
 
   .layer h1, .layer h2, .layer h3 {
-    font-size: 2rem; /* Smaller headings */
-    margin-bottom: 15px;
+    font-size: 1.8rem;
+    margin-bottom: 10px;
   }
 
   .layer p {
-    font-size: 1rem; /* Smaller paragraph text */
-    max-width: 90%; /* Allow wider text on small screens */
-    margin-bottom: 30px;
+    font-size: 0.95rem;
+    max-width: 95%;
+    margin-bottom: 20px;
   }
 
   .layer-content {
-    padding: 25px; /* Adjust padding */
-    max-width: 95%; /* Allow content to take more width */
+    padding: 20px;
   }
 
-  #aboutContent button {
-    padding: 10px 25px;
-    font-size: 0.9rem;
+  #aboutContentParagraph {
+    font-size: 1.1rem;
   }
 }
