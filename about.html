@@ -2,31 +2,36 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>About Me | Sumit</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About - Sumit Sukhralia</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <!-- Example preloader -->
+  <div id="preloader">Loading...</div>
 
-  <!-- Preloader -->
-  <div id="preloader">
-    <div id="preloader-text">Be ready...</div>
+
+    <!-- ✅ PRELOADER WITH VIRUS QUOTE -->
+  <div id="preloader" class="quote-bg">
+    <div id="preloader-text">
+      Be Ready...<br>
+      <em>“Life is a race. If you don’t run fast, you’ll be like a broken anda.”</em>
+    </div>
   </div>
 
-  <!-- Video -->
+  <!-- ✅ VIDEO CONTAINER -->
   <div id="video-container">
-    <video id="aboutVideo" src="assets/aboutme.mp4" controls></video>
+    <video id="aboutVideo" src="assets/aboutme.mp4" autoplay></video>
   </div>
 
-  <!-- About Content -->
+  <!-- Example about content -->
   <div id="aboutContent">
     <h1>About Me</h1>
-    <p>
-      Hey! I'm Sumit — a passionate developer escaping the rat race, crafting unique projects & experiences.
-      Stay tuned for more!
-    </p>
-    <button id="backHome">Back to Home</button>
+    <p>This is Sumit’s deeper story. Escape the rat race, blah blah…</p>
+    <button onclick="window.location.href='index.html'">Back Home</button>
   </div>
 
   <script src="script.js"></script>
 </body>
 </html>
+
