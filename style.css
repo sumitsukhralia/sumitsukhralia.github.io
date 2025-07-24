@@ -1,4 +1,4 @@
-/* Basic Reset & Body Styling */
+/** Basic Reset & Body Styling */
 /* Define a CSS variable for transition duration at the root level */
 :root {
     --transition-duration: 0.6s; /* Default transition duration for smooth changes */
@@ -16,6 +16,17 @@ body {
     transition: background var(--transition-duration) ease, color var(--transition-duration) ease;
 }
 
+/* Hide scrollbar for Chrome, Safari, Opera */
+body::-webkit-scrollbar {
+    display: none;
+}
+/* Hide scrollbar for IE, Edge, Firefox */
+body {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+
 /* Overlay for background image */
 body::before {
     content: ""; /* Required for pseudo-elements */
@@ -24,7 +35,7 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.6); /* Semi-transparent black overlay */
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay - Changed to 50% */
     backdrop-filter: blur(4px); /* Blur the background image */
     z-index: -1; /* Place behind other content */
     /* Use the CSS variable for transition duration */
@@ -179,7 +190,8 @@ h1 {
 }
 
 /* Styling for all buttons (links and toggle button) */
-.buttons a, .toggle-dark, .buttons-style { /* Added .buttons-style here for the New Quote button */
+/* The .button class is now specifically for the About Me button and its unique effects */
+.buttons a:not(.button), .toggle-dark, .buttons-style { /* Exclude .button class from these generic styles */
     background: rgba(255, 255, 255, 0.15); /* Semi-transparent white background */
     color: white; /* Text color */
     padding: 12px 24px; /* Padding */
@@ -194,10 +206,106 @@ h1 {
     font-size: 1rem; /* Default font size */
 }
 
-/* Hover effect for buttons */
-.buttons a:hover, .toggle-dark:hover, .buttons-style:hover {
+/* Hover effect for generic buttons */
+.buttons a:not(.button):hover, .toggle-dark:hover, .buttons-style:hover {
     background: rgba(255, 255, 255, 0.25); /* Slightly more opaque on hover */
 }
+
+
+/* --- START: Specific Styling for the .button class (About Me button) --- */
+.button {
+    min-width: 150px;
+    min-height: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Nunito', sans-serif; /* Ensure Nunito font is used for this button */
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1.3px;
+    font-weight: 700;
+    color: #fff;
+    background: transparent; /* Default transparent background */
+    border: 2px solid #fff; /* Default white border */
+    border-radius: 900px; /* Fully rounded */
+    text-decoration: none;
+    cursor: pointer;
+    outline: none;
+    position: relative;
+    padding: 8px 20px;
+    transition: all 0.3s ease-in-out 0s;
+    overflow: hidden; /* Hide overflowing parts of the ::after circle */
+    z-index: 1; /* Ensure button content is above pseudo-elements */
+}
+
+/* Instagram-like hover for the .button class */
+.button:hover,
+.button:focus {
+    transform: translateY(-6px);
+    color: #fff; /* Keep text white on hover */
+    /* New gradient background for Instagram-like effect */
+    background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888, #583aba); /* Instagram gradient + your purple */
+    border: 2px solid transparent; /* Make border transparent on hover */
+    box-shadow: 0 0 60px rgba(255, 255, 255, 0.6); /* Enhanced glow on hover */
+}
+
+/* ::before pseudo-element for outer glow/shadow */
+.button::before {
+    content: '';
+    border-radius: 1000px;
+    min-width: calc(100% + 12px); /* Adjusted width to fit button better */
+    min-height: calc(100% + 12px); /* Adjusted height to fit button better */
+    border: 2px solid #fff;
+    box-shadow: 0 0 60px rgba(255, 255, 255, 0.4);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: all 0.3s ease-in-out 0s;
+    z-index: -1; /* Behind the button content */
+}
+
+.button:hover::before,
+.button:focus::before {
+    opacity: 1;
+}
+
+/* ::after pseudo-element for the expanding circle animation */
+.button::after {
+    content: '';
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    position: absolute;
+    z-index: -1; /* Behind the button content */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: ring 2s infinite; /* Changed speed to 2s (0.75x of 1.5s) */
+}
+
+.button:hover::after,
+.button:focus::after {
+    animation: none; /* Stop animation on hover/focus */
+    display: none; /* Hide the circle on hover/focus */
+}
+
+@keyframes ring {
+    0% {
+        width: 30px;
+        height: 30px;
+        opacity: 1;
+    }
+    100% {
+        width: 300px;
+        height: 300px;
+        opacity: 0;
+    }
+}
+/* --- END: Specific Styling for the .button class --- */
+
 
 /* Terminal Section Styling */
 .terminal {
@@ -384,146 +492,36 @@ footer a:hover {
 }
 
 
-
-
-
 .apod-terminal {
-  background: rgba(255, 255, 255, 0.05); /* subtle glass tint */
-  backdrop-filter: blur(5px);
-  color: white;
-  border: 2px solid white;
-  padding: 20px;
-  font-family: monospace; /* for headings */
-  max-width: 600px;
-  opacity: 0; /* for scroll animation */
-  transform: translateY(20px);
-  transition: opacity 1s ease, transform 1s ease;
+    background: rgba(255, 255, 255, 0.05); /* subtle glass tint */
+    backdrop-filter: blur(5px);
+    color: white;
+    border: 2px solid white;
+    padding: 20px;
+    font-family: monospace; /* for headings */
+    max-width: 600px;
+    opacity: 0; /* for scroll animation */
+    transform: translateY(20px);
+    transition: opacity 1s ease, transform 1s ease;
 }
 
 .apod-terminal p {
-  font-family: inherit; /* default site font for paragraph */
+    font-family: inherit; /* default site font for paragraph */
 }
 
 .apod-terminal img {
-  max-width: 100%;
-  margin: 10px 0;
-  cursor: pointer; /* indicates clickable for HD */
+    max-width: 100%;
+    margin: 10px 0;
+    cursor: pointer; /* indicates clickable for HD */
 }
 
 .apod-terminal small {
-  display: block;
-  color: white;
-  font-family: inherit;
+    display: block;
+    color: white;
+    font-family: inherit;
 }
 
 .apod-terminal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-
-
-
-
-
-/* RESET */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-
-  color: #fff;           /* White text by default */
-  font-family: 'Nunito', sans-serif;
-  overflow-x: hidden;
-}
-
-/* BUTTON STYLE */
-.button {
-  min-width: 150px;
-  min-height: 30px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Nunito', sans-serif;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 1.3px;
-  font-weight: 700;
-  color: #fff;
-  background:transparent;/* ✅ Transparent background */
-  border: 2px solid #fff;     /* ✅ White border */
-  border-radius: 900px;      /* ✅ Fully rounded */
-  text-decoration: none;
-  cursor: pointer;
-  outline: none;
-  position: relative;
-  padding: 8px 20px;
-  transition: all 0.3s ease-in-out 0s;
-}
-
-.button:hover,
-.button:focus {
-  transform: translateY(-6px);
-  color: #000;                /* Invert text color on hover */
-  background: #fff;           /* Fill white on hover */
-}
-
-.button::before {
-  content: '';
-  border-radius: 1000px;
-  min-width: calc(200px + 12px);
-  min-height: calc(50px + 12px);
-  border: 2px solid #fff;
-  box-shadow: 0 0 60px rgba(255, 255, 255, 0.4);
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  opacity: 0;
-  transition: all 0.3s ease-in-out 0s;
-}
-
-.button:hover::before,
-.button:focus::before {
-  opacity: 1;
-}
-
-.button::after {
-  content: '';
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: 2px solid #fff;
-  position: absolute;
-  z-index: -1;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  animation: ring 1.5s infinite;
-}
-
-.button:hover::after,
-.button:focus::after {
-  animation: none;
-  display: none;
-}
-
-@keyframes ring {
-  0% {
-    width: 30px;
-    height: 30px;
     opacity: 1;
-  }
-  100% {
-    width: 300px;
-    height: 300px;
-    opacity: 0;
-  }
+    transform: translateY(0);
 }
-
-
-
-
