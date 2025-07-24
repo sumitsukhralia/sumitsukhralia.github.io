@@ -7,59 +7,32 @@
   <link rel="stylesheet" href="about.css" />
 </head>
 <body>
-  <!-- Example preloader -->
-  <div id="preloader">Loading...</div>
-
-
-
-
-
-
-
 
   <!-- ✅ PRELOADER -->
-<div id="preloader">
-  <div id="preloader-text">Be ready...</div>
-
-
-     <!-- ✅ PRELOADER WITH VIRUS QUOTE -->
-  <div> id="preloader" class="assets/image.jpeg"</div>
+  <div id="preloader">
     <div id="preloader-text">
-      Be Ready...<br>
+      Be Ready...
+      <br>
       <em>“Life is a race. If you don’t run fast, you’ll be like a broken anda.”</em>
     </div>
+    <button id="startBtn">LET'S BEGIN</button>
   </div>
 
-  <button id="startBtn">LET'S BEGIN</button>
-</div>
+  <!-- ✅ VIDEO -->
+  <div id="video-container" style="display: none;">
+    <video id="aboutVideo" controls>
+      <source src="assets/aboutme.mp4" type="video/mp4" />
+      Your browser does not support HTML5 video.
+    </video>
+  </div>
 
-<!-- ✅ VIDEO -->
-<div id="video-container" style="display: none;">
-  <video id="aboutVideo" controls>
-    <source src="assets/aboutme.mp4" type="video/mp4" />
-    Your browser does not support HTML5 video.
-  </video>
-</div>
-
-<!-- ✅ ABOUT CONTENT -->
-<div id="aboutContent" style="display: none;">
-  <h1>About Me</h1>
-  <p>Some text here about you...</p>
-  <button id="backHome">Back Home</button>
-</div>
-
-
-
-
-  <!-- Example about content -->
-  <div id="aboutContent">
+  <!-- ✅ ABOUT CONTENT -->
+  <div id="aboutContent" style="display: none;">
     <h1>About Me</h1>
     <p>This is Sumit’s deeper story. Escape the rat race, blah blah…</p>
-    <button onclick="window.location.href='index.html'">Back Home</button>
+    <button id="backHome">Back Home</button>
   </div>
-
 
   <script src="about.js"></script>
 </body>
 </html>
-
