@@ -11,6 +11,13 @@ body {
   font-family: 'Courier New', monospace; /* Typing font for curiosity */
   overflow-x: hidden; /* Prevent horizontal scrolling */
   overflow-y: hidden; /* Prevent vertical scrolling initially */
+  /* Added for "Live Things" - subtle pulsating glow */
+  animation: subtle-glow 10s infinite alternate ease-in-out;
+}
+
+@keyframes subtle-glow {
+  from { box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.05); }
+  to { box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.15); }
 }
 
 /* --- Typing Animation --- */
@@ -113,19 +120,22 @@ body {
   padding: 20px 50px;
   font-size: 1.5rem;
   font-weight: bold;
-  background: linear-gradient(45deg, #007bff, #00c6ff);
+  /* Updated to purple gradient */
+  background: linear-gradient(45deg, #6a0dad, #a720ff); /* Premium purple gradient */
   color: white;
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  box-shadow: 0 5px 20px rgba(0, 123, 255, 0.4);
+  /* Updated box-shadow for purple gradient */
+  box-shadow: 0 5px 20px rgba(106, 13, 173, 0.4);
   transition: all 0.3s ease;
 }
 
 .choice-button:hover, .unplug-button:hover {
-  background: linear-gradient(45deg, #00c6ff, #007bff);
+  background: linear-gradient(45deg, #a720ff, #6a0dad); /* Reverse gradient on hover */
   transform: translateY(-5px) scale(1.02);
-  box-shadow: 0 8px 25px rgba(0, 123, 255, 0.6);
+  /* Updated box-shadow for purple gradient hover */
+  box-shadow: 0 8px 25px rgba(106, 13, 173, 0.6);
 }
 
 /* --- Content Path Base Styles --- */
@@ -176,23 +186,26 @@ body {
   line-height: 1.6;
 }
 
-/* --- Matrix Path Specific Styles --- */
+/* --- Matrix Path Specific Styles (Now also black) --- */
 #matrix-path .layer {
-  background-color: #f0f0f0; /* Light, sterile background */
-  color: #333; /* Dark text for contrast */
+  background-color: #000; /* Changed to black */
+  color: #eee; /* Changed text color for readability on black */
   transition: background-color 1s ease-in-out;
 }
 #matrix-path .layer-content {
-  background: rgba(255, 255, 255, 0.8);
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.7); /* Changed to semi-transparent black */
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1); /* Adjusted shadow for black background */
 }
 
-#matrix-path .layer-1 { background-color: #f0f0f0; }
-#matrix-path .layer-2 { background-color: #e0e0e0; }
-#matrix-path .layer-3 { background-color: #d0d0d0; }
-#matrix-path .layer-4 { background-color: #c0c0c0; }
-#matrix-path .layer-5 { background-color: #b0b0b0; }
-#matrix-path .layer-6 { background-color: #a0a0a0; }
+/* All matrix layers are now black */
+#matrix-path .layer-1,
+#matrix-path .layer-2,
+#matrix-path .layer-3,
+#matrix-path .layer-4,
+#matrix-path .layer-5,
+#matrix-path .layer-6 {
+  background-color: #000;
+}
 
 
 /* Matrix Glitch Effect */
@@ -269,4 +282,56 @@ body {
 .layer-content.hidden {
   opacity: 0;
   transform: translateY(50px);
+}
+
+/* --- Mobile Optimizations --- */
+@media (max-width: 768px) {
+  body {
+    font-size: 0.9rem; /* Slightly smaller base font */
+  }
+
+  #preloader-text,
+  .choice-text {
+    font-size: 1.8rem; /* Smaller font for mobile */
+    padding: 15px;
+  }
+
+  #startBtn {
+    padding: 15px 40px;
+    font-size: 1.2rem;
+    margin-top: 30px;
+  }
+
+  .choice-buttons {
+    flex-direction: column; /* Stack buttons vertically on small screens */
+    gap: 20px;
+  }
+
+  .choice-button, .unplug-button {
+    padding: 15px 40px;
+    font-size: 1.2rem;
+    width: 80%; /* Make buttons wider */
+    max-width: 300px; /* Limit max width */
+  }
+
+  .layer h1, .layer h2, .layer h3 {
+    font-size: 2rem; /* Smaller headings */
+    margin-bottom: 15px;
+  }
+
+  .layer p {
+    font-size: 1rem; /* Smaller paragraph text */
+    max-width: 90%; /* Allow wider text on small screens */
+    margin-bottom: 30px;
+  }
+
+  .layer-content {
+    padding: 25px; /* Adjust padding */
+    max-width: 95%; /* Allow content to take more width */
+  }
+
+  #aboutContent button {
+    padding: 10px 25px;
+    font-size: 0.9rem;
+  }
 }
