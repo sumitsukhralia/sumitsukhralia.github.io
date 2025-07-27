@@ -82,13 +82,13 @@ INSTAGRAM: instagram.com/your-instagram-profile
 
 // --- Audio Elements (Optional - Uncomment and provide paths if you have audio files) ---
 const audio = {
-    typeSound: new Audio('assets/audio/typewriter.mp3'), // Replace with your path
-    clickSound: new Audio('assets/audio/button_click.mp3'), // Replace with your path
-    backgroundHum: new Audio('assets/audio/system_hum.mp3'), // Replace with your path
-    glitchSound: new Audio('assets/audio/glitch.mp3') // Replace with your path
+    // typeSound: new Audio('assets/audio/typewriter.mp3'), // Replace with your path
+    // clickSound: new Audio('assets/audio/button_click.mp3'), // Replace with your path
+    // backgroundHum: new Audio('assets/audio/system_hum.mp3'), // Replace with your path
+    // glitchSound: new Audio('assets/audio/glitch.mp3') // Replace with your path
 };
 
-// Set audio properties
+// Set audio properties (only if audio objects are defined)
 if (audio.typeSound) audio.typeSound.volume = 0.1;
 if (audio.clickSound) audio.clickSound.volume = 0.3;
 if (audio.backgroundHum) {
@@ -115,6 +115,7 @@ function stopSound(sound) {
 
 document.addEventListener('DOMContentLoaded', async () => {
     // --- Firebase Initialization ---
+    // This part runs first to ensure Firebase is ready for logging.
     if (window.firebaseApp && typeof window.firebaseApp.init === 'function') {
         await window.firebaseApp.init();
         firebaseLogEvent = window.firebaseApp.logEvent;
@@ -122,35 +123,38 @@ document.addEventListener('DOMContentLoaded', async () => {
         firebaseLogEvent('page_load', { page: 'about.html' });
     } else {
         console.error('Firebase SDK not loaded or initialized correctly. Logging disabled.');
+        // Fallback logging if Firebase isn't available
         firebaseLogEvent = (eventName, data) => console.log(`[Offline Log] Event: ${eventName}`, data);
     }
 
     // --- Initial Screen Setup ---
-    // All screens start hidden, except boomContainer
+    // All screens start hidden, except the boomContainer (which is black)
     document.querySelectorAll('.system-screen').forEach(screen => {
         screen.classList.remove('active');
     });
-    boomContainer.classList.add('active'); // Only boom container is active initially
+    // Ensure boomContainer is the very first thing active on load
+    boomContainer.classList.add('active'); 
 
     // Initialize Three.js immediately
     initThreeJs(document.getElementById('threeJsCanvasBackground'));
     animateThreeJs(); // Start particle animation loop
 
-    // --- Game Start Sequence ---
-    // This runs after window finishes loading (all assets, incl. Three.js)
-    window.onload = () => {
-        // Play background hum if available
-        // playSound(audio.backgroundHum); // Auto-play might be blocked by browsers
 
+    // --- Game Start Sequence on Window Load ---
+    // This ensures all HTML, CSS, and Three.js are loaded before starting the animation.
+    window.onload = () => {
         // Start the boom effect, then transition to preloader
-        boomContainer.classList.add('boom-effect');
+        boomContainer.classList.add('boom-effect'); // Trigger CSS animation
+
+        // After the boom animation finishes (0.4s), transition to the preloader
         setTimeout(() => {
-            boomContainer.classList.remove('active'); // Hide boom
-            showScreen(preloader); // Show preloader
+            boomContainer.classList.remove('active'); // Hide boom screen
+            showScreen(preloader); // Show the preloader
             showPreloaderSequence(); // Start preloader typing sequence
             firebaseLogEvent('preloader_started');
-        }, 400); // Matches boom-flash duration
+        }, 400); // Matches boom-flash duration in CSS
     };
+
 
     // --- Screen Management Function ---
     function showScreen(screenToShow, delay = 0) {
@@ -172,7 +176,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         element.classList.add('typing-animation');
         element.style.opacity = '1';
 
-        // Play typing sound on loop if available
+        // Play typing sound on loop if available (uncomment if using audio)
         // if (audio.typeSound) {
         //     audio.typeSound.loop = true;
         //     playSound(audio.typeSound);
@@ -184,7 +188,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         element.classList.remove('typing-animation');
-        // stopSound(audio.typeSound);
+        // stopSound(audio.typeSound); // Stop typing sound (uncomment if using audio)
         return new Promise(resolve => setTimeout(resolve, 100)); // Small pause after typing
     }
 
@@ -200,8 +204,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
         // Reveal access button
         accessSystemBtn.style.opacity = '1';
-        accessSystemBtn.style.pointerEvents = 'auto';
-        accessSystemBtn.style.transform = 'translateY(0)';
+        accessSystemBtn.style.pointerEvents = 'auto'; // Make button clickable
+        accessSystemBtn.style.transform = 'translateY(0)'; // If you had a translateY animation
         firebaseLogEvent('preloader_complete');
     }
 
@@ -309,6 +313,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     // --- Game Logic Flow ---
     accessSystemBtn.onclick = async () => {
         playSound(audio.clickSound);
+        // Attempt to play background hum only after user interaction
+        if (audio.backgroundHum) {
+            audio.backgroundHum.play().catch(e => console.log("Background hum auto-play blocked:", e.message));
+        }
+
         accessSystemBtn.disabled = true;
         showScreen(loginScreen); // Transition to login screen
         firebaseLogEvent('access_system_clicked');
@@ -348,7 +357,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             await typeText(statusMessage, errorMessage, 40);
             firebaseLogEvent('login_failed_no_input');
             initiateProtocolBtn.disabled = false; // Allow retry
-            statusMessage.style.opacity = '0'; // Hide message after error
+            // Clear status message after a short delay for re-attempt
+            setTimeout(() => { statusMessage.textContent = ''; statusMessage.style.opacity = '0'; }, 1500);
         }
     };
 
@@ -407,7 +417,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             setTimeout(() => {
                 showScreen(gameOverScreen);
                 stopThreeJsAnimation(); // Stop particles when game is over
-                // stopSound(audio.backgroundHum); // Stop background hum if it was playing
+                stopSound(audio.backgroundHum); // Stop background hum if it was playing (uncomment if using audio)
                 firebaseLogEvent('game_completed', { user_name: userName });
             }, 1500); // Delay before showing game over screen
         }
