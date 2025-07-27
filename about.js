@@ -401,25 +401,3 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // --- Module Back Button Handler ---
     document.querySelectorAll('.module-back-btn').forEach(button => {
-        button.onclick = () => {
-            playSound(audio.clickSound);
-            showScreen(mainHubScreen); // Go back to main hub
-            firebaseLogEvent('module_closed');
-        };
-    });
-
-    // --- Game Completion Check ---
-    function checkGameCompletion() {
-        const allModules = ['profile', 'projects', 'history', 'contact'];
-        const allVisited = allModules.every(module => visitedModules.has(module));
-
-        if (allVisited) {
-            setTimeout(() => {
-                showScreen(gameOverScreen);
-                stopThreeJsAnimation(); // Stop particles when game is over
-                stopSound(audio.backgroundHum); // Stop background hum if it was playing (uncomment if using audio)
-                firebaseLogEvent('game_completed', { user_name: userName });
-            }, 1500); // Delay before showing game over screen
-        }
-    }
-});
