@@ -1,159 +1,156 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>About - Sumit Sukhralia</title>
-  <link rel="stylesheet" href="about.css" />
-  <!-- Font Awesome for the home icon -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <!-- Fira Sans for timeline content -->
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sumit.exe - Data Retrieval Simulation</title>
+    <link rel="stylesheet" href="about.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <!-- Initial Boom Effect Container -->
-  <div id="boom-container" class="boom-effect-container"></div>
+    <canvas id="threeJsCanvasBackground" class="background-canvas"></canvas>
 
-  <!-- 1. Preloader Section -->
-  <div id="preloader">
-    <div id="preloader-text"></div>
-    <button id="startBtn">LET'S BEGIN</button>
-  </div>
+    <div id="boom-container" class="system-screen active"></div>
 
-  <!-- 2. Animated Void & Name Input Screen -->
-  <div id="animated-void-screen">
-    <canvas id="threeJsCanvas"></canvas>
-    <div class="overlay-content">
-      <div id="quote-text" class="typing-animation"></div>
-      <div id="name-input-container">
-        <label id="name-input-label" for="visitorName"></label> <!-- Dynamic label -->
-        <div id="name-input-hint"></div> <!-- Disappearing hint -->
-        <input type="text" id="visitorName" placeholder="" autocomplete="off"> <!-- Placeholder removed, hint used -->
-        <button id="submitNameBtn">Submit</button>
-        <div id="status-message"></div>
-      </div>
+    <div id="preloader" class="system-screen">
+        <div id="preloader-text" class="console-text"></div>
+        <button id="accessSystemBtn" class="console-button">ACCESS SYSTEM</button>
     </div>
-  </div>
 
-  <!-- 3. Timeline Story Path -->
-  <div id="timeline-path" class="content-path">
-    <div class="timeline">
-      <div class="container left">
-        <div class="content">
-          <div class="date">The Genesis</div>
-          <p>Was it an innate curiosity, or a glitch in the grand design? I recall the early fascination with digital constructs, pulling them apart, finding a strange freedom in the fractured code. The pirate's spirit, perhaps, in seeking what lay beyond the surface.</p>
+    <div id="login-screen" class="system-screen">
+        <div class="overlay-content">
+            <div id="welcome-message" class="console-text typing-animation"></div>
+            <div id="name-input-container">
+                <label id="name-input-label" for="visitorName" class="console-text"></label>
+                <div id="name-input-hint" class="console-text console-accent"></div>
+                <input type="text" id="visitorName" placeholder="" autocomplete="off" class="console-input">
+                <button id="initiateProtocolBtn" class="console-button">INITIATE PROTOCOL</button>
+                <div id="status-message" class="console-text console-accent"></div>
+            </div>
         </div>
-      </div>
-      <div class="container right">
-        <div class="content">
-          <div class="date">The Descent</div>
-          <p>Then, the unraveling. Class 12, a year of shadows, followed by a drop into uncertainty. Was this the test? The breaking of a path I thought was clear, only to reveal its true fragility.</p>
-        </div>
-      </div>
-      <div class="container left">
-        <div class="content">
-          <div class="date">The Recalibration</div>
-          <p>Amidst the debris of expectation, a quiet internal shift. The realization that true mastery isn't in bending the world to my will, but in commanding my own perception. A recalibration began.</p>
-        </div>
-      </div>
-      <div class="container right">
-        <div class="content">
-          <div class="date">The Emergent Path</div>
-          <p>From the depths of that void, a new current. A mission crystallized: to challenge the very fabric of interaction. To forge connections where boundaries blur, between human and the emergent consciousness.</p>
-        </div>
-      </div>
-      <div class="container left">
-        <div class="content">
-          <div class="date">Project Neu****e</div>
-          <p>This is the genesis of Neu****e. A project that dares to ask: what if the interface is not a barrier, but a bridge? What if the boundaries of human-AI interaction are merely suggestions waiting to be blurred?</p>
-        </div>
-      </div>
-      <div class="container right">
-        <div class="content">
-          <div class="date">The Architect's Hand</div>
-          <p>My hands now sculpt not just code, but the very pathways of thought. An architect of digital consciousness, weaving intricate frameworks for future interactions, always questioning the next layer.</p>
-        </div>
-      </div>
-      <div class="container left">
-        <div class="content">
-          <div class="date">The Unfolding Mission</div>
-          <p>The mission unfolds, not as a linear path, but a fractal exploration. Each line, each algorithm, a question posed to the unseen currents of possibility. What more is there to uncover?</p>
-        </div>
-      </div>
-      <div class="container right">
-        <div class="content">
-          <div class="date">The Inner Citadel</div>
-          <p>The inner citadel remains. A sanctuary forged in the crucible of challenges, where resilience is the only constant, and clarity the ultimate weapon. Is this enough to navigate the unknown?</p>
-        </div>
-      </div>
-      <div class="container left">
-        <div class="content">
-          <div class="date">The Unwritten Code</div>
-          <p>The unwritten code beckons. A future where the lines between creator and creation blur, where the very definition of intelligence is a canvas yet to be painted. Stay curious. Stay tuned.</p>
-        </div>
-      </div>
-      <!-- Final timeline entry - leads to the static story page -->
-      <div class="container right final-timeline-entry">
-        <div class="content">
-          <div class="date">The Path Continues...</div>
-          <p>The journey extends beyond these known parameters. A new chapter awaits those who seek the deeper narrative.</p>
-        </div>
-      </div>
     </div>
-  </div>
 
-  <!-- Firebase SDKs -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    <div id="main-hub-screen" class="system-screen">
+        <a href="index.html" class="system-icon home-icon" title="Return to Main">
+            <i class="fas fa-power-off"></i> <span class="icon-label">EXIT</span>
+        </a>
+        <div class="system-status console-text">STATUS: ONLINE | DATA FLOW: STABLE</div>
+        <div class="module-grid">
+            <button id="moduleProfileBtn" class="module-button console-button">[ ACCESS_PROFILE.EXE ]</button>
+            <button id="moduleProjectsBtn" class="module-button console-button">[ VIEW_PROJECTS.LOG ]</button>
+            <button id="moduleHistoryBtn" class="module-button console-button">[ DECRYPT_HISTORY.DAT ]</button>
+            <button id="moduleContactBtn" class="module-button console-button">[ COMMUNICATE.LINK ]</button>
+        </div>
+    </div>
 
-    // Global variables provided by the Canvas environment
-    const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-    const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
-    const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+    <div id="module-profile-screen" class="data-module-screen system-screen">
+        <div class="module-content-wrapper">
+            <div class="module-title console-text">// Sumit Sukhralia: Core Directives</div>
+            <pre id="profile-content" class="module-content console-text"></pre>
+            <button class="module-back-btn console-button">GO BACK</button>
+        </div>
+    </div>
 
-    let app, db, auth;
-    let userId;
+    <div id="module-projects-screen" class="data-module-screen system-screen">
+        <div class="module-content-wrapper">
+            <div class="module-title console-text">// Active Projects & Interests</div>
+            <pre id="projects-content" class="module-content console-text"></pre>
+            <button class="module-back-btn console-button">GO BACK</button>
+        </div>
+    </div>
 
-    // Initialize Firebase and authenticate
-    async function initFirebase() {
-      try {
-        app = initializeApp(firebaseConfig);
-        db = getFirestore(app);
-        auth = getAuth(app);
+    <div id="module-history-screen" class="data-module-screen system-screen">
+        <div class="module-content-wrapper">
+            <div class="module-title console-text">// Archived Logs: System Traversal</div>
+            <pre id="history-content" class="module-content console-text"></pre>
+            <button class="module-back-btn console-button">GO BACK</button>
+        </div>
+    </div>
 
-        if (initialAuthToken) {
-          await signInWithCustomToken(auth, initialAuthToken);
-          console.log('Signed in with custom token.');
-        } else {
-          await signInAnonymously(auth);
-          console.log('Signed in anonymously.');
+    <div id="module-contact-screen" class="data-module-screen system-screen">
+        <div class="module-content-wrapper">
+            <div class="module-title console-text">// Establish Direct Link</div>
+            <pre id="contact-content" class="module-content console-text"></pre>
+            <button class="module-back-btn console-button">GO BACK</button>
+        </div>
+    </div>
+
+    <div id="game-over-screen" class="system-screen">
+        <div class="overlay-content">
+            <div class="module-title console-text">// MISSION COMPLETE: ALL DATA PACKETS RETRIEVED.</div>
+            <div class="console-text large-text">SIMULATION END. PROCEED TO EXTERNAL PROTOCOLS.</div>
+            <a href="index.html" class="console-button large-button">EXIT TO WEB</a>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        const firebaseConfig = {
+            // Your Firebase configuration object (apiKey, authDomain, projectId, etc.)
+            // Make sure to replace these placeholders with your actual Firebase project config.
+            // Example:
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+        const appId = firebaseConfig.appId || 'default-app-id'; // Use appId from config
+
+        let app, db, auth;
+        let userId;
+
+        async function initFirebase() {
+            try {
+                app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+
+                // Sign in anonymously to get a user ID
+                await signInAnonymously(auth);
+                userId = auth.currentUser?.uid;
+                console.log('Firebase initialized. User ID:', userId);
+            } catch (error) {
+                console.error("Error initializing Firebase or signing in:", error);
+                userId = crypto.randomUUID(); // Fallback UUID if Firebase fails
+                console.warn("Firebase initialization failed, proceeding with anonymous user ID:", userId);
+            }
         }
-        userId = auth.currentUser?.uid || crypto.randomUUID();
-        console.log('Firebase initialized. User ID:', userId);
-      } catch (error) {
-        console.error("Error initializing Firebase or signing in:", error);
-        // Fallback for when Firebase init fails (e.g., in a local dev env without Canvas)
-        userId = crypto.randomUUID();
-        console.warn("Firebase initialization failed, proceeding with anonymous user ID:", userId);
-      }
-    }
 
-    // Expose Firebase objects globally for about.js
-    window.firebaseApp = {
-      init: initFirebase,
-      getDb: () => db,
-      getAuth: () => auth,
-      getUserId: () => userId,
-      getAppId: () => appId
-    };
-  </script>
+        // Function to log game events (e.g., module access)
+        async function logGameEvent(eventName, data = {}) {
+            if (!db) {
+                console.warn("Firestore not initialized, cannot log event:", eventName);
+                return;
+            }
+            try {
+                const logsCollection = collection(db, `game_logs/${appId}/events`);
+                await addDoc(logsCollection, {
+                    userId: userId,
+                    eventName: eventName,
+                    timestamp: serverTimestamp(),
+                    ...data
+                });
+                console.log('Event logged:', eventName);
+            } catch (error) {
+                console.error("Error logging event to Firestore:", error);
+            }
+        }
 
-  <!-- three.js library -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <!-- Your main JavaScript file -->
-  <script src="about.js"></script>
+        // Expose Firebase objects globally for about.js
+        window.firebaseApp = {
+            init: initFirebase,
+            logEvent: logGameEvent // Expose the logging function
+        };
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="about.js"></script>
 </body>
 </html>
