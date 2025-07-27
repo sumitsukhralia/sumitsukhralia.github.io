@@ -1,6 +1,3 @@
-// Global variables for Firebase (will be populated by the script tag in HTML)
-let firebaseLogEvent;
-
 // Three.js variables
 let scene, camera, renderer, particles, particleMaterial;
 let mouseX = 0, mouseY = 0;
@@ -72,23 +69,24 @@ LOG: CONTINUOUS_UPGRADE - Ongoing process of skill enhancement and knowledge acq
     contact: `PROTOCOL: TRANSMISSION ACTIVE
 
 EMAIL: sumitsukhralia.work@gmail.com
-GITHUB: github.com/your-github-profile
-LINKEDIN: linkedin.com/in/your-linkedin-profile
-INSTAGRAM: instagram.com/your-instagram-profile
+GITHUB: github.com/your-github-profile-link-here  <-- UPDATE THIS!
+LINKEDIN: linkedin.com/in/your-linkedin-profile-link-here <-- UPDATE THIS!
+INSTAGRAM: instagram.com/your-instagram-profile-link-here <-- UPDATE THIS!
 
 // NOTE: Direct neural interface currently in beta. Please use standard protocols.`
 };
 
 
-// --- Audio Elements (Optional - Uncomment and provide paths if you have audio files) ---
+// --- Audio Elements (DISABLED for 'no manual add' requirement) ---
+// To enable, uncomment this block and add your audio files in 'assets/audio/'
+/*
 const audio = {
-    // typeSound: new Audio('assets/audio/typewriter.mp3'), // Replace with your path
-    // clickSound: new Audio('assets/audio/button_click.mp3'), // Replace with your path
-    // backgroundHum: new Audio('assets/audio/system_hum.mp3'), // Replace with your path
-    // glitchSound: new Audio('assets/audio/glitch.mp3') // Replace with your path
+    typeSound: new Audio('assets/audio/typewriter.mp3'),
+    clickSound: new Audio('assets/audio/button_click.mp3'),
+    backgroundHum: new Audio('assets/audio/system_hum.mp3'),
+    glitchSound: new Audio('assets/audio/glitch.mp3')
 };
 
-// Set audio properties (only if audio objects are defined)
 if (audio.typeSound) audio.typeSound.volume = 0.1;
 if (audio.clickSound) audio.clickSound.volume = 0.3;
 if (audio.backgroundHum) {
@@ -97,11 +95,10 @@ if (audio.backgroundHum) {
 }
 if (audio.glitchSound) audio.glitchSound.volume = 0.2;
 
-
 function playSound(sound) {
     if (sound) {
-        sound.currentTime = 0; // Reset for quick playback
-        sound.play().catch(e => console.log("Audio playback failed:", e.message)); // Catch promise rejection
+        sound.currentTime = 0;
+        sound.play().catch(e => console.log("Audio playback failed:", e.message));
     }
 }
 
@@ -111,21 +108,17 @@ function stopSound(sound) {
         sound.currentTime = 0;
     }
 }
+*/
+// Dummy functions for playSound/stopSound when audio is disabled
+const playSound = (sound) => {};
+const stopSound = (sound) => {};
 
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // --- Firebase Initialization ---
-    // This part runs first to ensure Firebase is ready for logging.
-    if (window.firebaseApp && typeof window.firebaseApp.init === 'function') {
-        await window.firebaseApp.init();
-        firebaseLogEvent = window.firebaseApp.logEvent;
-        console.log('Firebase services available. Logging enabled.');
-        firebaseLogEvent('page_load', { page: 'about.html' });
-    } else {
-        console.error('Firebase SDK not loaded or initialized correctly. Logging disabled.');
-        // Fallback logging if Firebase isn't available
-        firebaseLogEvent = (eventName, data) => console.log(`[Offline Log] Event: ${eventName}`, data);
-    }
+    // Dummy logging function, as Firebase is removed for a "ready" setup
+    const logEvent = (eventName, data) => {
+        console.log(`[Game Event] ${eventName}:`, data);
+    };
 
     // --- Initial Screen Setup ---
     // All screens start hidden, except the boomContainer (which is black)
@@ -151,7 +144,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             boomContainer.classList.remove('active'); // Hide boom screen
             showScreen(preloader); // Show the preloader
             showPreloaderSequence(); // Start preloader typing sequence
-            firebaseLogEvent('preloader_started');
+            logEvent('preloader_started');
         }, 400); // Matches boom-flash duration in CSS
     };
 
@@ -176,11 +169,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         element.classList.add('typing-animation');
         element.style.opacity = '1';
 
-        // Play typing sound on loop if available (uncomment if using audio)
-        // if (audio.typeSound) {
-        //     audio.typeSound.loop = true;
-        //     playSound(audio.typeSound);
-        // }
+        // Removed audio.typeSound calls here as per request.
 
         for (let i = 0; i < text.length; i++) {
             element.textContent += text.charAt(i);
@@ -188,7 +177,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         element.classList.remove('typing-animation');
-        // stopSound(audio.typeSound); // Stop typing sound (uncomment if using audio)
         return new Promise(resolve => setTimeout(resolve, 100)); // Small pause after typing
     }
 
@@ -206,7 +194,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         accessSystemBtn.style.opacity = '1';
         accessSystemBtn.style.pointerEvents = 'auto'; // Make button clickable
         accessSystemBtn.style.transform = 'translateY(0)'; // If you had a translateY animation
-        firebaseLogEvent('preloader_complete');
+        logEvent('preloader_complete');
     }
 
     // --- Three.js Animated Void Setup ---
@@ -312,15 +300,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // --- Game Logic Flow ---
     accessSystemBtn.onclick = async () => {
-        playSound(audio.clickSound);
-        // Attempt to play background hum only after user interaction
-        if (audio.backgroundHum) {
-            audio.backgroundHum.play().catch(e => console.log("Background hum auto-play blocked:", e.message));
-        }
+        playSound(audio.clickSound); // Dummy playSound will be called
+        // Removed background hum audio play as per request.
 
         accessSystemBtn.disabled = true;
         showScreen(loginScreen); // Transition to login screen
-        firebaseLogEvent('access_system_clicked');
+        logEvent('access_system_clicked');
 
         await new Promise(r => setTimeout(r, 600)); // Wait for screen transition
         await typeText(welcomeMessage, '// Welcome, Unidentified User. Provide designation to proceed.', 60);
@@ -332,11 +317,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         nameInputHint.textContent = 'Enter your handle, pilot...'; // Set hint text
         await typeText(nameInputLabel, 'DESIGNATION:', 60); // Type out label
         visitorNameInput.focus();
-        firebaseLogEvent('login_screen_displayed');
+        logEvent('login_screen_displayed');
     };
 
     initiateProtocolBtn.onclick = async () => {
-        playSound(audio.clickSound);
+        playSound(audio.clickSound); // Dummy playSound will be called
         const inputName = visitorNameInput.value.trim();
         initiateProtocolBtn.disabled = true;
         statusMessage.style.opacity = '1'; // Show message container
@@ -345,17 +330,17 @@ document.addEventListener('DOMContentLoaded', async () => {
             userName = inputName.toUpperCase(); // Store and capitalize user name
             const successMessage = `DESIGNATION: ${userName} ACCEPTED. ACCESSING SUMIT.EXE PERSONAL DATA LOGS.`;
             await typeText(statusMessage, successMessage, 40);
-            firebaseLogEvent('login_success', { user_name: userName });
+            logEvent('login_success', { user_name: userName });
 
             // Transition to main hub after success message
             setTimeout(() => {
                 showScreen(mainHubScreen);
-                firebaseLogEvent('main_hub_entered', { user_name: userName });
+                logEvent('main_hub_entered', { user_name: userName });
             }, 3000); // Delay for user to read status message
         } else {
             const errorMessage = 'ERROR: INPUT INVALID. RETRYING CONNECTION...';
             await typeText(statusMessage, errorMessage, 40);
-            firebaseLogEvent('login_failed_no_input');
+            logEvent('login_failed_no_input');
             initiateProtocolBtn.disabled = false; // Allow retry
             // Clear status message after a short delay for re-attempt
             setTimeout(() => { statusMessage.textContent = ''; statusMessage.style.opacity = '0'; }, 1500);
@@ -364,40 +349,62 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // --- Module Button Click Handlers ---
     document.getElementById('moduleProfileBtn').onclick = async () => {
-        playSound(audio.clickSound);
+        playSound(audio.clickSound); // Dummy playSound will be called
         showScreen(document.getElementById('module-profile-screen'));
         await typeText(profileContent, moduleContents.profile, 20); // Faster typing for content
         visitedModules.add('profile');
         checkGameCompletion();
-        firebaseLogEvent('module_accessed', { module: 'profile', user_name: userName });
+        logEvent('module_accessed', { module: 'profile', user_name: userName });
     };
 
     document.getElementById('moduleProjectsBtn').onclick = async () => {
-        playSound(audio.clickSound);
+        playSound(audio.clickSound); // Dummy playSound will be called
         showScreen(document.getElementById('module-projects-screen'));
         await typeText(projectsContent, moduleContents.projects, 20);
         visitedModules.add('projects');
         checkGameCompletion();
-        firebaseLogEvent('module_accessed', { module: 'projects', user_name: userName });
+        logEvent('module_accessed', { module: 'projects', user_name: userName });
     };
 
     document.getElementById('moduleHistoryBtn').onclick = async () => {
-        playSound(audio.clickSound);
+        playSound(audio.clickSound); // Dummy playSound will be called
         showScreen(document.getElementById('module-history-screen'));
         await typeText(historyContent, moduleContents.history, 20);
         visitedModules.add('history');
         checkGameCompletion();
-        firebaseLogEvent('module_accessed', { module: 'history', user_name: userName });
+        logEvent('module_accessed', { module: 'history', user_name: userName });
     };
 
     document.getElementById('moduleContactBtn').onclick = async () => {
-        playSound(audio.clickSound);
+        playSound(audio.clickSound); // Dummy playSound will be called
         showScreen(document.getElementById('module-contact-screen'));
         await typeText(contactContent, moduleContents.contact, 20);
         visitedModules.add('contact');
         checkGameCompletion();
-        firebaseLogEvent('module_accessed', { module: 'contact', user_name: userName });
+        logEvent('module_accessed', { module: 'contact', user_name: userName });
     };
 
     // --- Module Back Button Handler ---
     document.querySelectorAll('.module-back-btn').forEach(button => {
+        button.onclick = () => {
+            playSound(audio.clickSound); // Dummy playSound will be called
+            showScreen(mainHubScreen); // Go back to main hub
+            logEvent('module_closed');
+        };
+    });
+
+    // --- Game Completion Check ---
+    function checkGameCompletion() {
+        const allModules = ['profile', 'projects', 'history', 'contact'];
+        const allVisited = allModules.every(module => visitedModules.has(module));
+
+        if (allVisited) {
+            setTimeout(() => {
+                showScreen(gameOverScreen);
+                stopThreeJsAnimation(); // Stop particles when game is over
+                stopSound(audio.backgroundHum); // Dummy stopSound will be called
+                logEvent('game_completed', { user_name: userName });
+            }, 1500); // Delay before showing game over screen
+        }
+    }
+});
