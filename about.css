@@ -191,7 +191,7 @@ html, body {
 }
 #accessSystemBtn {
     opacity: 0; /* Controlled by JS */
-    pointer-events: none;
+    pointer-events: none; /* Make unclickable until JS activates */
 }
 
 /* Login Screen */
@@ -218,7 +218,7 @@ html, body {
     align-items: center;
     gap: 15px;
     opacity: 0; /* Controlled by JS */
-    pointer-events: none;
+    pointer-events: none; /* Make unclickable until JS activates */
     width: 100%;
 }
 #name-input-label {
