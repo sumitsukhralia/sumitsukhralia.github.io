@@ -1,112 +1,219 @@
 // Global variables for Firebase (will be populated by the script tag in HTML)
-let firebaseDb, firebaseAuth, currentUserId, currentAppId;
+let firebaseLogEvent;
+
+// Three.js variables
+let scene, camera, renderer, particles, particleMaterial;
+let mouseX = 0, mouseY = 0;
+let windowHalfX = window.innerWidth / 2;
+let windowHalfY = window.innerHeight / 2;
+let animateThreeJsId; // To store requestAnimationFrame ID
+
+// Screen elements
+const boomContainer = document.getElementById('boom-container');
+const preloader = document.getElementById('preloader');
+const preloaderText = document.getElementById('preloader-text');
+const accessSystemBtn = document.getElementById('accessSystemBtn');
+const loginScreen = document.getElementById('login-screen');
+const welcomeMessage = document.getElementById('welcome-message');
+const nameInputContainer = document.getElementById('name-input-container');
+const nameInputLabel = document.getElementById('name-input-label');
+const nameInputHint = document.getElementById('name-input-hint');
+const visitorNameInput = document.getElementById('visitorName');
+const initiateProtocolBtn = document.getElementById('initiateProtocolBtn');
+const statusMessage = document.getElementById('status-message');
+const mainHubScreen = document.getElementById('main-hub-screen');
+const gameOverScreen = document.getElementById('game-over-screen');
+
+// Module content elements
+const profileContent = document.getElementById('profile-content');
+const projectsContent = document.getElementById('projects-content');
+const historyContent = document.getElementById('history-content');
+const contactContent = document.getElementById('contact-content');
+
+// Game state variables
+let visitedModules = new Set();
+let userName = "UNIDENTIFIED_USER"; // Default user name
+
+// Text content for the game
+const preloaderMessages = [
+    "SYSTEM DIAGNOSTICS: RUNNING...",
+    "LOADING CORE MODULES...",
+    "ESTABLISHING DATA LINK..."
+];
+
+const moduleContents = {
+    profile: `STATUS: ONLINE
+DESIGNATION: Sumit Sukhralia
+PRIMARY FUNCTION: Digital Architect / Creator
+CURRENT STATUS: Operating within creative parameters.
+PROTOCOL: Always learning, always building.
+ENERGIZED BY: Curiosity, challenges, good vibes.`,
+
+    projects: `LOG ENTRY: 001 - Full-Stack Development
+STATUS: ENGAGED. Building robust systems from front-end interfaces to back-end logic. Focused on intuitive user experiences.
+
+LOG ENTRY: 002 - AI/ML Exploration
+STATUS: INITIATED. Diving into machine learning algorithms, exploring possibilities in automation and intelligent systems. Fascinated by what comes next.
+
+LOG ENTRY: 003 - Open Source Contributions
+STATUS: ONGOING. Contributing to community-driven projects, believing in shared knowledge and collaborative innovation.
+
+LOG ENTRY: 004 - Creative Endeavors
+STATUS: ACTIVE. Experimenting with new design tools, dabbling in digital art, and always seeking unique ways to express ideas.`,
+
+    history: `LOG: GENESIS - Initializing. Early fascinations with breaking and rebuilding digital constructs. A fundamental curiosity about how systems truly operate.
+
+LOG: CALIBRATION_PHASE - A period of recalibration, adapting to unforeseen challenges and re-evaluating core directives. Pivoted towards resilience.
+
+LOG: EMERGENT_PATH - Identified new pathways. Focused on forging unique interactions, believing in blurring traditional boundaries between humans and technology.
+
+LOG: CONTINUOUS_UPGRADE - Ongoing process of skill enhancement and knowledge acquisition. Every challenge is a new update.`,
+
+    contact: `PROTOCOL: TRANSMISSION ACTIVE
+
+EMAIL: sumitsukhralia.work@gmail.com
+GITHUB: github.com/your-github-profile
+LINKEDIN: linkedin.com/in/your-linkedin-profile
+INSTAGRAM: instagram.com/your-instagram-profile
+
+// NOTE: Direct neural interface currently in beta. Please use standard protocols.`
+};
+
+
+// --- Audio Elements (Optional - Uncomment and provide paths if you have audio files) ---
+const audio = {
+    typeSound: new Audio('assets/audio/typewriter.mp3'), // Replace with your path
+    clickSound: new Audio('assets/audio/button_click.mp3'), // Replace with your path
+    backgroundHum: new Audio('assets/audio/system_hum.mp3'), // Replace with your path
+    glitchSound: new Audio('assets/audio/glitch.mp3') // Replace with your path
+};
+
+// Set audio properties
+if (audio.typeSound) audio.typeSound.volume = 0.1;
+if (audio.clickSound) audio.clickSound.volume = 0.3;
+if (audio.backgroundHum) {
+    audio.backgroundHum.volume = 0.05;
+    audio.backgroundHum.loop = true;
+}
+if (audio.glitchSound) audio.glitchSound.volume = 0.2;
+
+
+function playSound(sound) {
+    if (sound) {
+        sound.currentTime = 0; // Reset for quick playback
+        sound.play().catch(e => console.log("Audio playback failed:", e.message)); // Catch promise rejection
+    }
+}
+
+function stopSound(sound) {
+    if (sound) {
+        sound.pause();
+        sound.currentTime = 0;
+    }
+}
+
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // Get references to all necessary DOM elements
-    const boomContainer = document.getElementById('boom-container');
-    const preloader = document.getElementById('preloader');
-    const preloaderText = document.getElementById('preloader-text');
-    const startBtn = document.getElementById('startBtn');
-    const animatedVoidScreen = document.getElementById('animated-void-screen');
-    const threeJsCanvas = document.getElementById('threeJsCanvas');
-    const quoteText = document.getElementById('quote-text');
-    const nameInputContainer = document.getElementById('name-input-container');
-    const nameInputLabel = document.getElementById('name-input-label'); // New label element
-    const nameInputHint = document.getElementById('name-input-hint'); // New hint element
-    const visitorNameInput = document.getElementById('visitorName');
-    const submitNameBtn = document.getElementById('submitNameBtn');
-    const statusMessage = document.getElementById('status-message');
-    const timelinePath = document.getElementById('timeline-path');
-    const timelineContainers = document.querySelectorAll('.timeline .container');
-    // const aboutContentParagraph = document.getElementById('aboutContentParagraph'); // Removed
-    // const backHomeBtn = document.getElementById('backHomeBtn'); // Removed
-
-    console.log('DOM Content Loaded. Initializing game-like experience...');
-
     // --- Firebase Initialization ---
     if (window.firebaseApp && typeof window.firebaseApp.init === 'function') {
         await window.firebaseApp.init();
-        firebaseDb = window.firebaseApp.getDb();
-        firebaseAuth = window.firebaseApp.getAuth();
-        currentUserId = window.firebaseApp.getUserId();
-        currentAppId = window.firebaseApp.getAppId();
-        console.log('Firebase services available. User ID:', currentUserId);
+        firebaseLogEvent = window.firebaseApp.logEvent;
+        console.log('Firebase services available. Logging enabled.');
+        firebaseLogEvent('page_load', { page: 'about.html' });
     } else {
-        console.error('Firebase SDK not loaded or initialized correctly.');
-        firebaseDb = null;
-        firebaseAuth = null;
-        currentUserId = crypto.randomUUID();
-        currentAppId = 'local-dev-app';
-        console.warn("Firebase initialization failed, proceeding with anonymous user ID:", currentUserId);
+        console.error('Firebase SDK not loaded or initialized correctly. Logging disabled.');
+        firebaseLogEvent = (eventName, data) => console.log(`[Offline Log] Event: ${eventName}`, data);
     }
 
-    // --- Initial Setup ---
-    boomContainer.style.display = 'flex';
-    preloader.style.display = 'none';
-    animatedVoidScreen.style.display = 'none';
-    timelinePath.style.display = 'none';
-    document.body.style.overflow = 'hidden';
+    // --- Initial Screen Setup ---
+    // All screens start hidden, except boomContainer
+    document.querySelectorAll('.system-screen').forEach(screen => {
+        screen.classList.remove('active');
+    });
+    boomContainer.classList.add('active'); // Only boom container is active initially
 
-    quoteText.style.opacity = '0';
-    nameInputContainer.style.opacity = '0';
-    nameInputLabel.style.opacity = '0'; // Hide new label
-    nameInputHint.style.opacity = '0'; // Hide new hint
+    // Initialize Three.js immediately
+    initThreeJs(document.getElementById('threeJsCanvasBackground'));
+    animateThreeJs(); // Start particle animation loop
 
-    timelineContainers.forEach(container => container.classList.remove('visible'));
+    // --- Game Start Sequence ---
+    // This runs after window finishes loading (all assets, incl. Three.js)
+    window.onload = () => {
+        // Play background hum if available
+        // playSound(audio.backgroundHum); // Auto-play might be blocked by browsers
 
-    // --- Boom Effect ---
-    function triggerBoomEffect() {
+        // Start the boom effect, then transition to preloader
         boomContainer.classList.add('boom-effect');
         setTimeout(() => {
-            boomContainer.style.display = 'none';
-            boomContainer.classList.remove('boom-effect');
-            showPreloader();
-        }, 500);
-    }
+            boomContainer.classList.remove('active'); // Hide boom
+            showScreen(preloader); // Show preloader
+            showPreloaderSequence(); // Start preloader typing sequence
+            firebaseLogEvent('preloader_started');
+        }, 400); // Matches boom-flash duration
+    };
 
-    // --- Preloader Sequence ---
-    function showPreloader() {
-        preloader.style.display = 'flex';
-        void preloader.offsetWidth;
-        preloader.style.opacity = '1';
-        startBtn.style.opacity = '1';
-        startBtn.style.pointerEvents = 'auto';
+    // --- Screen Management Function ---
+    function showScreen(screenToShow, delay = 0) {
+        // Hide all screens first (except the canvas)
+        document.querySelectorAll('.system-screen').forEach(screen => {
+            if (screen !== screenToShow) {
+                screen.classList.remove('active');
+            }
+        });
+
+        setTimeout(() => {
+            screenToShow.classList.add('active');
+        }, delay);
     }
 
     // --- Typing Animation Function ---
-    async function typeText(element, text, delay = 70) {
+    async function typeText(element, text, delay = 50) {
         element.textContent = '';
         element.classList.add('typing-animation');
         element.style.opacity = '1';
 
-        const animationDuration = (text.length * delay) / 1000;
-        element.style.animation = `typing ${animationDuration}s steps(${text.length}, end), blink-caret .75s step-end infinite`;
+        // Play typing sound on loop if available
+        // if (audio.typeSound) {
+        //     audio.typeSound.loop = true;
+        //     playSound(audio.typeSound);
+        // }
 
-        element.textContent = text; // Set text content immediately for screen readers and robust typing
+        for (let i = 0; i < text.length; i++) {
+            element.textContent += text.charAt(i);
+            await new Promise(resolve => setTimeout(resolve, delay));
+        }
 
-        return new Promise(resolve => {
-            setTimeout(() => {
-                element.classList.remove('typing-animation');
-                element.style.animation = '';
-                resolve();
-            }, animationDuration * 1000 + 100);
-        });
+        element.classList.remove('typing-animation');
+        // stopSound(audio.typeSound);
+        return new Promise(resolve => setTimeout(resolve, 100)); // Small pause after typing
     }
 
-    // --- Three.js Animated Void ---
-    let scene, camera, renderer, particles, particleMaterial, particleCount;
-    let mouseX = 0, mouseY = 0;
-    let windowHalfX = window.innerWidth / 2;
-    let windowHalfY = window.innerHeight / 2;
 
-    function initThreeJs() {
+    // --- Preloader Sequence ---
+    async function showPreloaderSequence() {
+        for (let i = 0; i < preloaderMessages.length; i++) {
+            await typeText(preloaderText, preloaderMessages[i], 50);
+            await new Promise(r => setTimeout(r, 800)); // Pause between messages
+            if (i < preloaderMessages.length - 1) {
+                preloaderText.textContent = ''; // Clear for next message
+            }
+        }
+        // Reveal access button
+        accessSystemBtn.style.opacity = '1';
+        accessSystemBtn.style.pointerEvents = 'auto';
+        accessSystemBtn.style.transform = 'translateY(0)';
+        firebaseLogEvent('preloader_complete');
+    }
+
+    // --- Three.js Animated Void Setup ---
+    function initThreeJs(canvasElement) {
         scene = new THREE.Scene();
         camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        renderer = new THREE.WebGLRenderer({ canvas: threeJsCanvas, alpha: true });
+        renderer = new THREE.WebGLRenderer({ canvas: canvasElement, alpha: true, antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(window.devicePixelRatio);
 
-        particleCount = 1000;
+        const particleCount = 1500;
         const geometry = new THREE.BufferGeometry();
         const positions = [];
         const colors = [];
@@ -114,11 +221,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         for (let i = 0; i < particleCount; i++) {
             positions.push(
-                (Math.random() * 2 - 1) * 500,
-                (Math.random() * 2 - 1) * 500,
-                (Math.random() * 2 - 1) * 500
+                (Math.random() * 2 - 1) * 600,
+                (Math.random() * 2 - 1) * 600,
+                (Math.random() * 2 - 1) * 600
             );
-            color.setHSL(Math.random() * 0.2 + 0.6, 0.7, 0.5);
+            color.setHSL(Math.random() * 0.2 + 0.6, 0.7, 0.5); // Warm purple/pink hues
             colors.push(color.r, color.g, color.b);
         }
 
@@ -130,18 +237,16 @@ document.addEventListener('DOMContentLoaded', async () => {
             vertexColors: true,
             blending: THREE.AdditiveBlending,
             transparent: true,
-            opacity: 0.7
+            opacity: 0.8
         });
 
         particles = new THREE.Points(geometry, particleMaterial);
         scene.add(particles);
-
-        camera.position.z = 200;
+        camera.position.z = 250;
 
         document.addEventListener('mousemove', onDocumentMouseMove, false);
         document.addEventListener('touchstart', onDocumentTouchStart, false);
         document.addEventListener('touchmove', onDocumentTouchMove, false);
-
         window.addEventListener('resize', onWindowResize, false);
     }
 
@@ -175,232 +280,136 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function animateThreeJs() {
-        requestAnimationFrame(animateThreeJs);
+        animateThreeJsId = requestAnimationFrame(animateThreeJs);
 
         particles.rotation.x += 0.0005;
         particles.rotation.y += 0.001;
 
-        particles.geometry.attributes.position.array.forEach((_, i) => {
-            if (i % 3 === 0) particles.geometry.attributes.position.array[i] += Math.sin(Date.now() * 0.0001 + i) * 0.1;
-            if (i % 3 === 1) particles.geometry.attributes.position.array[i] += Math.cos(Date.now() * 0.0001 + i) * 0.1;
-        });
+        const positions = particles.geometry.attributes.position.array;
+        for (let i = 0; i < positions.length; i += 3) {
+            positions[i] += Math.sin(Date.now() * 0.00005 + i) * 0.05;
+            positions[i+1] += Math.cos(Date.now() * 0.00005 + i) * 0.05;
+            positions[i+2] += Math.sin(Date.now() * 0.00005 + i + 10) * 0.05;
+        }
         particles.geometry.attributes.position.needsUpdate = true;
 
-        camera.position.x += (mouseX * 0.1 - camera.position.x) * 0.05;
-        camera.position.y += (-mouseY * 0.1 - camera.position.y) * 0.05;
+        camera.position.x += (mouseX * 0.1 - camera.position.x) * 0.03;
+        camera.position.y += (-mouseY * 0.1 - camera.position.y) * 0.03;
         camera.lookAt(scene.position);
-
         renderer.render(scene, camera);
     }
 
-    // --- Main Game-like Sequence ---
-    async function runGameSequence() {
-        console.log('Game sequence started.');
-        preloader.style.opacity = '0';
-        preloader.style.pointerEvents = 'none';
-        await new Promise(r => setTimeout(r, 1000));
+    function stopThreeJsAnimation() {
+        if (animateThreeJsId) {
+            cancelAnimationFrame(animateThreeJsId);
+            animateThreeJsId = null;
+        }
+    }
 
-        preloader.style.display = 'none';
-        animatedVoidScreen.style.display = 'block';
-        initThreeJs();
-        animateThreeJs();
+    // --- Game Logic Flow ---
+    accessSystemBtn.onclick = async () => {
+        playSound(audio.clickSound);
+        accessSystemBtn.disabled = true;
+        showScreen(loginScreen); // Transition to login screen
+        firebaseLogEvent('access_system_clicked');
 
-        void animatedVoidScreen.offsetWidth;
-        animatedVoidScreen.style.opacity = '1';
+        await new Promise(r => setTimeout(r, 600)); // Wait for screen transition
+        await typeText(welcomeMessage, '// Welcome, Unidentified User. Provide designation to proceed.', 60);
 
-        await typeText(quoteText, 'Some truths are not found, but forged.', 70);
-        await new Promise(r => setTimeout(r, 300)); // Faster appearance for input box
-
-        // Fade in name input container
         nameInputContainer.style.opacity = '1';
         nameInputContainer.style.pointerEvents = 'auto';
-
-        // Type out "Who are you?"
-        await typeText(nameInputLabel, 'Who are you?', 70);
-        await new Promise(r => setTimeout(r, 500)); // Pause after typing label
-
-        // Show and fade out hint
-        nameInputHint.textContent = 'A designation for access...'; // Updated hint text
+        nameInputLabel.style.opacity = '1';
         nameInputHint.style.opacity = '1';
-        await new Promise(r => setTimeout(r, 2000)); // Display hint for 2 seconds
-        nameInputHint.style.opacity = '0';
-        await new Promise(r => setTimeout(r, 500)); // Wait for hint to fade
-
+        nameInputHint.textContent = 'Enter your handle, pilot...'; // Set hint text
+        await typeText(nameInputLabel, 'DESIGNATION:', 60); // Type out label
         visitorNameInput.focus();
-        console.log('Animated void, quote, and name input shown.');
-    }
+        firebaseLogEvent('login_screen_displayed');
+    };
 
-    // --- Timeline Autoscroll Logic (using requestAnimationFrame) ---
-    let animationFrameId;
-    let lastScrollTime;
-    let isUserScrolling = false;
-    const scrollSpeedPerSecond = 8000; // Pixels per second (EXTREMELY FAST)
+    initiateProtocolBtn.onclick = async () => {
+        playSound(audio.clickSound);
+        const inputName = visitorNameInput.value.trim();
+        initiateProtocolBtn.disabled = true;
+        statusMessage.style.opacity = '1'; // Show message container
 
-    function startAutoscroll() {
-        if (animationFrameId) cancelAnimationFrame(animationFrameId); // Cancel any existing frame
+        if (inputName) {
+            userName = inputName.toUpperCase(); // Store and capitalize user name
+            const successMessage = `DESIGNATION: ${userName} ACCEPTED. ACCESSING SUMIT.EXE PERSONAL DATA LOGS.`;
+            await typeText(statusMessage, successMessage, 40);
+            firebaseLogEvent('login_success', { user_name: userName });
 
-        lastScrollTime = performance.now(); // Get current time
-
-        function animateScroll(currentTime) {
-            if (isUserScrolling) {
-                // If user is scrolling, stop auto-scroll but keep requesting frames
-                // to re-evaluate if user stops scrolling.
-                animationFrameId = requestAnimationFrame(animateScroll);
-                return;
-            }
-
-            const deltaTime = currentTime - lastScrollTime;
-            const scrollAmount = (scrollSpeedPerSecond * deltaTime) / 1000; // Calculate scroll based on time elapsed
-
-            timelinePath.scrollBy(0, scrollAmount);
-            lastScrollTime = currentTime; // Update last scroll time
-
-            // Check if reached end (within a small buffer)
-            if (timelinePath.scrollTop + timelinePath.clientHeight >= timelinePath.scrollHeight - 10) {
-                cancelAnimationFrame(animationFrameId);
-                console.log('Timeline end reached. Triggering boom effect.');
-                triggerTimelineEndBoom();
-            } else {
-                animationFrameId = requestAnimationFrame(animateScroll);
-            }
-        }
-        animationFrameId = requestAnimationFrame(animateScroll); // Start the animation loop
-    }
-
-    function stopAutoscroll() {
-        if (animationFrameId) {
-            cancelAnimationFrame(animationFrameId);
-            animationFrameId = null;
-        }
-    }
-
-    function handleTimelineScroll() {
-        isUserScrolling = true;
-        // Reset user scrolling flag after a short delay
-        clearTimeout(timelinePath.scrollTimeout);
-        timelinePath.scrollTimeout = setTimeout(() => {
-            isUserScrolling = false;
-            // If user stops scrolling, restart auto-scroll if not at end
-            if (timelinePath.scrollTop + timelinePath.clientHeight < timelinePath.scrollHeight - 10) {
-                startAutoscroll();
-            }
-        }, 300); // Give user 300ms to continue scrolling
-    }
-
-    // --- Timeline End Boom Effect & Redirect ---
-    function triggerTimelineEndBoom() {
-        const timelineBoomOverlay = document.createElement('div');
-        timelineBoomOverlay.id = 'timeline-boom-overlay';
-        timelineBoomOverlay.style.cssText = `
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: #000;
-            z-index: 10001;
-            opacity: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 3rem;
-            text-shadow: 0 0 20px rgba(255,255,255,0.8);
-            animation: timeline-boom-flash 0.8s ease-out forwards;
-        `;
-        document.body.appendChild(timelineBoomOverlay);
-
-        // After boom, redirect to final-story.html
-        setTimeout(() => {
-            window.location.href = 'final-story.html';
-        }, 800); // Match timeline-boom-flash animation duration
-    }
-
-    // --- Event Listeners ---
-    window.onload = triggerBoomEffect;
-
-    startBtn.onclick = runGameSequence;
-
-    submitNameBtn.onclick = async () => {
-        const visitorName = visitorNameInput.value.trim();
-        if (visitorName) {
-            statusMessage.style.opacity = '1';
-            statusMessage.textContent = 'Processing...';
-
-            if (firebaseDb) {
-                try {
-                    const visitorsCollectionRef = collection(firebaseDb, `artifacts/${currentAppId}/public/data/visitors`);
-                    await addDoc(visitorsCollectionRef, {
-                        name: visitorName,
-                        userId: currentUserId,
-                        timestamp: new Date()
-                    });
-                    statusMessage.textContent = 'Access Granted. Welcome.';
-                    console.log('Visitor name submitted to Firestore:', visitorName);
-
-                    // Transition to timeline
-                    setTimeout(() => {
-                        animatedVoidScreen.style.opacity = '0';
-                        animatedVoidScreen.style.pointerEvents = 'none';
-                        setTimeout(() => {
-                            animatedVoidScreen.style.display = 'none';
-                            timelinePath.style.display = 'block';
-                            void timelinePath.offsetWidth;
-                            timelinePath.style.opacity = '1';
-                            document.body.style.overflowY = 'auto';
-                            startAutoscroll();
-                            console.log('Transitioned to timeline path.');
-                        }, 1000);
-                    }, 1500);
-                } catch (error) {
-                    console.error("Error submitting name to Firestore:", error);
-                    statusMessage.textContent = 'Error. Try again.';
-                    setTimeout(() => {
-                        animatedVoidScreen.style.opacity = '0';
-                        animatedVoidScreen.style.pointerEvents = 'none';
-                        setTimeout(() => {
-                            animatedVoidScreen.style.display = 'none';
-                            timelinePath.style.display = 'block';
-                            void timelinePath.offsetWidth;
-                            timelinePath.style.opacity = '1';
-                            document.body.style.overflowY = 'auto';
-                            startAutoscroll();
-                            console.log('Transitioned to timeline path (with Firestore error).');
-                        }, 1000);
-                    }, 1500);
-                }
-            } else {
-                statusMessage.textContent = 'Access Granted (offline). Welcome.';
-                console.warn('Firestore not available, name not stored.');
-                setTimeout(() => {
-                    animatedVoidScreen.style.opacity = '0';
-                    animatedVoidScreen.style.pointerEvents = 'none';
-                    setTimeout(() => {
-                        animatedVoidScreen.style.display = 'none';
-                        timelinePath.style.display = 'block';
-                        void timelinePath.offsetWidth;
-                        timelinePath.style.opacity = '1';
-                        document.body.style.overflowY = 'auto';
-                        startAutoscroll();
-                        console.log('Transitioned to timeline path (Firebase not initialized).');
-                    }, 1000);
-                }, 1500);
-            }
+            // Transition to main hub after success message
+            setTimeout(() => {
+                showScreen(mainHubScreen);
+                firebaseLogEvent('main_hub_entered', { user_name: userName });
+            }, 3000); // Delay for user to read status message
         } else {
-            statusMessage.style.opacity = '1';
-            statusMessage.textContent = 'Please enter your designation.';
+            const errorMessage = 'ERROR: INPUT INVALID. RETRYING CONNECTION...';
+            await typeText(statusMessage, errorMessage, 40);
+            firebaseLogEvent('login_failed_no_input');
+            initiateProtocolBtn.disabled = false; // Allow retry
+            statusMessage.style.opacity = '0'; // Hide message after error
         }
     };
 
-    timelinePath.addEventListener('scroll', handleTimelineScroll);
+    // --- Module Button Click Handlers ---
+    document.getElementById('moduleProfileBtn').onclick = async () => {
+        playSound(audio.clickSound);
+        showScreen(document.getElementById('module-profile-screen'));
+        await typeText(profileContent, moduleContents.profile, 20); // Faster typing for content
+        visitedModules.add('profile');
+        checkGameCompletion();
+        firebaseLogEvent('module_accessed', { module: 'profile', user_name: userName });
+    };
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-            }
-        });
-    }, { threshold: 0.5 });
+    document.getElementById('moduleProjectsBtn').onclick = async () => {
+        playSound(audio.clickSound);
+        showScreen(document.getElementById('module-projects-screen'));
+        await typeText(projectsContent, moduleContents.projects, 20);
+        visitedModules.add('projects');
+        checkGameCompletion();
+        firebaseLogEvent('module_accessed', { module: 'projects', user_name: userName });
+    };
 
-    timelineContainers.forEach(container => {
-        observer.observe(container);
+    document.getElementById('moduleHistoryBtn').onclick = async () => {
+        playSound(audio.clickSound);
+        showScreen(document.getElementById('module-history-screen'));
+        await typeText(historyContent, moduleContents.history, 20);
+        visitedModules.add('history');
+        checkGameCompletion();
+        firebaseLogEvent('module_accessed', { module: 'history', user_name: userName });
+    };
+
+    document.getElementById('moduleContactBtn').onclick = async () => {
+        playSound(audio.clickSound);
+        showScreen(document.getElementById('module-contact-screen'));
+        await typeText(contactContent, moduleContents.contact, 20);
+        visitedModules.add('contact');
+        checkGameCompletion();
+        firebaseLogEvent('module_accessed', { module: 'contact', user_name: userName });
+    };
+
+    // --- Module Back Button Handler ---
+    document.querySelectorAll('.module-back-btn').forEach(button => {
+        button.onclick = () => {
+            playSound(audio.clickSound);
+            showScreen(mainHubScreen); // Go back to main hub
+            firebaseLogEvent('module_closed');
+        };
     });
+
+    // --- Game Completion Check ---
+    function checkGameCompletion() {
+        const allModules = ['profile', 'projects', 'history', 'contact'];
+        const allVisited = allModules.every(module => visitedModules.has(module));
+
+        if (allVisited) {
+            setTimeout(() => {
+                showScreen(gameOverScreen);
+                stopThreeJsAnimation(); // Stop particles when game is over
+                // stopSound(audio.backgroundHum); // Stop background hum if it was playing
+                firebaseLogEvent('game_completed', { user_name: userName });
+            }, 1500); // Delay before showing game over screen
+        }
+    }
 });
