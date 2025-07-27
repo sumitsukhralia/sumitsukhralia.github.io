@@ -1,442 +1,387 @@
-
+/* Universal Resets */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
 }
 
 html, body {
-  height: 100%; 
+    height: 100%;
+    width: 100%;
+    overflow: hidden; /* Control overflow strictly via JS for screens */
+    color: white; /* Default text color */
+    font-family: 'Courier Prime', monospace; /* Default console font */
+    background: black; /* Main background */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-body {
-  background: black; 
-  color: white;
-  font-family: 'Courier New', monospace; /* Typing font  */
-  overflow-x: hidden; /* Prevent horizontal scrolling */
-  overflow-y: hidden; /* Prevent vertical scrolling initially */
-  
-  animation: subtle-glow 10s infinite alternate ease-in-out;
+/* Three.js Background Canvas - Always Active */
+#threeJsCanvasBackground {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0; /* Always at the very back */
+    background: black;
+    filter: brightness(0.7); /* Slightly dim particles for better text contrast */
+    pointer-events: none; /* Allows clicks to pass through to elements above */
 }
 
-@keyframes subtle-glow {
-  from { box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.05); }
-  to { box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.15); }
+/* Base style for all system screens */
+.system-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9); /* Semi-transparent overlay to see particles */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 100; /* Default z-index for screens */
+    opacity: 0;
+    visibility: hidden; /* Hide via visibility for smoother transitions with opacity */
+    transition: opacity 0.6s ease-in-out, visibility 0.6s ease-in-out;
+    padding: 20px; /* Global padding for screens */
 }
 
-/* Hide scrollbar for Chrome, Safari, Opera */
-body::-webkit-scrollbar,
-#timeline-path::-webkit-scrollbar,
-.story-content::-webkit-scrollbar { /*  hide for timeline and story content */
-    display: none;
-}
-/* Hide scrollbar for IE, Edge, Firefox */
-body,
-#timeline-path,
-.story-content { 
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+.system-screen.active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 200; /* Bring active screen to front */
 }
 
-
-
+/* Boom Effect (Initial Flash) */
 #boom-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: #000;
-  z-index: 10000; 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden; /* Ensure nothing spills out */
+    background: #000;
+    z-index: 1000; /* Highest initially */
 }
 
 .boom-effect {
-  animation: boom-flash 0.5s ease-out forwards;
+    animation: boom-flash 0.4s ease-out forwards;
 }
 
 @keyframes boom-flash {
-  0% { background-color: #000; opacity: 1; }
-  50% { background-color: #fff; opacity: 1; transform: scale(1.1); }
-  100% { background-color: #000; opacity: 0; transform: scale(1); }
+    0% { background-color: #000; opacity: 1; }
+    50% { background-color: rgba(255, 255, 255, 0.9); opacity: 1; transform: scale(1.05); }
+    100% { background-color: #000; opacity: 0; transform: scale(1); }
 }
 
-/* Typing Animation  */
-.typing-animation {
-  overflow: hidden; /*  text is hidden until typed */
-  white-space: nowrap; /* Keeps text on a single line */
-  border-right: 0.15em solid white; /* The blinking caret */
+/* Console Text Styles */
+.console-text {
+    font-family: 'Courier Prime', monospace;
+    color: #fff;
+    line-height: 1.5;
+    word-break: break-word; /* Prevent long words breaking layout */
+    overflow-wrap: break-word; /* Ensure text wraps */
 }
 
-@keyframes typing {
-  from { width: 0 }
-  to { width: 100% }
+.console-accent {
+    color: #8a6edb; /* Purple accent for status messages, hints */
+    text-shadow: 0 0 5px rgba(138, 110, 219, 0.5);
 }
 
-@keyframes blink-caret {
-  from, to { border-color: transparent }
-  50% { border-color: white; }
-}
-
-
-#preloader {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: #000; /* black background */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  z-index: 9999;
-  opacity: 1;
-  transition: opacity 1s ease-in-out;
-}
-
-#preloader-text {
-  font-size: 2.5rem; /* Cinematic impact */
-  max-width: 90%;
-  line-height: 1.4;
-  padding: 20px;
-  opacity: 0; /* Start hidden, revealed by JS typing */
-}
-
-#startBtn {
-  margin-top: 40px; /* More space for dramatic effect */
-  padding: 18px 50px; /* Larger button */
-  font-size: 1.4rem; /* Larger font */
-  font-weight: bold;
-  background: #fff;
-  color: #000;
-  border: none;
-  cursor: pointer;
-  border-radius: 50px;
-  transition: background 0.3s, opacity 0.5s, transform 0.3s;
-}
-
-#startBtn:hover {
-  background: #ddd;
-  transform: scale(1.05);
-}
-
-
-#animated-void-screen {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: #000;
-  z-index: 9997; /* Below preloader, above timeline */
-  display: none; /* Hidden initially */
-  opacity: 0;
-  transition: opacity 1s ease-in-out;
-}
-
-#threeJsCanvas {
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-}
-
-.overlay-content {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: 2; /* Above canvas */
-  text-align: center;
-  padding: 20px;
-}
-
-#quote-text {
-  font-size: 2.2rem;
-  max-width: 90%;
-  line-height: 1.4;
-  padding: 20px;
-  opacity: 0; /* Hidden initially, typed by JS */
-  margin-bottom: 50px; /* Space for input */
-  font-weight: bold; /* Make quote text bold */
-}
-
-#name-input-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  opacity: 0; /* Hidden initially, faded in by JS */
-  transition: opacity 0.5s ease 0.5s;
-  max-width: 400px;
-  width: 90%;
-}
-
-#name-input-label {
-  font-size: 1.8rem; /* Larger for "Who are you?" */
-  color: #fff;
-  opacity: 0; /* Hidden initially, typed by JS */
-  margin-bottom: 5px; /* Space below label */
-}
-
-#name-input-hint {
-  font-size: 1rem;
-  /* Apply new purple gradient to hint text */
-  background: linear-gradient(90deg, #583aba, #8a6edb);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-fill-color: transparent;
-  opacity: 0; /* Hidden initially, faded in/out by JS */
-  transition: opacity 0.5s ease-out;
-  margin-bottom: 10px; /* Space above input */
-}
-
-#visitorName {
-  padding: 12px 20px;
-  font-size: 1.1rem;
-  width: 100%;
-  border: 2px solid #583aba; /* New purple border */
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.1); /* Slightly transparent background */
-  color: #fff;
-  outline: none;
-  transition: border-color 0.3s, box-shadow 0.3s;
-}
-
-#visitorName:focus {
-  border-color: #8a6edb; /* Lighter shade on focus */
-  box-shadow: 0 0 15px rgba(88, 58, 186, 0.5); /* Adjusted shadow */
-}
-
-#submitNameBtn {
-  padding: 15px 40px;
-  font-size: 1.3rem;
-  font-weight: bold;
-  background: linear-gradient(45deg, #583aba, #8a6edb); /* New purple gradient */
-  color: white;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  box-shadow: 0 5px 20px rgba(88, 58, 186, 0.4); /* Adjusted shadow */
-  transition: all 0.3s ease;
-}
-
-#submitNameBtn:hover {
-  background: linear-gradient(45deg, #8a6edb, #583aba); /* Reverse gradient on hover */
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 8px 25px rgba(88, 58, 186, 0.6); /* Adjusted shadow */
-}
-
-#status-message {
-  margin-top: 10px;
-  font-size: 1rem;
-  color: #00ff00; /* Green for success */
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-/* --- Timeline Story Path --- */
-#timeline-path {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: #000; /* Black background for timeline */
-  display: none; /* Hidden initially */
-  opacity: 0;
-  transition: opacity 1s ease-in-out;
-  overflow-y: auto; /* Enable scrolling */
-  scroll-behavior: smooth; /* Smooth scrolling for autoscroll */
-}
-
-.timeline {
-  position: relative;
-  max-width: 800px;
-  margin: 4rem auto;
-  padding: 0 20px; /* Add horizontal padding */
-}
-
-.timeline::after {
-  content: '';
-  position: absolute;
-  width: 4px;
-  background: linear-gradient(to bottom, #583aba, #8a6edb); /* New purple gradient for line */
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  margin-left: -2px;
-}
-
-.container {
-  padding: 1rem 2rem;
-  position: relative;
-  background-color: inherit;
-  width: 50%;
-  opacity: 0; /* Hidden initially for scroll reveal */
-  transform: translateY(50px);
-  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-}
-
-.container.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.left {
-  left: 0;
-}
-
-.right {
-  left: 50%;
-}
-
-.content {
-  background: rgba(26, 26, 26, 0.9); /* Slightly transparent dark background */
-  padding: 1.5rem; /* Increased padding */
-  border-radius: 8px;
-  position: relative;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-}
-
-.container::after {
-  content: '';
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  right: -10px;
-  background: linear-gradient(45deg, #583aba, #8a6edb); /* New purple gradient for dot */
-  border: 4px solid #fff;
-  top: 25px; /* Adjusted to center with increased padding */
-  border-radius: 50%;
-  z-index: 1;
-}
-
-.right::after {
-  left: -10px;
-}
-
-.container .date {
-  font-weight: bold;
-  margin-bottom: 0.8rem; /* More space */
-  font-size: 1.1rem;
-  color: #8a6edb; /* New purple date color */
-}
-
-.container p {
-  font-size: 1rem;
-  line-height: 1.5;
-}
-
-/* Headings with subtle purple gradient */
-.timeline h1, .timeline h2, .timeline h3 {
-  background: linear-gradient(90deg, #583aba, #8a6edb); /* New purple gradient for headings */
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-fill-color: transparent;
-  font-weight: bold;
-  margin-bottom: 15px;
-  font-size: 2.2rem; /* Adjust as needed */
-}
-
-/* Override for timeline specific heading sizes */
-.timeline .container h1 { font-size: 2.2rem; }
-.timeline .container h2 { font-size: 1.8rem; }
-.timeline .container h3 { font-size: 1.5rem; }
-
-
-/* Final story container styles */
-.final-timeline-entry {
-  margin-top: 6rem; /* Extra space before final section */
-  margin-bottom: 4rem; /* Space at the bottom */
-}
-
-/* --- Mobile Optimizations --- */
-@media (max-width: 768px) {
-  body {
-    font-size: 0.85rem;
-  }
-
-  #preloader-text,
-  #quote-text {
-    font-size: 1.6rem;
-    padding: 10px;
-  }
-
-  #startBtn {
-    padding: 12px 30px;
-    font-size: 1rem;
-    margin-top: 25px;
-  }
-
-  #name-input-label {
-    font-size: 1.4rem; /* Smaller for mobile */
-  }
-
-  #name-input-hint {
-    font-size: 0.9rem;
-  }
-
-  #visitorName {
-    padding: 10px 15px;
-    font-size: 1rem;
-  }
-
-  #submitNameBtn {
-    padding: 12px 30px;
-    font-size: 1.1rem;
-  }
-
-  .timeline::after {
-    left: 31px; /* Adjust timeline bar position */
-  }
-
-  .container {
-    width: 100%;
-    padding-left: 70px; /* Space for the line and dot */
-    padding-right: 25px;
-  }
-
-  .container::after {
-    left: 15px; /* Adjust dot position */
-    top: 20px; /* Adjust dot vertical position */
-  }
-
-  .right {
-    left: 0%; /* Stack all containers on the left for mobile */
-  }
-
-  .timeline h1, .timeline h2, .timeline h3 {
-    font-size: 1.8rem; /* Smaller headings */
-    margin-bottom: 10px;
-  }
-
-  .timeline .container h1 { font-size: 1.8rem; }
-  .timeline .container h2 { font-size: 1.5rem; }
-  .timeline .container h3 { font-size: 1.3rem; }
-
-  .layer p {
-    font-size: 0.95rem;
-    max-width: 95%;
+.large-text {
+    font-size: 1.5rem;
+    margin-top: 20px;
     margin-bottom: 20px;
-  }
+}
 
-  .layer-content {
+/* Typing Animation */
+.typing-animation {
+    overflow: hidden;
+    white-space: pre; /* Preserve whitespace for typing effect */
+    border-right: 0.15em solid #fff; /* Blinking caret */
+    animation: blink-caret .75s step-end infinite;
+    max-width: 90%;
+    width: fit-content; /* Adjust width to text length */
+}
+/* Keyframe animation for typing effect controlled by JS via CSS variables */
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+}
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: #fff; }
+}
+
+/* Console Buttons */
+.console-button {
+    padding: 15px 30px;
+    font-size: 1.1rem;
+    font-family: 'Courier Prime', monospace;
+    font-weight: bold;
+    background: linear-gradient(45deg, #583aba, #8a6edb);
+    color: #fff;
+    border: 2px solid #583aba; /* Subtle border for tech feel */
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(88, 58, 186, 0.3);
+    transition: all 0.2s ease-in-out;
+    letter-spacing: 1px;
+}
+
+.console-button:hover {
+    background: linear-gradient(45deg, #8a6edb, #583aba);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 6px 20px rgba(88, 58, 186, 0.5);
+    border-color: #8a6edb;
+}
+
+.console-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 10px rgba(88, 58, 186, 0.2);
+}
+
+.console-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: grey;
+    box-shadow: none;
+    border-color: grey;
+}
+
+.large-button {
+    padding: 20px 40px;
+    font-size: 1.4rem;
+    margin-top: 30px;
+}
+
+/* Console Input Field */
+.console-input {
+    padding: 12px 15px;
+    font-size: 1.1rem;
+    width: 100%;
+    max-width: 350px; /* Constrain width for better mobile experience */
+    border: 2px solid #583aba;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.08); /* Slightly visible background */
+    color: #fff;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
+    font-family: 'Courier Prime', monospace;
+}
+
+.console-input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.console-input:focus {
+    border-color: #8a6edb;
+    box-shadow: 0 0 15px rgba(88, 58, 186, 0.6);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* --- Specific Screen Styles --- */
+
+/* Preloader */
+#preloader {
+    z-index: 900; /* Below boom */
+}
+#preloader-text {
+    font-size: 2.2rem;
+    margin-bottom: 40px;
+    opacity: 0; /* Controlled by JS */
+}
+#accessSystemBtn {
+    opacity: 0; /* Controlled by JS */
+    pointer-events: none;
+}
+
+/* Login Screen */
+#login-screen {
+    z-index: 800; /* Below preloader */
+}
+.overlay-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%; /* Take full width for padding */
+    max-width: 500px; /* Constrain content width */
+    padding: 0 20px;
+}
+#welcome-message {
+    font-size: 1.8rem;
+    margin-bottom: 50px;
+    opacity: 0; /* Controlled by JS */
+}
+#name-input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    opacity: 0; /* Controlled by JS */
+    pointer-events: none;
+    width: 100%;
+}
+#name-input-label {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+    opacity: 0; /* Controlled by JS */
+}
+#name-input-hint {
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    opacity: 0; /* Controlled by JS */
+}
+#status-message {
+    margin-top: 15px;
+    font-size: 1rem;
+    white-space: pre-wrap; /* Allow wrapping for longer messages */
+    text-align: center;
+}
+
+/* Main Hub Screen */
+#main-hub-screen {
+    z-index: 700; /* Below login screen */
+}
+.system-status {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 0.8rem;
+    color: #00ff00; /* Green for active status */
+    text-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
+}
+
+.home-icon {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    font-size: 1.4rem;
+    color: rgba(255, 255, 255, 0.6);
+    transition: color 0.3s ease, transform 0.3s ease;
+    padding: 10px; /* Larger tap area */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    text-decoration: none;
+}
+.home-icon .icon-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+}
+.home-icon:hover {
+    color: #8a6edb;
+    transform: scale(1.1);
+}
+
+.module-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* Single column for mobile */
+    gap: 30px;
+    max-width: 400px;
+    width: 100%;
+    padding: 0 20px;
+}
+.module-button {
+    width: 100%;
+    font-size: 1.3rem;
+    padding: 20px 25px;
+}
+
+/* Data Module Screens (Overlays) */
+.data-module-screen {
+    z-index: 600; /* Lower than main hub, but will be brought to front when active */
+    background: rgba(0, 0, 0, 0.95); /* Slightly darker for content focus */
+}
+.module-content-wrapper {
+    max-width: 600px;
+    width: 100%;
     padding: 20px;
-  }
+    background: rgba(10, 10, 10, 0.9); /* Subtle darker panel */
+    border: 1px solid rgba(88, 58, 186, 0.4);
+    border-radius: 8px;
+    box-shadow: 0 0 30px rgba(88, 58, 186, 0.3);
+    max-height: 90vh; /* Ensure it fits on screen */
+    overflow-y: auto; /* Allow scrolling for long content */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.module-title {
+    font-size: 1.6rem;
+    margin-bottom: 25px;
+    color: #00ff00; /* Green for module titles */
+    text-shadow: 0 0 8px rgba(0, 255, 0, 0.7);
+}
+.module-content {
+    font-size: 1rem;
+    text-align: left;
+    white-space: pre-wrap; /* Preserve formatting for pre tags */
+    width: 100%;
+    opacity: 0; /* Controlled by JS typing */
+    margin-bottom: 30px;
+}
+.module-back-btn {
+    margin-top: 20px;
+    width: fit-content;
+}
+
+/* Game Over Screen */
+#game-over-screen {
+    z-index: 500;
+}
+#game-over-screen .overlay-content {
+    gap: 20px;
+}
+#game-over-screen .module-title {
+    font-size: 2rem;
+    color: #ff00ff; /* Magenta for final message */
+    text-shadow: 0 0 15px rgba(255, 0, 255, 0.8);
+}
+
+
+/* --- Mobile Optimizations (Adjusted for better flow and touch) --- */
+@media (min-width: 769px) {
+    /* Adjust grid for larger screens */
+    .module-grid {
+        grid-template-columns: 1fr 1fr; /* Two columns for larger screens */
+        max-width: 800px;
+        gap: 40px;
+    }
+    .module-button {
+        padding: 25px 30px;
+        font-size: 1.5rem;
+    }
+    .system-status {
+        font-size: 1rem;
+    }
+    .home-icon {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .console-text, .module-content {
+        font-size: 0.9rem;
+    }
+    .large-text {
+        font-size: 1.2rem;
+    }
+    #preloader-text, #welcome-message {
+        font-size: 1.6rem;
+    }
+    #name-input-label {
+        font-size: 1.2rem;
+    }
+    .console-button {
+        padding: 12px 25px;
+        font-size: 1rem;
+    }
+    .large-button {
+        padding: 15px 30px;
+        font-size: 1.1rem;
+    }
+    .module-title {
+        font-size: 1.4rem;
+    }
 }
