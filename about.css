@@ -3,262 +3,159 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
+    -webkit-tap-highlight-color: transparent;
 }
 
 html, body {
     height: 100%;
     width: 100%;
-    overflow: hidden; /* Control overflow strictly via JS for screens */
-    color: white; /* Default text color */
-    font-family: 'Courier Prime', monospace; /* Default console font */
-    background: black; /* Main background */
+    overflow: hidden;
+    color: white;
+    font-family: 'Fira Sans', sans-serif; /* Cleaner font */
+    background: black;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* Three.js Background Canvas - Always Active */
+/* Three.js Background Canvas */
 #threeJsCanvasBackground {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 0; /* Always at the very back */
+    z-index: 0;
     background: black;
-    filter: brightness(0.7); /* Slightly dim particles for better text contrast */
-    pointer-events: none; /* Allows clicks to pass through to elements above */
+    filter: brightness(0.7); /* Slightly dim particles */
+    pointer-events: none;
 }
 
-/* Base style for all system screens */
+/* Base style for all screens */
 .system-screen {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.9); /* Semi-transparent overlay to see particles */
+    background: rgba(0, 0, 0, 0.8); /* Semi-transparent overlay for content */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
-    z-index: 100; /* Default z-index for screens */
+    z-index: 100;
     opacity: 0;
-    visibility: hidden; /* Hide via visibility for smoother transitions with opacity */
-    transition: opacity 0.6s ease-in-out, visibility 0.6s ease-in-out;
-    padding: 20px; /* Global padding for screens */
+    visibility: hidden;
+    transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
+    padding: 20px;
 }
 
 .system-screen.active {
     opacity: 1;
     visibility: visible;
-    z-index: 200; /* Bring active screen to front */
+    z-index: 200;
 }
 
-/* Boom Effect (Initial Flash) */
-#boom-container {
-    background: #000;
-    z-index: 1000; /* Highest initially */
+/* Preloader Specifics */
+#preloader {
+    z-index: 300; /* Higher initially */
 }
-
-.boom-effect {
-    animation: boom-flash 0.4s ease-out forwards;
-}
-
-@keyframes boom-flash {
-    0% { background-color: #000; opacity: 1; }
-    50% { background-color: rgba(255, 255, 255, 0.9); opacity: 1; transform: scale(1.05); }
-    100% { background-color: #000; opacity: 0; transform: scale(1); }
-}
-
-/* Console Text Styles */
-.console-text {
-    font-family: 'Courier Prime', monospace;
+.main-title {
+    font-size: 3rem;
+    margin-bottom: 40px;
     color: #fff;
-    line-height: 1.5;
-    word-break: break-word; /* Prevent long words breaking layout */
-    overflow-wrap: break-word; /* Ensure text wraps */
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
 }
-
-.console-accent {
-    color: #8a6edb; /* Purple accent for status messages, hints */
-    text-shadow: 0 0 5px rgba(138, 110, 219, 0.5);
-}
-
-.large-text {
-    font-size: 1.5rem;
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-
-/* Typing Animation */
-.typing-animation {
-    overflow: hidden;
-    white-space: pre; /* Preserve whitespace for typing effect */
-    border-right: 0.15em solid #fff; /* Blinking caret */
-    animation: blink-caret .75s step-end infinite;
-    max-width: 90%;
-    width: fit-content; /* Adjust width to text length */
-}
-/* Keyframe animation for typing effect controlled by JS via CSS variables */
-@keyframes typing {
-    from { width: 0 }
-    to { width: 100% }
-}
-@keyframes blink-caret {
-    from, to { border-color: transparent }
-    50% { border-color: #fff; }
-}
-
-/* Console Buttons */
-.console-button {
-    padding: 15px 30px;
-    font-size: 1.1rem;
-    font-family: 'Courier Prime', monospace;
+.main-button {
+    padding: 18px 40px;
+    font-size: 1.2rem;
+    font-family: 'Fira Sans', sans-serif;
     font-weight: bold;
     background: linear-gradient(45deg, #583aba, #8a6edb);
     color: #fff;
-    border: 2px solid #583aba; /* Subtle border for tech feel */
-    border-radius: 5px;
+    border: none;
+    border-radius: 8px;
     cursor: pointer;
-    box-shadow: 0 4px 15px rgba(88, 58, 186, 0.3);
-    transition: all 0.2s ease-in-out;
+    box-shadow: 0 6px 20px rgba(88, 58, 186, 0.4);
+    transition: all 0.3s ease-in-out;
     letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
-.console-button:hover {
+.main-button:hover {
     background: linear-gradient(45deg, #8a6edb, #583aba);
-    transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 6px 20px rgba(88, 58, 186, 0.5);
-    border-color: #8a6edb;
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 8px 25px rgba(88, 58, 186, 0.6);
 }
 
-.console-button:active {
+.main-button:active {
     transform: translateY(0);
-    box-shadow: 0 2px 10px rgba(88, 58, 186, 0.2);
+    box-shadow: 0 4px 15px rgba(88, 58, 186, 0.3);
 }
 
-.console-button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    background: grey;
-    box-shadow: none;
-    border-color: grey;
+/* Main Content Area */
+#main-content {
+    justify-content: flex-start; /* Align content to top */
+    padding-top: 80px; /* Space from top */
+    background: rgba(0, 0, 0, 0.7); /* Slightly lighter background for main content */
 }
 
-.large-button {
+.content-wrapper {
+    max-width: 800px;
+    width: 100%;
     padding: 20px 40px;
-    font-size: 1.4rem;
-    margin-top: 30px;
-}
-
-/* Console Input Field */
-.console-input {
-    padding: 12px 15px;
-    font-size: 1.1rem;
-    width: 100%;
-    max-width: 350px; /* Constrain width for better mobile experience */
-    border: 2px solid #583aba;
-    border-radius: 5px;
-    background: rgba(255, 255, 255, 0.08); /* Slightly visible background */
-    color: #fff;
-    outline: none;
-    transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
-    font-family: 'Courier Prime', monospace;
-}
-
-.console-input::placeholder {
-    color: rgba(255, 255, 255, 0.4);
-}
-
-.console-input:focus {
-    border-color: #8a6edb;
-    box-shadow: 0 0 15px rgba(88, 58, 186, 0.6);
-    background: rgba(255, 255, 255, 0.15);
-}
-
-/* --- Specific Screen Styles --- */
-
-/* Preloader */
-#preloader {
-    z-index: 900; /* Below boom */
-}
-#preloader-text {
-    font-size: 2.2rem;
-    margin-bottom: 40px;
-    opacity: 0; /* Controlled by JS */
-}
-#accessSystemBtn {
-    opacity: 0; /* Controlled by JS */
-    pointer-events: none; /* Make unclickable until JS activates */
-}
-
-/* Login Screen */
-#login-screen {
-    z-index: 800; /* Below preloader */
-}
-.overlay-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%; /* Take full width for padding */
-    max-width: 500px; /* Constrain content width */
-    padding: 0 20px;
-}
-#welcome-message {
-    font-size: 1.8rem;
-    margin-bottom: 50px;
-    opacity: 0; /* Controlled by JS */
-}
-#name-input-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-    opacity: 0; /* Controlled by JS */
-    pointer-events: none; /* Make unclickable until JS activates */
-    width: 100%;
-}
-#name-input-label {
-    font-size: 1.5rem;
-    margin-bottom: 5px;
-    opacity: 0; /* Controlled by JS */
-}
-#name-input-hint {
-    font-size: 0.9rem;
-    margin-bottom: 10px;
-    opacity: 0; /* Controlled by JS */
-}
-#status-message {
-    margin-top: 15px;
-    font-size: 1rem;
-    white-space: pre-wrap; /* Allow wrapping for longer messages */
     text-align: center;
 }
 
-/* Main Hub Screen */
-#main-hub-screen {
-    z-index: 700; /* Below login screen */
-}
-.system-status {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    font-size: 0.8rem;
-    color: #00ff00; /* Green for active status */
-    text-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
+h1 {
+    font-size: 3.5rem;
+    margin-bottom: 25px;
+    color: #8a6edb; /* Accent color */
+    text-shadow: 0 0 15px rgba(138, 110, 219, 0.7);
 }
 
+p {
+    font-size: 1.3rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: #e0e0e0;
+}
+
+.social-links {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.social-links a {
+    color: #fff;
+    font-size: 1.4rem;
+    text-decoration: none;
+    transition: color 0.3s ease, transform 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.social-links a:hover {
+    color: #8a6edb;
+    transform: translateY(-3px);
+}
+
+.social-links a i {
+    font-size: 1.8rem;
+}
+
+/* Exit/Home Icon */
 .home-icon {
     position: absolute;
-    top: 15px;
-    left: 15px;
-    font-size: 1.4rem;
-    color: rgba(255, 255, 255, 0.6);
+    top: 25px;
+    left: 25px;
+    font-size: 1.8rem;
+    color: rgba(255, 255, 255, 0.7);
     transition: color 0.3s ease, transform 0.3s ease;
-    padding: 10px; /* Larger tap area */
+    padding: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -266,7 +163,7 @@ html, body {
     text-decoration: none;
 }
 .home-icon .icon-label {
-    font-size: 0.7rem;
+    font-size: 0.8rem;
     text-transform: uppercase;
 }
 .home-icon:hover {
@@ -274,114 +171,77 @@ html, body {
     transform: scale(1.1);
 }
 
-.module-grid {
-    display: grid;
-    grid-template-columns: 1fr; /* Single column for mobile */
-    gap: 30px;
-    max-width: 400px;
-    width: 100%;
-    padding: 0 20px;
-}
-.module-button {
-    width: 100%;
-    font-size: 1.3rem;
-    padding: 20px 25px;
-}
-
-/* Data Module Screens (Overlays) */
-.data-module-screen {
-    z-index: 600; /* Lower than main hub, but will be brought to front when active */
-    background: rgba(0, 0, 0, 0.95); /* Slightly darker for content focus */
-}
-.module-content-wrapper {
-    max-width: 600px;
-    width: 100%;
-    padding: 20px;
-    background: rgba(10, 10, 10, 0.9); /* Subtle darker panel */
-    border: 1px solid rgba(88, 58, 186, 0.4);
-    border-radius: 8px;
-    box-shadow: 0 0 30px rgba(88, 58, 186, 0.3);
-    max-height: 90vh; /* Ensure it fits on screen */
-    overflow-y: auto; /* Allow scrolling for long content */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.module-title {
-    font-size: 1.6rem;
-    margin-bottom: 25px;
-    color: #00ff00; /* Green for module titles */
-    text-shadow: 0 0 8px rgba(0, 255, 0, 0.7);
-}
-.module-content {
-    font-size: 1rem;
-    text-align: left;
-    white-space: pre-wrap; /* Preserve formatting for pre tags */
-    width: 100%;
-    opacity: 0; /* Controlled by JS typing */
-    margin-bottom: 30px;
-}
-.module-back-btn {
-    margin-top: 20px;
-    width: fit-content;
-}
-
-/* Game Over Screen */
-#game-over-screen {
-    z-index: 500;
-}
-#game-over-screen .overlay-content {
-    gap: 20px;
-}
-#game-over-screen .module-title {
-    font-size: 2rem;
-    color: #ff00ff; /* Magenta for final message */
-    text-shadow: 0 0 15px rgba(255, 0, 255, 0.8);
-}
-
-
-/* --- Mobile Optimizations (Adjusted for better flow and touch) --- */
-@media (min-width: 769px) {
-    /* Adjust grid for larger screens */
-    .module-grid {
-        grid-template-columns: 1fr 1fr; /* Two columns for larger screens */
-        max-width: 800px;
-        gap: 40px;
+/* Fade-in animations for content */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
     }
-    .module-button {
-        padding: 25px 30px;
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-up {
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.fade-in-up.delay-1 { animation-delay: 0.3s; }
+.fade-in-up.delay-2 { animation-delay: 0.6s; }
+.fade-in-up.delay-3 { animation-delay: 0.9s; }
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .main-title {
+        font-size: 2.2rem;
+    }
+    h1 {
+        font-size: 2.5rem;
+    }
+    p {
+        font-size: 1.1rem;
+    }
+    .main-button {
+        padding: 15px 30px;
+        font-size: 1.1rem;
+    }
+    .social-links {
+        flex-direction: column;
+        gap: 20px;
+    }
+    .social-links a {
+        font-size: 1.2rem;
+    }
+    .social-links a i {
         font-size: 1.5rem;
     }
-    .system-status {
-        font-size: 1rem;
-    }
     .home-icon {
-        font-size: 1.8rem;
+        font-size: 1.4rem;
+        top: 15px;
+        left: 15px;
+    }
+    .home-icon .icon-label {
+        font-size: 0.7rem;
     }
 }
 
 @media (max-width: 480px) {
-    .console-text, .module-content {
-        font-size: 0.9rem;
+    .main-title {
+        font-size: 1.8rem;
     }
-    .large-text {
-        font-size: 1.2rem;
+    h1 {
+        font-size: 2rem;
     }
-    #preloader-text, #welcome-message {
-        font-size: 1.6rem;
-    }
-    #name-input-label {
-        font-size: 1.2rem;
-    }
-    .console-button {
-        padding: 12px 25px;
+    p {
         font-size: 1rem;
     }
-    .large-button {
-        padding: 15px 30px;
-        font-size: 1.1rem;
+    .main-button {
+        font-size: 1rem;
+        padding: 12px 25px;
     }
-    .module-title {
-        font-size: 1.4rem;
+    .content-wrapper {
+        padding: 20px;
     }
 }
