@@ -3,245 +3,366 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
+    -webkit-tap-highlight-color: transparent; /* Removes tap highlight on mobile */
 }
 
 html, body {
     height: 100%;
     width: 100%;
-    overflow: hidden;
-    color: white;
-    font-family: 'Fira Sans', sans-serif; /* Cleaner font */
-    background: black;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    background: #000; /* Main background color */
+    color: #e0e0e0; /* Light gray text for dark theme */
+    font-family: 'Inter', sans-serif; /* Clean, modern font */
+    line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* Three.js Background Canvas */
+a {
+    color: #8a6edb; /* Purple accent for links */
+    text-decoration: none;
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+a:hover {
+    color: #a081ff; /* Lighter purple on hover */
+    transform: translateY(-2px);
+}
+
+/* --- Three.js Particles Background --- */
 #threeJsCanvasBackground {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 0;
-    background: black;
-    filter: brightness(0.7); /* Slightly dim particles */
-    pointer-events: none;
+    z-index: 0; /* Always at the very back */
+    background: #000; /* Fallback/initial background */
+    filter: brightness(0.6); /* Slightly dim particles for better text contrast */
+    pointer-events: none; /* Allows clicks to pass through */
 }
 
-/* Base style for all screens */
-.system-screen {
+/* --- Main Header / Navigation --- */
+.main-header {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8); /* Semi-transparent overlay for content */
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    text-align: center;
-    z-index: 100;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
-    padding: 20px;
+    padding: 15px 40px;
+    background: rgba(10, 10, 10, 0.8); /* Slightly transparent dark background */
+    backdrop-filter: blur(10px); /* Frosted glass effect */
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(138, 110, 219, 0.2); /* Subtle accent border */
+    z-index: 100; /* Ensure header is above content */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
-.system-screen.active {
-    opacity: 1;
-    visibility: visible;
-    z-index: 200;
+.header-logo .logo-link {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #e0e0e0; /* White/light gray for logo */
+    letter-spacing: -0.5px;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
 }
 
-/* Preloader Specifics */
-#preloader {
-    z-index: 300; /* Higher initially */
-}
-.main-title {
-    font-size: 3rem;
-    margin-bottom: 40px;
-    color: #fff;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
-}
-.main-button {
-    padding: 18px 40px;
-    font-size: 1.2rem;
-    font-family: 'Fira Sans', sans-serif;
-    font-weight: bold;
-    background: linear-gradient(45deg, #583aba, #8a6edb);
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    box-shadow: 0 6px 20px rgba(88, 58, 186, 0.4);
-    transition: all 0.3s ease-in-out;
-    letter-spacing: 1px;
-    text-transform: uppercase;
+.main-nav ul {
+    list-style: none;
+    display: flex;
+    gap: 30px; /* Space between nav items */
 }
 
-.main-button:hover {
-    background: linear-gradient(45deg, #8a6edb, #583aba);
-    transform: translateY(-3px) scale(1.03);
-    box-shadow: 0 8px 25px rgba(88, 58, 186, 0.6);
+.main-nav ul li a {
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: #c0c0c0; /* Slightly muted text for nav links */
+    position: relative;
+    padding-bottom: 5px; /* Space for underline effect */
 }
 
-.main-button:active {
-    transform: translateY(0);
-    box-shadow: 0 4px 15px rgba(88, 58, 186, 0.3);
+.main-nav ul li a.active,
+.main-nav ul li a:hover {
+    color: #8a6edb; /* Purple accent on hover/active */
 }
 
-/* Main Content Area */
-#main-content {
-    justify-content: flex-start; /* Align content to top */
-    padding-top: 80px; /* Space from top */
-    background: rgba(0, 0, 0, 0.7); /* Slightly lighter background for main content */
+.main-nav ul li a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background-color: #8a6edb; /* Underline accent */
+    transition: width 0.3s ease-out;
 }
 
-.content-wrapper {
-    max-width: 800px;
+.main-nav ul li a:hover::after,
+.main-nav ul li a.active::after {
     width: 100%;
-    padding: 20px 40px;
-    text-align: center;
 }
 
-h1 {
-    font-size: 3.5rem;
-    margin-bottom: 25px;
-    color: #8a6edb; /* Accent color */
-    text-shadow: 0 0 15px rgba(138, 110, 219, 0.7);
-}
-
-p {
+.header-theme-toggle {
     font-size: 1.3rem;
-    line-height: 1.6;
+    color: #c0c0c0;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.header-theme-toggle:hover {
+    color: #8a6edb;
+}
+
+
+/* --- Main Content Container --- */
+.main-container {
+    padding-top: 120px; /* Space for fixed header */
+    padding-bottom: 50px;
+    max-width: 1200px; /* Max width for content on large screens */
+    margin: 0 auto; /* Center the container */
+    position: relative; /* For z-index context */
+    z-index: 1; /* Above the background canvas */
+    padding-left: 20px; /* Basic padding for smaller screens */
+    padding-right: 20px; /* Basic padding for smaller screens */
+}
+
+/* --- About Section (Profile Card) --- */
+.about-section {
+    margin-bottom: 60px;
+}
+
+.profile-card {
+    display: flex; /* Use flexbox for image and bio */
+    align-items: center;
+    gap: 50px; /* Space between image and text */
+    background: rgba(20, 20, 20, 0.9); /* Slightly lighter dark card background */
+    border: 1px solid rgba(138, 110, 219, 0.15); /* Subtle border */
+    border-radius: 12px;
+    padding: 40px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+}
+
+.profile-image {
+    flex-shrink: 0; /* Prevent image from shrinking */
+    width: 200px; /* Fixed width for the image container */
+    height: 200px; /* Fixed height for the image container */
+    border-radius: 50%; /* Make it circular */
+    overflow: hidden;
+    border: 4px solid #8a6edb; /* Accent border around image */
+    box-shadow: 0 0 20px rgba(138, 110, 219, 0.5); /* Glowing effect */
+}
+
+.profile-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensure image covers the circle */
+    display: block;
+}
+
+.profile-bio h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #fff; /* White for main heading */
     margin-bottom: 20px;
-    color: #e0e0e0;
+    line-height: 1.2;
+}
+
+.profile-bio p {
+    font-size: 1.1rem;
+    color: #c0c0c0;
+    margin-bottom: 15px;
 }
 
 .social-links {
-    margin-top: 40px;
+    margin-top: 30px;
     display: flex;
-    justify-content: center;
-    gap: 30px;
+    gap: 25px;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    justify-content: flex-start; /* Align to start on larger screens */
 }
 
 .social-links a {
-    color: #fff;
-    font-size: 1.4rem;
-    text-decoration: none;
-    transition: color 0.3s ease, transform 0.3s ease;
+    font-size: 1.2rem;
+    color: #c0c0c0;
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
-.social-links a:hover {
-    color: #8a6edb;
-    transform: translateY(-3px);
-}
-
 .social-links a i {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
+    color: #8a6edb; /* Accent color for icons */
 }
 
-/* Exit/Home Icon */
-.home-icon {
-    position: absolute;
-    top: 25px;
-    left: 25px;
-    font-size: 1.8rem;
-    color: rgba(255, 255, 255, 0.7);
-    transition: color 0.3s ease, transform 0.3s ease;
-    padding: 10px;
+.social-links a:hover {
+    color: #fff;
+}
+.social-links a:hover i {
+    color: #a081ff;
+}
+
+/* --- Quotes Section --- */
+.quotes-section {
+    display: grid; /* Use grid for quote cards */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
+    gap: 30px; /* Space between cards */
+    padding: 20px 0; /* Add some vertical padding */
+}
+
+.quote-card {
+    background: rgba(20, 20, 20, 0.9);
+    border: 1px solid rgba(138, 110, 219, 0.1);
+    border-radius: 10px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 5px;
-    text-decoration: none;
-}
-.home-icon .icon-label {
-    font-size: 0.8rem;
-    text-transform: uppercase;
-}
-.home-icon:hover {
-    color: #8a6edb;
-    transform: scale(1.1);
+    justify-content: space-between; /* Push span to bottom */
 }
 
-/* Fade-in animations for content */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+.quote-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 25px rgba(138, 110, 219, 0.2);
+}
+
+.quote-card p {
+    font-size: 1.15rem;
+    font-style: italic;
+    color: #fff; /* White for quote text */
+    margin-bottom: 20px;
+}
+
+.quote-card span {
+    font-size: 0.9rem;
+    color: #8a6edb; /* Accent for author */
+    font-weight: 600;
+}
+
+/* --- Responsive Adjustments --- */
+
+/* Laptops and smaller desktops (992px to 1200px) */
+@media (max-width: 1200px) {
+    .main-container {
+        padding-left: 30px;
+        padding-right: 30px;
     }
 }
 
-.fade-in-up {
-    opacity: 0;
-    animation: fadeInUp 0.8s ease-out forwards;
-}
-
-.fade-in-up.delay-1 { animation-delay: 0.3s; }
-.fade-in-up.delay-2 { animation-delay: 0.6s; }
-.fade-in-up.delay-3 { animation-delay: 0.9s; }
-
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-    .main-title {
-        font-size: 2.2rem;
+/* Tablets and smaller laptops (768px to 991px) */
+@media (max-width: 991px) {
+    .main-header {
+        padding: 15px 25px;
     }
-    h1 {
-        font-size: 2.5rem;
+    .header-logo .logo-link {
+        font-size: 1.6rem;
     }
-    p {
-        font-size: 1.1rem;
-    }
-    .main-button {
-        padding: 15px 30px;
-        font-size: 1.1rem;
-    }
-    .social-links {
-        flex-direction: column;
+    .main-nav ul {
         gap: 20px;
     }
-    .social-links a {
-        font-size: 1.2rem;
+    .main-nav ul li a {
+        font-size: 0.95rem;
     }
-    .social-links a i {
-        font-size: 1.5rem;
+
+    .profile-card {
+        flex-direction: column; /* Stack image and bio vertically */
+        text-align: center;
+        gap: 30px;
+        padding: 30px;
     }
-    .home-icon {
-        font-size: 1.4rem;
-        top: 15px;
-        left: 15px;
+    .profile-bio h1 {
+        font-size: 2.2rem;
+        margin-bottom: 15px;
     }
-    .home-icon .icon-label {
-        font-size: 0.7rem;
+    .profile-bio p {
+        font-size: 1rem;
+    }
+    .social-links {
+        justify-content: center; /* Center social links when stacked */
+        gap: 20px;
+    }
+
+    .quotes-section {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Adjust min width for cards */
+        gap: 20px;
+    }
+    .quote-card {
+        padding: 25px;
+    }
+    .quote-card p {
+        font-size: 1.05rem;
     }
 }
 
-@media (max-width: 480px) {
-    .main-title {
+/* Mobile devices (up to 767px) */
+@media (max-width: 767px) {
+    .main-header {
+        flex-direction: column; /* Stack logo and nav */
+        padding: 15px 20px;
+        gap: 15px;
+    }
+    .main-nav ul {
+        width: 100%;
+        justify-content: space-around; /* Distribute nav items evenly */
+        gap: 0; /* Remove gap */
+    }
+    .main-nav ul li a {
+        font-size: 0.9rem;
+        padding: 5px 0;
+    }
+    .main-container {
+        padding-top: 130px; /* More space for stacked header */
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .profile-card {
+        padding: 25px;
+    }
+    .profile-image {
+        width: 150px;
+        height: 150px;
+    }
+    .profile-bio h1 {
         font-size: 1.8rem;
     }
-    h1 {
-        font-size: 2rem;
+    .profile-bio p {
+        font-size: 0.95rem;
     }
-    p {
+    .social-links {
+        gap: 15px;
+    }
+    .social-links a {
         font-size: 1rem;
     }
-    .main-button {
-        font-size: 1rem;
-        padding: 12px 25px;
+    .social-links a i {
+        font-size: 1.3rem;
     }
-    .content-wrapper {
+
+    .quotes-section {
+        grid-template-columns: 1fr; /* Single column for quotes on smallest screens */
+        gap: 15px;
+    }
+    .quote-card {
         padding: 20px;
+    }
+    .quote-card p {
+        font-size: 1rem;
+    }
+}
+
+/* Very small devices (e.g., old phones) */
+@media (max-width: 400px) {
+    .main-header {
+        padding: 10px 15px;
+    }
+    .main-nav ul {
+        flex-wrap: wrap; /* Allow nav items to wrap */
+        justify-content: center;
+    }
+    .profile-bio h1 {
+        font-size: 1.5rem;
     }
 }
