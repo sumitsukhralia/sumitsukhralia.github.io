@@ -3,85 +3,34 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sumit.exe - Data Retrieval Simulation</title>
+    <title>Sumit's About Me</title>
     <link rel="stylesheet" href="about.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <canvas id="threeJsCanvasBackground" class="background-canvas"></canvas>
 
-    <div id="boom-container" class="system-screen active"></div>
-
-    <div id="preloader" class="system-screen">
-        <div id="preloader-text" class="console-text"></div>
-        <button id="accessSystemBtn" class="console-button">ACCESS SYSTEM</button>
+    <div id="preloader" class="system-screen active">
+        <div id="preloader-text" class="main-title">SYSTEM INITIATING...</div>
+        <button id="accessSystemBtn" class="main-button">ACCESS PORTFOLIO</button>
     </div>
 
-    <div id="login-screen" class="system-screen">
-        <div class="overlay-content">
-            <div id="welcome-message" class="console-text typing-animation"></div>
-            <div id="name-input-container">
-                <label id="name-input-label" for="visitorName" class="console-text"></label>
-                <div id="name-input-hint" class="console-text console-accent"></div>
-                <input type="text" id="visitorName" placeholder="" autocomplete="off" class="console-input">
-                <button id="initiateProtocolBtn" class="console-button">INITIATE PROTOCOL</button>
-                <div id="status-message" class="console-text console-accent"></div>
-            </div>
-        </div>
-    </div>
-
-    <div id="main-hub-screen" class="system-screen">
-        <a href="index.html" class="system-icon home-icon" title="Return to Main">
-            <i class="fas fa-power-off"></i> <span class="icon-label">EXIT</span>
+    <div id="main-content" class="system-screen">
+        <a href="index.html" class="home-icon" title="Return to Main">
+            <i class="fas fa-power-off"></i>
+            <span class="icon-label">EXIT</span>
         </a>
-        <div class="system-status console-text">STATUS: ONLINE | DATA FLOW: STABLE</div>
-        <div class="module-grid">
-            <button id="moduleProfileBtn" class="module-button console-button">[ ACCESS_PROFILE.EXE ]</button>
-            <button id="moduleProjectsBtn" class="module-button console-button">[ VIEW_PROJECTS.LOG ]</button>
-            <button id="moduleHistoryBtn" class="module-button console-button">[ DECRYPT_HISTORY.DAT ]</button>
-            <button id="moduleContactBtn" class="module-button console-button">[ COMMUNICATE.LINK ]</button>
-        </div>
-    </div>
-
-    <div id="module-profile-screen" class="data-module-screen system-screen">
-        <div class="module-content-wrapper">
-            <div class="module-title console-text">// Sumit Sukhralia: Core Directives</div>
-            <pre id="profile-content" class="module-content console-text"></pre>
-            <button class="module-back-btn console-button">GO BACK</button>
-        </div>
-    </div>
-
-    <div id="module-projects-screen" class="data-module-screen system-screen">
-        <div class="module-content-wrapper">
-            <div class="module-title console-text">// Active Projects & Interests</div>
-            <pre id="projects-content" class="module-content console-text"></pre>
-            <button class="module-back-btn console-button">GO BACK</button>
-        </div>
-    </div>
-
-    <div id="module-history-screen" class="data-module-screen system-screen">
-        <div class="module-content-wrapper">
-            <div class="module-title console-text">// Archived Logs: System Traversal</div>
-            <pre id="history-content" class="module-content console-text"></pre>
-            <button class="module-back-btn console-button">GO BACK</button>
-        </div>
-    </div>
-
-    <div id="module-contact-screen" class="data-module-screen system-screen">
-        <div class="module-content-wrapper">
-            <div class="module-title console-text">// Establish Direct Link</div>
-            <pre id="contact-content" class="module-content console-text"></pre>
-            <button class="module-back-btn console-button">GO BACK</button>
-        </div>
-    </div>
-
-    <div id="game-over-screen" class="system-screen">
-        <div class="overlay-content">
-            <div class="module-title console-text">// MISSION COMPLETE: ALL DATA PACKETS RETRIEVED.</div>
-            <div class="console-text large-text">SIMULATION END. PROCEED TO EXTERNAL PROTOCOLS.</div>
-            <a href="index.html" class="console-button large-button">EXIT TO WEB</a>
+        <div class="content-wrapper">
+            <h1 class="fade-in-up">Hello, I'm Sumit Sukhralia.</h1>
+            <p class="fade-in-up delay-1">I'm a passionate developer building [mention your primary focus, e.g., web applications, AI solutions, etc.].</p>
+            <p class="fade-in-up delay-2">This space is dedicated to my journey, projects, and insights.</p>
+            <div class="social-links fade-in-up delay-3">
+                <a href="https://github.com/your-github-profile" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> GitHub</a>
+                <a href="https://linkedin.com/in/your-linkedin-profile" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i> LinkedIn</a>
+                <a href="mailto:sumitsukhralia.work@gmail.com"><i class="fas fa-envelope"></i> Email</a>
+            </div>
         </div>
     </div>
 
