@@ -3,36 +3,82 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sumit's About Me</title>
+    <title>Sumit's Portfolio - About</title>
     <link rel="stylesheet" href="about.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <canvas id="threeJsCanvasBackground" class="background-canvas"></canvas>
 
-    <div id="preloader" class="system-screen active">
-        <div id="preloader-text" class="main-title">SYSTEM INITIATING...</div>
-        <button id="accessSystemBtn" class="main-button">ACCESS PORTFOLIO</button>
-    </div>
-
-    <div id="main-content" class="system-screen">
-        <a href="index.html" class="home-icon" title="Return to Main">
-            <i class="fas fa-power-off"></i>
-            <span class="icon-label">EXIT</span>
-        </a>
-        <div class="content-wrapper">
-            <h1 class="fade-in-up">Hello, I'm Sumit Sukhralia.</h1>
-            <p class="fade-in-up delay-1">I'm a passionate developer building [mention your primary focus, e.g., web applications, AI solutions, etc.].</p>
-            <p class="fade-in-up delay-2">This space is dedicated to my journey, projects, and insights.</p>
-            <div class="social-links fade-in-up delay-3">
-                <a href="https://github.com/your-github-profile" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> GitHub</a>
-                <a href="https://linkedin.com/in/your-linkedin-profile" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i> LinkedIn</a>
-                <a href="mailto:sumitsukhralia.work@gmail.com"><i class="fas fa-envelope"></i> Email</a>
-            </div>
+    <header class="main-header">
+        <div class="header-logo">
+            <a href="index.html" class="logo-link">Sumit</a>
         </div>
-    </div>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#about" class="active">About.me</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+                </ul>
+        </nav>
+        <div class="header-theme-toggle">
+            <i class="fas fa-moon"></i>
+        </div>
+    </header>
+
+    <main class="main-container" id="about">
+        <section class="about-section">
+            <div class="profile-card">
+                <div class="profile-image">
+                    <img src="assets/images/ppf2.jpeg" alt="Sumit Sukhralia" />
+                </div>
+                <div class="profile-bio">
+                    <h1>Hi, I'm Sumit Sukhralia.</h1>
+                    <p>
+                        I'm a passionate and self-taught Front-End Developer based in Faridkot, Punjab, India. 
+                        I've been building cool stuff on the web since I was in 6th standard. 
+                        I've made countless side projects and I also possess magical powers of using React to build delightful user interfaces.
+                    </p>
+                    <p>
+                        I also love doing open-source development. I actively maintain various notable open-source projects
+                        with 30K+ stars on GitHub and 50M+ hits. It gives me a wonderful feeling of achievement and words.
+                    </p>
+                    <div class="social-links">
+                        <a href="https://github.com/your-github-profile" target="_blank" rel="noopener noreferrer" title="GitHub Profile">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://linkedin.com/in/your-linkedin-profile" target="_blank" rel="noopener noreferrer" title="LinkedIn Profile">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="mailto:your-email@example.com" title="Send Email">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                        <a href="https://instagram.com/your-instagram-profile" target="_blank" rel="noopener noreferrer" title="Instagram Profile">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="quotes-section">
+            <div class="quote-card">
+                <p>"Simplicity is the baddest choice to be the best."</p>
+                <span>- Sumit Sukhralia</span>
+            </div>
+            <div class="quote-card">
+                <p>"I know I'm not successful enough, but I'm passionate enough not to worry about success."</p>
+                <span>- Sumit Sukhralia</span>
+            </div>
+            <div class="quote-card">
+                <p>"Creativity is the drive called Passion."</p>
+                <span>- Sumit Sukhralia</span>
+            </div>
+        </section>
+    </main>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="about.js"></script>
