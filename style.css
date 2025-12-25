@@ -536,3 +536,29 @@ footer a:hover {
     opacity: 1;
     transform: translateY(0);
 }
+
+
+/* Apply to the very top level for global smooth scroll */
+html {
+  scroll-behavior: smooth !important; /* Forces premium transitions between sections */
+  
+  /* Fixes the mobile 'jerk' by using dynamic viewport units */
+  min-height: 100dvh; /* Adapts instantly to mobile address bar changes */
+  
+  /* Optimization for Safari/iOS momentum scrolling */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Add this class to your Spotify/Music and UI components for that premium feel */
+.premium-smooth {
+  /* Move work to the GPU for 'buttery' 60fps performance */
+  will-change: transform, opacity;
+  
+  /* Custom Apple-style 'easing' - starts fast, ends with a soft bounce */
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.premium-smooth:hover {
+  /* Subtle premium scale - don't overdo it! */
+  transform: translateY(-5px) scale(1.01);
+}
